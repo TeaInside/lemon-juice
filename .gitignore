@@ -1,5 +1,4 @@
 /vendor/
 /*.tmp
 .dockerignore
-/test.php
 /data
