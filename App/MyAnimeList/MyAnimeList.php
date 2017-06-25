@@ -159,9 +159,31 @@ class MyAnimeList implements MyAnimeListContract
 	 *
 	 * @param string $id
 	 * @param string $type
+	 * @return array|string|bool
 	 */
 	public function get_info($id, $type = "anime")
 	{
-		$id = trim($id);
+		$id = (string)trim($id);
+		foreach ($this->hash_table as $key => $value) {
+			if (array_search($id, $value)!==false) {
+				$return = $key;
+				break;
+			}
+		}
+		if (!isset($return)) {
+			return false;
+		} else {
+			$a = json_decode(file_get_contents(data."/MyAnimeList/history/".$return), true);
+			if (isset($a['entry']['id'])) {
+				return $a;
+			} else {
+				foreach ($a['entry'] as $v) {
+					if ($v['id'] == $id) {
+						return $v;
+						break;
+					}
+				}
+			}
+		}
 	}
 }
