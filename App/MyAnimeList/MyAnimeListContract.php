@@ -38,4 +38,12 @@ interface MyAnimeListContract
 	 * @param string $type
 	 */
 	public function get_info($id, $type = "anime");
+
+	/**
+	 * Simple search
+	 *
+	 * @param string $q
+	 * @param string $type
+	 */
+	public function simple_search($q, $type = "anime");
 }
