@@ -59,6 +59,7 @@ class MyAnimeList implements MyAnimeListContract
 	 * Constructor.
 	 * @param string $username
 	 * @param string $password
+	 * @throws App\MyAnimeList\MyAnimeListException
 	 */
 	public function __construct($username, $password)
 	{
@@ -94,6 +95,7 @@ class MyAnimeList implements MyAnimeListContract
 
 	/**
 	 * Execute search.
+	 * @throws App\MyAnimeList\MyAnimeListException
 	 */
 	public function exec()
 	{
@@ -113,7 +115,8 @@ class MyAnimeList implements MyAnimeListContract
                 $result=='false' or file_put_contents(data."/MyAnimeList/history/".$this->current_hash, $result);
                 $result = json_decode($result, true);
             } else {
-                $result = "Cannot load simplexml_load_string";
+            	$result = "Function simplexml_load_string is doesn't exists !";
+            	throw new MyAnimeListException($result, 1);
             }
             $this->out = $result;
             $this->save_hash($this->get_entry());
@@ -187,5 +190,8 @@ class MyAnimeList implements MyAnimeListContract
 		}
 	}
 
-	
+	public function simple_search($q, $type = "anime")
+	{
+		
+	}
 }
