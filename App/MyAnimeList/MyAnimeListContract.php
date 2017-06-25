@@ -6,8 +6,10 @@ interface MyAnimeListContract
 {
 	/**
 	 * Constructor.
+	 * @param string $username
+	 * @param string $password
 	 */
-	public function __construct();
+	public function __construct($username, $password);
 
 	/**
 	 * Set search query.
@@ -28,4 +30,12 @@ interface MyAnimeListContract
 	 * @return array
 	 */
 	public function get_result();
+
+	/**
+	 * Get Info.
+	 *
+	 * @param string $id
+	 * @param string $type
+	 */
+	public function get_info($id, $type = "anime");
 }

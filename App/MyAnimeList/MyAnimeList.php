@@ -12,7 +12,7 @@ use Lemon\Curl;
 use App\MyAnimeList\MyAnimeListContract;
 use App\MyAnimeList\MyAnimeListException;
 
-defined("data") or die("Data not defined !");
+defined("data") or die("Data not defined !\n");
 
 class MyAnimeList implements MyAnimeListContract
 {
@@ -53,10 +53,12 @@ class MyAnimeList implements MyAnimeListContract
 	/**
 	 * @var string|array
 	 */
-	private $out;
+	private $out = null;
 
 	/**
 	 * Constructor.
+	 * @param string $username
+	 * @param string $password
 	 */
 	public function __construct($username, $password)
 	{
@@ -90,6 +92,9 @@ class MyAnimeList implements MyAnimeListContract
 		$this->current_hash = sha1($this->q);
 	}
 
+	/**
+	 * Execute search.
+	 */
 	public function exec()
 	{
 		$cond = isset($this->hash_table[$this->current_hash]);
@@ -111,6 +116,52 @@ class MyAnimeList implements MyAnimeListContract
                 $result = "Cannot load simplexml_load_string";
             }
             $this->out = $result;
+            $this->save_hash($this->get_entry());
 		}
+	}
+
+	/**
+	 * Get search result.
+	 * @return array
+	 */
+	public function get_result()
+	{
+		return $this->out;
+	}
+
+	/**
+	 * @param array  $entry_list
+	 */
+	private function save_hash($entry_list)
+	{
+		$this->hash_table[$this->current_hash] = $entry_list;
+		file_put_contents(data."/MyAnimeList/hash_table.json", json_encode($this->hash_table, 128));
+	}
+
+	/**
+	 * Get entry list.
+	 */
+	private function get_entry()
+	{
+		if (isset($this->out['entry']['id'])) {
+			return array($this->out['entry']['id']);
+		} else {
+			$el = array();
+			foreach ($this->out['entry'] as $v) {
+				$el[] = $v['id'];
+			}
+			return $el;
+		}
+	}
+
+	/**
+	 * Get Info.
+	 *
+	 * @param string $id
+	 * @param string $type
+	 */
+	public function get_info($id, $type = "anime")
+	{
+		$id = trim($id);
 	}
 }
