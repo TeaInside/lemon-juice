@@ -4,7 +4,6 @@ namespace Lemon;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
- * @since 0.0.1
  * @package Lemon
  * @version 0.0.1
  */
@@ -52,7 +51,7 @@ class Curl
 	/**
 	 * @var array
 	 */
-	public $curl_info;
+	public $curl_info = array();
 
 	/**
 	 * Constructor.
@@ -94,7 +93,21 @@ class Curl
 	}
 
 	/**
+	 * Set more option.
+	 *
+	 * @param array
+	 * @since 0.0.1
+	 */
+	public function set_opt($opt)
+	{
+		foreach ($opt as $key => $value) {
+			$this->opt[$key] = $value;
+		}
+	}
+
+	/**
 	 * Execute curl.
+	 *
 	 * @since 0.0.1
 	 * @return string
 	 */
@@ -108,5 +121,3 @@ class Curl
 		return $this->output;
 	}
 }
-
-
