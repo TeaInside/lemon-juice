@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<todo version="0.1.20">
+    <note priority="low" time="1498374859">
+        App\MyAnimeList : Pisah anime data dan manga data.
+    </note>
+</todo>
