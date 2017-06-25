@@ -104,12 +104,7 @@ class MyAnimeList implements MyAnimeListContract
 			$this->out = json_decode(file_get_contents(data."/MyAnimeList/history/".$this->current_hash), true);
 		}
 		if (!$cond || !is_array($this->out)) {
-			$ch = new Curl("https://myanimelist.net/api/{$this->type}/search.xml?q=".urlencode($this->q));
-			$ch->set_opt(array(
-					CURLOPT_USERPWD=>"{$this->username}:{$this->password}",
-					CURLOPT_CONNECTTIMEOUT=>30
-				));
-			$out = $ch->exec();
+			$out = $this->online_search($this->q, $this->type);
 			if (function_exists("simplexml_load_string")) {
                 $result = json_encode(simplexml_load_string($out), 128);
                 $result=='false' or file_put_contents(data."/MyAnimeList/history/".$this->current_hash, $result);
@@ -125,6 +120,7 @@ class MyAnimeList implements MyAnimeListContract
 
 	/**
 	 * Get search result.
+	 *
 	 * @return array
 	 */
 	public function get_result()
@@ -201,9 +197,30 @@ class MyAnimeList implements MyAnimeListContract
 		$q = strtolower($q);
 		$hash = sha1($q);
 		if (isset($this->hash_table[$hash])) {
-			$a = json_decode(file_get_contents(data."/MyAnimeList/history/".$this->current_hash), true);
+			$a = json_decode(file_get_contents(data."/MyAnimeList/history/".$hash), true);
 		} else {
-			$ch = new Curl();
+			$a = json_decode(json_encode(simplexml_load_string($this->online_search($q, $type)), 128), true);
 		}
+		if (isset($a['entry']['id'])) {
+			return $a['entry'];
+		} else {
+			return $a['entry'][0];
+		}
+	}
+
+	/**
+	 * Online search.
+	 *
+	 * @param string $q
+	 * @param string $type
+	 */
+	private function online_search($q, $type = "anime")
+	{
+		$ch = new Curl("https://myanimelist.net/api/{$this->type}/search.xml?q=".urlencode($this->q));
+		$ch->set_opt(array(
+				CURLOPT_USERPWD=>"{$this->username}:{$this->password}",
+				CURLOPT_CONNECTTIMEOUT=>30
+			));
+		return $ch->exec();
 	}
 }
