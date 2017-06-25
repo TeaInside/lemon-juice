@@ -120,4 +120,18 @@ class Curl
         $this->curl_info = curl_getinfo($this->ch);
         return $this->output;
     }
+
+    /**
+     * @since 0.0.1
+     * @return array
+     */
+    public function __debugInfo()
+    {
+        return array(
+                "output" => $this->output,
+                "error"  => $this->error,
+                "errno"  => $this->errno,
+                "curl_info" => $this->curl_info
+            );
+    }
 }
