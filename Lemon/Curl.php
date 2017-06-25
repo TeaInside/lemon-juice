@@ -50,8 +50,29 @@ class Curl
 			);
 	}
 
+	/**
+	 * Send method post.
+	 *
+	 * @param string|array $post
+	 * @since 0.0.1
+	 */
 	public function post($post)
 	{
+		$this->opt[CURLOPT_POST] = true;
+		$this->opt[CURLOPT_POSTFIELDS] = $post;
+	}
 
+	/**
+	 * Set Cookie Jar and Cookie File
+	 *
+	 * @param string $cookie Cookie Jar (realpath)
+	 * @since 0.0.1
+	 */
+	public function cookiejar($cookie)
+	{
+		$this->opt[CURLOPT_COOKIEJAR] = $cookie;
+		$this->opt[CURLOPT_COOKIEFILE] = $cookie;
 	}
 }
+
+
