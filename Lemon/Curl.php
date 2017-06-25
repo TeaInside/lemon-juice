@@ -58,7 +58,7 @@ class Curl
      */
     public function __construct($url)
     {
-        $this->ch  = curl_init();
+        $this->ch  = curl_init($url);
         $this->url = $url;
         $this->opt = array(
         CURLOPT_RETURNTRANSFER => true,
