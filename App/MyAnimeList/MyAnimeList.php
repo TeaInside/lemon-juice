@@ -109,12 +109,13 @@ class MyAnimeList implements MyAnimeListContract
                 $result = json_encode(simplexml_load_string($out), 128);
                 $result=='false' or file_put_contents(data."/MyAnimeList/history/".$this->current_hash, $result);
                 $result = json_decode($result, true);
+                $this->out = $result;
+            	$this->save_hash($this->get_entry());
             } else {
             	$result = "Function simplexml_load_string is doesn't exists !";
             	throw new MyAnimeListException($result, 1);
             }
             $this->out = $result;
-            $this->save_hash($this->get_entry());
 		}
 	}
 
@@ -194,12 +195,19 @@ class MyAnimeList implements MyAnimeListContract
 	 */
 	public function simple_search($q, $type = "anime")
 	{
-		$q = strtolower($q);
-		$hash = sha1($q);
-		if (isset($this->hash_table[$hash])) {
-			$a = json_decode(file_get_contents(data."/MyAnimeList/history/".$hash), true);
+		$q = trim(strtolower($q));
+		$this->current_hash = sha1($q);
+		if (isset($this->hash_table[$this->current_hash])) {
+			$a = json_decode(file_get_contents(data."/MyAnimeList/history/".$this->current_hash), true);
 		} else {
-			$a = json_decode(json_encode(simplexml_load_string($this->online_search($q, $type)), 128), true);
+			if (function_exists("simplexml_load_string")) {
+                $a = json_decode(json_encode(simplexml_load_string($this->online_search($q, $type))), true);                
+                $this->out = $a;
+            	$this->save_hash($this->get_entry());
+            } else {
+            	$a = "Function simplexml_load_string is doesn't exists !";
+            	throw new MyAnimeListException($a, 1);
+            }
 		}
 		if (isset($a['entry']['id'])) {
 			return $a['entry'];
@@ -216,7 +224,7 @@ class MyAnimeList implements MyAnimeListContract
 	 */
 	private function online_search($q, $type = "anime")
 	{
-		$ch = new Curl("https://myanimelist.net/api/{$this->type}/search.xml?q=".urlencode($this->q));
+		$ch = new Curl("https://myanimelist.net/api/{$type}/search.xml?q=".urlencode($q));
 		$ch->set_opt(array(
 				CURLOPT_USERPWD=>"{$this->username}:{$this->password}",
 				CURLOPT_CONNECTTIMEOUT=>30
