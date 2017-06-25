@@ -190,8 +190,20 @@ class MyAnimeList implements MyAnimeListContract
 		}
 	}
 
+	/**
+	 * Simple search
+	 *
+	 * @param string $q
+	 * @param string $type
+	 */
 	public function simple_search($q, $type = "anime")
 	{
-		
+		$q = strtolower($q);
+		$hash = sha1($q);
+		if (isset($this->hash_table[$hash])) {
+			$a = json_decode(file_get_contents(data."/MyAnimeList/history/".$this->current_hash), true);
+		} else {
+			$ch = new Curl();
+		}
 	}
 }
