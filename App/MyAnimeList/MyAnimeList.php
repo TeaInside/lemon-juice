@@ -186,4 +186,6 @@ class MyAnimeList implements MyAnimeListContract
 			}
 		}
 	}
+
+	
 }

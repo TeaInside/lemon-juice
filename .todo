@@ -3,4 +3,7 @@
     <note priority="low" time="1498374859">
         App\MyAnimeList : Pisah anime data dan manga data.
     </note>
+    <note priority="low" time="1498375741">
+        App\MyAnimeList : Implementasi konsep lev distance pada method simple_search
+    </note>
 </todo>
