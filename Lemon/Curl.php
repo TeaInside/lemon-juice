@@ -34,6 +34,25 @@ class Curl
 	 */
 	private $opt = array();
 
+	/**
+	 * @var string
+	 */
+	private $output;
+
+	/**
+	 * @var string
+	 */
+	public $error;
+
+	/**
+	 * @var int
+	 */
+	public $errno;
+
+	/**
+	 * @var array
+	 */
+	public $curl_info;
 
 	/**
 	 * Constructor.
@@ -72,6 +91,21 @@ class Curl
 	{
 		$this->opt[CURLOPT_COOKIEJAR] = $cookie;
 		$this->opt[CURLOPT_COOKIEFILE] = $cookie;
+	}
+
+	/**
+	 * Execute curl.
+	 * @since 0.0.1
+	 * @return string
+	 */
+	public function exec()
+	{
+		curl_setopt_array($this->ch, $this->opt);
+		$this->output = curl_exec($this->ch);
+		$this->error  = curl_error($this->ch);
+		$this->errno  = curl_errno($this->ch);
+		$this->curl_info = curl_getinfo($this->ch);
+		return $this->output;
 	}
 }
 
