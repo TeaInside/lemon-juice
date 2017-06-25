@@ -118,6 +118,7 @@ class Curl
         $this->error  = curl_error($this->ch);
         $this->errno  = curl_errno($this->ch);
         $this->curl_info = curl_getinfo($this->ch);
+        curl_close($this->ch);
         return $this->output;
     }
 
