@@ -561,7 +561,7 @@ class Telegram implements TelegramContract
                             $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
                             $file = $a['file'];
                             $dur = array("start"=>$a['start'], "end"=>$a['end']);
-                            $this->textReply($rep, null, $this->event['message']['message_id']);
+                            $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                             $this->pendingAction(function () use($video_url, $file, $dur){
                                 $a = new Curl($video_url);
                                 $a->set_opt(array(
