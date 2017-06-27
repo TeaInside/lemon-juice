@@ -10,9 +10,10 @@
     "require": {},
     "autoload": {
     	"psr-4": {
-    		"IceTeaSystem\\": "IceTeaSystem/",
             "App\\": "App/",
-            "Stack\\": "Stack/"
+            "Bot\\": "Bot/",
+            "Stack\\": "Stack/",
+            "IceTeaSystem\\": "IceTeaSystem/",
     	}
     }
 }
