@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram;
 
+use IceTeaSystem\Curl;
 use App\WhatAnime\WhatAnime;
 use IceTeaSystem\Hub\Singleton;
 use App\MyAnimeList\MyAnimeList;
