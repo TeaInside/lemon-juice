@@ -110,7 +110,7 @@ class Telegram
 	 * @param	array			$option
 	 * @return	string
 	 */
-	private function execute$url, $post = null, $option = null)
+	private function execute($url, $post = null, $option = null)
 	{
 		$ch = new Curl($url);
 		if ($post !== null) {
