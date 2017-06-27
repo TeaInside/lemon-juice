@@ -249,7 +249,7 @@ class Telegram implements TelegramContract
 								foreach ($st['entry'] as $vz) {
 									$rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
 								}
-								$rep.="\nBerikut ini adalah beberapa anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /ianime [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
+								$rep.="\nBerikut ini adalah beberapa anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
 								$this->textReply($rep, null, null, "HTML");
 							}
 						break;
