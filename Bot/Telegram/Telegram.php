@@ -262,6 +262,9 @@ class Telegram implements TelegramContract
                 "/qanime",
                 "/anime",
                 "/idan",
+                "/qmanga",
+                "/manga",
+                "/idma",
                 "/test"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
@@ -397,6 +400,134 @@ class Telegram implements TelegramContract
                     } else {
                         $this->textReply(
                             "Sebutkan ID Anime yang ingin kamu cari !", null, $this->event['message']['message_id'], array(
+                                "reply_markup"=>json_encode(
+                                    array(
+                                        "force_reply"=>true,
+                                        "selective"=>true
+                                        )
+                                )
+                                )
+                        );
+                    }
+                    break;
+                case '/qmanga':
+                        $val['salt'] = trim($val['salt']);
+                    if (!empty($val['salt'])) {
+                        $fx = function ($str) {
+                            if (is_array($str)) {
+                                return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode(implode($str))));
+                            }
+                            return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
+                        };
+                            $st = (new MyAnimeList(MAL_USER, MAL_PASS))->simple_search($val['salt'], "manga");
+                        if (is_array($st) and count($st)) {
+                            $img = $st['image'];
+                            unset($st['image']);
+                            $rep = "";
+                            foreach ($st as $key => $value) {
+                                $ve = $fx($value);
+                                !empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
+                            }
+                            $this->imageReply($img, null, $this->event['message']['message_id']);
+                            $this->textReply(str_replace("\n\n", "\n", $rep), null, null, array("parse_mode"=>"HTML"));
+                        } else {
+                            $this->textReply("Mohon maaf, manga \"{$val['salt']}\" tidak ditemukan !");
+                        }
+                    } else {
+                        $this->textReply(
+                            "Manga apa yang ingin kamu cari?", null, $this->event['message']['message_id'], array(
+                                "reply_markup"=>json_encode(
+                                    array(
+                                        "force_reply"=>true,
+                                        "selective"=>true
+                                        )
+                                )
+                                )
+                        );
+                    }
+                    break;
+                case '/manga':
+                        $val['salt'] = trim($val['salt']);
+                    if (!empty($val['salt'])) {
+                        $st = new MyAnimeList(MAL_USER, MAL_PASS);
+                        $st->search($val['salt'], "manga");
+                        $st->exec();
+                        $st = $st->get_result();
+                        if (isset($st['entry']['id'])) {
+                            $rep = "";
+                            $rep.="Hasil pencarian :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah manga yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idma [spasi] [id_anime] untuk menampilkan info manga lebih lengkap.";
+                            $this->textReply(
+                                $rep, null, $this->event['message']['message_id'], array(
+                                "parse_mode"=>"HTML",
+                                "reply_markup"=>json_encode(
+                                    array(
+                                            "force_reply"=>true,
+                                            "selective"=>true
+                                        )
+                                )
+                                    )
+                            );
+                        } elseif (is_array($st) and $xz = count($st['entry'])) {
+                            $rep = "Hasil pencarian :\n";
+                            foreach ($st['entry'] as $vz) {
+                                $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
+                            }
+                            $rep.="\nBerikut ini adalah beberapa manga yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idma [spasi] [id_manga] untuk menampilkan info manga lebih lengkap.";
+                            $this->textReply(
+                                $rep, null, $this->event['message']['message_id'], array(
+                                "parse_mode"=>"HTML",
+                                "reply_markup"=>json_encode(
+                                    array(
+                                            "force_reply"=>true,
+                                            "selective"=>true
+                                        )
+                                )
+                                    )
+                            );
+                        } else {
+                            $this->textReply("Mohon maaf, anime \"{$val['salt']}\" tidak ditemukan !");
+                        }
+                    } else {
+                        $this->textReply(
+                            "Anime apa yang ingin kamu cari? ~", null, $this->event['message']['message_id'], array(
+                                "reply_markup"=>json_encode(
+                                    array(
+                                        "force_reply"=>true,
+                                        "selective"=>true
+                                        )
+                                )
+                                )
+                        );
+                    }
+                    break;
+                case "/idma":
+                        $val['salt'] = trim($val['salt']);
+                    if (!empty($val['salt'])) {
+                        $fx = function ($str) {
+                            if (is_array($str)) {
+                                return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode(implode($str))));
+                            }
+                            return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
+                        };
+                            $st = new MyAnimeList(MAL_USER, MAL_PASS);
+                            $st = $st->get_info($val['salt'], "manga");
+                            $st = isset($st['entry']) ? $st['entry'] : $st;
+                        if (is_array($st) and count($st)) {
+                            $img = $st['image'];
+                            unset($st['image']);
+                            $rep = "";
+                            foreach ($st as $key => $value) {
+                                $ve = $fx($value);
+                                !empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
+                            }
+                            $this->imageReply($img, null, $this->event['message']['message_id']);
+                            $this->textReply(str_replace("\n\n", "\n", $rep), null, null, array("parse_mode"=>"HTML"));
+                        } else {
+                            $this->textReply("Mohon maaf, manga \"{$val['salt']}\" tidak ditemukan !");
+                        }
+                    } else {
+                        $this->textReply(
+                            "Sebutkan ID Manga yang ingin kamu cari !", null, $this->event['message']['message_id'], array(
                                 "reply_markup"=>json_encode(
                                     array(
                                         "force_reply"=>true,
