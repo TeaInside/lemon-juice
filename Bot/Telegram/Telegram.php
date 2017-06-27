@@ -242,14 +242,14 @@ class Telegram implements TelegramContract
 							$st = $st->get_result();
 							if (isset($st['entry']['id'])) {
 								$rep = "";
-								$rep.="<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\n\nBerikut ini adalah anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
+								$rep.="<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
 								$this->textReply($rep, null, null, "HTML");
 							} elseif (is_array($st) and $xz = count($st['entry'])) {
 								$rep = "";
 								foreach ($st['entry'] as $vz) {
 									$rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
 								}
-								$rep.="\n\nBerikut ini adalah beberapa anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /ianime [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
+								$rep.="\nBerikut ini adalah beberapa anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /ianime [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
 								$this->textReply($rep, null, null, "HTML");
 							}
 						break;
