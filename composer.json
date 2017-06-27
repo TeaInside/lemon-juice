@@ -11,7 +11,8 @@
     "autoload": {
     	"psr-4": {
     		"Lemon\\": "Lemon/",
-            "App\\": "App/"
+            "App\\": "App/",
+            "Telegram\\": "Telegram/"
     	}
     }
 }
