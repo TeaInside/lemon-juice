@@ -70,10 +70,10 @@ class Telegram implements TelegramContract
 	 */
 	private function getEvent()
 	{
-		/*$this->webhook_input = '{
-    "update_id": 344173742,
+		$this->webhook_input = '{
+    "update_id": 344173792,
     "message": {
-        "message_id": 23,
+        "message_id": 94,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -87,18 +87,18 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": true
         },
-        "date": 1498566866,
-        "text": "\/anime shigatsu wa kimi",
+        "date": 1498570022,
+        "text": "\/idan 442",
         "entities": [
             {
                 "type": "bot_command",
                 "offset": 0,
-                "length": 6
+                "length": 5
             }
         ]
     }
-}';*/
-		$this->webhook_input = file_get_contents("php://input");
+}';
+		#$this->webhook_input = file_get_contents("php://input");
 		$this->event = json_decode($this->webhook_input, true);
 	}
 
@@ -138,8 +138,8 @@ class Telegram implements TelegramContract
 		$this->parseWords();
 		$this->parseEntities();
 		$this->parseCommand();
-		$this->replyAction();
-		#var_dump($this->reply);
+		#$this->replyAction();
+		var_dump($this->reply);
 	}
 
 	/**
@@ -194,6 +194,10 @@ class Telegram implements TelegramContract
 		}
 	}
 
+	/**
+	 * @var array
+	 */
+	private $reply = array();
 
 	/**
 	 * Parse Command
@@ -201,28 +205,72 @@ class Telegram implements TelegramContract
 	private function parseCommand()
 	{
 		$list = array(
-				"/anime"
+				"/qanime",
+				"/anime",
+				"/idan"
 			);
 		if (isset($this->entities['bot_command'])) {
 			foreach ($this->entities['bot_command']	as $val) {
 				switch ($val['command']) {
-					case '/anime':
+					case '/qanime':
 							$fx = function($str){
 								if (is_array($str)) {
 									return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode(implode($str))));
 								}
 								return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
 							};
+							$val['salt'] = trim($val['salt']);
 							$st = (new MyAnimeList("ammarfaizi2", "triosemut123"))->simple_search($val['salt']);
-							$img = $st['image']; unset($st['image']); $rep = "";
-							foreach ($st as $key => $value) {
-								$ve = $fx($value);
-								!empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
+							if (is_array($st) and count($st)) {
+								$img = $st['image']; unset($st['image']); $rep = "";
+								foreach ($st as $key => $value) {
+									$ve = $fx($value);
+									!empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
+								}
+								$this->imageReply($img, null, $this->event['message']['message_id']);
+								$this->textReply(str_replace("\n\n","\n",$rep), null, null, "HTML");
+							} else {
+								$this->textReply("Mohon maaf, anime \"{$val['salt']}\" tidak ditemukan !");
 							}
-							$this->imageReply($img, null, $this->event['message']['message_id']);
-							$this->textReply(str_replace("\n\n","\n",$rep), null, null, "HTML");
 						break;
-					
+					case '/anime':
+							$st = new MyAnimeList("ammarfaizi2", "triosemut123");
+							$val['salt'] = trim($val['salt']);
+							$st->search($val['salt']);
+							$st->exec();
+							$st = $st->get_result();
+							if (is_array($st) and $xz = count($st['entry'])) {
+								$rep = "";
+								foreach ($st['entry'] as $vz) {
+									$rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
+								}
+								/*$rep.="\n\nBerikut ini adalah".($xz>1 ? " beberapa":"")." anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /ianime [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";*/
+								$rep.="\n\nBerikut ini adalah beberapa anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
+								$this->textReply($rep, null, null, "HTML");
+							}
+						break;
+					case "/idan":
+							$fx = function($str){
+								if (is_array($str)) {
+									return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode(implode($str))));
+								}
+								return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
+							};
+							$st = new MyAnimeList("ammarfaizi2", "triosemut123");
+							$val['salt'] = trim($val['salt']);
+							$st = $st->get_info($val['salt']);
+							if (is_array($st) and count($st)) {
+								$img = $st['image']; unset($st['image']); $rep = "";
+								foreach ($st as $key => $value) {
+									$ve = $fx($value);
+									!empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
+								}
+								$this->imageReply($img, null, $this->event['message']['message_id']);
+								$this->textReply(str_replace("\n\n","\n",$rep), null, null, "HTML");
+							} else {
+								$this->textReply("Mohon maaf, anime \"{$val['salt']}\" tidak ditemukan !");
+							}
+						break;
 					default:
 						# code...
 						break;
