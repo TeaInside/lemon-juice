@@ -70,10 +70,10 @@ class Telegram implements TelegramContract
 	 */
 	private function getEvent()
 	{
-		/*$this->webhook_input = '{
-    "update_id": 344173792,
+		$this->webhook_input = '{
+    "update_id": 344173796,
     "message": {
-        "message_id": 94,
+        "message_id": 98,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -87,18 +87,18 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": true
         },
-        "date": 1498570022,
-        "text": "\/idan 442",
+        "date": 1498571229,
+        "text": "\/anime plastic memories",
         "entities": [
             {
                 "type": "bot_command",
                 "offset": 0,
-                "length": 5
+                "length": 6
             }
         ]
     }
-}';*/
-		$this->webhook_input = file_get_contents("php://input");
+}';
+		#$this->webhook_input = file_get_contents("php://input");
 		$this->event = json_decode($this->webhook_input, true);
 	}
 
@@ -138,8 +138,9 @@ class Telegram implements TelegramContract
 		$this->parseWords();
 		$this->parseEntities();
 		$this->parseCommand();
+		var_dump($this->reply);
+		die;
 		$this->replyAction();
-		#var_dump($this->reply);
 	}
 
 	/**
@@ -239,7 +240,11 @@ class Telegram implements TelegramContract
 							$st->search($val['salt']);
 							$st->exec();
 							$st = $st->get_result();
-							if (is_array($st) and $xz = count($st['entry'])) {
+							if (isset($st['entry']['id'])) {
+								$rep = "";
+								$rep.="<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\n\nBerikut ini adalah beberapa anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
+								$this->textReply($rep, null, null, "HTML");
+							} elseif (is_array($st) and $xz = count($st['entry'])) {
 								$rep = "";
 								foreach ($st['entry'] as $vz) {
 									$rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
