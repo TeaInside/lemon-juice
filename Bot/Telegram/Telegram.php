@@ -70,7 +70,7 @@ class Telegram implements TelegramContract
 	 */
 	private function getEvent()
 	{
-		$this->webhook_input = '{
+/*		$this->webhook_input = '{
     "update_id": 344173796,
     "message": {
         "message_id": 98,
@@ -97,8 +97,8 @@ class Telegram implements TelegramContract
             }
         ]
     }
-}';
-		#$this->webhook_input = file_get_contents("php://input");
+}';*/
+		$this->webhook_input = file_get_contents("php://input");
 		$this->event = json_decode($this->webhook_input, true);
 	}
 
@@ -138,8 +138,8 @@ class Telegram implements TelegramContract
 		$this->parseWords();
 		$this->parseEntities();
 		$this->parseCommand();
-		var_dump($this->reply);
-		die;
+		/*var_dump($this->reply);
+		die;*/
 		$this->replyAction();
 	}
 
