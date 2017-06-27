@@ -138,10 +138,8 @@ class Telegram implements TelegramContract
 		$this->parseWords();
 		$this->parseEntities();
 		$this->parseCommand();
+		$this->replyAction();
 		var_dump($this->reply);
-		/*if ($this->type_msg == "text") {
-			$this->tel->sendMessage(json_encode($this->entities, 128),$this->room);
-		}*/
 	}
 
 	/**
@@ -157,23 +155,43 @@ class Telegram implements TelegramContract
 		$this->exploded = explode(" ", $this->event['message']['text']);
 	}
 
-	private function textReply($text, $to=null)
+	private function textReply($text, $to=null, $reply_to=null, $parse_mode=null)
 	{
 		$this->reply[] = array(
 				"type"=>"text",
+				"reply_to"=>$reply_to,
 				"to"=>($to===null?$this->room:$to),
-				"content"=>$text
+				"content"=>$text,
+				"parse_mode"=>$parse_mode
 			);
 	}
 
-	private function imageReply($image, $to=null)
+	private function imageReply($text, $to=null, $reply_to=null, $parse_mode=null)
 	{
 		$this->reply[] = array(
 				"type"=>"image",
+				"reply_to"=>$reply_to,
 				"to"=>($to===null?$this->room:$to),
-				"content"=>$image
+				"content"=>$text,
+				"parse_mode"=>$parse_mode
 			);
 	}
+
+	private function replyAction()
+	{
+		foreach ($this->reply as $key => $val) {
+			if ($val['type'] == "text") {
+				if (is_array($val['content'])) {
+					foreach ($val['content'] as $msg) {
+						$this->tel->sendMessage($msg, $val['to']);
+					}
+				} else {
+					$this->tel->sendMessage($val['content'], $val['to'], $val['reply_to'], $val['parse_mode']);
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * Parse Command
@@ -187,8 +205,20 @@ class Telegram implements TelegramContract
 			foreach ($this->entities['bot_command']	as $val) {
 				switch ($val['command']) {
 					case '/anime':
-							$st = new MyAnimeList("ammarfaizi2", "triosemut123");
-							$this->textReply(json_encode($st->simple_search($val['salt'])));
+							$fx = function($str){
+								if (is_array($str)) {
+									return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode(implode($str))));
+								}
+								return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
+							};
+							$st = (new MyAnimeList("ammarfaizi2", "triosemut123"))->simple_search($val['salt']);
+							$img = $st['image']; unset($st['image']); $rep = "";
+							foreach ($st as $key => $value) {
+								$ve = $fx($value);
+								!empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
+							}
+							$this->imageReply($img, null, $this->event['message']['id']);
+							$this->textReply($rep, null, null, "HTML");
 						break;
 					
 					default:
@@ -197,6 +227,7 @@ class Telegram implements TelegramContract
 				}
 			}
 		}
+		die;
 	}
 
 	private function parseEntities()
