@@ -83,6 +83,11 @@ class Telegram implements TelegramContract
     private $extended_commands = array();
 
     /**
+     * @var array
+     */
+    private $pending_action = array();
+
+    /**
      * Constructor
      */
     public function __construct($token)
@@ -123,6 +128,7 @@ class Telegram implements TelegramContract
         */
 
         $this->replyAction();
+        $this->execPendingAction();
     }
 
     /**
@@ -250,6 +256,12 @@ class Telegram implements TelegramContract
         }
     }
 
+    private function execPendingAction()
+    {
+        foreach ($this->pending_action as $val) {
+            $val();
+        }
+    }
 
     /**
      * Parse Command
@@ -264,7 +276,8 @@ class Telegram implements TelegramContract
                 "/idan",
                 "/qmanga",
                 "/manga",
-                "/idma"
+                "/idma",
+                "/whatanime"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
             $a = json_decode(file_get_contents(storage."/telegram/extended_keywords.json"), true);
@@ -500,7 +513,7 @@ class Telegram implements TelegramContract
                     }
                     break;
                 case "/idma":
-                        $val['salt'] = trim($val['salt']);
+                    $val['salt'] = trim($val['salt']);
                     if (!empty($val['salt'])) {
                         $fx = function ($str) {
                             if (is_array($str)) {
@@ -537,12 +550,46 @@ class Telegram implements TelegramContract
                         );
                     }
                     break;
+                case '/whatanime':
+                        $val['salt'] = trim($val['salt']);
+                        $st = new WhatAnime($val['salt']);
+                        $st = $st->exec();
+                        if (isset($st['docs'][0])) {
+                            $a = $st['docs'][0];
+                            $rep = "Anime yang mirip :\n<b>Judul</b> : ".$a['title']."\n";
+                            isset($a['title_english']) and $rep.="<b>Judul Inggris</b> : ".$a['title_english']."\n";
+                            isset($a['title_romaji']) and $rep.="<b>Judul Romanji</b> : ".$a['title_romaji']."\n";
+                            $rep.= "<b>Season</b> : ".$a['season']."\n<b>Anime</b> : ".$a['anime']."\n<b>File</b> : ".$a['file'];
+                            $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
+                            $file = $a['file'];
+                            $dur = array("start"=>$a['start'], "end"=>$a['end']);
+                            $this->textReply($rep, null, $this->event['message']['message_id']);
+                            $this->pendingAction(function () use($video_url, $file, $dur){
+                                $a = new Curl($video_url);
+                                $a->set_opt(array(
+                                        CURLOPT_REFERER => "https://whatanime.ga/",
+                                        CURLOPT_HTTPHEADER => array(
+                                            "X-Requested-With: XMLHttpRequest",
+                                            "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
+                                        )
+                                    )
+                                );
+                                file_put_contents($file, $a->exec());
+                                $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/{$file}", $this->room, $this->event['message']['message_id'], "{$file}\n\nDuration : {$dur['start']} - {$dur['end']}");
+                            });
+                        }
+                    break;
                 default:
                         count($this->extended_commands) and $this->parseExtendedCommand($val);
                     break;
                 }
             }
         }
+    }
+
+    private function pendingAction($closure)
+    {
+        $this->pending_action[] = $closure;
     }
 
     /**
