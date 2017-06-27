@@ -2,7 +2,7 @@
 
 namespace Stack\Telegram;
 
-use Lemon\Curl;
+use IceTeaSystem\Curl;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

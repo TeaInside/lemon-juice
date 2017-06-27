@@ -1,6 +1,6 @@
 <?php
 
-namespace Lemon;
+namespace IceTeaSystem;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

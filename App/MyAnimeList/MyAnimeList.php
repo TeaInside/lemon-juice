@@ -8,7 +8,7 @@ namespace App\MyAnimeList;
  * @since 0.0.1
  */
 
-use Lemon\Curl;
+use IceTeaSystem\Curl;
 use App\MyAnimeList\MyAnimeListContract;
 use App\MyAnimeList\MyAnimeListException;
 
