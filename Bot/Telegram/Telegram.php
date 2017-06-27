@@ -328,7 +328,7 @@ class Telegram implements TelegramContract
                                     )
                                 );
                             } elseif (is_array($st) and $xz = count($st['entry'])) {
-                                $rep = "";
+                                $rep = "Hasil pencarian :\n";
                                 foreach ($st['entry'] as $vz) {
                                     $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
                                 }
