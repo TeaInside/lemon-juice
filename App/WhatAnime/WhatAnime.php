@@ -31,6 +31,8 @@ class WhatAnime implements WhatAnimeContract
 		if (filter_var($image, FILTER_VALIDATE_URL)) {
 			$ch = new Curl($image);
 			$this->image = $ch->exec();
+			#header("Content-Type:image/jpg");
+			#var_dump(base64_encode($this->image));die;
 		} else {
 			$this->image = $image;
 		}

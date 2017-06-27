@@ -137,11 +137,11 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        /*$this->webhook_input = '
+        $this->webhook_input = '
         {
-        "update_id": 344173952,
-        "message": {
-        "message_id": 315,
+    "update_id": 344174036,
+    "message": {
+        "message_id": 458,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -156,28 +156,18 @@ class Telegram implements TelegramContract
             "username": "ammarfaizi2",
             "type": "private"
         },
-        "date": 1498583326,
-        "reply_to_message": {
-            "message_id": 314,
-            "from": {
-                "id": 448907482,
-                "first_name": "IceTeaNime",
-                "username": "MyIceTea_Bot"
-            },
-            "chat": {
-                "id": 243692601,
-                "first_name": "Ammar",
-                "last_name": "Faizi",
-                "username": "ammarfaizi2",
-                "type": "private"
-            },
-            "date": 1498583305,
-            "text": "Anime apa yang ingin kamu cari?"
-        },
-        "text": "full metal al"
-        }
-        }';*/
-        $this->webhook_input = file_get_contents("php://input");
+        "date": 1498591839,
+        "text": "\/whatanime http:\/\/pbs.twimg.com\/media\/CkI56JlUoAAaze7.jpg",
+        "entities": [
+            {
+                "type": "bot_command",
+                "offset": 0,
+                "length": 10
+            }
+        ]
+    }
+}';
+        #$this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -659,7 +649,7 @@ class Telegram implements TelegramContract
             for ($i=0; $i < $count; $i++) {
                 if ($entities[$i]['type'] == "bot_command") {
                     $ofplg = $entities[$i]['offset']+$entities[$i]['length'];
-                    $endsalt = (isset($entities[$i+1]) ? $entities[$i+1]['offset']-$ofplg-2: strlen($text));
+                    $endsalt = (isset($entities[$i+1]) && $entities[$i+1]['type']!="url" ? $entities[$i+1]['offset']-$ofplg-2: strlen($text));
                     $cmd = explode("@", substr($text, $entities[$i]['offset'], $ofplg));
                     $this->entities['bot_command'][] = array(
                             "command" => $cmd[0],
