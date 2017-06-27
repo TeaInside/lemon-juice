@@ -70,7 +70,7 @@ class Telegram implements TelegramContract
 	 */
 	private function getEvent()
 	{
-		$this->webhook_input = '{
+		/*$this->webhook_input = '{
     "update_id": 344173742,
     "message": {
         "message_id": 23,
@@ -97,8 +97,8 @@ class Telegram implements TelegramContract
             }
         ]
     }
-}';
-		#$this->webhook_input = file_get_contents("php://input");
+}';*/
+		$this->webhook_input = file_get_contents("php://input");
 		$this->event = json_decode($this->webhook_input, true);
 	}
 
@@ -139,7 +139,7 @@ class Telegram implements TelegramContract
 		$this->parseEntities();
 		$this->parseCommand();
 		$this->replyAction();
-		var_dump($this->reply);
+		#var_dump($this->reply);
 	}
 
 	/**
@@ -188,6 +188,8 @@ class Telegram implements TelegramContract
 				} else {
 					$this->tel->sendMessage($val['content'], $val['to'], $val['reply_to'], $val['parse_mode']);
 				}
+			} elseif ($val['type'] == "image") {
+				$this->tel->sendPhoto($val['content'], $val['to']);
 			}
 		}
 	}
@@ -217,8 +219,8 @@ class Telegram implements TelegramContract
 								$ve = $fx($value);
 								!empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
 							}
-							$this->imageReply($img, null, $this->event['message']['id']);
-							$this->textReply($rep, null, null, "HTML");
+							$this->imageReply($img, null, $this->event['message']['message_id']);
+							$this->textReply(str_replace("\n\n","\n",$rep), null, null, "HTML");
 						break;
 					
 					default:
@@ -227,7 +229,6 @@ class Telegram implements TelegramContract
 				}
 			}
 		}
-		die;
 	}
 
 	private function parseEntities()
