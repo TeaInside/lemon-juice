@@ -2,6 +2,12 @@
 
 namespace App\MyAnimeList;
 
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ * @package App\MyAnimeList
+ * @since 0.0.1
+ */
+
 interface MyAnimeListContract
 {
 	/**
