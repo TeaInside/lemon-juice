@@ -70,10 +70,10 @@ class Telegram implements TelegramContract
 	 */
 	private function getEvent()
 	{
-	/*	$this->webhook_input = '{
-    "update_id": 344173796,
+		/*$this->webhook_input = '{
+    "update_id": 344173853,
     "message": {
-        "message_id": 98,
+        "message_id": 182,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -87,13 +87,13 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": true
         },
-        "date": 1498571229,
-        "text": "\/idan 11757",
+        "date": 1498572948,
+        "text": "\/idan@MyIceTea_Bot 123",
         "entities": [
             {
                 "type": "bot_command",
                 "offset": 0,
-                "length": 5
+                "length": 18
             }
         ]
     }
@@ -292,10 +292,12 @@ class Telegram implements TelegramContract
 			$count = count($entities);
 			for ($i=0; $i < $count; $i++) { 
 				if ($entities[$i]['type'] == "bot_command") {
+
 					$ofplg = $entities[$i]['offset']+$entities[$i]['length'];
 					$endsalt = (isset($entities[$i+1]) ? $entities[$i+1]['offset']-$ofplg-2: strlen($text));
+					$cmd = explode("@",substr($text, $entities[$i]['offset'], $ofplg));
 					$this->entities['bot_command'][] = array(
-							"command" => substr($text, $entities[$i]['offset'], $ofplg),
+							"command" => $cmd[0],
 							"salt"	  => substr($text, $ofplg+1, $endsalt),
 						);
 				} elseif ($entities[$i]['type'] == "mention") {
