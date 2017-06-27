@@ -382,6 +382,11 @@ class Telegram implements TelegramContract
         }
     }
 
+    private function parseReply()
+    {
+        
+    }
+
     /**
      * Parse ExtendedCommand
      * @param array $val
