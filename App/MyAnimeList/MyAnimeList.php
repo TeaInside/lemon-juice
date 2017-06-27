@@ -110,7 +110,9 @@ class MyAnimeList implements MyAnimeListContract
                 $result=='false' or file_put_contents(data."/MyAnimeList/history/".$this->current_hash, $result);
                 $result = json_decode($result, true);
                 $this->out = $result;
-            	$this->save_hash($this->get_entry());
+                if ($result!==false) {
+                	$this->save_hash($this->get_entry());
+                }
             } else {
             	$result = "Function simplexml_load_string is doesn't exists !";
             	throw new MyAnimeListException($result, 1);
@@ -143,6 +145,7 @@ class MyAnimeList implements MyAnimeListContract
 	 */
 	private function get_entry()
 	{
+		debug_print_backtrace();
 		if (isset($this->out['entry']['id'])) {
 			return array($this->out['entry']['id']);
 		} else {
@@ -207,10 +210,12 @@ class MyAnimeList implements MyAnimeListContract
 		} else {
 			if (function_exists("simplexml_load_string")) {
                 $a = json_decode(json_encode(simplexml_load_string($this->online_search($q, $type))), true);                
-                $this->out = $a;
                 $result = json_encode($a, 128);
                 $result=='false' or file_put_contents(data."/MyAnimeList/history/".$this->current_hash, $result);
-            	$this->save_hash($this->get_entry());
+                $this->out = $a;
+                if ($result!='false') {
+					$this->save_hash($this->get_entry());
+                }
             } else {
             	$a = "Function simplexml_load_string is doesn't exists !";
             	throw new MyAnimeListException($a, 1);
