@@ -14,6 +14,9 @@
             "Bot\\": "Bot/",
             "Stack\\": "Stack/",
             "IceTeaSystem\\": "IceTeaSystem/"
-    	}
+    	},
+        "files": [
+            "config.php"
+        ]
     }
 }

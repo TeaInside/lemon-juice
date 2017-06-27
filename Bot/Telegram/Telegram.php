@@ -19,23 +19,16 @@ class Telegram implements TelegramContract
 	use Singleton;
 
 	/**
-	 * 
-	 * Token bot. (Ambil dari @botfather (Bapak bot)) :v
-	 *
+	 * Token bot. (Dapat dari @botfather)
 	 * @var string
 	 */
 	private $token;
 
 	/**
-	 * Disini kita override method getInstance dari trait Singleton.
+	 *
+	 * @var string
 	 */
-	private static function getInstance($token)
-    {
-        if (self::$instance === null) {
-            self::$instance = new self($token);
-        }
-        return self::$instance;
-    }
+	private $webhook_input;
 
 	/**
 	 * Constructor
@@ -51,10 +44,28 @@ class Telegram implements TelegramContract
 	public static function run($token)
 	{
 		$self = self::getInstance($token);
+		$self->getEvent();
+		$self->logs();
 	}
 
-	private function getMessage()
+	private function getEvent()
 	{
-		
+		$this->webhook_input = file_get_contents("php://input");
 	}
+
+	private function logs()
+	{
+		file_put_contents(logs."/telegram_body.txt", json_encode(json_decode($this->webhook_input), 128), FILE_APPEND | LOCK_EX);
+	}
+
+	/**
+	 * Disini kita override method getInstance dari trait Singleton.
+	 */
+	private static function getInstance($token)
+    {
+        if (self::$instance === null) {
+            self::$instance = new self($token);
+        }
+        return self::$instance;
+    }
 }
