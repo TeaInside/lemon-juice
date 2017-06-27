@@ -327,7 +327,7 @@ class Telegram implements TelegramContract
                         $st = $st->get_result();
                         if (isset($st['entry']['id'])) {
                             $rep = "";
-                            $rep.="Hasil pencarian :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
+                            $rep.="Hasil pencarian anime :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
                             $this->textReply(
                                 $rep, null, $this->event['message']['message_id'], array(
                                 "parse_mode"=>"HTML",
@@ -340,7 +340,7 @@ class Telegram implements TelegramContract
                                     )
                             );
                         } elseif (is_array($st) and $xz = count($st['entry'])) {
-                            $rep = "Hasil pencarian :\n";
+                            $rep = "Hasil pencarian anime :\n";
                             foreach ($st['entry'] as $vz) {
                                 $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
                             }
@@ -455,7 +455,7 @@ class Telegram implements TelegramContract
                         $st = $st->get_result();
                         if (isset($st['entry']['id'])) {
                             $rep = "";
-                            $rep.="Hasil pencarian :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah manga yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idma [spasi] [id_anime] untuk menampilkan info manga lebih lengkap.";
+                            $rep.="Hasil pencarian manga :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah manga yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idma [spasi] [id_anime] untuk menampilkan info manga lebih lengkap.";
                             $this->textReply(
                                 $rep, null, $this->event['message']['message_id'], array(
                                 "parse_mode"=>"HTML",
@@ -468,7 +468,7 @@ class Telegram implements TelegramContract
                                     )
                             );
                         } elseif (is_array($st) and $xz = count($st['entry'])) {
-                            $rep = "Hasil pencarian :\n";
+                            $rep = "Hasil pencarian manga :\n";
                             foreach ($st['entry'] as $vz) {
                                 $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
                             }
@@ -489,7 +489,7 @@ class Telegram implements TelegramContract
                         }
                     } else {
                         $this->textReply(
-                            "Anime apa yang ingin kamu cari? ~", null, $this->event['message']['message_id'], array(
+                            "Manga apa yang ingin kamu cari? ~", null, $this->event['message']['message_id'], array(
                                 "reply_markup"=>json_encode(
                                     array(
                                         "force_reply"=>true,
@@ -556,7 +556,7 @@ class Telegram implements TelegramContract
             if ($rtm['from']['username'] == "MyIceTea_Bot") {
                 $text = $rtm['text'];
                 $a = explode("\n", $text, 2);
-                if ($a[0] == "Hasil pencarian :" || $a[0] == "Sebutkan ID Anime yang ingin kamu cari !") {
+                if ($a[0] == "Hasil pencarian anime :" || $a[0] == "Sebutkan ID Anime yang ingin kamu cari !") {
                     $this->entities['bot_command'][] = array(
                             "command" => "/idan",
                             "salt"    => $this->event['message']['text'],
@@ -569,6 +569,21 @@ class Telegram implements TelegramContract
                 } elseif ($a[0] == "Anime apa yang ingin kamu cari?") {
                     $this->entities['bot_command'][] = array(
                             "command" => "/qanime",
+                            "salt"    => $this->event['message']['text'],
+                        );
+                } elseif ($a[0] == "Hasil pencarian manga :" || $a[0] == "Sebutkan ID Manga yang ingin kamu cari !") {
+                    $this->entities['bot_command'][] = array(
+                            "command" => "/idma",
+                            "salt"    => $this->event['message']['text'],
+                        );
+                } elseif ($a[0] == "Manga apa yang ingin kamu cari? ~") {
+                    $this->entities['bot_command'][] = array(
+                            "command" => "/manga",
+                            "salt"    => $this->event['message']['text'],
+                        );
+                } elseif ($a[0] == "Manga apa yang ingin kamu cari?") {
+                    $this->entities['bot_command'][] = array(
+                            "command" => "/qmanga",
                             "salt"    => $this->event['message']['text'],
                         );
                 }
