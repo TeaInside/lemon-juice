@@ -199,10 +199,17 @@ class MyAnimeList implements MyAnimeListContract
 		$this->current_hash = sha1($q);
 		if (isset($this->hash_table[$this->current_hash])) {
 			$a = json_decode(file_get_contents(data."/MyAnimeList/history/".$this->current_hash), true);
+			if ($a === null) {
+				$this->hash_table[$this->current_hash] = null;
+				$a['entry']['id'] = true;
+				$a['entry'] = $this->simple_search($q, $type);
+			}
 		} else {
 			if (function_exists("simplexml_load_string")) {
                 $a = json_decode(json_encode(simplexml_load_string($this->online_search($q, $type))), true);                
                 $this->out = $a;
+                $result = json_encode($a, 128);
+                $result=='false' or file_put_contents(data."/MyAnimeList/history/".$this->current_hash, $result);
             	$this->save_hash($this->get_entry());
             } else {
             	$a = "Function simplexml_load_string is doesn't exists !";

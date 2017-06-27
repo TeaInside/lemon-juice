@@ -138,6 +138,7 @@ class Telegram implements TelegramContract
 		$this->parseWords();
 		$this->parseEntities();
 		$this->parseCommand();
+		var_dump($this->reply);
 		/*if ($this->type_msg == "text") {
 			$this->tel->sendMessage(json_encode($this->entities, 128),$this->room);
 		}*/
@@ -156,27 +157,42 @@ class Telegram implements TelegramContract
 		$this->exploded = explode(" ", $this->event['message']['text']);
 	}
 
+	private function textReply($text, $to=null)
+	{
+		$this->reply[] = array(
+				"type"=>"text",
+				"to"=>($to===null?$this->room:$to),
+				"content"=>$text
+			);
+	}
+
+	private function imageReply($image, $to=null)
+	{
+		$this->reply[] = array(
+				"type"=>"image",
+				"to"=>($to===null?$this->room:$to),
+				"content"=>$image
+			);
+	}
+
 	/**
 	 * Parse Command
 	 */
 	private function parseCommand()
 	{
-		var_dump($this->entities);die;
 		$list = array(
 				"/anime"
 			);
 		if (isset($this->entities['bot_command'])) {
-			if (in_array($this->entities['bot_command'][0], $list)) {
-				switch ($this->entities['bot_command'][0]) {
+			foreach ($this->entities['bot_command']	as $val) {
+				switch ($val['command']) {
 					case '/anime':
 							$st = new MyAnimeList("ammarfaizi2", "triosemut123");
-
-							$aa = $a->simple_search();
-							#$this->reply[] = 
+							$this->textReply(json_encode($st->simple_search($val['salt'])));
 						break;
 					
 					default:
-						
+						# code...
 						break;
 				}
 			}
