@@ -13,7 +13,7 @@
             "App\\": "App/",
             "Bot\\": "Bot/",
             "Stack\\": "Stack/",
-            "IceTeaSystem\\": "IceTeaSystem/",
+            "IceTeaSystem\\": "IceTeaSystem/"
     	}
     }
 }
