@@ -4,5 +4,4 @@ namespace Bot\BotContracts;
 
 interface TelegramContract
 {
-
 }
