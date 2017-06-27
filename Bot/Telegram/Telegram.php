@@ -78,6 +78,11 @@ class Telegram implements TelegramContract
     private $actor_call;
 
     /**
+     * @var array
+     */
+    private $extended_commands = array();
+
+    /**
      * Constructor
      */
     public function __construct($token)
