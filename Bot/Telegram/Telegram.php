@@ -264,8 +264,7 @@ class Telegram implements TelegramContract
                 "/idan",
                 "/qmanga",
                 "/manga",
-                "/idma",
-                "/test"
+                "/idma"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
             $a = json_decode(file_get_contents(storage."/telegram/extended_keywords.json"), true);
@@ -280,7 +279,7 @@ class Telegram implements TelegramContract
                     $this->textReply("Hai ".$this->actor_call.", ketik /help untuk menampilkan menu.");
                     break;
                 case '/help':
-                    $this->textReply("Hai ".$this->actor_call.", menu :\n/anime [spasi] [judul] : Pencarian anime secara rinci.\n/idan [spasi] [id_anime] : Pencarian info anime secara lengkap menggunakan id_anime.\n/qanime [spasi] [judul] : Pencarian anime secara instant.");
+                    $this->textReply("Hai ".$this->actor_call.", menu yang tersedia :\n\n<b>Anime</b>\n/anime [spasi] [judul] : Pencarian anime secara rinci.\n/idan [spasi] [id_anime] : Pencarian info anime secara lengkap menggunakan id_anime.\n/qanime [spasi] [judul] : Pencarian anime secara instant.\n\n<b>Manga</b>\n/manga [spasi] [judul] : Pencarian manga secara rinci.\n/idma [spasi] [id_manga] : Pencarian info manga secara lengkap menggunakan id_manga.\n/qmanga [spasi] [judul] : Pencarian manga secara instant.");
                     break;
                 case '/qanime':
                         $val['salt'] = trim($val['salt']);
