@@ -70,7 +70,7 @@ class Telegram implements TelegramContract
 	 */
 	private function getEvent()
 	{
-/*		$this->webhook_input = '{
+		$this->webhook_input = '{
     "update_id": 344173796,
     "message": {
         "message_id": 98,
@@ -88,16 +88,16 @@ class Telegram implements TelegramContract
             "all_members_are_administrators": true
         },
         "date": 1498571229,
-        "text": "\/anime plastic memories",
+        "text": "\/idan 27775",
         "entities": [
             {
                 "type": "bot_command",
                 "offset": 0,
-                "length": 6
+                "length": 5
             }
         ]
     }
-}';*/
+}';
 		$this->webhook_input = file_get_contents("php://input");
 		$this->event = json_decode($this->webhook_input, true);
 	}
@@ -264,6 +264,7 @@ class Telegram implements TelegramContract
 							$st = new MyAnimeList("ammarfaizi2", "triosemut123");
 							$val['salt'] = trim($val['salt']);
 							$st = $st->get_info($val['salt']);
+							$st = $st['entry'];
 							if (is_array($st) and count($st)) {
 								$img = $st['image']; unset($st['image']); $rep = "";
 								foreach ($st as $key => $value) {
