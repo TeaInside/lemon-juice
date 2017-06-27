@@ -137,11 +137,12 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-      /*  $this->webhook_input = '
-        {
-    "update_id": 344174036,
+      $this->webhook_input = '
+        
+{
+    "update_id": 344174037,
     "message": {
-        "message_id": 458,
+        "message_id": 462,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -156,18 +157,24 @@ class Telegram implements TelegramContract
             "username": "ammarfaizi2",
             "type": "private"
         },
-        "date": 1498591839,
+        "date": 1498592477,
         "text": "\/whatanime http:\/\/pbs.twimg.com\/media\/CkI56JlUoAAaze7.jpg",
         "entities": [
             {
                 "type": "bot_command",
                 "offset": 0,
                 "length": 10
+            },
+            {
+                "type": "url",
+                "offset": 11,
+                "length": 46
             }
         ]
     }
-}';*/
-        $this->webhook_input = file_get_contents("php://input");
+}
+';
+        #$this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -544,7 +551,7 @@ class Telegram implements TelegramContract
                 case '/whatanime':
                         $val['salt'] = trim($val['salt']);
                         $st = new WhatAnime($val['salt']);
-                        $st = $st->exec();
+                        $st = json_decode($st->exec(), true);
                         if (isset($st['docs'][0])) {
                             $a = $st['docs'][0];
                             $rep = "Anime yang mirip :\n<b>Judul</b> : ".$a['title']."\n";
