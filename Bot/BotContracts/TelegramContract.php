@@ -2,7 +2,7 @@
 
 namespace Bot\BotContracts;
 
-interface TelegramContracts
+interface TelegramContract
 {
-	
+
 }
