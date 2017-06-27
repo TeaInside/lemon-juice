@@ -107,8 +107,8 @@ class Telegram implements TelegramContract
         $this->parseEvent();
         $this->parseWords();
         $this->parseEntities();
-        $this->parseCommand();
         $this->parseReply();
+        $this->parseCommand();
         if (count($this->reply)==0 and $this->type_chat=="private") {
             $this->textReply("Mohon maaf, saya belum mengerti \"{$this->event['message']['text']}\"");
         }
@@ -125,10 +125,11 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-/*        $this->webhook_input = '{
-    "update_id": 344173923,
+        /*$this->webhook_input = '
+{
+    "update_id": 344173952,
     "message": {
-        "message_id": 267,
+        "message_id": 315,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -137,32 +138,33 @@ class Telegram implements TelegramContract
             "language_code": "en-US"
         },
         "chat": {
-            "id": -209639625,
-            "title": "pl",
-            "type": "group",
-            "all_members_are_administrators": true
+            "id": 243692601,
+            "first_name": "Ammar",
+            "last_name": "Faizi",
+            "username": "ammarfaizi2",
+            "type": "private"
         },
-        "date": 1498581453,
+        "date": 1498583326,
         "reply_to_message": {
-            "message_id": 262,
+            "message_id": 314,
             "from": {
                 "id": 448907482,
                 "first_name": "IceTeaNime",
                 "username": "MyIceTea_Bot"
             },
             "chat": {
-                "id": -209639625,
-                "title": "pl",
-                "type": "group",
-                "all_members_are_administrators": true
+                "id": 243692601,
+                "first_name": "Ammar",
+                "last_name": "Faizi",
+                "username": "ammarfaizi2",
+                "type": "private"
             },
-            "date": 1498580864,
+            "date": 1498583305,
             "text": "Anime apa yang ingin kamu cari?"
         },
-        "text": "qweqwe"
+        "text": "full metal al"
     }
-}
-';*/
+}';*/
         $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
@@ -234,10 +236,10 @@ class Telegram implements TelegramContract
             } elseif ($val['type'] == "image") {
                 if (is_array($val['content'])) {
                     foreach ($val['content'] as $photo) {
-                        $this->tel->sendPhoto($photo, $val['to'], $val['reply_to'], $val['option']);
+                        $this->tel->sendPhoto($photo, $val['to'], null, $val['reply_to'], $val['option']);
                     }
                 } else {
-                    $this->tel->sendPhoto($val['content'], $val['to'], $val['reply_to'], $val['option']);
+                    $this->tel->sendPhoto($val['content'], $val['to'], null, $val['reply_to'], $val['option']);
                 }
             }
         }
@@ -315,8 +317,16 @@ class Telegram implements TelegramContract
                             $st = $st->get_result();
                             if (isset($st['entry']['id'])) {
                                 $rep = "";
-                                $rep.="<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
-                                $this->textReply($rep, null, null, array("parse_mode"=>"HTML", "reply_markup"=>json));
+                                $rep.="Hasil pencarian :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
+                                $this->textReply($rep, null, $this->event['message']['message_id'], array(
+                                    "parse_mode"=>"HTML", 
+                                    "reply_markup"=>json_encode(array(
+                                                "force_reply"=>true, 
+                                                "selective"=>true
+                                            )
+                                        )
+                                    )
+                                );
                             } elseif (is_array($st) and $xz = count($st['entry'])) {
                                 $rep = "";
                                 foreach ($st['entry'] as $vz) {
@@ -328,7 +338,7 @@ class Telegram implements TelegramContract
                                 $this->textReply("Mohon maaf, anime \"{$val['salt']}\" tidak ditemukan !");
                             }
                         } else {
-                            $this->textReply("Anime apa yang ingin kamu cari?", null, $this->event['message']['message_id'], array(
+                            $this->textReply("Anime apa yang ingin kamu cari? ~", null, $this->event['message']['message_id'], array(
                                     "reply_markup"=>json_encode(array(
                                             "force_reply"=>true, 
                                             "selective"=>true
@@ -382,18 +392,43 @@ class Telegram implements TelegramContract
         }
     }
 
+    /**
+     *
+     */
     private function parseReply()
     {
-        
+        if (isset($this->event['message']['reply_to_message'])) {
+            $rtm = $this->event['message']['reply_to_message'];
+            if ($rtm['from']['username'] == "MyIceTea_Bot") {
+                $text = $rtm['text'];
+                $a = explode("\n", $text, 2);
+                if ($a[0] == "Hasil pencarian :" || $a[0] == "Sebutkan ID Anime yang ingin kamu cari !") {
+                    $this->entities['bot_command'][] = array(
+                            "command" => "/idan",
+                            "salt"    => $this->event['message']['text'],
+                        );
+                } elseif ($a[0] == "Anime apa yang ingin kamu cari? ~") {
+                   $this->entities['bot_command'][] = array(
+                            "command" => "/anime",
+                            "salt"    => $this->event['message']['text'],
+                        );
+                } elseif ($a[0] == "Anime apa yang ingin kamu cari?") {
+                    $this->entities['bot_command'][] = array(
+                            "command" => "/qanime",
+                            "salt"    => $this->event['message']['text'],
+                        );
+                }
+            }
+        }
     }
 
     /**
+     * **Future
      * Parse ExtendedCommand
      * @param array $val
      */
     private function parseExtendedCommand($val)
     {
-
     }
 
     /**
