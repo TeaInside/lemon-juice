@@ -46,6 +46,17 @@ class Telegram
     }
 
     /**
+     * Get file path.
+     *
+     * @param string $file_id
+     * @return string
+     */
+    public function getFile($file_id)
+    {
+        return $this->execute($this->bot_url."getFile?file_id=".urlencode($file_id));
+    }
+
+    /**
      * Send a text message.
      *
      * @param  string $text
