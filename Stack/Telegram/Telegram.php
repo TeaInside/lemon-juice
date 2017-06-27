@@ -1,8 +1,14 @@
 <?php
 
-namespace Telegram;
+namespace Stack\Telegram;
 
 use Lemon\Curl;
+
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ * @package Telegram
+ * @since 0.0.1
+ */
 
 class Telegram
 {

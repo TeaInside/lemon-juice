@@ -12,7 +12,7 @@
     	"psr-4": {
     		"Lemon\\": "Lemon/",
             "App\\": "App/",
-            "Telegram\\": "Telegram/"
+            "Stack\\": "Stack/"
     	}
     }
 }
