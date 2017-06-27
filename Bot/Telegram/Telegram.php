@@ -333,7 +333,7 @@ class Telegram implements TelegramContract
                                     $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
                                 }
                                 $rep.="\nBerikut ini adalah beberapa anime yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idan [spasi] [id_anime] untuk menampilkan info anime lebih lengkap.";
-                                $this->textReply($rep, null, null, array("parse_mode"=>"HTML"));
+                                $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                             } else {
                                 $this->textReply("Mohon maaf, anime \"{$val['salt']}\" tidak ditemukan !");
                             }
