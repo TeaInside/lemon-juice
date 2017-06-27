@@ -54,15 +54,17 @@ class Telegram
      * @param  string $parse_mode
      * @return string
      */
-    public function sendMessage($text, $to, $reply_to = null, $parse_mode = "HTML")
+    public function sendMessage($text, $to, $reply_to = null, $opt = null)
     {
         $post = [
             "chat_id"        => $to,
-            "text"            => $text,
-            "parse_mode"    => $parse_mode
+            "text"            => $text
         ];
         if ($reply_to) {
             $post["reply_to_message_id"] = $reply_to;
+        }
+        if (is_array($opt)) {
+            $post = array_merge($post, $opt);
         }
         return $this->execute($this->bot_url."sendMessage", $post, []);
     }
@@ -77,7 +79,7 @@ class Telegram
      * @param  int    $reply_to
      * @return string
      */
-    public function sendPhoto($photo, $to, $caption = null, $reply_to = null)
+    public function sendPhoto($photo, $to, $caption = null, $reply_to = null, $opt = null)
     {
         if (!filter_var($photo, FILTER_VALIDATE_URL)) {
             $realpath    = realpath($photo);
@@ -94,9 +96,11 @@ class Telegram
         if ($reply_to) {
             $post["reply_to_message_id"] = $reply_to;
         }
+        if (is_array($opt)) {
+            $post = array_merge($post, $opt);
+        }
         return $this->execute($this->bot_url."sendPhoto", $post, []);
     }
-
 
     /**
      * Execute.
