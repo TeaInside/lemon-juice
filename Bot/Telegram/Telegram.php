@@ -563,6 +563,7 @@ class Telegram implements TelegramContract
                             $dur = array("start"=>$a['start'], "end"=>$a['end']);
                             $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                             $this->replyAction();
+                            ignore_user_abort(1);
                                 $a = new Curl($video_url);
                                 $a->set_opt(array(
                                         CURLOPT_REFERER => "https://whatanime.ga/",
@@ -572,8 +573,10 @@ class Telegram implements TelegramContract
                                         )
                                     )
                                 );
-                                file_put_contents($file, $a->exec());
-                                $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/{$file}", $this->room, $this->event['message']['message_id'], "{$file}\n\nDuration : {$dur['start']} - {$dur['end']}");
+                                $hash = md5($file);
+                                file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $a->exec());
+                                file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/".$hash.".txt", "ok");
+                                $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $this->room, $this->event['message']['message_id'], "{$file}\n\nDuration : {$dur['start']} - {$dur['end']}");
                         }
                     break;
                 default:
