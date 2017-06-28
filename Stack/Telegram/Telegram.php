@@ -134,7 +134,7 @@ class Telegram
         }
         $post = [
             "chat_id"        => $to,
-            "photo"            => $video,
+            "video"            => $video,
             "caption"       => $caption
         ];
         if ($reply_to) {
