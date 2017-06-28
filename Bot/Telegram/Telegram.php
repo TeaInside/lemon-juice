@@ -254,7 +254,7 @@ class Telegram implements TelegramContract
                         $this->tel->sendMessage($msg, $val['to'], $val['reply_to'], $val['option']);
                     }
                 } else {
-                   $aa = $this->tel->sendMessage($val['content'], $val['to'], $val['reply_to'], $val['option']);
+                    $aa = $this->tel->sendMessage($val['content'], $val['to'], $val['reply_to'], $val['option']);
                 }
             } elseif ($val['type'] == "image") {
                 $val['to'] = $val['to']===null ? $this->event['message']['chat']['id'] : $val['to'];
@@ -275,7 +275,7 @@ class Telegram implements TelegramContract
             $val();
         }
     }
-
+    
     /**
      * Parse Command
      */
@@ -290,7 +290,8 @@ class Telegram implements TelegramContract
                 "/qmanga",
                 "/manga",
                 "/idma",
-                "/whatanime"
+                "/whatanime",
+                "/kick"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
             $a = json_decode(file_get_contents(storage."/telegram/extended_keywords.json"), true);
@@ -317,7 +318,7 @@ class Telegram implements TelegramContract
                             }
                             return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
                         };
-                            $st = (new MyAnimeList(MAL_USER, MAL_PASS))->simple_search($val['salt']);
+                        $st = (new MyAnimeList(MAL_USER, MAL_PASS))->simple_search($val['salt']);
                         if (is_array($st) and count($st)) {
                             $img = $st['image'];
                             unset($st['image']);
@@ -407,9 +408,9 @@ class Telegram implements TelegramContract
                             }
                             return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
                         };
-                            $st = new MyAnimeList(MAL_USER, MAL_PASS);
-                            $st = $st->get_info($val['salt']);
-                            $st = isset($st['entry']) ? $st['entry'] : $st;
+                        $st = new MyAnimeList(MAL_USER, MAL_PASS);
+                        $st = $st->get_info($val['salt']);
+                        $st = isset($st['entry']) ? $st['entry'] : $st;
                         if (is_array($st) and count($st)) {
                             $img = $st['image'];
                             unset($st['image']);
@@ -445,7 +446,7 @@ class Telegram implements TelegramContract
                             }
                             return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
                         };
-                            $st = (new MyAnimeList(MAL_USER, MAL_PASS))->simple_search($val['salt'], "manga");
+                        $st = (new MyAnimeList(MAL_USER, MAL_PASS))->simple_search($val['salt'], "manga");
                         if (is_array($st) and count($st)) {
                             $img = $st['image'];
                             unset($st['image']);
@@ -567,45 +568,45 @@ class Telegram implements TelegramContract
                 case '/whatanime':
                     $val['salt'] = $val['salt']===false ? false : trim($val['salt']);
                     if (!empty($val['salt']) && $val['salt']!==false) {
-                            is_dir("video") or mkdir("video");
-                            $this->load_whatanime_data();
-                            $file = (new Curl($val['salt']))->exec();
-                            $file_hash = sha1($file);
-                            if (!isset($this->whatanime_hash_table['file_hash'][$file_hash])) {
-                                $st = new WhatAnime($file, "real");
-                                $st = json_decode($st->exec(), true);
-                                $this->whatanime_hash_table['file_hash'][$file_hash] = array(
+                        is_dir("video") or mkdir("video");
+                        $this->load_whatanime_data();
+                        $file = (new Curl($val['salt']))->exec();
+                        $file_hash = sha1($file);
+                        if (!isset($this->whatanime_hash_table['file_hash'][$file_hash])) {
+                            $st = new WhatAnime($file, "real");
+                            $st = json_decode($st->exec(), true);
+                            $this->whatanime_hash_table['file_hash'][$file_hash] = array(
                                         "docs" => (isset($st['docs'][0]) ? $st['docs'][0] : false)
                                     );
-                                $this->save_whatanime_hash();
-                            } else {
-                                $st['docs'][0] = $this->whatanime_hash_table['file_hash'][$file_hash]['docs'];
-                            }
-                            if (isset($st['docs'][0]) && $st['docs'][0] !==false) {
-                                $a = $st['docs'][0];
-                                $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
-                                isset($a['title_english']) and $rep.="<b>Judul Inggris</b> : ".$a['title_english']."\n";
-                                isset($a['title_romaji']) and $rep.="<b>Judul Romanji</b> : ".$a['title_romaji']."\n";
-                                isset($a['episode']) and $rep.= "<b>Episode</b> : ".$a['episode']."\n";
-                                isset($a['season']) and $rep.= "<b>Season</b> : ".$a['season']."\n";
-                                isset($a['anime']) and $rep.= "<b>Anime</b> : ".$a['anime']."\n";
-                                isset($a['file']) and $rep.= "<b>File</b> : ".$a['file'];
-                                $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
-                                $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-                                $this->replyAction();
-                                $this->reply = array();
-                                $file = $a['file'];
-                                $dur = array(
+                            $this->save_whatanime_hash();
+                        } else {
+                            $st['docs'][0] = $this->whatanime_hash_table['file_hash'][$file_hash]['docs'];
+                        }
+                        if (isset($st['docs'][0]) && $st['docs'][0] !==false) {
+                            $a = $st['docs'][0];
+                            $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
+                            isset($a['title_english']) and $rep.="<b>Judul Inggris</b> : ".$a['title_english']."\n";
+                            isset($a['title_romaji']) and $rep.="<b>Judul Romanji</b> : ".$a['title_romaji']."\n";
+                            isset($a['episode']) and $rep.= "<b>Episode</b> : ".$a['episode']."\n";
+                            isset($a['season']) and $rep.= "<b>Season</b> : ".$a['season']."\n";
+                            isset($a['anime']) and $rep.= "<b>Anime</b> : ".$a['anime']."\n";
+                            isset($a['file']) and $rep.= "<b>File</b> : ".$a['file'];
+                            $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
+                            $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                            $this->replyAction();
+                            $this->reply = array();
+                            $file = $a['file'];
+                            $dur = array(
                                     "start"=>$a['start'],
                                     "end"=>$a['end']
                                 );
-                                ignore_user_abort(1);
-                                set_time_limit(0);
-                                ini_set("max_execution_time", false);
-                                $hash_fn = sha1($a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']);
-                                if (!file_exists("video/".$hash_fn.".mp4")) {
-                                    $a = new Curl($video_url);
-                                    $a->set_opt(
+                            ignore_user_abort(1);
+                            set_time_limit(0);
+                            ini_set("max_execution_time", false);
+                            $hash_fn = sha1($a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']);
+                            if (!file_exists("video/".$hash_fn.".mp4")) {
+                                $a = new Curl($video_url);
+                                $a->set_opt(
                                         array(
                                             CURLOPT_REFERER => "https://whatanime.ga/",
                                             CURLOPT_HTTPHEADER => array(
@@ -614,40 +615,40 @@ class Telegram implements TelegramContract
                                             )
                                             )
                                     );
-                                    $video = $a->exec();
-                                    if (isset($this->whatanime_hash_table['video_hash']) and count($this->whatanime_hash_table['video_hash']) >= 10) {
-                                        unlink($this->whatanime_hash_table['video_hash'][0]);
-                                        file_put_contents("video/".$hash_fn.".mp4", $video);
-                                        $this->whatanime_hash_table['video_hash'][0] = $hash_fn;
-                                    } else {
-                                        file_put_contents("video/".$hash_fn.".mp4", $video);
-                                        $this->whatanime_hash_table['video_hash'][] = $hash_fn;
-                                    }
-                                    $this->save_whatanime_hash();
-                                }                                
-                                $fd = function ($time) {
-                                    $time = (int)$time;
-                                    $menit = 0;
-                                    $detik = 0;
-                                    while ($time>0) {
-                                        if ($time>60) {
-                                            $menit += 1;
-                                            $time -= 60;
-                                        } elseif ($time>1) {
-                                            $detik += $time;
-                                            $time = 0;
-                                        }
-                                    }
-                                    $menit = (string) $menit;
-                                    $detik = (string) $detik;
-                                    return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
-                                };
-                                    file_put_contents("debug_dur.txt", json_encode($dur));
-                                    $x = $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/video/".$hash_fn.".mp4", $this->room, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($dur['start'])." - ".$fd($dur['end']), $this->event['message']['message_id']);
-                                    file_put_contents("debug_video.txt", $x);
-                            } else {
-                                $this->textReply("Mohon maaf, pencarian tidak ditemukan !", null, $this->event['message']['message_id']);
+                                $video = $a->exec();
+                                if (isset($this->whatanime_hash_table['video_hash']) and count($this->whatanime_hash_table['video_hash']) >= 30) {
+                                    unlink($this->whatanime_hash_table['video_hash'][0]);
+                                    file_put_contents("video/".$hash_fn.".mp4", $video);
+                                    $this->whatanime_hash_table['video_hash'][0] = $hash_fn;
+                                } else {
+                                    file_put_contents("video/".$hash_fn.".mp4", $video);
+                                    $this->whatanime_hash_table['video_hash'][] = $hash_fn;
+                                }
+                                $this->save_whatanime_hash();
                             }
+                            $fd = function ($time) {
+                                $time = (int)$time;
+                                $menit = 0;
+                                $detik = 0;
+                                while ($time>0) {
+                                    if ($time>60) {
+                                        $menit += 1;
+                                        $time -= 60;
+                                    } elseif ($time>1) {
+                                        $detik += $time;
+                                        $time = 0;
+                                    }
+                                }
+                                $menit = (string) $menit;
+                                $detik = (string) $detik;
+                                return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
+                            };
+                            file_put_contents("debug_dur.txt", json_encode($dur));
+                            $x = $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/video/".$hash_fn.".mp4", $this->room, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($dur['start'])." - ".$fd($dur['end']), $this->event['message']['message_id']);
+                            file_put_contents("debug_video.txt", $x);
+                        } else {
+                            $this->textReply("Mohon maaf, pencarian tidak ditemukan !", null, $this->event['message']['message_id']);
+                        }
                     } else {
                         if (isset($this->event['message']['reply_to_message']['photo'][1])) {
                             $this->entities['bot_command'][$enkey] = array(
@@ -674,6 +675,12 @@ class Telegram implements TelegramContract
                         }
                     }
                     break;
+                case '/kick':
+                    $check_admin = strpos($this->tel->getChatAdministrators($this->room), $this->event['message']['from']['id'])!==false;
+                    if (isset($this->event['message']['reply_to_message']['from']['id']) && $check_admin) {
+                        $this->tel->kickChatMember($this->event['message']['reply_to_message']['from']['id']);
+                        $this->textReply("Siap !");
+                    }
                 default:
                         count($this->extended_commands) and $this->parseExtendedCommand($val);
                     break;
@@ -740,7 +747,7 @@ class Telegram implements TelegramContract
                 } elseif ($a[0] == "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !") {
                     $this->entities['bot_command'][] = array(
                             "command" => "/whatanime",
-                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ((isset($this->event['message']['text']) and filter_var(str_replace(" ",urlencode(" "), $this->event['message']['text']), FILTER_VALIDATE_URL)) ? $this->event['message']['text'] : false)),
+                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ((isset($this->event['message']['text']) and filter_var(str_replace(" ", urlencode(" "), $this->event['message']['text']), FILTER_VALIDATE_URL)) ? $this->event['message']['text'] : false)),
                         );
                 }
             }
@@ -751,7 +758,6 @@ class Telegram implements TelegramContract
     {
         $a = json_decode($this->tel->getFile($photo_id), true);
         return isset($a['result']['file_path']) ? "https://api.telegram.org/file/bot".TELEGRAM_TOKEN."/".$a['result']['file_path'] : false;
-
     }
 
     /**

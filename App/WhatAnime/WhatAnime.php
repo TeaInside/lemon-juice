@@ -28,9 +28,9 @@ class WhatAnime implements WhatAnimeContract
      */
     public function __construct($image, $type=null)
     {
-    	if ($type=="real") {
-    		$this->image = $image;
-    	} elseif (filter_var($image, FILTER_VALIDATE_URL)) {
+        if ($type=="real") {
+            $this->image = $image;
+        } elseif (filter_var($image, FILTER_VALIDATE_URL)) {
             $ch = new Curl($image);
             $this->image = $ch->exec();
             // header("Content-Type:image/jpg");
