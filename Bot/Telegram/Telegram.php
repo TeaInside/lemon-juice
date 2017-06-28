@@ -579,7 +579,21 @@ class Telegram implements TelegramContract
                                     )
                                 );
                                 file_put_contents("video/".$hash_fn.".mp4", $a->exec());
-                            }                            
+                            }
+                            $fd = function($time){
+                                $menit = 0;
+                                $detik = 0;
+                                while ($time>0) {
+                                    if ($time>60) {
+                                        $menit += 1;
+                                        $time -= 60;
+                                    } else {
+                                        $detik += $time;
+                                        $time = 0;
+                                    }
+                                } $menit = (string) $menit; $detik = (string) $detik;
+                                return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$menit}");
+                            };
                             $x = $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/video/".$hash_fn.".mp4", $this->room, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($dur['start'])." - ".$fd($dur['end']), $this->event['message']['message_id']);
                             file_put_contents("debug_video.txt", $x);
                         }
