@@ -144,9 +144,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174155,
+    "update_id": 344174173,
     "message": {
-        "message_id": 672,
+        "message_id": 712,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -160,19 +160,34 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": true
         },
-        "date": 1498637239,
-        "text": "\/whatanime",
+        "date": 1498638188,
+        "reply_to_message": {
+            "message_id": 711,
+            "from": {
+                "id": 448907482,
+                "first_name": "IceTeaNime",
+                "username": "MyIceTea_Bot"
+            },
+            "chat": {
+                "id": -209639625,
+                "title": "Test Driven Development",
+                "type": "group",
+                "all_members_are_administrators": true
+            },
+            "date": 1498638184,
+            "text": "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !"
+        },
+        "text": "https:\/\/i2.wp.com\/i356.photobucket.com\/albums\/oo7\/LingXiaoJie88\/Anime\/Owari%20no%20Seraph\/OnS-31_zps4tyny44q.png",
         "entities": [
             {
-                "type": "bot_command",
+                "type": "url",
                 "offset": 0,
-                "length": 10
+                "length": 112
             }
         ]
     }
-}
-';
-        $this->webhook_input = file_get_contents("php://input");
+}';
+        #$this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -284,7 +299,7 @@ class Telegram implements TelegramContract
             $this->extended_commands = $a['entry'];
         }
         if (isset($this->entities['bot_command'])) {
-            $this->room = $this->room===null ? $this->event['message']['chat']['id']:$this->root;
+            $this->room = $this->room===null ? $this->event['message']['chat']['id']:$this->room;
             foreach ($this->entities['bot_command']    as $enkey => $val) {
                 switch ($val['command']) {
                 case '/start':
@@ -726,7 +741,7 @@ class Telegram implements TelegramContract
                 } elseif ($a[0] == "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !") {
                     $this->entities['bot_command'][] = array(
                             "command" => "/whatanime",
-                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ( isset($this->event['message']['text']) and filter_var($this->event['message'], FILTER_VALIDATE_URL) ? $this->event['message']['text'] : false)),
+                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ( isset($this->event['message']['text']) and filter_var($this->event['message']['text'], FILTER_VALIDATE_URL) ? $this->event['message']['text'] : false)),
                         );
                 }
             }
