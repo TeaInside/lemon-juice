@@ -15,6 +15,27 @@ $aa = $a->simple_search("naruto ");
 var_dump($aa);
 */
 
+$start = 517.667;
+$end = 538.333;
+$fd = function($time){
+    $time = (int)$time;
+    $menit = 0;
+    $detik = 0;
+    while ($time>0) {
+        if ($time>60) {
+            $menit += 1;
+            $time -= 60;
+        } elseif ($time>1) {
+            $detik += $time;
+            $time = 0;
+        }
+    } $menit = (string) $menit; $detik = (string) $detik;
+    return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
+};
+print $fd($start). " - ". $fd($end);
+
+
+die;
 $a = new WhatAnime("https://www.funimationfilms.com/wp-content/uploads/2016/01/psycho-pass-trailer02_small.jpg");
 $a = json_decode($a->exec(), 1);
 $a = $a['docs'][0];
