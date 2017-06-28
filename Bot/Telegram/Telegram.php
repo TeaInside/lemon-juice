@@ -284,6 +284,7 @@ class Telegram implements TelegramContract
             $this->extended_commands = $a['entry'];
         }
         if (isset($this->entities['bot_command'])) {
+            $this->room = $this->room===null ? $this->event['message']['chat']['id']:$this->root;
             foreach ($this->entities['bot_command']    as $enkey => $val) {
                 switch ($val['command']) {
                 case '/start':
