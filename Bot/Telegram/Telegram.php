@@ -187,7 +187,7 @@ class Telegram implements TelegramContract
         ]
     }
 }';
-        #$this->webhook_input = file_get_contents("php://input");
+        $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -741,7 +741,7 @@ class Telegram implements TelegramContract
                 } elseif ($a[0] == "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !") {
                     $this->entities['bot_command'][] = array(
                             "command" => "/whatanime",
-                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ( isset($this->event['message']['text']) and filter_var($this->event['message']['text'], FILTER_VALIDATE_URL) ? $this->event['message']['text'] : false)),
+                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ((isset($this->event['message']['text']) and filter_var($this->event['message']['text'], FILTER_VALIDATE_URL)) ? $this->event['message']['text'] : false)),
                         );
                 }
             }
