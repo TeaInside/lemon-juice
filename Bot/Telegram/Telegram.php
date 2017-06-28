@@ -144,9 +144,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174147,
+    "update_id": 344174155,
     "message": {
-        "message_id": 623,
+        "message_id": 672,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -160,56 +160,7 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": true
         },
-        "date": 1498631890,
-        "reply_to_message": {
-            "message_id": 622,
-            "from": {
-                "id": 243692601,
-                "first_name": "Ammar",
-                "last_name": "Faizi",
-                "username": "ammarfaizi2",
-                "language_code": "en-US"
-            },
-            "chat": {
-                "id": -209639625,
-                "title": "Test Driven Development",
-                "type": "group",
-                "all_members_are_administrators": true
-            },
-            "date": 1498631873,
-            "photo": [
-                {
-                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABGEgKywVgJY2rCIEAAEC",
-                    "file_size": 1182,
-                    "width": 90,
-                    "height": 51
-                },
-                {
-                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABDT62XCkDxSZrSIEAAEC",
-                    "file_size": 14461,
-                    "width": 320,
-                    "height": 180
-                },
-                {
-                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABISC7WQZyzxEriIEAAEC",
-                    "file_size": 54836,
-                    "width": 800,
-                    "height": 450
-                },
-                {
-                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABH52fZuqgOR7qyIEAAEC",
-                    "file_size": 105537,
-                    "width": 1280,
-                    "height": 720
-                },
-                {
-                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABL1M5rt6ERs9qiIEAAEC",
-                    "file_size": 61988,
-                    "width": 1366,
-                    "height": 768
-                }
-            ]
-        },
+        "date": 1498637239,
         "text": "\/whatanime",
         "entities": [
             {
@@ -244,7 +195,7 @@ class Telegram implements TelegramContract
      */
     private function parseWords()
     {
-        $this->exploded = explode(" ", $this->event['message']['text']);
+        isset($this->event['message']['text']) and $this->exploded = explode(" ", $this->event['message']['text']);
     }
 
     /**
@@ -282,14 +233,16 @@ class Telegram implements TelegramContract
     {
         foreach ($this->reply as $key => $val) {
             if ($val['type'] == "text") {
+                $val['to'] = $val['to']===null ? $this->event['message']['chat']['id'] : $val['to'];
                 if (is_array($val['content'])) {
                     foreach ($val['content'] as $msg) {
                         $this->tel->sendMessage($msg, $val['to'], $val['reply_to'], $val['option']);
                     }
                 } else {
-                    $this->tel->sendMessage($val['content'], $val['to'], $val['reply_to'], $val['option']);
+                   $aa = $this->tel->sendMessage($val['content'], $val['to'], $val['reply_to'], $val['option']);
                 }
             } elseif ($val['type'] == "image") {
+                $val['to'] = $val['to']===null ? $this->event['message']['chat']['id'] : $val['to'];
                 if (is_array($val['content'])) {
                     foreach ($val['content'] as $photo) {
                         $this->tel->sendPhoto($photo, $val['to'], null, $val['reply_to'], $val['option']);
@@ -596,8 +549,8 @@ class Telegram implements TelegramContract
                     }
                     break;
                 case '/whatanime':
-                    $val['salt'] = trim($val['salt']);
-                    if (!empty($val['salt'])) {
+                    $val['salt'] = $val['salt']===false ? false : trim($val['salt']);
+                    if (!empty($val['salt']) && $val['salt']!==false) {
                             is_dir("video") or mkdir("video");
                             $this->load_whatanime_data();
                             $file = (new Curl($val['salt']))->exec();
@@ -617,8 +570,12 @@ class Telegram implements TelegramContract
                                 $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
                                 isset($a['title_english']) and $rep.="<b>Judul Inggris</b> : ".$a['title_english']."\n";
                                 isset($a['title_romaji']) and $rep.="<b>Judul Romanji</b> : ".$a['title_romaji']."\n";
-                                $rep.= "<b>Episode</b> : ".$a['episode']."\n<b>Season</b> : ".$a['season']."\n<b>Anime</b> : ".$a['anime']."\n<b>File</b> : ".$a['file'];
+                                isset($a['episode']) and $rep.= "<b>Episode</b> : ".$a['episode']."\n";
+                                isset($a['season']) and $rep.= "<b>Season</b> : ".$a['season']."\n";
+                                isset($a['anime']) and $rep.= "<b>Anime</b> : ".$a['anime']."\n";
+                                isset($a['file']) and $rep.= "<b>File</b> : ".$a['file'];
                                 $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
+                                #var_dump($st['docs'][0]);die;
                                 $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                                 $this->replyAction();
                                 $this->reply = array();
@@ -683,10 +640,12 @@ class Telegram implements TelegramContract
                                     "salt" => $this->getPhotoUrl($this->event['message']['reply_to_message']['photo'][1]['file_id'])
                                 );
                             $this->event['message']['message_id'] = $this->event['message']['reply_to_message']['message_id'];
-                            #var_dump(1);die;
                             $this->parseCommand();
                         } else {
-                            $this->textReply(
+                            if ($val['salt'] === false) {
+                                $this->textReply("Mohon maaf, pencarian tidak ditemukan !", null, $this->event['message']['message_id']);
+                            } else {
+                                $this->textReply(
                                 "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !", null, $this->event['message']['message_id'], array(
                                     "reply_markup"=>json_encode(
                                         array(
@@ -696,6 +655,7 @@ class Telegram implements TelegramContract
                                         )
                                     )
                                 );
+                            }
                         }
                     }
                     break;
@@ -765,7 +725,7 @@ class Telegram implements TelegramContract
                 } elseif ($a[0] == "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !") {
                     $this->entities['bot_command'][] = array(
                             "command" => "/whatanime",
-                            "salt"    => (isset($rtm['photo'][1]) ? $this->getPhotoUrl($rtm['photo'][1]['file_id']) : false),
+                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : false),
                         );
                 }
             }
@@ -776,6 +736,7 @@ class Telegram implements TelegramContract
     {
         $a = json_decode($this->tel->getFile($photo_id), true);
         return isset($a['result']['file_path']) ? "https://api.telegram.org/file/bot".TELEGRAM_TOKEN."/".$a['result']['file_path'] : false;
+
     }
 
     /**
@@ -801,9 +762,10 @@ class Telegram implements TelegramContract
                     $ofplg = $entities[$i]['offset']+$entities[$i]['length'];
                     $endsalt = (isset($entities[$i+1]) && $entities[$i+1]['type']!="url" ? $entities[$i+1]['offset']-$ofplg-2: strlen($text));
                     $cmd = explode("@", substr($text, $entities[$i]['offset'], $ofplg));
+                    $salt = substr($text, $ofplg+1, $endsalt);
                     $this->entities['bot_command'][] = array(
                             "command" => $cmd[0],
-                            "salt"      => substr($text, $ofplg+1, $endsalt),
+                            "salt"      => ($salt===false ? "" : $salt),
                         );
                 } elseif ($entities[$i]['type'] == "mention") {
                     $this->entities['mention'][] = substr($text, $entities[$i]['offset']+1, $entities[$i]['length']);
