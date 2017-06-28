@@ -564,6 +564,7 @@ class Telegram implements TelegramContract
                             $dur = array("start"=>$a['start'], "end"=>$a['end']);
                             $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                             $this->replyAction();
+                            $this->reply = array();
                             ignore_user_abort(1);
                             set_time_limit(0);
                             ini_set("max_execution_time", false);
