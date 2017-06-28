@@ -560,28 +560,27 @@ class Telegram implements TelegramContract
                             isset($a['title_romaji']) and $rep.="<b>Judul Romanji</b> : ".$a['title_romaji']."\n";
                             $rep.= "<b>Episode</b> : ".$a['episode']."\n<b>Season</b> : ".$a['season']."\n<b>Anime</b> : ".$a['anime']."\n<b>File</b> : ".$a['file'];
                             $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
+                            $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML")); $this->replyAction(); $this->reply = array();
                             $file = $a['file'];
-                            $dur = array("start"=>$a['start'], "end"=>$a['end']);
-                            $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-                            $this->replyAction();
-                            $this->reply = array();
-                            ignore_user_abort(1);
-                            set_time_limit(0);
-                            ini_set("max_execution_time", false);
-                            $a = new Curl($video_url);
-                            $a->set_opt(array(
-                                    CURLOPT_REFERER => "https://whatanime.ga/",
-                                    CURLOPT_HTTPHEADER => array(
-                                        "X-Requested-With: XMLHttpRequest",
-                                        "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
-                                    )
-                                )
+                            $dur = array(
+                                "start"=>$a['start'], 
+                                "end"=>$a['end']
                             );
-                            $hash = md5($file);
-                            file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $a->exec());
-                            file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/".$hash.".txt", "ok");
-                            file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/logs_video.txt", 
-$this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $this->room, "{$file}\n\nDuration : ".$dur['start']." - ".$dur['end']."https://www.crayner.cf/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $this->event['message']['message_id']), FILE_APPEND | LOCK_EX);
+                            ignore_user_abort(1); set_time_limit(0); ini_set("max_execution_time", false); $hash_fn = md5($a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']);
+                            if (!file_exists("video/".$hash_fn.".mp4")) {
+                                is_dir("video") or mkdir("video");
+                                $a = new Curl($video_url);
+                                $a->set_opt(array(
+                                        CURLOPT_REFERER => "https://whatanime.ga/",
+                                        CURLOPT_HTTPHEADER => array(
+                                            "X-Requested-With: XMLHttpRequest",
+                                            "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
+                                        )
+                                    )
+                                );
+                                file_put_contents("video/".$hash_fn.".mp4", $a->exec());
+                            }                            
+                            $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/video/".$hash_fn.".mp4", $this->room, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($dur['start'])." - ".$fd($dur['end']), $this->event['message']['message_id']);
                         }
                     break;
                 default:
