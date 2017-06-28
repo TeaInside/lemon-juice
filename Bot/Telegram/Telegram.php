@@ -144,9 +144,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174178,
+    "update_id": 344174295,
     "message": {
-        "message_id": 724,
+        "message_id": 918,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -158,36 +158,44 @@ class Telegram implements TelegramContract
             "id": -209639625,
             "title": "Test Driven Development",
             "type": "group",
-            "all_members_are_administrators": true
+            "all_members_are_administrators": false
         },
-        "date": 1498638584,
+        "date": 1498663714,
         "reply_to_message": {
-            "message_id": 723,
+            "message_id": 913,
             "from": {
-                "id": 448907482,
-                "first_name": "IceTeaNime",
-                "username": "MyIceTea_Bot"
+                "id": 362242742,
+                "first_name": "Kevin Kurniawan",
+                "last_name": "Pratama",
+                "username": "kevinkoe"
             },
             "chat": {
                 "id": -209639625,
                 "title": "Test Driven Development",
                 "type": "group",
-                "all_members_are_administrators": true
+                "all_members_are_administrators": false
             },
-            "date": 1498638581,
-            "text": "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !"
+            "date": 1498663404,
+            "text": "\/kick",
+            "entities": [
+                {
+                    "type": "bot_command",
+                    "offset": 0,
+                    "length": 5
+                }
+            ]
         },
-        "text": "https:\/\/i2.wp.com\/i356.photobucket.com\/albums\/oo7\/LingXiaoJie88\/Anime\/Owari no Seraph\/OnS-31_zps4tyny44q.png",
+        "text": "\/kick",
         "entities": [
             {
-                "type": "url",
+                "type": "bot_command",
                 "offset": 0,
-                "length": 75
+                "length": 5
             }
         ]
     }
 }';
-        $this->webhook_input = file_get_contents("php://input");
+        #$this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -607,14 +615,14 @@ class Telegram implements TelegramContract
                             if (!file_exists("video/".$hash_fn.".mp4")) {
                                 $a = new Curl($video_url);
                                 $a->set_opt(
-                                        array(
+                                    array(
                                             CURLOPT_REFERER => "https://whatanime.ga/",
                                             CURLOPT_HTTPHEADER => array(
                                                 "X-Requested-With: XMLHttpRequest",
                                                 "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
                                             )
                                             )
-                                    );
+                                );
                                 $video = $a->exec();
                                 if (isset($this->whatanime_hash_table['video_hash']) and count($this->whatanime_hash_table['video_hash']) >= 30) {
                                     unlink($this->whatanime_hash_table['video_hash'][0]);
@@ -662,13 +670,13 @@ class Telegram implements TelegramContract
                                 $this->textReply("Mohon maaf, pencarian tidak ditemukan !", null, $this->event['message']['message_id']);
                             } else {
                                 $this->textReply(
-                                "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !", null, $this->event['message']['message_id'], array(
+                                    "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !", null, $this->event['message']['message_id'], array(
                                     "reply_markup"=>json_encode(
                                         array(
                                             "force_reply"=>true,
                                             "selective"=>true
                                             )
-                                        )
+                                    )
                                     )
                                 );
                             }
@@ -677,9 +685,13 @@ class Telegram implements TelegramContract
                     break;
                 case '/kick':
                     $check_admin = strpos($this->tel->getChatAdministrators($this->room), $this->event['message']['from']['id'])!==false;
-                    if (isset($this->event['message']['reply_to_message']['from']['id']) && $check_admin) {
-                        $this->tel->kickChatMember($this->event['message']['reply_to_message']['from']['id']);
-                        $this->textReply("Siap !");
+                    if (isset($this->event['message']['reply_to_message']['from']['id'])) {
+                        if ($check_admin) {
+                            $this->tel->kickChatMember($this->room, $this->event['message']['reply_to_message']['from']['id']);
+                            $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                        } else {
+                            $this->textReply("Kamu itu bukan admin @".$this->event['message']['from']['username']." :p", $this->event['message']['chat']['id'], $this->event['message']['message_id']);
+                        }
                     }
                 default:
                         count($this->extended_commands) and $this->parseExtendedCommand($val);

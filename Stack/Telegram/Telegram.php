@@ -149,8 +149,8 @@ class Telegram
     /**
      * Kick chat member.
      *
-     * @param string $chat_id
-     * @param string $user_id
+     * @param  string $chat_id
+     * @param  string $user_id
      * @return string
      */
     public function kickChatMember($chat_id, $user_id)
@@ -161,7 +161,7 @@ class Telegram
     /**
      * Get admin list
      *
-     * @param string $chat_id
+     * @param  string $chat_id
      * @return string
      */
     public function getChatAdministrators($chat_id)
