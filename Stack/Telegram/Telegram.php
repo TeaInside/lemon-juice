@@ -98,7 +98,7 @@ class Telegram
                 throw new \Exception("File not found. File : {$photo}", 404);
                 return false;
             }
-            $photo        = new CurlFile($realpath);
+            $photo        = new \CurlFile($realpath);
         }
         $post = [
             "chat_id"        => $to,
@@ -124,17 +124,17 @@ class Telegram
      */
     public function sendVideo($video, $to, $caption = null, $reply_to = null, $opt = null)
     {
-        if (!filter_var($photo, FILTER_VALIDATE_URL)) {
-            $realpath    = realpath($photo);
+        if (!filter_var($video, FILTER_VALIDATE_URL)) {
+            $realpath    = realpath($video);
             if (!$realpath) {
-                throw new \Exception("File not found. File : {$photo}", 404);
+                throw new \Exception("File not found. File : {$video}", 404);
                 return false;
             }
-            $photo        = new CurlFile($realpath);
+            $photo        = new \CurlFile($realpath);
         }
         $post = [
             "chat_id"        => $to,
-            "photo"            => $photo,
+            "photo"            => $video,
             "caption"       => $caption
         ];
         if ($reply_to) {
