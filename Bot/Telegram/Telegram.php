@@ -581,6 +581,7 @@ class Telegram implements TelegramContract
                                 file_put_contents("video/".$hash_fn.".mp4", $a->exec());
                             }
                             $fd = function($time){
+                                $time = (int) $time;
                                 $menit = 0;
                                 $detik = 0;
                                 while ($time>0) {
