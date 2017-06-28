@@ -684,15 +684,16 @@ class Telegram implements TelegramContract
                     }
                     break;
                 case '/kick':
-                    $check_admin = strpos($this->tel->getChatAdministrators($this->room), $this->event['message']['from']['id'])!==false;
                     if (isset($this->event['message']['reply_to_message']['from']['id'])) {
+                        $check_admin = strpos($this->tel->getChatAdministrators($this->room), (string)$this->event['message']['from']['id'])!==false;
                         if ($check_admin) {
                             $this->tel->kickChatMember($this->room, $this->event['message']['reply_to_message']['from']['id']);
-                            $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                            $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                         } else {
                             $this->textReply("Kamu itu bukan admin @".$this->event['message']['from']['username']." :p", $this->event['message']['chat']['id'], $this->event['message']['message_id']);
                         }
                     }
+                    break;
                 default:
                         count($this->extended_commands) and $this->parseExtendedCommand($val);
                     break;
