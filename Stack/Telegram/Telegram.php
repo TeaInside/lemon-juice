@@ -147,6 +147,29 @@ class Telegram
     }
 
     /**
+     * Kick chat member.
+     *
+     * @param string $chat_id
+     * @param string $user_id
+     * @return string
+     */
+    public function kickChatMember($chat_id, $user_id)
+    {
+        return $this->execute($this->bot_url."kickChatMember", array("chat_id"=>$chat_id, "user_id"=>$user_id), []);
+    }
+
+    /**
+     * Get admin list
+     *
+     * @param string $chat_id
+     * @return string
+     */
+    public function getChatAdministrators($chat_id)
+    {
+        return $this->execute($this->bot_url."getChatAdministrators?chat_id=".$chat_id, null, []);
+    }
+
+    /**
      * Execute.
      *
      * @param  string       $url
