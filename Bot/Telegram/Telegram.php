@@ -144,9 +144,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174173,
+    "update_id": 344174178,
     "message": {
-        "message_id": 712,
+        "message_id": 724,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -160,9 +160,9 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": true
         },
-        "date": 1498638188,
+        "date": 1498638584,
         "reply_to_message": {
-            "message_id": 711,
+            "message_id": 723,
             "from": {
                 "id": 448907482,
                 "first_name": "IceTeaNime",
@@ -174,20 +174,20 @@ class Telegram implements TelegramContract
                 "type": "group",
                 "all_members_are_administrators": true
             },
-            "date": 1498638184,
+            "date": 1498638581,
             "text": "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !"
         },
-        "text": "https:\/\/i2.wp.com\/i356.photobucket.com\/albums\/oo7\/LingXiaoJie88\/Anime\/Owari%20no%20Seraph\/OnS-31_zps4tyny44q.png",
+        "text": "https:\/\/i2.wp.com\/i356.photobucket.com\/albums\/oo7\/LingXiaoJie88\/Anime\/Owari no Seraph\/OnS-31_zps4tyny44q.png",
         "entities": [
             {
                 "type": "url",
                 "offset": 0,
-                "length": 112
+                "length": 75
             }
         ]
     }
 }';
-        $this->webhook_input = file_get_contents("php://input");
+        #$this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -591,7 +591,6 @@ class Telegram implements TelegramContract
                                 isset($a['anime']) and $rep.= "<b>Anime</b> : ".$a['anime']."\n";
                                 isset($a['file']) and $rep.= "<b>File</b> : ".$a['file'];
                                 $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
-                                #var_dump($st['docs'][0]);die;
                                 $this->textReply($rep, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                                 $this->replyAction();
                                 $this->reply = array();
@@ -741,7 +740,7 @@ class Telegram implements TelegramContract
                 } elseif ($a[0] == "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !") {
                     $this->entities['bot_command'][] = array(
                             "command" => "/whatanime",
-                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ((isset($this->event['message']['text']) and filter_var($this->event['message']['text'], FILTER_VALIDATE_URL)) ? $this->event['message']['text'] : false)),
+                            "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ((isset($this->event['message']['text']) and filter_var(str_replace(" ",urlencode(" "), $this->event['message']['text']), FILTER_VALIDATE_URL)) ? $this->event['message']['text'] : false)),
                         );
                 }
             }
