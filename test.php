@@ -4,7 +4,7 @@ require __DIR__."/vendor/autoload.php";
 use App\MyAnimeList\MyAnimeList;
 use App\WhatAnime\WhatAnime;
 
-#define("data", __DIR__."/data");
+// define("data", __DIR__."/data");
 
 /*$a = new MyAnimeList("ammarfaizi2", "triosemut123");
 // $a->search("naruto");
@@ -42,16 +42,17 @@ $a = new WhatAnime("https://www.funimationfilms.com/wp-content/uploads/2016/01/p
 $a = json_decode($a->exec(), 1);
 $a = $a['docs'][0];
 $url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
-#var_dump($a, $url, date("Y-m-d H:i:s", $a['expires']));
+// var_dump($a, $url, date("Y-m-d H:i:s", $a['expires']));
 $a = new IceTeaSystem\Curl($url);
-$a->set_opt(array(
+$a->set_opt(
+    array(
                 CURLOPT_REFERER    => "https://whatanime.ga/",
                 CURLOPT_HTTPHEADER => array(
                     "X-Requested-With: XMLHttpRequest",
                     "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
                 )
             )
-        );
+);
 header("Content-Type: video/mp4");
 print $a->exec();
 /*

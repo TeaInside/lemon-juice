@@ -31,8 +31,8 @@ class WhatAnime implements WhatAnimeContract
         if (filter_var($image, FILTER_VALIDATE_URL)) {
             $ch = new Curl($image);
             $this->image = $ch->exec();
-            #header("Content-Type:image/jpg");
-            #var_dump(base64_encode($this->image));die;
+            // header("Content-Type:image/jpg");
+            // var_dump(base64_encode($this->image));die;
         } else {
             $this->image = $image;
         }
@@ -45,7 +45,8 @@ class WhatAnime implements WhatAnimeContract
     {
         $ch = new Curl("https://whatanime.ga/search");
         $ch->post("data=data%3Aimage%2Fjpeg%3Bbase64%2C".urlencode(base64_encode($this->image)));
-        $ch->set_opt(array(
+        $ch->set_opt(
+            array(
                 CURLOPT_REFERER    => "https://whatanime.ga/",
                 CURLOPT_HTTPHEADER => array(
                     "X-Requested-With: XMLHttpRequest",
