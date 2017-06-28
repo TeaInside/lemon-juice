@@ -143,11 +143,10 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        $this->webhook_input = file_get_contents("php://input");
         $this->webhook_input = '{
-    "update_id": 344174145,
+    "update_id": 344174147,
     "message": {
-        "message_id": 619,
+        "message_id": 623,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -161,9 +160,9 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": true
         },
-        "date": 1498630581,
+        "date": 1498631890,
         "reply_to_message": {
-            "message_id": 617,
+            "message_id": 622,
             "from": {
                 "id": 243692601,
                 "first_name": "Ammar",
@@ -177,38 +176,52 @@ class Telegram implements TelegramContract
                 "type": "group",
                 "all_members_are_administrators": true
             },
-            "date": 1498630488,
+            "date": 1498631873,
             "photo": [
                 {
-                    "file_id": "AgADBQADv6cxG6bPoFbRZtm8uljqW_JEyjIABFAgvmLDlcFIUB8EAAEC",
-                    "file_size": 1202,
-                    "width": 61,
-                    "height": 90
+                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABGEgKywVgJY2rCIEAAEC",
+                    "file_size": 1182,
+                    "width": 90,
+                    "height": 51
                 },
                 {
-                    "file_id": "AgADBQADv6cxG6bPoFbRZtm8uljqW_JEyjIABHainUbyxLatUR8EAAEC",
-                    "file_size": 15289,
-                    "width": 218,
-                    "height": 320
+                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABDT62XCkDxSZrSIEAAEC",
+                    "file_size": 14461,
+                    "width": 320,
+                    "height": 180
                 },
                 {
-                    "file_id": "AgADBQADv6cxG6bPoFbRZtm8uljqW_JEyjIABHkkPQ1KXHvWUh8EAAEC",
-                    "file_size": 24570,
-                    "width": 300,
-                    "height": 440
+                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABISC7WQZyzxEriIEAAEC",
+                    "file_size": 54836,
+                    "width": 800,
+                    "height": 450
+                },
+                {
+                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABH52fZuqgOR7qyIEAAEC",
+                    "file_size": 105537,
+                    "width": 1280,
+                    "height": 720
+                },
+                {
+                    "file_id": "AgADBQADwKcxG6bPoFbBBB5TVQoUOX5ZyjIABL1M5rt6ERs9qiIEAAEC",
+                    "file_size": 61988,
+                    "width": 1366,
+                    "height": 768
                 }
             ]
         },
-        "text": "\/test iki",
+        "text": "\/whatanime",
         "entities": [
             {
                 "type": "bot_command",
                 "offset": 0,
-                "length": 5
+                "length": 10
             }
         ]
     }
-}';
+}
+';
+        #$this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -318,7 +331,7 @@ class Telegram implements TelegramContract
             $this->extended_commands = $a['entry'];
         }
         if (isset($this->entities['bot_command'])) {
-            foreach ($this->entities['bot_command']    as $val) {
+            foreach ($this->entities['bot_command']    as $enkey => $val) {
                 switch ($val['command']) {
                 case '/start':
                     $this->textReply("Hai ".$this->actor_call.", ketik /help untuk menampilkan menu.");
@@ -585,12 +598,22 @@ class Telegram implements TelegramContract
                 case '/whatanime':
                     $val['salt'] = trim($val['salt']);
                     if (!empty($val['salt'])) {
-                        $this->load_whatanime_data();
-                        $salt_hash = sha1($val['salt']);
-                        if (!isset($this->whatanime_salt_hash_table[$salt_hash])) {
-                            $st = new WhatAnime($val['salt']);
-                            $st = json_decode($st->exec(), true);
-                            if (isset($st['docs'][0])) {
+                            is_dir("video") or mkdir("video");
+                            is_dir("image") or mkdir("image");
+                            $this->load_whatanime_data();
+                            $file = (new Curl($val['salt']))->exec();
+                            $file_hash = sha1($file);
+                            if (!isset($this->whatanime_hash_table['file_hash'][$file_hash])) {
+                                $st = new WhatAnime($file, "real");
+                                $st = json_decode($st->exec(), true);
+                                $this->whatanime_hash_table['file_hash'][$file_hash] = array(
+                                        "docs" => (isset($st['docs'][0]) ? $st['docs'][0] : false)
+                                    );
+                                $this->save_whatanime_hash();
+                            } else {
+                                $st['docs'][0] = $this->whatanime_hash_table['file_hash'][$file_hash]['docs'];
+                            }
+                            if (isset($st['docs'][0]) && $st['docs'][0] !==false) {
                                 $a = $st['docs'][0];
                                 $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
                                 isset($a['title_english']) and $rep.="<b>Judul Inggris</b> : ".$a['title_english']."\n";
@@ -610,7 +633,6 @@ class Telegram implements TelegramContract
                                 ini_set("max_execution_time", false);
                                 $hash_fn = sha1($a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']);
                                 if (!file_exists("video/".$hash_fn.".mp4")) {
-                                    is_dir("video") or mkdir("video");
                                     $a = new Curl($video_url);
                                     $a->set_opt(
                                         array(
@@ -621,8 +643,17 @@ class Telegram implements TelegramContract
                                             )
                                             )
                                     );
-                                    file_put_contents("video/".$hash_fn.".mp4", $a->exec());
-                                }
+                                    $video = $a->exec();
+                                    if (isset($this->whatanime_hash_table['video_hash']) and count($this->whatanime_hash_table['video_hash']) >= 10) {
+                                        unlink($this->whatanime_hash_table['video_hash'][0]);
+                                        file_put_contents("video/".$hash_fn.".mp4", $video);
+                                        $this->whatanime_hash_table['video_hash'][0] = $hash_fn;
+                                    } else {
+                                        file_put_contents("video/".$hash_fn.".mp4", $video);
+                                        $this->whatanime_hash_table['video_hash'][] = $hash_fn;
+                                    }
+                                    $this->save_whatanime_hash();
+                                }                                
                                 $fd = function ($time) {
                                     $time = (int)$time;
                                     $menit = 0;
@@ -643,19 +674,30 @@ class Telegram implements TelegramContract
                                     file_put_contents("debug_dur.txt", json_encode($dur));
                                     $x = $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/video/".$hash_fn.".mp4", $this->room, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($dur['start'])." - ".$fd($dur['end']), $this->event['message']['message_id']);
                                     file_put_contents("debug_video.txt", $x);
+                            } else {
+                                $this->textReply("Mohon maaf, pencarian tidak ditemukan !", null, $this->event['message']['message_id']);
                             }
-                        }
                     } else {
-                        $this->textReply(
-                            "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !", null, $this->event['message']['message_id'], array(
-                                "reply_markup"=>json_encode(
-                                    array(
-                                        "force_reply"=>true,
-                                        "selective"=>true
+                        if (isset($this->event['message']['reply_to_message']['photo'][1])) {
+                            $this->entities['bot_command'][$enkey] = array(
+                                    "command" => "/whatanime",
+                                    "salt" => $this->getPhotoUrl($this->event['message']['reply_to_message']['photo'][1]['file_id'])
+                                );
+                            $this->event['message']['message_id'] = $this->event['message']['reply_to_message']['message_id'];
+                            #var_dump(1);die;
+                            $this->parseCommand();
+                        } else {
+                            $this->textReply(
+                                "Balas pesan dengan screenshot anime yang ingin kamu tanyakan !", null, $this->event['message']['message_id'], array(
+                                    "reply_markup"=>json_encode(
+                                        array(
+                                            "force_reply"=>true,
+                                            "selective"=>true
+                                            )
                                         )
                                     )
-                                )
-                            );
+                                );
+                        }
                     }
                     break;
                 default:
@@ -663,6 +705,21 @@ class Telegram implements TelegramContract
                     break;
                 }
             }
+        }
+    }
+
+    private function save_whatanime_hash()
+    {
+        file_put_contents("whatanime_hash_table.json", json_encode($this->whatanime_hash_table, 128));
+    }
+
+    private function load_whatanime_data()
+    {
+        if (file_exists("whatanime_hash_table.json")) {
+            $this->whatanime_hash_table = json_decode(file_get_contents("whatanime_hash_table.json"), true);
+            $this->whatanime_hash_table = is_array($this->whatanime_hash_table) ? $this->whatanime_hash_table : array();
+        } else {
+            $this->whatanime_hash_table = array();
         }
     }
 
@@ -718,8 +775,8 @@ class Telegram implements TelegramContract
 
     private function getPhotoUrl($photo_id)
     {
-        var_dump($this->tel->getFile($photo_id));
-        die;
+        $a = json_decode($this->tel->getFile($photo_id), true);
+        return isset($a['result']['file_path']) ? "https://api.telegram.org/file/bot".TELEGRAM_TOKEN."/".$a['result']['file_path'] : false;
     }
 
     /**
