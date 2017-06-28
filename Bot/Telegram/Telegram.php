@@ -221,7 +221,7 @@ class Telegram implements TelegramContract
     }
 }
 ';
-        #$this->webhook_input = file_get_contents("php://input");
+        $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
