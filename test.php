@@ -17,7 +17,7 @@ var_dump($aa);
 
 $start = 517.667;
 $end = 538.333;
-$fd = function($time){
+$fd = function ($time) {
     $time = (int)$time;
     $menit = 0;
     $detik = 0;
@@ -29,7 +29,9 @@ $fd = function($time){
             $detik += $time;
             $time = 0;
         }
-    } $menit = (string) $menit; $detik = (string) $detik;
+    }
+    $menit = (string) $menit;
+    $detik = (string) $detik;
     return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
 };
 print $fd($start). " - ". $fd($end);
@@ -43,13 +45,13 @@ $url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?sta
 #var_dump($a, $url, date("Y-m-d H:i:s", $a['expires']));
 $a = new IceTeaSystem\Curl($url);
 $a->set_opt(array(
-				CURLOPT_REFERER	=> "https://whatanime.ga/",
-				CURLOPT_HTTPHEADER => array(
-            		"X-Requested-With: XMLHttpRequest",
-            		"Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
-            	)
-			)
-		);
+                CURLOPT_REFERER    => "https://whatanime.ga/",
+                CURLOPT_HTTPHEADER => array(
+                    "X-Requested-With: XMLHttpRequest",
+                    "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
+                )
+            )
+        );
 header("Content-Type: video/mp4");
 print $a->exec();
 /*
