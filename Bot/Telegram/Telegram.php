@@ -580,7 +580,8 @@ class Telegram implements TelegramContract
                             $hash = md5($file);
                             file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $a->exec());
                             file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/".$hash.".txt", "ok");
-                            file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/logs_video.txt", $this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $this->room, $this->event['message']['message_id'], "{$file}\n\nDuration : {$dur['start']} - {$dur['end']}")."\n\n"."https://www.crayner.cf/.webhooks/IceTea/public/Telegram/".$hash.".mp4", FILE_APPEND | LOCK_EX);
+                            file_put_contents("/home/ice/public/.webhooks/IceTea/public/Telegram/logs_video.txt", 
+$this->tel->sendVideo("https://www.crayner.cf/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $this->room, "{$file}\n\nDuration : ".$dur['start']." - ".$dur['end']."https://www.crayner.cf/.webhooks/IceTea/public/Telegram/".$hash.".mp4", $this->event['message']['message_id']), FILE_APPEND | LOCK_EX);
                         }
                     break;
                 default:
