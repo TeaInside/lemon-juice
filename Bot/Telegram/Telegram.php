@@ -697,9 +697,9 @@ class Telegram implements TelegramContract
                             #$warning_count = 0;
                             if ($warning_count>=5) {
                                 $this->tel->kickChatMember($this->room, $this->event['message']['reply_to_message']['from']['id']);
-                                $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang karena telah melewati batas warning !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                                $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang karena telah melewati batas warning !", null, $this->event['reply_to_message']['message_id'], array("parse_mode"=>"HTML"));
                             } else {
-                                $this->textReply("@".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                                $this->textReply("@".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['reply_to_message']['message_id'], array("parse_mode"=>"HTML"));
                                 $this->user_warning_data[$uifo] = $warning_count;
                                 $this->save_warning_data();
                             }
