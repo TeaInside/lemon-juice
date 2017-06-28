@@ -48,7 +48,7 @@ class Telegram
     /**
      * Get file path.
      *
-     * @param string $file_id
+     * @param  string $file_id
      * @return string
      */
     public function getFile($file_id)
