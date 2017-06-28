@@ -599,7 +599,6 @@ class Telegram implements TelegramContract
                     $val['salt'] = trim($val['salt']);
                     if (!empty($val['salt'])) {
                             is_dir("video") or mkdir("video");
-                            is_dir("image") or mkdir("image");
                             $this->load_whatanime_data();
                             $file = (new Curl($val['salt']))->exec();
                             $file_hash = sha1($file);
