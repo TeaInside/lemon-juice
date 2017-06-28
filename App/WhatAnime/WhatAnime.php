@@ -40,7 +40,7 @@ class WhatAnime implements WhatAnimeContract
 	
 	/**
 	 * Execute search.
-	 */
+	 */ 
 	public function exec()
 	{
 		$ch = new Curl("https://whatanime.ga/search");
