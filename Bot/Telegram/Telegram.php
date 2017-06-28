@@ -144,9 +144,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174295,
+    "update_id": 344174335,
     "message": {
-        "message_id": 918,
+        "message_id": 997,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -160,9 +160,9 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": false
         },
-        "date": 1498663714,
+        "date": 1498667010,
         "reply_to_message": {
-            "message_id": 913,
+            "message_id": 995,
             "from": {
                 "id": 362242742,
                 "first_name": "Kevin Kurniawan",
@@ -175,17 +175,10 @@ class Telegram implements TelegramContract
                 "type": "group",
                 "all_members_are_administrators": false
             },
-            "date": 1498663404,
-            "text": "\/kick",
-            "entities": [
-                {
-                    "type": "bot_command",
-                    "offset": 0,
-                    "length": 5
-                }
-            ]
+            "date": 1498666987,
+            "text": "Ntap mar"
         },
-        "text": "\/kick",
+        "text": "\/warn",
         "entities": [
             {
                 "type": "bot_command",
@@ -299,7 +292,8 @@ class Telegram implements TelegramContract
                 "/manga",
                 "/idma",
                 "/whatanime",
-                "/kick"
+                "/kick",
+                "/warn"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
             $a = json_decode(file_get_contents(storage."/telegram/extended_keywords.json"), true);
@@ -694,12 +688,47 @@ class Telegram implements TelegramContract
                         }
                     }
                     break;
+                case '/warn':
+                    if (isset($this->event['message']['reply_to_message']['from']['id'])) {
+                        $check_admin = strpos($this->tel->getChatAdministrators($this->room), (string)$this->event['message']['from']['id'])!==false;
+                        if ($check_admin) {
+                            $uifo = $this->event['message']['reply_to_message']['from']['id']."_".$this->room;
+                            $warning_count = $this->count_user_warning($uifo)+1;
+                            #$warning_count = 0;
+                            if ($warning_count>=5) {
+                                $this->tel->kickChatMember($this->room, $this->event['message']['reply_to_message']['from']['id']);
+                                $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang karena telah melewati batas warning !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                            } else {
+                                $this->textReply("@".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                                $this->user_warning_data[$uifo] = $warning_count;
+                                $this->save_warning_data();
+                            }
+                        } else {
+                            $this->textReply("Kamu itu bukan admin @".$this->event['message']['from']['username']." :p", $this->event['message']['chat']['id'], $this->event['message']['message_id']);
+                        }
+                    }
+                    break;
                 default:
                         count($this->extended_commands) and $this->parseExtendedCommand($val);
                     break;
                 }
             }
         }
+    }
+
+    private function count_user_warning($uifo)
+    {
+        if (file_exists("user_warning_data.txt")) {
+            $this->user_warning_data = json_decode(file_get_contents("user_warning_data.txt"), true);
+        } else {
+            $this->user_warning_data = array();
+        }
+        return isset($this->user_warning_data[$uifo]) ? $this->user_warning_data[$uifo] : 0;
+    }
+
+    private function save_warning_data()
+    {
+        file_put_contents("user_warning_data.txt", json_encode($this->user_warning_data, 128));
     }
 
     private function save_whatanime_hash()
