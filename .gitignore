@@ -3,3 +3,4 @@
 .dockerignore
 /data
 /logs
+/public/*
