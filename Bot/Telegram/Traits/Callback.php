@@ -43,6 +43,7 @@ trait Callback
                 "rw",
                 "cw"
             );
+             $this->callback_flag_data[$a['f']] = true;
             $text = $this->event['callback_query']['message']['text'];
             switch ($a['cmd']) {
                 case 'rw':
@@ -59,7 +60,6 @@ trait Callback
                     
                     break;
             }
-            $this->callback_flag_data[$a['f']] = true;
         }
     }
 
@@ -74,8 +74,8 @@ trait Callback
             } else {
                 $msg = "Action cancel_warning failed !";
             }
-            $this->textReply($msg, null, null, array("parse_mode"=>"HTML"));
             $this->save_callback_flag();
+            $this->textReply($msg, null, null, array("parse_mode"=>"HTML"));
         }
     }
 
@@ -91,8 +91,8 @@ trait Callback
             } else {
                 $msg = "Action remove_warning failed !";
             }
-            $this->textReply($msg, null, null, array("parse_mode"=>"HTML"));
             $this->save_callback_flag();
+            $this->textReply($msg, null, null, array("parse_mode"=>"HTML"));
         }
     }
 
