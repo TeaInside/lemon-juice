@@ -2,9 +2,15 @@
 
 namespace Bot\Telegram\Traits;
 
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ * @package Bot\Telegram\Traits
+ * @since 0.0.1
+ */
+
 trait Command
 {
-	/**
+    /**
      * Parse Command
      */
     private function parseCommand()
@@ -77,7 +83,7 @@ trait Command
                         );
                     }
                     break;
-                    
+
                 case '/anime':
                     $val['salt'] = trim($val['salt']);
                     if (!empty($val['salt'])) {
