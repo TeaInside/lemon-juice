@@ -51,6 +51,8 @@ trait Callback
                         $this->remove_warning($a['c'], $user);
                     break;
                 case 'cw':
+                        $user = explode(" ", $text, 2);
+                        $user = $user[0];
                         $this->cancel_warning($a['c'], $user);
                     break;
                 default:
