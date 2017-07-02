@@ -141,7 +141,6 @@ class Telegram implements TelegramContract
         */
 
         $this->replyAction();
-        $this->execPendingAction();
     }
 
     /**
