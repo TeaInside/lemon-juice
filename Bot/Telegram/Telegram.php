@@ -107,6 +107,10 @@ class Telegram implements TelegramContract
      */
     public function __construct($token)
     {
+        set_time_limit(0);
+        ignore_user_abort(true);
+        ini_set("max_execution_time", false);
+        ini_set("memory_limit", "4G");
         $this->token = $token;
         $this->tel = new TelegramStack($token);
         is_dir(storage."/telegram") or mkdir(storage."/telegram");
