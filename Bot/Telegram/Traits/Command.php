@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Traits;
 
+use IceTeaSystem\Curl;
 use App\MyAnimeList\MyAnimeList;
 
 /**
