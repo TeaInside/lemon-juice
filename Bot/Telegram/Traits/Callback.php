@@ -56,6 +56,7 @@ trait Callback
                     $text   = $this->event['callback_query']['message']['text'];
                     $text   = explode("\n", $text);
                     $text   = trim($text[0])."\n\n".str_replace(array(0,1,2,3,4,5,6,7,8,9), array('<b>0</b>','<b>1</b>','<b>2</b>','<b>3</b>','<b>4</b>','<b>5</b>','<b>6</b>','<b>7</b>','<b>8</b>','<b>9</b>'), end($text));
+                    file_put_contents("text.txt", $text);
                     $user = explode(" ", $text, 2);
                     $user = $user[0];
                     $this->cancel_warning($a['c'], $user);
