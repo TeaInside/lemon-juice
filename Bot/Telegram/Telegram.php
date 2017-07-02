@@ -135,8 +135,9 @@ class Telegram implements TelegramContract
             $this->parseEntities();
             $this->parseReply();
             $this->parseCommand();
-            if (count($this->reply)==0 and $this->type_chat=="private") {
+            if (count($this->reply)==0 and $this->type_chat=="private" and isset($this->event['message']['text'])) {
                 $this->parseWords();
+                $this->parseExtendedAction();
                 if (count($this->reply)==0 and $this->type_chat=="private") {
                     $this->textReply("Mohon maaf, saya belum mengerti \"{$this->event['message']['text']}\"");
                 }
