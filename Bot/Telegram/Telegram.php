@@ -51,6 +51,11 @@ class Telegram implements TelegramContract
     private $event;
 
     /**
+     * @var string
+     */
+    private $callback_data;
+
+    /**
      * Tipe chat (group|private)
      * @var string
      */
@@ -125,13 +130,17 @@ class Telegram implements TelegramContract
     private function execute()
     {
         $this->parseEvent();
-        $this->parseEntities();
-        $this->parseReply();
-        $this->parseCommand();
-        if (count($this->reply)==0 and $this->type_chat=="private") {
-            $this->parseWords();
+        if ($this->type_msg == "callback_query") {
+            $this->parseCallback();
+        } else {
+            $this->parseEntities();
+            $this->parseReply();
+            $this->parseCommand();
             if (count($this->reply)==0 and $this->type_chat=="private") {
-                $this->textReply("Mohon maaf, saya belum mengerti \"{$this->event['message']['text']}\"");
+                $this->parseWords();
+                if (count($this->reply)==0 and $this->type_chat=="private") {
+                    $this->textReply("Mohon maaf, saya belum mengerti \"{$this->event['message']['text']}\"");
+                }
             }
         }
         /*// debugging only :v
@@ -148,9 +157,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174592,
-    "message": {
-        "message_id": 1313,
+    "update_id": 344174606,
+    "callback_query": {
+        "id": "1046651752435532312",
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -158,18 +167,66 @@ class Telegram implements TelegramContract
             "username": "ammarfaizi2",
             "language_code": "en-US"
         },
-        "chat": {
-            "id": 243692601,
-            "first_name": "Ammar",
-            "last_name": "Faizi",
-            "username": "ammarfaizi2",
-            "type": "private"
+        "message": {
+            "message_id": 1347,
+            "from": {
+                "id": 448907482,
+                "first_name": "Apple Wilder",
+                "username": "MyIceTea_Bot"
+            },
+            "chat": {
+                "id": -209639625,
+                "title": "Test Driven Development",
+                "type": "group",
+                "all_members_are_administrators": false
+            },
+            "date": 1498986404,
+            "reply_to_message": {
+                "message_id": 1298,
+                "from": {
+                    "id": 362242742,
+                    "first_name": "Kevin Kurniawan",
+                    "last_name": "Pratama",
+                    "username": "kevinkoe"
+                },
+                "chat": {
+                    "id": -209639625,
+                    "title": "Test Driven Development",
+                    "type": "group",
+                    "all_members_are_administrators": false
+                },
+                "date": 1498840744,
+                "text": "wah langganan github \ud83d\ude02\ud83d\ude02"
+            },
+            "text": "@kevinkoe anda diperingatkan !\n\nHarap jangan diulangi lagi !\n\nJumlah peringatan 2 dari 5",
+            "entities": [
+                {
+                    "type": "mention",
+                    "offset": 0,
+                    "length": 9
+                },
+                {
+                    "type": "bold",
+                    "offset": 32,
+                    "length": 28
+                },
+                {
+                    "type": "bold",
+                    "offset": 80,
+                    "length": 1
+                },
+                {
+                    "type": "bold",
+                    "offset": 87,
+                    "length": 1
+                }
+            ]
         },
-        "date": 1498984277,
-        "text": ""
+        "chat_instance": "6335369925776543632",
+        "data": "{\"cmd\":\"rw\",\"c\":\"362242742_-209639625\",\"f\":1498986403}"
     }
-        }';
-        $this->webhook_input = file_get_contents("php://input");
+}';
+        # $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -184,6 +241,9 @@ class Telegram implements TelegramContract
             $this->actor = $this->event['message']['from']['first_name'].(isset($this->event['message']['from']['last_name']) ? " ".$this->event['message']['from']['last_name']:"");
             $this->room = $this->event['message']['chat']['id'];
             $this->actor_call = $this->event['message']['from']['first_name'];
+        } elseif (isset($this->event['callback_query'])) {
+            $this->type_msg = "callback_query";
+            $this->callback_data = $this->event['callback_query']['data'];
         }
     }
 
