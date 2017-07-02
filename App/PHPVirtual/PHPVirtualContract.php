@@ -9,20 +9,20 @@ namespace App\PHPVirtual;
  */
 
 interface PHPVirtualContract
-{	
-	/**
-	 *
-	 * Constructor.
-	 *
-	 * @param string $php_code
-	 *
-	 */
-	public function __construct($php_code);
+{
+    /**
+     *
+     * Constructor.
+     *
+     * @param string $php_code
+     *
+     */
+    public function __construct($php_code);
 
-	/**
-	 * Execute php virtual.
-	 *
-	 * @return string
-	 */
-	public function execute();
+    /**
+     * Execute php virtual.
+     *
+     * @return string
+     */
+    public function execute();
 }

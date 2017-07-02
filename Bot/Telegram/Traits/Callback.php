@@ -39,11 +39,11 @@ trait Callback
         $this->load_callback_flag_data();
         $a = json_decode($this->callback_data, true);
         if (!$this->callback_flag_data[$a['f']]) {
-             $callback_cmd = array(
+            $callback_cmd = array(
                 "rw",
                 "cw"
             );
-             $this->callback_flag_data[$a['f']] = true;
+            $this->callback_flag_data[$a['f']] = true;
             $text = $this->event['callback_query']['message']['text'];
             switch ($a['cmd']) {
                 case 'rw':
