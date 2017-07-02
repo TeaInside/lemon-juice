@@ -156,7 +156,7 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        $this->webhook_input = file_get_contents("p.hp://input");
+        $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
