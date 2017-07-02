@@ -13,10 +13,10 @@ trait MessageBuilder
     /**
      * Builder : Balasan text
      *
-     * @param string $text      Text
-     * @param int    $to        Chat ID
-     * @param int    $reply_to  Message ID
-     * @param string $option    JSON Sereliazed
+     * @param string $text     Text
+     * @param int    $to       Chat ID
+     * @param int    $reply_to Message ID
+     * @param string $option   JSON Sereliazed
      */
     private function textReply($text, $to=null, $reply_to=null, $option=null)
     {
@@ -32,10 +32,10 @@ trait MessageBuilder
     /**
      * Builder : Balasan gambar
      *
-     * @param string $imageUrl  URL to image
-     * @param int    $to        Chat ID
-     * @param int    $reply_to  Message ID
-     * @param string $option    JSON Sereliazed
+     * @param string $imageUrl URL to image
+     * @param int    $to       Chat ID
+     * @param int    $reply_to Message ID
+     * @param string $option   JSON Sereliazed
      */
     private function imageReply($imageUrl, $to=null, $reply_to=null, $option=null)
     {

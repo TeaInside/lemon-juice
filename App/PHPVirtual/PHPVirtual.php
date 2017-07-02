@@ -33,11 +33,9 @@ class PHPVirtual implements PHPVirtualContract
     private $output;
 
     /**
-     *
      * Constructor.
      *
      * @param string $php_code
-     *
      */
     public function __construct($php_code)
     {
@@ -83,10 +81,12 @@ class PHPVirtual implements PHPVirtualContract
             $this->create_file();
         }
         $ch = new Curl(PHPVIRTUAL_URL."/".$this->hash.".php");
-        $ch->set_opt(array(
+        $ch->set_opt(
+            array(
                 CURLOPT_TIMEOUT             => 5,
                 CURLOPT_CONNECTTIMEOUT     => 5
-            ));
+            )
+        );
         $out = $ch->exec();
         if (count($this->dir_replace)) {
             $out = str_replace($this->out_replace[0], $this->out_replace[1], $out);
