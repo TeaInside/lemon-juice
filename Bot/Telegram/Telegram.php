@@ -21,7 +21,7 @@ use Bot\Telegram\Traits\WhatAnime as WhatAnimeTrait;
 class Telegram implements TelegramContract
 {
     /**
-     * Pakai singleton pattern.
+     * Use traits.
      */
     use Singleton, Command, MessageBuilder, WhatAnimeTrait, UserWarning, Callback;
 
