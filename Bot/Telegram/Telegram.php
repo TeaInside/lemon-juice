@@ -111,7 +111,7 @@ class Telegram implements TelegramContract
         $this->tel = new TelegramStack($token);
         is_dir(storage."/telegram") or mkdir(storage."/telegram");
         file_put_contents(storage."/telegram/dc.txt", "123");
-        file_put_contents("dc.txt", "123");
+        file_put_contents("dc.txt", json_encode(file_get_contents("php://input")));
     }
 
     /**
