@@ -463,7 +463,7 @@ trait Command
                                                             array(
                                                                 "cmd"=>"rw",
                                                                 "c"=>$uifo,
-                                                                "cf"=>$callback_flag
+                                                                "f"=>$callback_flag
                                                                 )
                                                         )
                                                         )
