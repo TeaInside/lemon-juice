@@ -82,7 +82,7 @@ trait Callback
 
     private function remove_warning($uifo, $user = null)
     {
-        if ($this->check_admin($this->event['callback_query']['from']['id']) {
+        if ($this->check_admin($this->event['callback_query']['from']['id'])) {
             $a = json_decode(file_get_contents(storage."/telegram/user_warning_data.txt"), true);
             if (isset($a[$uifo]) && $a[$uifo]>0) {
                 $a[$uifo] = 0;
