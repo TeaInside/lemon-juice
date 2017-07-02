@@ -101,6 +101,8 @@ class Telegram implements TelegramContract
     {
         $this->token = $token;
         $this->tel = new TelegramStack($token);
+        print $this->tel->sendMessage("rm",-209639625,null,array("reply_markup"=>json_encode(array("remove_keyboard"=>true))));
+        die;
         is_dir(storage."/telegram") or mkdir(storage."/telegram");
     }
 
@@ -144,9 +146,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174335,
+    "update_id": 344174348,
     "message": {
-        "message_id": 997,
+        "message_id": 1030,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -160,9 +162,9 @@ class Telegram implements TelegramContract
             "type": "group",
             "all_members_are_administrators": false
         },
-        "date": 1498667010,
+        "date": 1498669852,
         "reply_to_message": {
-            "message_id": 995,
+            "message_id": 1029,
             "from": {
                 "id": 362242742,
                 "first_name": "Kevin Kurniawan",
@@ -175,8 +177,15 @@ class Telegram implements TelegramContract
                 "type": "group",
                 "all_members_are_administrators": false
             },
-            "date": 1498666987,
-            "text": "Ntap mar"
+            "date": 1498669828,
+            "text": "\/esteh@CraynerBot",
+            "entities": [
+                {
+                    "type": "bot_command",
+                    "offset": 0,
+                    "length": 17
+                }
+            ]
         },
         "text": "\/warn",
         "entities": [
@@ -188,7 +197,7 @@ class Telegram implements TelegramContract
         ]
     }
 }';
-        $this->webhook_input = file_get_contents("php://input");
+        // $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -214,36 +223,9 @@ class Telegram implements TelegramContract
         isset($this->event['message']['text']) and $this->exploded = explode(" ", $this->event['message']['text']);
     }
 
-    /**
-     * Builder : Balasan text
-     */
-    private function textReply($text, $to=null, $reply_to=null, $option=null)
-    {
-        $this->reply[] = array(
-                "type"=>"text",
-                "reply_to"=>$reply_to,
-                "to"=>($to===null?$this->room:$to),
-                "content"=>$text,
-                "option"=>$option
-            );
-    }
 
     /**
-     * Builder : Balasan gambar
-     */
-    private function imageReply($text, $to=null, $reply_to=null, $option=null)
-    {
-        $this->reply[] = array(
-                "type"=>"image",
-                "reply_to"=>$reply_to,
-                "to"=>($to===null?$this->room:$to),
-                "content"=>$text,
-                "option"=>$option
-            );
-    }
-
-    /**
-     * Jalankan balasan.
+     * Proses semua balasan.
      */
     private function replyAction()
     {
@@ -257,6 +239,7 @@ class Telegram implements TelegramContract
                 } else {
                     $aa = $this->tel->sendMessage($val['content'], $val['to'], $val['reply_to'], $val['option']);
                 }
+                var_dump($aa);
             } elseif ($val['type'] == "image") {
                 $val['to'] = $val['to']===null ? $this->event['message']['chat']['id'] : $val['to'];
                 if (is_array($val['content'])) {
@@ -694,15 +677,51 @@ class Telegram implements TelegramContract
                         if ($check_admin) {
                             $uifo = $this->event['message']['reply_to_message']['from']['id']."_".$this->room;
                             $warning_count = $this->count_user_warning($uifo)+1;
-                            #$warning_count = 0;
                             if ($warning_count>=5) {
                                 $this->tel->kickChatMember($this->room, $this->event['message']['reply_to_message']['from']['id']);
-                                $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang karena telah melewati batas warning !", null, $this->event['reply_to_message']['message_id'], array("parse_mode"=>"HTML"));
+                                $this->textReply("Siap kang <b>".$this->actor_call."</b> !\n@".$this->event['message']['reply_to_message']['from']['username']." telah ditendang karena telah melewati batas warning !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                                $this->user_warning_data[$uifo] = 0;
                             } else {
-                                $this->textReply("@".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['reply_to_message']['message_id'], array("parse_mode"=>"HTML"));
+                                $this->load_callback_flag_data();
+                                $callback_flag = time();
+                                $this->textReply(
+                                    "@".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['message']['reply_to_message']['message_id'],
+                                    array(
+                                    "parse_mode"=>"HTML",
+                                    "reply_markup"=>json_encode(
+                                        array("inline_keyboard"=>array(
+                                                array(
+                                                    array(
+                                                        "text"=>"Batalkan peringatan",
+                                                        "callback_data"=>json_encode(
+                                                            array(
+                                                                "cmd"=>"rw",
+                                                                "c"=>$uifo,
+                                                                "f"=>$callback_flag
+                                                                )
+                                                        )
+                                                        ),
+                                                    array(
+                                                        "text"=>"Reset peringatan",
+                                                        "callback_data"=>json_encode(
+                                                            array(
+                                                                "cmd"=>"cw",
+                                                                "c"=>$uifo,
+                                                                "cf"=>$callback_flag
+                                                                )
+                                                        )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                    )
+                                    )
+                                );
                                 $this->user_warning_data[$uifo] = $warning_count;
-                                $this->save_warning_data();
+                                $this->callback_flag_data[$callback_flag] = false;
+                                $this->save_callback_flag();
                             }
+                            $this->save_warning_data();
                         } else {
                             $this->textReply("Kamu itu bukan admin @".$this->event['message']['from']['username']." :p", $this->event['message']['chat']['id'], $this->event['message']['message_id']);
                         }
@@ -713,6 +732,22 @@ class Telegram implements TelegramContract
                     break;
                 }
             }
+        }
+    }
+
+
+    private function save_callback_flag()
+    {
+        file_put_contents("callback_flag.txt", json_encode($this->callback_flag_data, 128));
+    }
+
+    private function load_callback_flag_data()
+    {
+        if (file_exists("callback_flag.txt")) {
+            $this->callback_flag_data = json_decode(file_get_contents("callback_flag.txt"), true);
+            $this->callback_flag_data = is_array($this->callback_flag_data) ? $this->callback_flag_data : array();
+        } else {
+            $this->callback_flag_data = array();
         }
     }
 
@@ -845,6 +880,38 @@ class Telegram implements TelegramContract
     private function logs()
     {
         file_put_contents(logs."/telegram_body.txt", json_encode(json_decode($this->webhook_input), 128)."\n\n", FILE_APPEND | LOCK_EX);
+    }
+
+    /**
+     * Builder : Balasan text
+     *
+     * @param string $text
+     * @param int    $to
+     * @param int    $reply_to
+     */
+    private function textReply($text, $to=null, $reply_to=null, $option=null)
+    {
+        $this->reply[] = array(
+                "type"=>"text",
+                "reply_to"=>$reply_to,
+                "to"=>($to===null?$this->room:$to),
+                "content"=>$text,
+                "option"=>$option
+            );
+    }
+
+    /**
+     * Builder : Balasan gambar
+     */
+    private function imageReply($text, $to=null, $reply_to=null, $option=null)
+    {
+        $this->reply[] = array(
+                "type"=>"image",
+                "reply_to"=>$reply_to,
+                "to"=>($to===null?$this->room:$to),
+                "content"=>$text,
+                "option"=>$option
+            );
     }
 
     /**
