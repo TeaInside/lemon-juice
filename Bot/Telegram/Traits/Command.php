@@ -3,6 +3,7 @@
 namespace Bot\Telegram\Traits;
 
 use IceTeaSystem\Curl;
+use App\WhatAnime\WhatAnime;
 use App\MyAnimeList\MyAnimeList;
 
 /**
@@ -342,9 +343,6 @@ trait Command
                                     "start"=>$a['start'],
                                     "end"=>$a['end']
                                 );
-                            ignore_user_abort(1);
-                            set_time_limit(0);
-                            ini_set("max_execution_time", false);
                             $hash_fn = sha1($a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']);
                             if (!file_exists("video/".$hash_fn.".mp4")) {
                                 $a = new Curl($video_url);
