@@ -5,7 +5,6 @@ namespace Bot\Telegram;
 use IceTeaSystem\Curl;
 use App\WhatAnime\WhatAnime;
 use IceTeaSystem\Hub\Singleton;
-use App\MyAnimeList\MyAnimeList;
 use Bot\Telegram\Traits\Command;
 use Bot\Telegram\Traits\Callback;
 use Bot\Telegram\Traits\UserWarning;
