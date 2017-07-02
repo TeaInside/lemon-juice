@@ -50,17 +50,19 @@ trait Callback
                     $user = explode(" ", $text, 2);
                     $user = $user[0];
                     $this->remove_warning($a['c'], $user);
-                    $this->tel->editMessageText($this->event['message']['chat']['id'], $this->event['message']['id'], $this->event['message']['text'], array("parse_mode"=>"HTML","reply_markup"=>null));
+                    $aax = $this->tel->editMessageText($this->event['message']['chat']['id'], $this->event['message']['id'], $this->event['message']['text'], array("parse_mode"=>"HTML","reply_markup"=>null));
                 break;
             case 'cw':
                     $user = explode(" ", $text, 2);
                     $user = $user[0];
                     $this->cancel_warning($a['c'], $user);
+                    $aax = $this->tel->editMessageText($this->event['message']['chat']['id'], $this->event['message']['id'], $this->event['message']['text'], array("parse_mode"=>"HTML","reply_markup"=>null));
                 break;
             default:
                     
                 break;
             }
+            file_put_contents("aax.txt", $aax);
         }
     }
 
