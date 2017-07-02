@@ -451,7 +451,7 @@ trait Command
                                                         "text"=>"Batalkan peringatan",
                                                         "callback_data"=>json_encode(
                                                             array(
-                                                                "cmd"=>"rw",
+                                                                "cmd"=>"cw",
                                                                 "c"=>$uifo,
                                                                 "f"=>$callback_flag
                                                                 )
@@ -461,7 +461,7 @@ trait Command
                                                         "text"=>"Reset peringatan",
                                                         "callback_data"=>json_encode(
                                                             array(
-                                                                "cmd"=>"cw",
+                                                                "cmd"=>"rw",
                                                                 "c"=>$uifo,
                                                                 "cf"=>$callback_flag
                                                                 )
