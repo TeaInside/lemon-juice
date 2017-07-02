@@ -170,7 +170,7 @@ class Telegram implements TelegramContract
         "date": 1498984277,
         "text": ""
     }
-}';
+        }';
         $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
