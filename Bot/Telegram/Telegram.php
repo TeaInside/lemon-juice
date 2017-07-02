@@ -226,7 +226,7 @@ class Telegram implements TelegramContract
         "data": "{\"cmd\":\"rw\",\"c\":\"362242742_-209639625\",\"f\":1498986403}"
     }
 }';
-        # $this->webhook_input = file_get_contents("php://input");
+        $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
