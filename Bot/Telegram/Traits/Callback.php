@@ -15,7 +15,7 @@ trait Callback
      */
     private function save_callback_flag()
     {
-        file_put_contents("callback_flag.txt", json_encode($this->callback_flag_data, 128));
+        file_put_contents(storage."/telegram/callback_flag.txt", json_encode($this->callback_flag_data, 128));
     }
 
     /**
@@ -23,11 +23,19 @@ trait Callback
      */
     private function load_callback_flag_data()
     {
-        if (file_exists("callback_flag.txt")) {
-            $this->callback_flag_data = json_decode(file_get_contents("callback_flag.txt"), true);
+        if (file_exists(storage."/telegram/callback_flag.txt")) {
+            $this->callback_flag_data = json_decode(file_get_contents(storage."/telegram/callback_flag.txt"), true);
             $this->callback_flag_data = is_array($this->callback_flag_data) ? $this->callback_flag_data : array();
         } else {
             $this->callback_flag_data = array();
         }
+    }
+
+    /**
+     * Parse callback
+     */
+    private function parseCallback()
+    {
+        
     }
 }

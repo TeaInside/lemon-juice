@@ -15,8 +15,8 @@ trait UserWarning
      */
     private function count_user_warning($uifo)
     {
-        if (file_exists("user_warning_data.txt")) {
-            $this->user_warning_data = json_decode(file_get_contents("user_warning_data.txt"), true);
+        if (file_exists(storage."/telegram/user_warning_data.txt")) {
+            $this->user_warning_data = json_decode(file_get_contents(storage."/telegram/user_warning_data.txt"), true);
         } else {
             $this->user_warning_data = array();
         }
@@ -28,6 +28,6 @@ trait UserWarning
      */
     private function save_warning_data()
     {
-        file_put_contents("user_warning_data.txt", json_encode($this->user_warning_data, 128));
+        file_put_contents(storage."/telegram/user_warning_data.txt", json_encode($this->user_warning_data, 128));
     }
 }
