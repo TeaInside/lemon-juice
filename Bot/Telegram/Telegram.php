@@ -7,8 +7,12 @@ use App\WhatAnime\WhatAnime;
 use IceTeaSystem\Hub\Singleton;
 use App\MyAnimeList\MyAnimeList;
 use Bot\Telegram\Traits\Command;
+use Bot\Telegram\Traits\Callback;
+use Bot\Telegram\Traits\UserWarning;
 use Bot\BotContracts\TelegramContract;
+use Bot\Telegram\Traits\MessageBuilder;
 use Stack\Telegram\Telegram as TelegramStack;
+use Bot\Telegram\Traits\WhatAnime as WhatAnimeTrait;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
@@ -21,7 +25,7 @@ class Telegram implements TelegramContract
     /**
      * Pakai singleton pattern.
      */
-    use Singleton, Command;
+    use Singleton, Command, MessageBuilder, WhatAnimeTrait;
 
     /**
      * Telegram Instance
@@ -167,7 +171,7 @@ class Telegram implements TelegramContract
         "text": ""
     }
 }';
-        // $this->webhook_input = file_get_contents("php://input");
+        $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
@@ -223,65 +227,8 @@ class Telegram implements TelegramContract
         }
     }
 
-    private function execPendingAction()
-    {
-        foreach ($this->pending_action as $val) {
-            $val();
-        }
-    }
-    
-    private function save_callback_flag()
-    {
-        file_put_contents("callback_flag.txt", json_encode($this->callback_flag_data, 128));
-    }
-
-    private function load_callback_flag_data()
-    {
-        if (file_exists("callback_flag.txt")) {
-            $this->callback_flag_data = json_decode(file_get_contents("callback_flag.txt"), true);
-            $this->callback_flag_data = is_array($this->callback_flag_data) ? $this->callback_flag_data : array();
-        } else {
-            $this->callback_flag_data = array();
-        }
-    }
-
-    private function count_user_warning($uifo)
-    {
-        if (file_exists("user_warning_data.txt")) {
-            $this->user_warning_data = json_decode(file_get_contents("user_warning_data.txt"), true);
-        } else {
-            $this->user_warning_data = array();
-        }
-        return isset($this->user_warning_data[$uifo]) ? $this->user_warning_data[$uifo] : 0;
-    }
-
-    private function save_warning_data()
-    {
-        file_put_contents("user_warning_data.txt", json_encode($this->user_warning_data, 128));
-    }
-
-    private function save_whatanime_hash()
-    {
-        file_put_contents("whatanime_hash_table.json", json_encode($this->whatanime_hash_table, 128));
-    }
-
-    private function load_whatanime_data()
-    {
-        if (file_exists("whatanime_hash_table.json")) {
-            $this->whatanime_hash_table = json_decode(file_get_contents("whatanime_hash_table.json"), true);
-            $this->whatanime_hash_table = is_array($this->whatanime_hash_table) ? $this->whatanime_hash_table : array();
-        } else {
-            $this->whatanime_hash_table = array();
-        }
-    }
-
-    private function pendingAction($closure)
-    {
-        $this->pending_action[] = $closure;
-    }
-
     /**
-     *
+     * Parse User Reply
      */
     private function parseReply()
     {
