@@ -2,7 +2,6 @@
 
 namespace Bot\Telegram;
 
-use IceTeaSystem\Curl;
 use App\WhatAnime\WhatAnime;
 use IceTeaSystem\Hub\Singleton;
 use Bot\Telegram\Traits\Command;
@@ -186,8 +185,8 @@ class Telegram implements TelegramContract
                 "from": {
                     "id": 362242742,
                     "first_name": "Kevin Kurniawan",
-                    "last_name": "Pratama",
-                    "username": "kevinkoe"
+                 bbbubb   "last_name": "Pratama",
+                  b  "username": "kevinkoe"
                 },
                 "chat": {
                     "id": -209639625,
@@ -226,7 +225,7 @@ class Telegram implements TelegramContract
         "data": "{\"cmd\":\"rw\",\"c\":\"362242742_-209639625\",\"f\":1498986403}"
     }
 }';
-        $this->webhook_input = file_get_contents("php://input");
+        $this->webhook_input = file_get_contents("p.hp://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 

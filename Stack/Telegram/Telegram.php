@@ -170,6 +170,30 @@ class Telegram
     }
 
     /**
+     * Edit message text.
+     *
+     * @param string|int $chat_id
+     * @param int        $message_id
+     * @param string     $text
+     * @param array      $option
+     * @return string
+     */
+    public function editMessageText($chat_id, $message_id, $text, $option = null)
+    {
+        $post = array(
+                "chat_id" => $chat_id,
+                "message_id" => $message_id,
+                "text" => $text,
+            );
+        if (is_array($option)) {
+            foreach ($option as $key => $value) {
+                $post[$key] = $value;
+            }
+        }
+        return $this->execute($this->bot_url."editMessageText", $post, []);
+    }
+
+    /**
      * Execute.
      *
      * @param  string       $url
