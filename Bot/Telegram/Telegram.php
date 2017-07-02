@@ -24,7 +24,7 @@ class Telegram implements TelegramContract
     /**
      * Pakai singleton pattern.
      */
-    use Singleton, Command, MessageBuilder, WhatAnimeTrait, UserWarning;
+    use Singleton, Command, MessageBuilder, WhatAnimeTrait, UserWarning, Callback;
 
     /**
      * Telegram Instance
