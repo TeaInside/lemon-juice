@@ -77,10 +77,12 @@ trait Callback
             if (isset($a[$uifo])) {
                 $a[$uifo] = $a[$uifo]-1;
                 file_put_contents(storage."/telegram/user_warning_data.txt", json_encode($a, 128));
+                $admin = $this->event['callback_query']['from']['username'];
+                $admin = $admin ? "@".$admin : $this->event['callback_query']['from']['first_name'];
                 if ($a[$uifo]==0) {
                     $msg = "{$user} bebas dari peringatan.";
                 } else {
-                    $msg = "Berhasil membatalkan peringatan.\n\nJumlah peringatan {$user} sekarang <b>".($a[$uifo])."</b>";
+                    $msg = "Berhasil membatalkan peringatan oleh admin {$admin}.\nJumlah peringatan {$user} sekarang <b>".($a[$uifo])."</b>";
                 }
             } else {
                 $msg = "Action cancel_warning failed !";
@@ -98,7 +100,9 @@ trait Callback
             if (isset($a[$uifo]) && $a[$uifo]>0) {
                 $a[$uifo] = 0;
                 file_put_contents(storage."/telegram/user_warning_data.txt", json_encode($a, 128));
-                $msg = "Berhasil mereset peringatan.\n\n{$user} bebas dari peringatan.";
+                $admin = $this->event['callback_query']['from']['username'];
+                $admin = $admin ? "@".$admin : $this->event['callback_query']['from']['first_name'];
+                $msg = "Berhasil mereset peringatan oleh admin ".($admin).".\n{$user} bebas dari peringatan.";
             } else {
                 $msg = "Action remove_warning failed !";
             }
