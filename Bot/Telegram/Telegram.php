@@ -244,6 +244,7 @@ class Telegram implements TelegramContract
         } elseif (isset($this->event['callback_query'])) {
             $this->type_msg = "callback_query";
             $this->callback_data = $this->event['callback_query']['data'];
+            $this->room = $this->event['callback_query']['message']['chat']['id'];
         }
     }
 
