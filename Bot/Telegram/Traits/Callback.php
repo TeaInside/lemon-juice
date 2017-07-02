@@ -36,22 +36,27 @@ trait Callback
      */
     private function parseCallback()
     {
+        $this->load_callback_flag_data();
         $a = json_decode($this->callback_data, true);
         #var_dump($a);
-        $callback_cmd = array(
+        if (!$this->callback_flag_data[$a['f']]) {
+             $callback_cmd = array(
                 "rw",
                 "cw"
             );
-        switch ($a['cmd']) {
-            case 'rw':
-                    $this->cancel_warning($a['c']);
-                break;
-            case 'cw':
+            switch ($a['cmd']) {
+                case 'rw':
+                        $this->cancel_warning($a['c']);
+                    break;
+                case 'cw':
 
-                break;
-            default:
-                # code...
-                break;
+                    break;
+                default:
+                    
+                    break;
+            }
+            $this->callback_flag_data[$a['f']] = true;
+            $this->save_callback_flag();
         }
     }
 
