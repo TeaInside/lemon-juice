@@ -47,12 +47,15 @@ trait Callback
             $text = $this->event['callback_query']['message']['text'];
             switch ($a['cmd']) {
             case 'rw':
-                    $user = explode(" ", $text, 2);
-                    $user = $user[0];
+                    $text   = $this->event['callback_query']['message']['text'];
+                    $user   = $user[0];
                     $this->remove_warning($a['c'], $user);
-                    $aax = $this->tel->editMessageText($this->event['callback_query']['message']['chat']['id'], $this->event['callback_query']['message']['message_id'], $this->event['callback_query']['message']['text'], array("parse_mode"=>"HTML","reply_markup"=>null));
+                    $aax = $this->tel->editMessageText($this->event['callback_query']['message']['chat']['id'], $this->event['callback_query']['message']['message_id'], $text, array("parse_mode"=>"HTML","reply_markup"=>null));
                 break;
             case 'cw':
+                    $text   = $this->event['callback_query']['message']['text'];
+                    $text   = explode("\n", $text);
+                    $text   = trim($text[0])."\n\n".str_replace(array(0,1,2,3,4,5,6,7,8,9), array('<b>0</b>','<b>1</b>','<b>2</b>','<b>3</b>','<b>4</b>','<b>5</b>','<b>6</b>','<b>7</b>','<b>8</b>','<b>9</b>'), end($text));
                     $user = explode(" ", $text, 2);
                     $user = $user[0];
                     $this->cancel_warning($a['c'], $user);
