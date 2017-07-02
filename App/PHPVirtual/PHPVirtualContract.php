@@ -11,11 +11,9 @@ namespace App\PHPVirtual;
 interface PHPVirtualContract
 {
     /**
-     *
      * Constructor.
      *
      * @param string $php_code
-     *
      */
     public function __construct($php_code);
 

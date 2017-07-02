@@ -46,20 +46,20 @@ trait Callback
             $this->callback_flag_data[$a['f']] = true;
             $text = $this->event['callback_query']['message']['text'];
             switch ($a['cmd']) {
-                case 'rw':
-                        $user = explode(" ", $text, 2);
-                        $user = $user[0];
-                        $this->remove_warning($a['c'], $user);
-                        $this->tel->editMessageText($this->event['message']['chat']['id'], $this->event['message']['id'], $this->event['message']['text'], array("parse_mode"=>"HTML","reply_markup"=>null));
-                    break;
-                case 'cw':
-                        $user = explode(" ", $text, 2);
-                        $user = $user[0];
-                        $this->cancel_warning($a['c'], $user);
-                    break;
-                default:
+            case 'rw':
+                    $user = explode(" ", $text, 2);
+                    $user = $user[0];
+                    $this->remove_warning($a['c'], $user);
+                    $this->tel->editMessageText($this->event['message']['chat']['id'], $this->event['message']['id'], $this->event['message']['text'], array("parse_mode"=>"HTML","reply_markup"=>null));
+                break;
+            case 'cw':
+                    $user = explode(" ", $text, 2);
+                    $user = $user[0];
+                    $this->cancel_warning($a['c'], $user);
+                break;
+            default:
                     
-                    break;
+                break;
             }
         }
     }
