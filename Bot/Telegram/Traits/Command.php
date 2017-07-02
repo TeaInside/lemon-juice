@@ -2,6 +2,8 @@
 
 namespace Bot\Telegram\Traits;
 
+use App\MyAnimeList\MyAnimeList;
+
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
  * @package Bot\Telegram\Traits
