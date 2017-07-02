@@ -21,7 +21,7 @@ class Telegram implements TelegramContract
     /**
      * Pakai singleton pattern.
      */
-    use Singleton, Trait;
+    use Singleton, Command;
 
     /**
      * Telegram Instance
@@ -102,8 +102,6 @@ class Telegram implements TelegramContract
     {
         $this->token = $token;
         $this->tel = new TelegramStack($token);
-        print $this->tel->sendMessage("rm",-209639625,null,array("reply_markup"=>json_encode(array("remove_keyboard"=>true))));
-        die;
         is_dir(storage."/telegram") or mkdir(storage."/telegram");
     }
 
@@ -118,19 +116,20 @@ class Telegram implements TelegramContract
         $self->logs();
     }
 
-
     /**
      * Eksekusi event
      */
     private function execute()
     {
         $this->parseEvent();
-        $this->parseWords();
         $this->parseEntities();
         $this->parseReply();
         $this->parseCommand();
         if (count($this->reply)==0 and $this->type_chat=="private") {
-            $this->textReply("Mohon maaf, saya belum mengerti \"{$this->event['message']['text']}\"");
+            $this->parseWords();
+            if (count($this->reply)==0 and $this->type_chat=="private") {
+                $this->textReply("Mohon maaf, saya belum mengerti \"{$this->event['message']['text']}\"");
+            }
         }
         /*// debugging only :v
         var_dump($this->reply);
@@ -147,9 +146,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174348,
+    "update_id": 344174592,
     "message": {
-        "message_id": 1030,
+        "message_id": 1313,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -158,44 +157,14 @@ class Telegram implements TelegramContract
             "language_code": "en-US"
         },
         "chat": {
-            "id": -209639625,
-            "title": "Test Driven Development",
-            "type": "group",
-            "all_members_are_administrators": false
+            "id": 243692601,
+            "first_name": "Ammar",
+            "last_name": "Faizi",
+            "username": "ammarfaizi2",
+            "type": "private"
         },
-        "date": 1498669852,
-        "reply_to_message": {
-            "message_id": 1029,
-            "from": {
-                "id": 362242742,
-                "first_name": "Kevin Kurniawan",
-                "last_name": "Pratama",
-                "username": "kevinkoe"
-            },
-            "chat": {
-                "id": -209639625,
-                "title": "Test Driven Development",
-                "type": "group",
-                "all_members_are_administrators": false
-            },
-            "date": 1498669828,
-            "text": "\/esteh@CraynerBot",
-            "entities": [
-                {
-                    "type": "bot_command",
-                    "offset": 0,
-                    "length": 17
-                }
-            ]
-        },
-        "text": "\/warn",
-        "entities": [
-            {
-                "type": "bot_command",
-                "offset": 0,
-                "length": 5
-            }
-        ]
+        "date": 1498984277,
+        "text": ""
     }
 }';
         // $this->webhook_input = file_get_contents("php://input");
@@ -356,6 +325,11 @@ class Telegram implements TelegramContract
         }
     }
 
+    /**
+     * Ambil url photo dari ID file
+     *
+     * @return string | false
+     */
     private function getPhotoUrl($photo_id)
     {
         $a = json_decode($this->tel->getFile($photo_id), true);
@@ -373,6 +347,8 @@ class Telegram implements TelegramContract
 
     /**
      * Parse mention, bot_command dan hashtag.
+     *
+     * Void.
      */
     private function parseEntities()
     {
@@ -401,42 +377,12 @@ class Telegram implements TelegramContract
 
     /**
      * Simpan log
+     *
+     * void
      */
     private function logs()
     {
         file_put_contents(logs."/telegram_body.txt", json_encode(json_decode($this->webhook_input), 128)."\n\n", FILE_APPEND | LOCK_EX);
-    }
-
-    /**
-     * Builder : Balasan text
-     *
-     * @param string $text
-     * @param int    $to
-     * @param int    $reply_to
-     */
-    private function textReply($text, $to=null, $reply_to=null, $option=null)
-    {
-        $this->reply[] = array(
-                "type"=>"text",
-                "reply_to"=>$reply_to,
-                "to"=>($to===null?$this->room:$to),
-                "content"=>$text,
-                "option"=>$option
-            );
-    }
-
-    /**
-     * Builder : Balasan gambar
-     */
-    private function imageReply($text, $to=null, $reply_to=null, $option=null)
-    {
-        $this->reply[] = array(
-                "type"=>"image",
-                "reply_to"=>$reply_to,
-                "to"=>($to===null?$this->room:$to),
-                "content"=>$text,
-                "option"=>$option
-            );
     }
 
     /**
