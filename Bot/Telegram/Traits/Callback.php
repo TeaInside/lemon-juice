@@ -70,7 +70,11 @@ trait Callback
             if (isset($a[$uifo])) {
                 $a[$uifo] = $a[$uifo]-1;
                 file_put_contents(storage."/telegram/user_warning_data.txt", json_encode($a, 128));
-                $msg = "Berhasil membatalkan peringatan.\n\nJumlah peringatan {$user} sekarang <b>".($a[$uifo])."</b>";
+                if ($a[$uifo]==0) {
+                    $msg = "{$user} bebas dari peringatan.";
+                } else {
+                    $msg = "Berhasil membatalkan peringatan.\n\nJumlah peringatan {$user} sekarang <b>".($a[$uifo])."</b>";
+                }
             } else {
                 $msg = "Action cancel_warning failed !";
             }
