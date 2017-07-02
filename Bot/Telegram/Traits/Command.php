@@ -480,7 +480,7 @@ trait Command
                             }
                             $this->save_warning_data();
                         } else {
-                            $this->textReply("Kamu itu bukan admin @".$this->event['message']['from']['username']." :p", $this->event['message']['chat']['id'], $this->event['message']['message_id']);
+                            $this->textReply("Kamu itu bukan admin, @".$this->event['message']['from']['username']." :p", $this->event['message']['chat']['id'], $this->event['message']['message_id']);
                         }
                     }
                     break;
