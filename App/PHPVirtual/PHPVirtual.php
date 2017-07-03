@@ -89,7 +89,7 @@ class PHPVirtual implements PHPVirtualContract
         );
         $out = $ch->exec();
         if (count($this->dir_replace)) {
-            $out = str_replace($this->out_replace[0], $this->out_replace[1], $out);
+            $out = str_replace($this->dir_replace[0], $this->dir_replace[1], $out);
         }
         return $out;
     }

@@ -132,6 +132,7 @@ class Telegram implements TelegramContract
      */
     private function execute()
     {
+
         $this->parseEvent();
         if ($this->type_msg == "callback_query") {
             $this->parseCallback();
@@ -161,9 +162,9 @@ class Telegram implements TelegramContract
     private function getEvent()
     {
         $this->webhook_input = '{
-    "update_id": 344174698,
-    "callback_query": {
-        "id": "1046651752377661956",
+    "update_id": 344174729,
+    "message": {
+        "message_id": 1493,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -171,66 +172,17 @@ class Telegram implements TelegramContract
             "username": "ammarfaizi2",
             "language_code": "en-US"
         },
-        "message": {
-            "message_id": 1440,
-            "from": {
-                "id": 448907482,
-                "first_name": "Apple Wilder",
-                "username": "MyIceTea_Bot"
-            },
-            "chat": {
-                "id": -209639625,
-                "title": "Test Driven Development",
-                "type": "group",
-                "all_members_are_administrators": false
-            },
-            "date": 1499004823,
-            "reply_to_message": {
-                "message_id": 1298,
-                "from": {
-                    "id": 362242742,
-                    "first_name": "Kevin Kurniawan",
-                    "last_name": "Pratama",
-                    "username": "kevinkoe"
-                },
-                "chat": {
-                    "id": -209639625,
-                    "title": "Test Driven Development",
-                    "type": "group",
-                    "all_members_are_administrators": false
-                },
-                "date": 1498840744,
-                "text": "wah langganan github \ud83d\ude02\ud83d\ude02"
-            },
-            "text": "@kevinkoe anda diperingatkan !\n\nHarap jangan diulangi lagi !\n\nJumlah peringatan 2 dari 5",
-            "entities": [
-                {
-                    "type": "mention",
-                    "offset": 0,
-                    "length": 9
-                },
-                {
-                    "type": "bold",
-                    "offset": 32,
-                    "length": 28
-                },
-                {
-                    "type": "bold",
-                    "offset": 80,
-                    "length": 1
-                },
-                {
-                    "type": "bold",
-                    "offset": 87,
-                    "length": 1
-                }
-            ]
+        "chat": {
+            "id": 243692601,
+            "first_name": "Ammar",
+            "last_name": "Faizi",
+            "username": "ammarfaizi2",
+            "type": "private"
         },
-        "chat_instance": "6335369925776543632",
-        "data": "{\"cmd\":\"cw\",\"c\":\"362242742_-209639625\",\"f\":1499004822}"
+        "date": 1499070641,
+        "text": "<?php print \"123123123qweqwe\";"
     }
-}
-';
+}';
         $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
