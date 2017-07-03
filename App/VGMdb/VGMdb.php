@@ -27,7 +27,6 @@ class VGMdb implements VGMdbContract
 	}
 
 	/**
-	 *
 	 * @param string $q
 	 * @return string
 	 */
