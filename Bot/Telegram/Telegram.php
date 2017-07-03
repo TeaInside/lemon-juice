@@ -161,10 +161,10 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        $this->webhook_input = '{
-    "update_id": 344174729,
+        /*$this->webhook_input = '{
+    "update_id": 344174733,
     "message": {
-        "message_id": 1493,
+        "message_id": 1501,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -179,10 +179,10 @@ class Telegram implements TelegramContract
             "username": "ammarfaizi2",
             "type": "private"
         },
-        "date": 1499070641,
-        "text": "<?php print \"123123123qweqwe\";"
+        "date": 1499071513,
+        "text": "<?php print \"zczxczxc\";"
     }
-}';
+}';*/
         $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
