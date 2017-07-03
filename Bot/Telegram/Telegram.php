@@ -140,7 +140,7 @@ class Telegram implements TelegramContract
             $this->parseEntities();
             $this->parseReply();
             $this->parseCommand();
-            if (count($this->reply)==0 and $this->type_chat=="private" and isset($this->event['message']['text'])) {
+            if (count($this->reply)==0 and isset($this->event['message']['text'])) {
                 $this->parseWords();
                 $this->parseExtendedAction();
                 if (count($this->reply)==0 and $this->type_chat=="private") {
@@ -161,10 +161,10 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        /*$this->webhook_input = '{
-    "update_id": 344174733,
+        $this->webhook_input = '{
+    "update_id": 344174763,
     "message": {
-        "message_id": 1501,
+        "message_id": 1558,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -173,17 +173,16 @@ class Telegram implements TelegramContract
             "language_code": "en-US"
         },
         "chat": {
-            "id": 243692601,
-            "first_name": "Ammar",
-            "last_name": "Faizi",
-            "username": "ammarfaizi2",
-            "type": "private"
+            "id": -209639625,
+            "title": "Test Driven Development",
+            "type": "group",
+            "all_members_are_administrators": false
         },
-        "date": 1499071513,
-        "text": "<?php print \"zczxczxc\";"
+        "date": 1499075546,
+        "text": "<?java public class aaaaa{\npublic static void main(String[] aaa){\n}}"
     }
-}';*/
-        $this->webhook_input = file_get_contents("php://input");
+}';
+        #$this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
