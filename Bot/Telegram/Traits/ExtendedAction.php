@@ -9,6 +9,7 @@ namespace Bot\Telegram\Traits;
  */
 
 use App\PHPVirtual\PHPVirtual;
+use App\JavaVirtual\JavaVirtual;
 
 trait ExtendedAction
 {
@@ -29,8 +30,13 @@ trait ExtendedAction
             $this->textReply($out, null, $this->event['message']['message_id'], array(
                     "parse_mode" => "HTML"
                 ));
-        } elseif (substr($text, 0, 5) == "<?java") {
-
+        } elseif (substr($text, 0, 6) == "<?java") {
+            $a = new JavaVirtual($text);
+            $out = $a->execute();
+            if (empty($out)) {
+                $out = "~";
+            }
+            $this->textReply($out, null, $this->event['message']['message_id']);
         }
     }
 }
