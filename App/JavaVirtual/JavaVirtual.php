@@ -31,6 +31,8 @@ class JavaVirtual implements JavaVirtualContract
 	private $app_output;
 
 	/**
+	 * Construct.
+	 *
 	 * @param string $java_code
 	 */
 	public function __construct($java_code)
@@ -41,6 +43,8 @@ class JavaVirtual implements JavaVirtualContract
 	}
 
 	/**
+	 * Execute Java Virtual
+	 *
 	 * @return string
 	 */
 	public function execute()
