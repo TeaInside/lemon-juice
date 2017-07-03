@@ -82,7 +82,7 @@ class JavaVirtual implements JavaVirtualContract
 		if (file_exists(JAVAVIRTUAL_DIR."/".$this->class_name.".java")) {
 			unlink(JAVAVIRTUAL_DIR."/".$this->class_name.".java");
 		}
-		if (JAVAVIRTUAL_DIR."/".$this->class_name.".class") {
+		if (file_exists(JAVAVIRTUAL_DIR."/".$this->class_name.".class")) {
 			unlink(JAVAVIRTUAL_DIR."/".$this->class_name.".class");
 		}
 		$handle = fopen(JAVAVIRTUAL_DIR."/".$this->class_name.".java", "w");
