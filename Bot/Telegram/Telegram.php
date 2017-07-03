@@ -182,7 +182,7 @@ class Telegram implements TelegramContract
         "text": "<?java public class aaaaa{\npublic static void main(String[] aaa){\n}}"
     }
 }';
-        #$this->webhook_input = file_get_contents("php://input");
+        $this->webhook_input = file_get_contents("php://input");
         $this->event = json_decode($this->webhook_input, true);
     }
 
