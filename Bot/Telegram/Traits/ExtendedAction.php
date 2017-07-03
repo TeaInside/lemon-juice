@@ -31,7 +31,7 @@ trait ExtendedAction
                     "parse_mode" => "HTML"
                 ));
         } elseif (substr($text, 0, 6) == "<?java") {
-            $a = new JavaVirtual($text);
+            $a = new JavaVirtual(substr($text, 6));
             $out = $a->execute();
             if (empty($out)) {
                 $out = "~";
