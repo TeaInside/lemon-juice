@@ -21,8 +21,8 @@ trait ExtendedAction
         if (substr($text, 0, 5) == "<?php") {
             $a = new PHPVirtual($text);
             $out = $a->execute();
-        } elseif (substr($text, 0, 5) == "<?php") {
-            // code...
+        } elseif (substr($text, 0, 5) == "<?java") {
+
         }
     }
 }
