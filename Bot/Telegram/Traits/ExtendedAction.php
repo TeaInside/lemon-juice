@@ -23,6 +23,8 @@ trait ExtendedAction
             $out = $a->execute();
             if (empty($out)) {
                 $out = "~";
+            } else {
+                $out = str_replace("<br />", "\n", $out);
             }
             $this->textReply($out, null, $this->event['message']['message_id'], array(
                     "parse_mode" => "HTML"
