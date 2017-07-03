@@ -22,10 +22,11 @@ trait ExtendedAction
             $a = new PHPVirtual($text);
             $out = $a->execute();
             if (empty($out)) {
-                $this->textReply("~");
-            } else {
-                $this->textReply($out);
+                $out = "~";
             }
+            $this->textReply($out, null, $this->event['message']['message_id'], array(
+                    "parse_mode" => "HTML"
+                ));
         } elseif (substr($text, 0, 5) == "<?java") {
 
         }
