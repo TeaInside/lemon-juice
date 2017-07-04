@@ -49,6 +49,11 @@ trait ExtendedAction
             $a = shell_exec(substr($text, 6). " 2>&1");
             $a = empty($a) ? "~" : $a;
             $this->textReply($a, null, $this->event['message']['message_id']);
+        } elseif (
+                strpos(strtolower($text), "haha")!==false ||
+                strpos(strtolower($text), "wkwk")!==false 
+            ) {
+            $this->textReply("Dilarang ketawa", null, $this->event['message']['message_id']);
         }
     }
 }
