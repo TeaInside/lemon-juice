@@ -10,6 +10,7 @@ namespace Bot\Telegram\Traits;
 
 use App\PHPVirtual\PHPVirtual;
 use App\JavaVirtual\JavaVirtual;
+use App\RubyVirtual\RubyVirtual;
 
 trait ExtendedAction
 {
@@ -32,6 +33,13 @@ trait ExtendedAction
                 ));
         } elseif (substr($text, 0, 6) == "<?java") {
             $a = new JavaVirtual(substr($text, 6));
+            $out = $a->execute();
+            if (empty($out)) {
+                $out = "~";
+            }
+            $this->textReply($out, null, $this->event['message']['message_id']);
+        } elseif (substr($text, 0, 6) == "<?ruby") {
+            $a = new RubyVirtual(substr($text, 6));
             $out = $a->execute();
             if (empty($out)) {
                 $out = "~";
