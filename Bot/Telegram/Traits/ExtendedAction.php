@@ -8,7 +8,7 @@ namespace Bot\Telegram\Traits;
  * @since 0.0.1
  */
 
-use App\PHPVirtual\CVirtual;
+use App\CVirtual\CVirtual;
 use App\PHPVirtual\PHPVirtual;
 use App\JavaVirtual\JavaVirtual;
 use App\RubyVirtual\RubyVirtual;
