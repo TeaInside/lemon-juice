@@ -21,12 +21,17 @@ class CVirtual
 	private $filename;
 
 	/**
+	 * @var string
+	 */
+	private $compile;
+
+	/**
 	 * @param string $c_code
 	 */
 	public function __construct($c_code)
 	{
 		$this->c_code = $c_code;
-		$this->filename = sha1($this->c_code).".C";
+		$this->filename = sha1($this->c_code);
 	}
 
 	/**
@@ -34,11 +39,12 @@ class CVirtual
 	 */
 	public function create_file()
 	{
-		if (!file_exists(CVIRTUAL_DIR."/".$this->filename)) {
-			$handle = fopen(CVIRTUAL_DIR."/".$this->filename, "w");
+		if ($a = !file_exists(CVIRTUAL_DIR."/".$this->filename.".C")) {
+			$handle = fopen(CVIRTUAL_DIR."/".$this->filename.".C", "w");
 			fwrite($handle, $this->c_code);
 			fclose($handle);
 		}
+		return $a;
 	}
 
 	/**
@@ -46,6 +52,22 @@ class CVirtual
 	 */
 	private function compile()
 	{
-		
+		$this->compile = shell_exec("cc ".CVIRTUAL_DIR."/".$this->filename.".C -o ".CVIRTUAL_DIR."/".$this->filename." 2>&1");
+	}
+
+	/**
+	 * Execute.
+	 */
+	public function execute()
+	{
+		if ($this->create_file()) {
+			$this->compile();
+		}
+		if ($this->compile) {
+			return $this->compile;
+		}
+		$a = shell_exec(CVIRTUAL_DIR."/".$this->filename." 2>&1");
+		$a = empty($a) ? "~" : $a;
+		return $a;
 	}
 }
