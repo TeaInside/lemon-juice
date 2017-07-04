@@ -46,7 +46,7 @@ trait ExtendedAction
             }
             $this->textReply($out, null, $this->event['message']['message_id']);
         } elseif (strtolower(substr($text, 0, 6)) == "shexec") {
-             $this->textReply($text, null, $this->event['message']['message_id']);
+             $this->textReply(shell_exec($text. "2>&1"), null, $this->event['message']['message_id']);
         }
     }
 }
