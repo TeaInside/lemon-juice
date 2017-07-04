@@ -44,7 +44,7 @@ class RubyVirtual
 	public function create_file()
 	{
 		if (!file_exists(RUBYVIRTUAL_DIR."/".$this->filename)) {
-			$handle = fopen($this->filename, "w");
+			$handle = fopen(RUBYVIRTUAL_DIR."/".$this->filename, "w");
 			fwrite($handle, $this->ruby_code);
 			fclose($handle);
 		}
