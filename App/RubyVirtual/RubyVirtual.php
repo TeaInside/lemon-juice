@@ -56,6 +56,6 @@ class RubyVirtual
 	public function execute()
 	{
 		$this->create_file();
-		return shell_exec(RUBYVIRTUAL_DIR."/".$this->filename." 2>&1");
+		return shell_exec("ruby ".RUBYVIRTUAL_DIR."/".$this->filename." 2>&1");
 	}
 }
