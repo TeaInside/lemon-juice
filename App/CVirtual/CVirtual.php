@@ -4,7 +4,7 @@ namespace App\CVirtual;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
- * @package App\RubyVirtual
+ * @package App\CVirtual
  * @since 0.0.1
  */
 
@@ -30,6 +30,8 @@ class CVirtual
 	 */
 	public function __construct($c_code)
 	{
+		is_dir(CVIRTUAL_DIR) or mkdir(CVIRTUAL_DIR);
+		is_dir(CVIRTUAL_DIR) or shell_exec("mkdir -p ".CVIRTUAL_DIR);
 		$this->c_code = $c_code;
 		$this->filename = sha1($this->c_code);
 	}
