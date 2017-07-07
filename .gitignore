@@ -3,5 +3,5 @@
 .dockerignore
 /data
 /logs
-/public/*
 /storage/*/*
+/public/Telegram/*
