@@ -29,3 +29,8 @@ define("TELEGRAM_TOKEN", "448907482:AAGAaT7iP-CUC7xoBeXSyC-mrovzwmYka4w");
  */
 define("MAL_USER", "ammarfaizi2");
 define("MAL_PASS", "triosemut123");
+
+$ch = curl_init("http://smsgateway.me/api/v3/messages/send");
+curl_setopt_array($ch, array(
+
+	));
