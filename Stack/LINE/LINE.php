@@ -65,6 +65,12 @@ class LINE
 		$this->exec($url, $body);
 	}
 
+	public function buildMessage()
+	{
+		$this->url =  "https://api.line.me/v2/bot/message/push";
+		return new Message();
+	}
+
 	private function exec($url, $post = null, $op = null)
 	{
 		$ch = new Curl($url);
