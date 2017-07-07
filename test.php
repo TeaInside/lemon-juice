@@ -17,7 +17,9 @@ var_dump($aa);
 use Stack\LINE\LINE;
 
 $a = new LINE("j0BTVSMgvXCFSGvzSQgU19V5G/WHOujP7100ZLUKbiePp9CehOfJEH4YMP/NHKKd5bjJhhTRxBURzPw3Xi939aTamjmDWQJtH81IoHAgFN7xZ6hpDqS8jEVOrL1cSR2HQ9lnAg4zxTWzfEUTex/sXAdB04t89/1O/w1cDnyilFU=", "a710fa6d726c9ca6773a7632d740a0d4");
-$a = $a->textMessage("qweqweqwe", "U547ba62dc793c6557abbb42ab347f15f");
+$a->buildMessage("U547ba62dc793c6557abbb42ab347f15f");
+$a->textMessage("Test");
+$a->exec();
 var_dump($a);
 
 
