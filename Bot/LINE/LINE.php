@@ -81,7 +81,7 @@ class LINE implements LINEContract
     "text": "halo"
   }
 }';
-    	#$this->webhook_input = file_get_contents("php://input");
+    	$this->webhook_input = file_get_contents("php://input");
     }
 
     /**
