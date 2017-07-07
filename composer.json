@@ -7,7 +7,9 @@
             "email": "ammarfaizi2@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "linecorp/line-bot-sdk": "^2.1"
+    },
     "autoload": {
     	"psr-4": {
             "App\\": "App/",
