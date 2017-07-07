@@ -22,6 +22,8 @@ is_dir(logs) or mkdir(logs);
  * Pengaturan stack.
  */
 define("TELEGRAM_TOKEN", "448907482:AAGAaT7iP-CUC7xoBeXSyC-mrovzwmYka4w");
+define("LINE_CHANNEL_TOKEN", "j0BTVSMgvXCFSGvzSQgU19V5G/WHOujP7100ZLUKbiePp9CehOfJEH4YMP/NHKKd5bjJhhTRxBURzPw3Xi939aTamjmDWQJtH81IoHAgFN7xZ6hpDqS8jEVOrL1cSR2HQ9lnAg4zxTWzfEUTex/sXAdB04t89/1O/w1cDnyilFU=");
+define("LINE_CHANNEL_SECRET", "a710fa6d726c9ca6773a7632d740a0d4");
 
 
 /**
@@ -29,8 +31,3 @@ define("TELEGRAM_TOKEN", "448907482:AAGAaT7iP-CUC7xoBeXSyC-mrovzwmYka4w");
  */
 define("MAL_USER", "ammarfaizi2");
 define("MAL_PASS", "triosemut123");
-
-$ch = curl_init("http://smsgateway.me/api/v3/messages/send");
-curl_setopt_array($ch, array(
-
-	));
