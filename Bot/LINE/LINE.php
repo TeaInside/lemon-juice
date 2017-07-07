@@ -78,7 +78,7 @@ class LINE implements LINEContract
   "message": {
     "id": "325708",
     "type": "text",
-    "text": "Hello, world"
+    "text": "halo"
   }
 }';
     	#$this->webhook_input = file_get_contents("php://input");
@@ -126,8 +126,11 @@ class LINE implements LINEContract
     {
     	$st = new AI();
     	$st->input($this->event['message']['text'], $this->actor);
-    	$this->line->buildMessage($this->room);
-    	$this->line->textMessage("AAAAA");
+    	if ($st->execute()) {
+    		$reply = $this->output();
+    		$this->line->buildMessage($this->room);
+    		$this->line->textMessage($this->reply);
+    	}
     }
 
 	/**
