@@ -3,17 +3,17 @@
 namespace Stack\LINE;
 
 /**
- * https://api.line.me/v2/bot/profile/
- *
- *
+ * https://api.line.me/v2/bot/profile/{$userid}
+ * @author Ammar Faizi
  */
+use IceTeaSystem\Curl;
 
 class LINE
 {	
 	/**
 	 * @var string
 	 */
-	private $token;
+	private $channel_token;
 
 	/**
 	 * @var string
@@ -23,31 +23,68 @@ class LINE
 	/**
 	 * @var array
 	 */
-	private $header;
+	private $headers;
 
 	/**
 	 * Constructor.
-	 * @param string $token
+	 * @param string $channel_token
 	 * @param string $channel_secret
 	 */
-	public function __construct($token, $channel_secret)
+	public function __construct($channel_token, $channel_secret)
 	{
-		$this->header = ["Authorization: Bearer $channelToken"];
+		$this->headers = [
+			"Content-Type: application/json",
+			"Authorization: Bearer ".$channel_token
+		];
 	}
 
 	/**
-	 * @param string $method
-	 * @param string $url
-	 * @param string $opt
-	 * @return string
+	 * @param string|array $text
+	 * @param string 	   $to
+	 * @param string 	   $reply
 	 */
-	private function sendRequest($url, $method, $opt)
+	public function textMessage($text, $to, $reply = false)
 	{
-		$st = new \Curl($url);
-		$st->set_opt([
-				CURLOPT_CUSTOMREQUEST => $method,
+		$url = "https://api.line.me/v2/bot/message/".($reply ? "reply" : "push");
+		$ch = new Curl($url);
+		if ($reply) {
+			$body = [
+
+			];
+		} else {
+			$body = [
+				"to" => $to,
+				"messages" => [
+					[
+						"type" => "text",
+						"text" => $text
+					]
+				]
+			];
+		}
+		$this->exec($url, $body);
+	}
+
+	private function exec($url, $post = null, $op = null)
+	{
+		$ch = new Curl($url);
+		$opt = [
 				CURLOPT_BINARYTRANSFER => true,
-            	CURLOPT_HEADER => true,
-			]);
+				CURLOPT_HTTPHEADER => $this->headers,
+				#CURLOPT_HEADER => true
+			];
+		if ($post) {
+			$opt[CURLOPT_CUSTOMREQUEST] = "POST";
+			$opt[CURLOPT_POSTFIELDS] = json_encode($post);
+		}
+		if (is_array($op)) {
+			foreach ($op as $key => $val) {
+				$opt[$key] = $val;
+			}
+		}
+		$ch->set_opt($opt);
+		$out = $ch->exec();
+		$a = $ch;
+		var_dump($a);
 	}
 }
