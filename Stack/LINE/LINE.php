@@ -76,6 +76,15 @@ class LINE
 		$this->_exec($this->url, $this->post, $op);
 	}
 
+	/**
+	 * @param string $userID
+	 * @return string
+	 */
+	public function getUserInfo($userId)
+	{
+		return $this->_exec("https://api.line.me/v2/bot/profile/".$userId);
+	}
+
 	private function _exec($url, $post = null, $op = null)
 	{
 		$ch = new Curl($url);
