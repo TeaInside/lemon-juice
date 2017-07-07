@@ -67,20 +67,7 @@ class LINE implements LINEContract
      */
     public function getEvent()
     {
-    	$this->webhook_input = '{
-  "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
-  "type": "message",
-  "timestamp": 1462629479859,
-  "source": {
-    "type": "user",
-    "userId": "U547ba62dc793c6557abbb42ab347f15f"
-  },
-  "message": {
-    "id": "325708",
-    "type": "text",
-    "text": "halo"
-  }
-}';
+    	$this->webhook_input = '{"events":[{"type":"message","replyToken":"8c0de2f888ef4445b1d03ec4174203bb","source":{"userId":"U547ba62dc793c6557abbb42ab347f15f","type":"user"},"timestamp":1499414643059,"message":{"type":"text","id":"6351180096433","text":"ask penemu lampu"}}]}';
     	$this->webhook_input = file_get_contents("php://input");
     }
 
@@ -92,8 +79,8 @@ class LINE implements LINEContract
         $events = json_decode($this->webhook_input, true);
         $events = $events['events'];
         foreach ($events as $val) {
-            $this->parseEvent();
             $this->event = $val;
+            $this->parseEvent();
             if ($this->type == "text") {
                 $this->parseReply();
                 if ($this->reply) {
@@ -131,9 +118,11 @@ class LINE implements LINEContract
     	$st = new AI();
     	$st->input($this->event['message']['text'], $this->actor);
     	if ($st->execute()) {
-    		$reply = $this->output();
+    		$reply = $st->output();
+            $reply = $reply['text'][0];
     		$this->line->buildMessage($this->room);
-    		$this->line->textMessage($this->reply);
+    		$this->line->textMessage($reply);
+            $this->reply = true;
     	}
     }
 
