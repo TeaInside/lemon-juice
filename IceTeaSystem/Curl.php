@@ -132,7 +132,7 @@ class Curl
                 "output" => $this->output,
                 "error"  => $this->error,
                 "errno"  => $this->errno,
-                "curl_info" => $this->curl_info
+                "curl_info" => $this->info
             );
     }
 }
