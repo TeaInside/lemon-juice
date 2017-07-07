@@ -88,14 +88,19 @@ class LINE implements LINEContract
      * Execute
      */
     public function execute()
-    {
-    	$this->parseEvent();
-    	if ($this->type == "text") {
-    		$this->parseReply();
-    		if ($this->reply) {
-    			$this->line->exec();
-    		}
-    	}
+    {   
+        $events = json_decode($this->webhook_input, true);
+        $events = $events['events'];
+        foreach ($events as $val) {
+            $this->parseEvent();
+            $this->event = $val;
+            if ($this->type == "text") {
+                $this->parseReply();
+                if ($this->reply) {
+                    $this->line->exec();
+                }
+            }   
+        }
     }
 
     /**
@@ -113,7 +118,6 @@ class LINE implements LINEContract
      */
     private function parseEvent()
     {
-    	$this->event = json_decode($this->webhook_input, true);
     	if (isset($this->event['message']['text'])) {
     		$this->type = "text";
     		$this->room = $this->event['source']['userId'];
