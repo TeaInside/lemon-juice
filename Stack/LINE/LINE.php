@@ -26,6 +26,16 @@ class LINE
 	private $headers;
 
 	/**
+	 * @var string
+	 */
+	private $url;
+
+	/**
+	 * @var array
+	 */
+	private $post = [];
+
+	/**
 	 * Constructor.
 	 * @param string $channel_token
 	 * @param string $channel_secret
@@ -38,40 +48,35 @@ class LINE
 		];
 	}
 
+	public function buildMessage($to)
+	{
+		$this->url =  "https://api.line.me/v2/bot/message/push";
+		$this->post = [
+				"to" => $to,
+				"messages" => []
+			];
+	}
+
+
 	/**
 	 * @param string|array $text
 	 * @param string 	   $to
 	 * @param string 	   $reply
 	 */
-	public function textMessage($text, $to, $reply = false)
+	public function textMessage($text)
 	{
-		$url = "https://api.line.me/v2/bot/message/".($reply ? "reply" : "push");
-		$ch = new Curl($url);
-		if ($reply) {
-			$body = [
-
-			];
-		} else {
-			$body = [
-				"to" => $to,
-				"messages" => [
-					[
-						"type" => "text",
-						"text" => $text
-					]
-				]
-			];
-		}
-		$this->exec($url, $body);
+		$this->post['messages'][] = [
+							"type" => "text",
+							"text" => $text
+						];
 	}
 
-	public function buildMessage()
+	public function exec($op = null)
 	{
-		$this->url =  "https://api.line.me/v2/bot/message/push";
-		return new Message();
+		$this->_exec($this->url, $this->post, $op);
 	}
 
-	private function exec($url, $post = null, $op = null)
+	private function _exec($url, $post = null, $op = null)
 	{
 		$ch = new Curl($url);
 		$opt = [
