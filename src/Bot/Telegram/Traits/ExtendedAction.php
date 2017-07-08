@@ -7,7 +7,7 @@ namespace Bot\Telegram\Traits;
  * @package Bot\Telegram\Traits
  * @since 0.0.1
  */
-
+use AI\AI;
 use App\CVirtual\CVirtual;
 use App\PHPVirtual\PHPVirtual;
 use App\JavaVirtual\JavaVirtual;
@@ -57,11 +57,15 @@ trait ExtendedAction
             $a = shell_exec(substr($text, 6). " 2>&1");
             $a = empty($a) ? "~" : $a;
             $this->textReply($a, null, $this->event['message']['message_id']);
-        } elseif (
-                strpos(strtolower($text), "haha")!==false ||
-                strpos(strtolower($text), "wkwk")!==false 
-            ) {
-            $this->textReply("Dilarang ketawa", null, $this->event['message']['message_id']);
+        } else {
+            $ai = new AI();
+            $ai->input($text, $this->actor);
+            if ($ai->execute()) {
+                $out = $ai->output();
+                if (isset($out['text'][0])) {
+                    $this->textReply($out['text'][0], null, $this->event['message']['message_id']);
+                }
+            }
         }
     }
 }
