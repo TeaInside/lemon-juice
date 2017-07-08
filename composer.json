@@ -13,11 +13,11 @@
     },
     "minimum-stability": "dev",
     "autoload": {
-    	"psr-4": {
-            "App\\": "App/",
-            "Bot\\": "Bot/",
-            "Stack\\": "Stack/",
-            "IceTeaSystem\\": "IceTeaSystem/"
+    	"psr-0": {
+            "App\\": "src/",
+            "Bot\\": "src/",
+            "Stack\\": "src/",
+            "IceTeaSystem\\": "src/"
     	},
         "files": [
             "config.php"
