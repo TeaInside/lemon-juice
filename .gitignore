@@ -3,5 +3,6 @@
 .dockerignore
 /data
 /logs
-/storage/*/*
+/storage/*
 /public/Telegram/*
+*.lock
