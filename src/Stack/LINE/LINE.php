@@ -104,7 +104,6 @@ class LINE
 		}
 		$ch->set_opt($opt);
 		$out = $ch->exec();
-		$a = $ch;
-		var_dump($a);
+		return $out;
 	}
 }
