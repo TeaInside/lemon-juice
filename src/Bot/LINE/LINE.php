@@ -67,8 +67,8 @@ class LINE implements LINEContract
      */
     public function getEvent()
     {
-    	$this->webhook_input = '{"events":[{"type":"message","replyToken":"8c0de2f888ef4445b1d03ec4174203bb","source":{"userId":"U547ba62dc793c6557abbb42ab347f15f","type":"user"},"timestamp":1499414643059,"message":{"type":"text","id":"6351180096433","text":"ask penemu lampu"}}]}';
-    	#$this->webhook_input = file_get_contents("php://input");
+    	#$this->webhook_input = '{"events":[{"type":"message","replyToken":"8c0de2f888ef4445b1d03ec4174203bb","source":{"userId":"U547ba62dc793c6557abbb42ab347f15f","type":"user"},"timestamp":1499414643059,"message":{"type":"text","id":"6351180096433","text":"ask penemu lampu"}}]}';
+    	$this->webhook_input = file_get_contents("php://input");
     }
 
     /**
