@@ -345,6 +345,9 @@ trait Command
                                 );
                             $hash_fn = sha1($a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']);
                             if (!file_exists("video/".$hash_fn.".mp4")) {
+                                http_response_code(200);
+                                print "OK";
+                                flush();
                                 $a = new Curl($video_url);
                                 $a->set_opt(
                                     array(
