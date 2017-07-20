@@ -21,7 +21,7 @@ trait ExtendedAction
     private function parseExtendedAction()
     {
         $text = $this->event['message']['text'];
-        if (substr($text, 0, 5) == "<?php") {
+        if (strtolower(substr($text, 0, 5)) == "<?php") {
             $a = new PHPVirtual($text);
             $out = $a->execute();
             if (empty($out)) {
@@ -32,14 +32,14 @@ trait ExtendedAction
             $this->textReply($out, null, $this->event['message']['message_id'], array(
                     "parse_mode" => "HTML"
                 ));
-        } elseif (substr($text, 0, 6) == "<?java") {
+        } elseif ($tx = strtolower(substr($text, 0, 6)) and $tx == "<?java") {
             $a = new JavaVirtual(substr($text, 6));
             $out = $a->execute();
             if (empty($out)) {
                 $out = "~";
             }
             $this->textReply($out, null, $this->event['message']['message_id']);
-        } elseif (substr($text, 0, 6) == "<?ruby") {
+        } elseif ($tx == "<?ruby") {
             $a = new RubyVirtual(substr($text, 6));
             $out = $a->execute();
             if (empty($out)) {
@@ -53,9 +53,13 @@ trait ExtendedAction
                 $out = "~";
             }
             $this->textReply($out, null, $this->event['message']['message_id']);
-        } elseif (strtolower(substr($text, 0, 6)) == "shexec") {
-            $a = shell_exec(substr($text, 6). " 2>&1");
-            $a = empty($a) ? "~" : $a;
+        } elseif ($tx == "shexec") {
+            if ($this->safety_shell_exec($sh = substr($text, 6))) {
+                $a = shell_exec($sh. " 2>&1");
+                $a = empty($a) ? "~" : $a;
+            } else {
+                $a = "Rejected for security reason!";
+            }
             $this->textReply($a, null, $this->event['message']['message_id']);
         } else {
             $ai = new AI();
@@ -68,4 +72,26 @@ trait ExtendedAction
             }
         }
     }
+
+    /**
+     * @param string
+     */
+    private function safety_shell_exec($str)
+    {
+        $str = strtolower($str);
+        if (
+            // super userid
+            $this->actor_id != 243692601 and (
+                strpos($str, "sudo ")!==false or
+                strpos($str, "rm ")!==false or
+                strpos($str, "apt ")!==false or
+                strpos($str, "pass")!==false
+            )
+        ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
+

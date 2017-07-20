@@ -103,6 +103,11 @@ class Telegram implements TelegramContract
     private $whatanime_salt_hash_table = array();
 
     /**
+     * @var int
+     */
+    private $actor_id;
+
+    /**
      * Constructor
      */
     public function __construct($token)
@@ -201,6 +206,8 @@ class Telegram implements TelegramContract
             $this->actor = $this->event['message']['from']['first_name'].(isset($this->event['message']['from']['last_name']) ? " ".$this->event['message']['from']['last_name']:"");
             $this->room = $this->event['message']['chat']['id'];
             $this->actor_call = $this->event['message']['from']['first_name'];
+            $this->actor_id = $this->event['message']['from']['id'];
+
         } elseif (isset($this->event['callback_query'])) {
             $this->type_msg = "callback_query";
             $this->callback_data = $this->event['callback_query']['data'];
