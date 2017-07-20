@@ -30,7 +30,8 @@ trait Command
                 "/idma",
                 "/whatanime",
                 "/kick",
-                "/warn"
+                "/warn",
+                "/info"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
             $a = json_decode(file_get_contents(storage."/telegram/extended_keywords.json"), true);
