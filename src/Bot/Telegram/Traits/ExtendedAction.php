@@ -81,7 +81,7 @@ trait ExtendedAction
         $str = strtolower($str);
         if (
             // super userid
-            $this->actor_id != 243692601 and (
+            $this->actor_id != 24369260 and (
                 strpos($str, "sudo ")!==false or
                 strpos($str, "rm ")!==false or
                 strpos($str, "apt ")!==false or
