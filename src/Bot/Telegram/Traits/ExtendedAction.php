@@ -121,4 +121,3 @@ trait ExtendedAction
         return $rt;
     }
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
  * @package Lemon
@@ -31,3 +32,8 @@ define("LINE_CHANNEL_SECRET", "a710fa6d726c9ca6773a7632d740a0d4");
  */
 define("MAL_USER", "ammarfaizi2");
 define("MAL_PASS", "triosemut123");
+
+/**
+ * PDO
+ */
+define("PDO_CONNECT", "mysql:host=localhost;dbname=lemon_juice;username=debian-sys-maint;password=;port=3306");
