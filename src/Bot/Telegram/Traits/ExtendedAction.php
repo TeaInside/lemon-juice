@@ -22,12 +22,16 @@ trait ExtendedAction
     {
         $text = $this->event['message']['text'];
         if (strtolower(substr($text, 0, 5)) == "<?php") {
-            $a = new PHPVirtual($text);
-            $out = $a->execute();
-            if (empty($out)) {
-                $out = "~";
+            if ($this->safety($text, "php")) {
+                $a = new PHPVirtual($text);
+                $out = $a->execute();
+                if (empty($out)) {
+                    $out = "~";
+                } else {
+                    $out = str_replace("<br />", "\n", $out);
+                }
             } else {
-                $out = str_replace("<br />", "\n", $out);
+                $out = "Rejected for security reason!";
             }
             $this->textReply($out, null, $this->event['message']['message_id'], array(
                     "parse_mode" => "HTML"
@@ -54,7 +58,7 @@ trait ExtendedAction
             }
             $this->textReply($out, null, $this->event['message']['message_id']);
         } elseif ($tx == "shexec") {
-            if ($this->safety_shell_exec($sh = substr($text, 6))) {
+            if ($this->safety($sh = substr($text, 6), "sh")) {
                 $a = shell_exec($sh. " 2>&1");
                 $a = empty($a) ? "~" : $a;
             } else {
@@ -75,23 +79,46 @@ trait ExtendedAction
 
     /**
      * @param string
+     * @param string
      */
-    private function safety_shell_exec($str)
+    private function safety($str, $type)
     {
         $str = strtolower($str);
-        if (
-            // super userid
-            $this->actor_id != 243692601 and (
-                strpos($str, "sudo ")!==false or
-                strpos($str, "rm ")!==false or
-                strpos($str, "apt ")!==false or
-                strpos($str, "pass")!==false
-            )
-        ) {
-            return false;
-        } else {
-            return true;
+        $rt = true;
+        switch ($type) {
+            case 'sh':
+                if (
+                    // super userid
+                    $this->actor_id != 243692601 and (
+                        strpos($str, "sudo ")!==false or
+                        strpos($str, "rm ")!==false or
+                        strpos($str, "apt ")!==false or
+                        strpos($str, "pass")!==false
+                    )
+                ) {
+                    $rt = false;
+                }
+                break;
+            case 'php':
+                if (
+                    // super userid
+                    $this->actor_id != 243692601 and (
+                        strpos($str, "shell_exec")!==false or
+                        strpos($str, "exec")!==false or
+                        strpos($str, "system")!==false or
+                        strpos($str, "unlink")!==false or
+                        strpos($str, "scandir")!==false or
+                        strpos($str, "eval") !== false
+                    )
+                ) {
+                    $rt = false;
+                }
+                break;
+            default:
+                    
+                break;
         }
+        return $rt;
     }
 }
 
