@@ -9,18 +9,18 @@ do {
 	$a = explode('<div class="row"><div class="col-md-2 col-sm-3 col-xs-4">', $a, 2);
 	if (count($a) != 0) {
 		# code...
-	}
+	
 	$a = explode('</nav>', $a[1])[0];
 	$a = explode('<nav', $a)[0];
 	$a = explode("<li>", $a);
 	$ct = count($a);
 	for ($i=1; $i < $ct; $i++) { 
 		$w = preg_match_all("#<a href=\"(.+)\">(.*)</a></li>#", $a[$i], $n);
-		$st->execute([
+		print $n[2][0]." | ".($st->execute([
 				"id" => null,
 				"kata" => strtolower(html_entity_decode($n[2][0], ENT_QUOTES, 'UTF-8'))
-			]);
-	}
+			])?"true":"false")."\n";
+	}} else break;
 } while (true);
 
 
