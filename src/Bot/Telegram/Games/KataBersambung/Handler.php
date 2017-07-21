@@ -37,6 +37,12 @@ class Handler implements HandlerContract
 	 */
 	public function openGroup($group_id, $group_name = "")
 	{
+		$this->aa = 1123123123;
 		return $this->sess->make_session($group_id, "group", $group_name);
-	}	
+	}
+
+	public function start()
+	{
+		return $this->aa;
+	}
 }
