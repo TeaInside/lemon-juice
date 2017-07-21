@@ -183,21 +183,21 @@ class Telegram implements TelegramContract
             "type": "supergroup"
         },
         "date": 1500652940,
-        "text": "\/party",
+        "text": "halo",
         "entities": [
             {
-                "type": "bot_command",
+                "type": "abot_command",
                 "offset": 0,
                 "length": 6
             }
         ]
     }
 }';
-        if (defined("webhook_input")) {
+       /* if (defined("webhook_input")) {
             $this->webhook_input = file_get_contents(webhook_input);
         } else {
             $this->webhook_input = file_get_contents("php://input");
-        }
+        }*/
         $this->event = json_decode($this->webhook_input, true);
     }
 
