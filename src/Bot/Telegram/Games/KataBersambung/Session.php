@@ -59,6 +59,7 @@ class Session implements SessionContract
 
 	/**
 	 * Start session.
+	 * @param string $room_id
 	 */
 	public function session_start($room_id)
 	{
@@ -71,6 +72,29 @@ class Session implements SessionContract
 			return $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
 				":room_id"	 => $room_id
 			]);
+		}
+	}
+
+	/**
+	 * @param string $userid
+	 * @param string $group_id
+	 */
+	public function join($userid, $group_id)
+	{
+		$st = $this->db->pdo->prepare("SELECT `users` FROM `kb_session` WHERE `group_id`=:group_id LIMIT 1;");
+		$st->execute([
+				":group_id" => $group_id
+			]);
+		$st = $st->fetch(PDO::FETCH_NUM);
+		if ($st) {
+			$st[0]   = json_decode($st[0], true);
+			$st[0][] = $userid;
+			return $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `count_users`=`count_users`+1 WHERE `group_id`=:group_id LIMIT 1;")->execute([
+					":users" => json_encode($st[0]),
+					":group_id" => $group_id
+				]);
+		} else {
+			return false;
 		}
 	}
 }

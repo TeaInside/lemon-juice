@@ -51,8 +51,8 @@ class Handler implements HandlerContract
 	/**
 	 * Start the game.
 	 */
-	public function start()
+	public function start($group_id)
 	{
-		return $this->sess->session_start();
+		return $this->sess->session_start($group_id);
 	}
 }
