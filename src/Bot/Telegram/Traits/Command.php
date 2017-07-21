@@ -31,7 +31,8 @@ trait Command
                 "/whatanime",
                 "/kick",
                 "/warn",
-                "/info"
+                "/info",
+                "/party"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
             $a = json_decode(file_get_contents(storage."/telegram/extended_keywords.json"), true);
@@ -485,6 +486,9 @@ trait Command
                             $this->textReply("Kamu itu bukan admin, @".$this->event['message']['from']['username']." :p", $this->event['message']['chat']['id'], $this->event['message']['message_id']);
                         }
                     }
+                    break;
+                case '/party':
+                    $this->party();
                     break;
                 default:
                         count($this->extended_commands) and $this->parseExtendedCommand($val);
