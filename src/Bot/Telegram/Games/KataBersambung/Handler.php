@@ -25,10 +25,11 @@ class Handler implements HandlerContract
 
 	/**
 	 * Constructor.
+	 * @param string $pdo_connect
 	 */
-	public function __construct()
+	public function __construct($pdo_connect)
 	{
-		$this->sess	= new Session(new Database());
+		$this->sess	= new Session(new Database($pdo_connect));
 	}
 
 	/**
