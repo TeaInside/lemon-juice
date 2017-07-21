@@ -49,6 +49,15 @@ class UserStartTest extends TestCase
 		$kb = new Handler();
 		$in = $kb->group_input($this->group_id, $this->user1, trim((fread(STDIN, 1024))));
 		$this->assertTrue($in);
+		echo "\n\n";
+	}
+
+	public function testSecondInput()
+	{
+		$kb = new Handler();
+		$in = $kb->group_input($this->group_id, $this->user2, trim((fread(STDIN, 1024))));
+		$this->assertTrue($in);
+		echo "\n\n";
 	}
 
 	public function testSessionDestroy()
