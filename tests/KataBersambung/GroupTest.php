@@ -13,14 +13,26 @@ class UserStartTest extends TestCase
 		define("PDO_USER", "debian-sys-maint");
 		define("PDO_PASS", "");
 		parent::__construct();
-		$this->kb = new Handler();
 	}
 
 	public function test1()
 	{
-		$open = $this->kb->openGroup("123", "858869123", "LTM Group");
+		$group_id = "123";
+		$group_name = "LTM Group";
+
+		$user1 = "858869123";
+		$user2 = "123000000";
+
+		$kb = new Handler();
+		$open = $kb->openGroup($group_id, $user1, $group_name);
 		$this->assertTrue($open);
-		$start = $this->kb->start();
+
+		$kb = new Handler();
+		$join = $kb->user_join($user2, $group_id);
+		$this->assertTrue($join);
+
+		$kb = new Handler();
+		$start = $kb->start($group_id);
 		$this->assertTrue($start);
 	}
 }
