@@ -50,7 +50,7 @@ class Session implements SessionContract
 		$rst = $rst[0];
 		$this->room_id = $room_id;
 		$this->count_users = 1;
-		$stz = $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`, `users`, `count_users`, `last_word`, `turn`) VALUES (:room_id, :room_name, :started_at, :status, :type, :users, :count_users, :last_word, :turn);");$stz->execute([
+		return $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`, `users`, `count_users`, `last_word`, `turn`) VALUES (:room_id, :room_name, :started_at, :status, :type, :users, :count_users, :last_word, :turn);")->execute([
 				":room_id" => $room_id,
 				":room_name" => $room_name,
 				":started_at" => date("Y-m-d H:i:s"),
@@ -61,8 +61,7 @@ class Session implements SessionContract
 				":last_word" => $rst,
 				":turn" => 0
 			]);
-		var_dump($rst, $stz->errorInfo());#->errorInfo());
-		die;
+		
 	}
 
 	/**

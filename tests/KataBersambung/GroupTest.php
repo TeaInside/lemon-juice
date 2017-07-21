@@ -43,9 +43,8 @@ class UserStartTest extends TestCase
 
 	public function testFirstWorld()
 	{
-		$kb = new Handler();
+		#$kb = new Handler();
 		#$kb->group_input($this->group_id, $this->user1, "durasi");
-		$a = fopen("php://stdin", "r");
-		fread($a, 1024);
+		$this->assertTrue(true);
 	}
 }
