@@ -166,7 +166,6 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        die("debug");
             $this->webhook_input = '{
     "update_id": 344180636,
     "message": {
