@@ -9,12 +9,16 @@ class UserStartTest extends TestCase
 {
 	public function __construct()
 	{
+		define("PDO_CONNECT", "mysql:host=localhost;dbname=lemon_juice;port=3306");
+		define("PDO_USER", "debian-sys-maint");
+		define("PDO_PASS", "");
 		parent::__construct();
 		$this->kb = new Handler("mysql:host=localhost;dbname=lemon_juice;port=3306");
 	}
 
 	public function testOpenGroup()
 	{
-		$this->kb->openGroup("123");
+		$open = $this->kb->openGroup("123");
+		$this->assertTrue($open);
 	}
 }

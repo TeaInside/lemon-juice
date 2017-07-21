@@ -27,16 +27,16 @@ class Handler implements HandlerContract
 	 * Constructor.
 	 * @param string $pdo_connect
 	 */
-	public function __construct($pdo_connect)
+	public function __construct()
 	{
-		$this->sess	= new Session(new Database($pdo_connect));
+		$this->sess	= new Session(new Database());
 	}
 
 	/**
 	 * @param string $group_id
 	 */
-	public function openGroup($group_id)
+	public function openGroup($group_id, $group_name = "")
 	{
-		$this->sess->make_session($group_id);
+		return $this->sess->make_session($group_id, "group", $group_name);
 	}	
 }

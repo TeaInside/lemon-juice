@@ -32,7 +32,7 @@ class Session implements SessionContract
 	 */
 	public function make_session($room_id, $type, $room_name = null)
 	{
-		$st = $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`) VALUES (:room_id, :room_name, :started_at, :status, :type);")->execute([
+		return $st = $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`) VALUES (:room_id, :room_name, :started_at, :status, :type);")->execute([
 				":room_id" => $room_id,
 				":room_name" => $room_name,
 				":started_at" => date("Y-m-d H:i:s"),
