@@ -39,5 +39,7 @@ if (!defined("data")) {
      * PDO
      */
     define("PDO_CONNECT", "mysql:host=localhost;dbname=lemon_juice;port=3306");
-    define("PDO_USER", "icetea");
-    define("PDO_PASS", "triosemut123");
+    #define("PDO_USER", "icetea");
+    #define("PDO_PASS", "triosemut123");
+    define("PDO_USER", "debian-sys-maint");
+    define("PDO_PASS", "");
