@@ -124,11 +124,19 @@ class Session implements SessionContract
 		$lsc = $this->getLastChar($st[0]);
 		$len = strlen($lsc);
 		if ($lsc == substr($input, 0, $len)) {
-			$this->input = $input;
-			$this->userid = $userid;
-			$this->group_id = $group_id;
-			$this->next_turn = $st[1]==$st[2] ? 0 : $st[1]+1;
-			return true;
+			$st = $this->db->pdo->prepare("SELECT `id` FROM `kb_kamus` WHERE `kata`=:kata LIMIT 1;");
+			$st->execute([
+					":kata" => strtolower(trim($input))
+				]);
+			if ($st->fetch(PDO::FETCH_NUM)) {
+				$this->input = $input;
+				$this->userid = $userid;
+				$this->group_id = $group_id;
+				$this->next_turn = $st[1]==$st[2] ? 0 : $st[1]+1;
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
