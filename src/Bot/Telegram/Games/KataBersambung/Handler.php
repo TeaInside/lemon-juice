@@ -34,10 +34,24 @@ class Handler implements HandlerContract
 
 	/**
 	 * @param string $group_id
+	 * @param string $starter
+	 * @param string $group_name
 	 */
 	public function openGroup($group_id, $starter, $group_name = "")
 	{
 		return $this->sess->make_session($group_id, "group", $starter, $group_name);
+	}
+
+	/**
+	 * @param string $group_id
+	 * @param string $userid
+	 * @param string $input
+	 */
+	public function group_input($group_id, $userid, $input)
+	{
+		if ($this->sess->check_input($group_id, $userid, $input)) {
+			$this->group_input($group_id, $userid, $input);
+		}
 	}
 
 	/**
