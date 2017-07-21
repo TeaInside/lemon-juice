@@ -14,6 +14,17 @@ use Bot\Telegram\Games\KataBersambung\Handler;
  {
  	public function party()
  	{
- 		$this->textReply("Sedang dalam perbaikan :3\n\nMohon dibantu https://github.com/ammarfaizi2/lemon-juice",null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+ 		if ($this->type_chat == "group") {
+	 		$h = new Handler();
+	 		/*$this->textReply("Sedang dalam perbaikan :3\n\nMohon dibantu https://github.com/ammarfaizi2/lemon-juice",null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));*/
+	 		if ($h->openGroup($this->room, $this->actor_id, $this->event['message']['chat']['title'])) {
+	 			$this->textReply("Berhasil memulai session !\n\n/join_party untuk join.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+	 		}
+	 	}
+ 	}
+
+ 	public function join_party()
+ 	{
+ 		
  	}
  }
