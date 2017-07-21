@@ -4,6 +4,8 @@ namespace test\KataBersambung;
 
 use PHPUnit\Framework\TestCase;
 use Bot\Telegram\Games\KataBersambung\Handler;
+use Bot\Telegram\Games\KataBersambung\Session;
+use Bot\Telegram\Games\KataBersambung\Database;
 
 define("PDO_CONNECT", "mysql:host=localhost;dbname=lemon_juice;port=3306");
 define("PDO_USER", "debian-sys-maint");
@@ -45,7 +47,13 @@ class UserStartTest extends TestCase
 	public function testFirstInput()
 	{
 		$kb = new Handler();
-		$in = $kb->group_input($this->group_id, $this->user1, "dinar");
+		$in = $kb->group_input($this->group_id, $this->user1, trim((fread(STDIN, 1024))));
 		$this->assertTrue($in);
+	}
+
+	public function testSessionDestroy()
+	{
+		$des = (new Session(new Database()))->session_destroy();
+		$this->assertTrue($des);
 	}
 }
