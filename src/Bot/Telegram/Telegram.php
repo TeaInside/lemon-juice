@@ -183,10 +183,10 @@ class Telegram implements TelegramContract
             "type": "supergroup"
         },
         "date": 1500652940,
-        "text": "halo",
+        "text": "\/party",
         "entities": [
             {
-                "type": "abot_command",
+                "type": "bot_command",
                 "offset": 0,
                 "length": 6
             }
