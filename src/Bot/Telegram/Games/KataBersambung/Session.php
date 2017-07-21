@@ -116,17 +116,18 @@ class Session implements SessionContract
 	 */
 	public function check_group_input($group_id, $userid, $input)
 	{
-		$st = $this->db->pdo->prepare("SELECT `last_word` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
+		$st = $this->db->pdo->prepare("SELECT `last_word`,`turn`,`count_users` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
 		$st->execute([
 				":group_id" => $group_id
 			]);
 		$st = $st->fetch(PDO::FETCH_NUM);
 		$lsc = $this->getLastChar($st[0]);
 		$len = strlen($lsc);
-		if (/*$lsc == substr($input, 0, $len)*/ true) {
+		if ($lsc == substr($input, 0, $len)) {
 			$this->input = $input;
 			$this->userid = $userid;
 			$this->group_id = $group_id;
+			$this->next_turn = $st[1]==$st[2] ? 0 : $st[1]+1;
 			return true;
 		} else {
 			return false;
@@ -136,6 +137,11 @@ class Session implements SessionContract
 	public function group_input()
 	{
 		if ($this->point($this->userid)) {
+			$this->db->pdo->prepare("UPDATE `kb_session` SET `last_word`=:last_word, `turn`=:next_turn WHERE room_id=:room_id LIMIT 1;")->execute([
+					":last_word" => $this->input,
+					":next_turn" => $this->next_turn,
+					":room_id" => $this->group_id
+				]);
 			return true;
 		} else {
 			return false;
