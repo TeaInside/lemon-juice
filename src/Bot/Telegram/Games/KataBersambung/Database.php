@@ -15,7 +15,7 @@ class Database implements DatabaseContract
 	/**
 	 * @var PDO
 	 */
-	private $pdo;
+	public $pdo;
 
 	/** 
 	 * Constructor.

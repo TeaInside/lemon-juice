@@ -13,8 +13,8 @@ class UserStartTest extends TestCase
 		$this->kb = new Handler();
 	}
 
-	public function test()
+	public function openGrouptest()
 	{
-		$this->assertTrue(true);
+		$this->kb->openGroup("123");
 	}
 }
