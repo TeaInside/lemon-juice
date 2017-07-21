@@ -42,6 +42,7 @@ class UserStartTest extends TestCase
 		$start = $kb->start($this->group_id);
 		echo "\n\n".$start."\n\n";
 		$this->assertTrue(is_string($start));
+		print "input 1 : ";
 	}
 
 	public function testFirstInput()
@@ -50,6 +51,7 @@ class UserStartTest extends TestCase
 		$in = $kb->group_input($this->group_id, $this->user1, trim((fread(STDIN, 1024))));
 		$this->assertTrue($in);
 		echo "\n\n";
+		print "input 2 : ";
 	}
 
 	public function testSecondInput()
