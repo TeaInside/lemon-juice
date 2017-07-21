@@ -7,6 +7,7 @@ namespace Bot\Telegram\Games\KataBersambung;
  * @package Bot\Telegram\Games\KataBersambung
  */
 
+use PDO;
 use Bot\Telegram\Games\KataBersambung\Database;
 use Bot\Telegram\Games\KataBersambung\Contracts\SessionContract;
 
@@ -59,13 +60,16 @@ class Session implements SessionContract
 	/**
 	 * Start session.
 	 */
-	public function session_start()
+	public function session_start($room_id)
 	{
-		if ($this->count_users < 2) {
+		$st = $this->db->pdo->prepare("SELECT `count_users` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
+		$st->execute([":room_id" => $room_id]);
+		$st = $st->fetch(PDO::FETCH_NUM);
+		if ($st[0] < 2) {
 			return false;
 		} else {
 			return $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
-				":room_id"	 => $this->room_id
+				":room_id"	 => $room_id
 			]);
 		}
 	}

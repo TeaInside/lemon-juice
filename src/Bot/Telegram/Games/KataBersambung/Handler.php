@@ -37,10 +37,20 @@ class Handler implements HandlerContract
 	 */
 	public function openGroup($group_id, $starter, $group_name = "")
 	{
-		$this->aa = 1123123123;
 		return $this->sess->make_session($group_id, "group", $starter, $group_name);
 	}
 
+	/**
+	 * User join
+	 */
+	public function user_join($userid, $group_id)
+	{
+		return $this->sess->join($userid, $group_id);
+	}
+
+	/**
+	 * Start the game.
+	 */
 	public function start()
 	{
 		return $this->sess->session_start();
