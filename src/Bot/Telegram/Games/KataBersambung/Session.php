@@ -70,15 +70,16 @@ class Session implements SessionContract
 	 */
 	public function session_start($room_id)
 	{
-		$st = $this->db->pdo->prepare("SELECT `count_users` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
+		$st = $this->db->pdo->prepare("SELECT `count_users`,`last_word` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
 		$st->execute([":room_id" => $room_id]);
 		$st = $st->fetch(PDO::FETCH_NUM);
 		if ($st[0] < 2) {
 			return false;
 		} else {
-			return $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
+			$exe = $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
 				":room_id"	 => $room_id
 			]);
+			return $exe ? $st[1] : false;
 		}
 	}
 
@@ -115,6 +116,38 @@ class Session implements SessionContract
 	 */
 	public function check_group_input($group_id, $userid, $input)
 	{
-		$this->pdo->prepare("SELECT `last_word` FROM `kb_session` WHERE `group_id`");
+		$st = $this->db->pdo->prepare("SELECT `last_word` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
+		$st->execute([
+				":group_id" => $group_id
+			]);
+		$st = $st->fetch(PDO::FETCH_NUM);
+		$this->getLastChar($st[0]);
+
+	}
+
+	public function getLastChar($chr)
+	{
+		$rok = [];
+		$sln = strlen($chr);
+		$vocal = ["a","i","u","e","o"];
+		$vocal_flag = false;
+		for ($i=1; $i <= $sln ; $i++) { 
+			$a = substr($chr, -($i), 1);
+			if (in_array($a, $vocal)) {
+				if (!$vocal_flag) {
+					$rok[] = $a;
+					$vocal_flag = true;
+				} else {
+					break;
+				}
+			} else {
+				$rok[] = $a;
+			}
+		}
+
+
+
+		var_dump($rok);
+		die;
 	}
 }
