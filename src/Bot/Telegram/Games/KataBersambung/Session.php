@@ -44,9 +44,13 @@ class Session implements SessionContract
 	 */
 	public function make_session($room_id, $type, $starter_id, $room_name = null)
 	{
+		$rst = $this->db->pdo->prepare("SELECT `kata` FROM `kb_kamus` WHERE `id`= ".(rand(0, 31644))." LIMIT 1;");
+		$rst->execute();
+		$rst = $rst->fetch(PDO::FETCH_NUM);
+		$rst = $rst[0];
 		$this->room_id = $room_id;
 		$this->count_users = 1;
-		return $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`, `users`, `count_users`) VALUES (:room_id, :room_name, :started_at, :status, :type, :users, :count_users);")->execute([
+		$stz = $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`, `users`, `count_users`, `last_word`, `turn`) VALUES (:room_id, :room_name, :started_at, :status, :type, :users, :count_users, :last_word, :turn);");$stz->execute([
 				":room_id" => $room_id,
 				":room_name" => $room_name,
 				":started_at" => date("Y-m-d H:i:s"),
@@ -54,8 +58,11 @@ class Session implements SessionContract
 				":type" => $type,
 				":users" => json_encode([$starter_id]),
 				":count_users" => 1,
+				":last_word" => $rst,
 				":turn" => 0
 			]);
+		var_dump($rst, $stz->errorInfo());#->errorInfo());
+		die;
 	}
 
 	/**
@@ -109,6 +116,6 @@ class Session implements SessionContract
 	 */
 	public function check_group_input($group_id, $userid, $input)
 	{
-		$this->pdo->prepare("SELECT `last_word` FROM `kb_session` WHERE `group_id`")
+		$this->pdo->prepare("SELECT `last_word` FROM `kb_session` WHERE `group_id`");
 	}
 }
