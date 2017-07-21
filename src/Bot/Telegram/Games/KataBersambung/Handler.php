@@ -50,7 +50,7 @@ class Handler implements HandlerContract
 	public function group_input($group_id, $userid, $input)
 	{
 		if ($this->sess->check_group_input($group_id, $userid, $input)) {
-			$this->group_input($group_id, $userid, $input);
+			$this->sess->group_input($group_id, $userid, $input);
 		}
 	}
 

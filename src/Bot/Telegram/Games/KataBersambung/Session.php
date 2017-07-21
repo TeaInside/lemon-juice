@@ -121,33 +121,74 @@ class Session implements SessionContract
 				":group_id" => $group_id
 			]);
 		$st = $st->fetch(PDO::FETCH_NUM);
-		$this->getLastChar($st[0]);
+		$lsc = $this->getLastChar($st[0]);
+		$len = strlen($lsc);
+		if ($lsc == substr($input, 0, $len)) {
+			$this->input = $input;
+			$this->userid = $userid;
+			$this->group_id = $group_id;
+			return true;
+		} else {
+			return false;
+		}
+	}
 
+	public function group_input()
+	{
+		if ($this->point($userid)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
+	public function point($userid, $username = "")
+	{
+		$st = $this->db->pdo->prepare("SELECT `userid` FROM `kb_point` WHERE `userid`=:userid LIMIT 1;");
+		$st->execute([
+				":userid" => $userid
+			]);
+		$st = $st->fetch(PDO::FETCH_NUM);
+		if ($st) {
+			$exe = [
+					":userid" => $userid
+				];
+			if (!empty($username)) {
+				$op_quer = ", `username`=:username";
+				$exe[':username'] = $username;
+			} else {
+				$op_quer = "";
+			}
+			return $this->db->pdo->prepare("UPDATE `kb_point` SET `point`= `point`+1{$op_quer} WHERE `userid`=:userid LIMIT 1;")->execute();
+		} else {
+			return $this->db->pdo->prepare("INSERT INTO `kb_point` (`userid`, `point`, `username`) VALUES (:userid, :pt, :username)")->execute([
+					":userid" => $userid,
+					":pt" => 1,
+					":username" => $username
+				]);
+		}
 	}
 
 	public function getLastChar($chr)
 	{
-		$rok = [];
+		$rok = "";
 		$sln = strlen($chr);
 		$vocal = ["a","i","u","e","o"];
 		$vocal_flag = false;
-		for ($i=1; $i <= $sln ; $i++) { 
+		for ($i=1; $i <= $sln ; $i++) {
 			$a = substr($chr, -($i), 1);
 			if (in_array($a, $vocal)) {
 				if (!$vocal_flag) {
-					$rok[] = $a;
+					$rok .= $a;
 					$vocal_flag = true;
 				} else {
 					break;
 				}
 			} else {
-				$rok[] = $a;
+				$rok .= $a;
 			}
 		}
-
-
-
-		var_dump($rok);
-		die;
+		return strrev($rok);
 	}
 }
