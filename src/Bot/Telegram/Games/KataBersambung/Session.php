@@ -123,7 +123,7 @@ class Session implements SessionContract
 		$st = $st->fetch(PDO::FETCH_NUM);
 		$lsc = $this->getLastChar($st[0]);
 		$len = strlen($lsc);
-		if ($lsc == substr($input, 0, $len)) {
+		if (/*$lsc == substr($input, 0, $len)*/ true) {
 			$this->input = $input;
 			$this->userid = $userid;
 			$this->group_id = $group_id;
@@ -135,7 +135,7 @@ class Session implements SessionContract
 
 	public function group_input()
 	{
-		if ($this->point($userid)) {
+		if ($this->point($this->userid)) {
 			return true;
 		} else {
 			return false;
@@ -160,7 +160,7 @@ class Session implements SessionContract
 			} else {
 				$op_quer = "";
 			}
-			return $this->db->pdo->prepare("UPDATE `kb_point` SET `point`= `point`+1{$op_quer} WHERE `userid`=:userid LIMIT 1;")->execute();
+			return $this->db->pdo->prepare("UPDATE `kb_point` SET `point`= `point`+1{$op_quer} WHERE `userid`=:userid LIMIT 1;")->execute($exe);
 		} else {
 			return $this->db->pdo->prepare("INSERT INTO `kb_point` (`userid`, `point`, `username`) VALUES (:userid, :pt, :username)")->execute([
 					":userid" => $userid,
@@ -190,5 +190,10 @@ class Session implements SessionContract
 			}
 		}
 		return strrev($rok);
+	}
+
+	public function session_destroy()
+	{
+		return $this->db->pdo->prepare("TRUNCATE TABLE `kb_session`")->execute();
 	}
 }
