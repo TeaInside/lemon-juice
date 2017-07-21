@@ -20,8 +20,8 @@ class Database implements DatabaseContract
 	/** 
 	 * Constructor.
 	 */
-	public function __construct()
+	public function __construct($pdo_connect)
 	{
-		$this->pdo = new PDO(PDO_CONNECT);
+		$this->pdo = new PDO($pdo_connect);
 	}
 }
