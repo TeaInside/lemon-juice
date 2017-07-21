@@ -10,17 +10,17 @@ namespace App\JavaVirtual;
 
 interface JavaVirtualContract
 {
-	/**
-	 * Construct.
-	 *
-	 * @param string $java_code
-	 */
-	public function __construct($java_code);
+    /**
+     * Construct.
+     *
+     * @param string $java_code
+     */
+    public function __construct($java_code);
 
-	/**
-	 * Execute Java Virtual
-	 *
-	 * @return string
-	 */
-	public function execute();
+    /**
+     * Execute Java Virtual
+     *
+     * @return string
+     */
+    public function execute();
 }

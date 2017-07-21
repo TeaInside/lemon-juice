@@ -137,7 +137,6 @@ class Telegram implements TelegramContract
      */
     private function execute()
     {
-
         $this->parseEvent();
         if ($this->type_msg == "callback_query") {
             $this->parseCallback();
@@ -166,7 +165,7 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-       /* $this->webhook_input = '{
+        /* $this->webhook_input = '{
     "update_id": 344174763,
     "message": {
         "message_id": 1558,
@@ -207,7 +206,6 @@ class Telegram implements TelegramContract
             $this->room = $this->event['message']['chat']['id'];
             $this->actor_call = $this->event['message']['from']['first_name'];
             $this->actor_id = $this->event['message']['from']['id'];
-
         } elseif (isset($this->event['callback_query'])) {
             $this->type_msg = "callback_query";
             $this->callback_data = $this->event['callback_query']['data'];

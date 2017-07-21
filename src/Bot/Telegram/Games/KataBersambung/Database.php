@@ -11,17 +11,17 @@ use PDO;
 use Bot\Telegram\Games\KataBersambung\Contracts\DatabaseContract;
 
 class Database implements DatabaseContract
-{	
-	/**
-	 * @var PDO
-	 */
-	public $pdo;
+{
+    /**
+     * @var PDO
+     */
+    public $pdo;
 
-	/** 
-	 * Constructor.
-	 */
-	public function __construct()
-	{
-		$this->pdo = new PDO(PDO_CONNECT, PDO_USER, PDO_PASS);
-	}
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->pdo = new PDO(PDO_CONNECT, PDO_USER, PDO_PASS);
+    }
 }
