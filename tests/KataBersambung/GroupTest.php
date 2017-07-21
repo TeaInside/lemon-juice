@@ -38,13 +38,14 @@ class UserStartTest extends TestCase
 	{
 		$kb = new Handler();
 		$start = $kb->start($this->group_id);
-		$this->assertTrue($start);
+		echo $start."\n\n";
+		$this->assertTrue(is_string($start));
 	}
 
-	public function testFirstWorld()
+	public function testFirstInput()
 	{
-		#$kb = new Handler();
-		#$kb->group_input($this->group_id, $this->user1, "durasi");
-		$this->assertTrue(true);
+		$kb = new Handler();
+		$in = $kb->group_input($this->group_id, $this->user1, fread(STDIN, 1024));
+		$this->assertTrue($in);
 	}
 }
