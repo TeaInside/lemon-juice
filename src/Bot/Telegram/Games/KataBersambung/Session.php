@@ -42,7 +42,7 @@ class Session implements SessionContract
 	 * @param string $starter_id
 	 * @param string $room_name	
 	 */
-	public function make_session($room_id, $type, $started_id, $room_name = null)
+	public function make_session($room_id, $type, $starter_id, $room_name = null)
 	{
 		$this->room_id = $room_id;
 		$this->count_users = 1;
@@ -52,8 +52,9 @@ class Session implements SessionContract
 				":started_at" => date("Y-m-d H:i:s"),
 				":status" => "idle",
 				":type" => $type,
-				":users" => json_encode([$started_id]),
-				":count_users" => 1
+				":users" => json_encode([$starter_id]),
+				":count_users" => 1,
+				":turn" => 0
 			]);
 	}
 
@@ -101,5 +102,13 @@ class Session implements SessionContract
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Check group input
+	 */
+	public function check_group_input($group_id, $userid, $input)
+	{
+		$this->pdo->prepare("SELECT `last_word` FROM `kb_session` WHERE `group_id`")
 	}
 }
