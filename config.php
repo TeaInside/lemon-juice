@@ -10,6 +10,7 @@ if (!defined("data")) {
     define("data", __DIR__."/data");
     define("storage", __DIR__."/storage");
     define("logs", __DIR__."/logs");
+}
     define("PHPVIRTUAL_URL", "https://webhooks.redangel.ga/virtual/php");
     define("PHPVIRTUAL_DIR", "/home/ammar/web/webhooks/public/virtual/php");
     define("JAVAVIRTUAL_DIR", "/home/ammar/web/webhooks/public/virtual/java");
@@ -40,4 +41,3 @@ if (!defined("data")) {
     define("PDO_CONNECT", "mysql:host=localhost;dbname=lemon_juice;port=3306");
     define("PDO_USER", "icetea");
     define("PDO_PASS", "triosemut123");
-}
