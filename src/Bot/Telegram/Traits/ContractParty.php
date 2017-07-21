@@ -2,6 +2,8 @@
 
 namespace Bot\Telegram\Traits;
 
+use Bot\Telegram\Games\KataBersambung\Handler;
+
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
  * @package Bot\Telegram\Traits
@@ -10,5 +12,8 @@ namespace Bot\Telegram\Traits;
 
  trait ContractParty
  {
- 	
+ 	public function party()
+ 	{
+ 		
+ 	}
  }

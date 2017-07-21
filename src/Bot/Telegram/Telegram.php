@@ -7,6 +7,7 @@ use Bot\Telegram\Traits\Command;
 use Bot\Telegram\Traits\Callback;
 use Bot\Telegram\Traits\UserWarning;
 use Bot\BotContracts\TelegramContract;
+use Bot\Telegram\Traits\ContractParty;
 use Bot\Telegram\Traits\MessageBuilder;
 use Bot\Telegram\Traits\ExtendedAction;
 use Stack\Telegram\Telegram as TelegramStack;
@@ -23,7 +24,7 @@ class Telegram implements TelegramContract
     /**
      * Use traits.
      */
-    use Singleton, Command, MessageBuilder, WhatAnimeTrait, UserWarning, Callback, ExtendedAction;
+    use Singleton, Command, MessageBuilder, WhatAnimeTrait, UserWarning, Callback, ExtendedAction, ContractParty;
 
     /**
      * Telegram Instance
