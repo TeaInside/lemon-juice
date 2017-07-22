@@ -42,8 +42,7 @@ class Handler implements HandlerContract
      */
     public function openGroup($group_id, $starter, $group_name = "")
     {
-        $aa = $this->sess->register_user($this->userid, $this->username, $this->name);
-        file_put_contents("aaaa.pdo", $aa);
+        $this->sess->register_user($this->userid, $this->username, $this->name);
         return $this->sess->make_session($group_id, "group", $starter, $group_name);
     }
 
@@ -54,10 +53,10 @@ class Handler implements HandlerContract
      */
     public function group_input($group_id, $userid, $input)
     {
-        if ($this->sess->check_group_input($group_id, $userid, $input)) {
+        if ($qw = $this->sess->check_group_input($group_id, $userid, $input)) {
             return $this->sess->group_input($group_id, $userid, $input);
         } else {
-            return false;
+            return $qw;
         }
     }
 
