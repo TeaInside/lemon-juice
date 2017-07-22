@@ -69,7 +69,7 @@ class Session implements SessionContract
     public function register_user($userid, $username, $name)
     {
         $st = $this->db->pdo->prepare("SELECT COUNT(`userid`) FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
-        $st->execute([":userid" => $userid]);
+        $exe = $st->execute([":userid" => $userid]);
         $st = $st->fetch(PDO::FETCH_NUM);
         if (!$st) {
             $st = $this->db->pdo->prepare("INSERT INTO `kb_user_info` (`userid`, `username`, `name`) VALUES (:userid, :username, :name);");
@@ -80,7 +80,7 @@ class Session implements SessionContract
                 ]) ? true : file_put_contents("pdo_error.txt", json_encode($st->errorInfo()));
         } else {
             // registered
-            return true;
+            return $exe ? true : json_encode($st->errorInfo());
         }
     }
 
