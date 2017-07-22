@@ -179,11 +179,15 @@ class Session implements SessionContract
                 ]);
             if ($stq->fetch(PDO::FETCH_NUM)) {
                 $this->input = $input;
-                $this->userid = $userid;
+                $this->userid = $users[$st[1]];
                 $this->group_id = $group_id;
-                $this->next_turn = $st[1]==$st[2] ? 0 : $st[1]+1;
+                $this->next_turn = $st[1]==($st[2]-1) ? 0 : $st[1]+1;
                 return true;
             } else {
+                $this->input = $input;
+                $this->userid = $userid;
+                $this->group_id = $group_id;
+                $this->next_turn = $st[1];
                 return null;
             }
         } else {
@@ -201,6 +205,7 @@ class Session implements SessionContract
                 ]);
             $ui = $this->get_user_info($this->userid);
             return array(
+                    "salah" => 0,
                     "word" => $this->input,
                     "rwd" => $this->getLastChar($this->input),
                     "username" => $ui['username'],
@@ -209,6 +214,18 @@ class Session implements SessionContract
         } else {
             return false;
         }
+    }
+
+    public function wrong_group_input()
+    {
+        $ui = $this->get_user_info($this->userid);
+        return array(
+                "salah" => 1,
+                "word" => $this->input,
+                "rwd" => $this->getLastChar($this->input),
+                "username" => $ui['username'],
+                "name" => $ui['name']
+            );
     }
 
     public function turn_gr($room_id)
