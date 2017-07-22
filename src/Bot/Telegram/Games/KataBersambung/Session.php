@@ -41,6 +41,7 @@ class Session implements SessionContract
      * @param string $type		 (private,group)
      * @param string $starter_id
      * @param string $room_name
+     * @return bool
      */
     public function make_session($room_id, $type, $starter_id, $room_name = null)
     {
@@ -66,6 +67,12 @@ class Session implements SessionContract
         return $exe;
     }
 
+    /**
+     * @param string $userid
+     * @param string $username
+     * @param string $name
+     * @return bool
+     */
     public function register_user($userid, $username, $name)
     {
         $st = $this->db->pdo->prepare("SELECT `userid` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
@@ -85,8 +92,8 @@ class Session implements SessionContract
     }
 
     /**
-     * Start session.
      * @param string $room_id
+     * @param string $userid
      */
     public function session_start($room_id, $userid)
     {
@@ -114,6 +121,9 @@ class Session implements SessionContract
         }
     }
 
+    /**
+     * @param string $userid
+     */
     public function get_user_info($userid)
     {
         $st = $this->db->pdo->prepare("SELECT `username`, `name` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
@@ -154,7 +164,9 @@ class Session implements SessionContract
     }
 
     /**
-     * Check group input
+     * @param string $group_id
+     * @param string $userid
+     * @param string $input
      */
     public function check_group_input($group_id, $userid, $input)
     {
@@ -232,6 +244,9 @@ class Session implements SessionContract
             );
     }
 
+    /**
+     * @param string $room_id
+     */
     public function turn_gr($room_id)
     {
         $st = $this->db->pdo->prepare("SELECT `users`,`turn` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
