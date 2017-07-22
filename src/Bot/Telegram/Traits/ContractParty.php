@@ -114,4 +114,24 @@ use Bot\Telegram\Games\KataBersambung\Handler;
              }
          }
      }
+
+     public function end_party()
+     {
+        $kb = new Handler();
+        if ($a = $kb->end_party($this->room, $this->actor_id)) {
+            $this->textReply(json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                                array(
+                                    "force_reply"=>true,
+                                    "selective"=>true
+                                    )
+                            )));
+        } else {
+            $this->textReply("false...\n".json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                                array(
+                                    "force_reply"=>true,
+                                    "selective"=>true
+                                    )
+                            )));
+        }
+     }
  }

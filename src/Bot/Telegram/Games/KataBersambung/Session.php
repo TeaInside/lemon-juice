@@ -299,4 +299,45 @@ class Session implements SessionContract
     {
         return $this->db->pdo->prepare("TRUNCATE TABLE `kb_session`")->execute();
     }
+
+    public function end_party($room, $userid)
+    {
+        $st = $this->db->pdo->prepare("SELECT `users`,`turn`,`last_word` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
+        $st->execute([
+                ":room_id" => $room
+            ]);
+        $st = $st->fetch(PDO::FETCH_NUM);
+        if ($st) {
+            $st[0] = json_decode($st[0], true);
+            if (in_array($userid, $st[0])) {
+                $keyer = array();
+                foreach ($st[0] as $key => $val) {
+                    if ($val == $userid) {
+                        $keyer[] = $key;
+                        unset($st[0]['key']);
+                    }
+                }
+                $count = count($st[0]);
+                $st[1] = in_array($st[1], $keyer) ? ($st[1]==($count-1) ? 0 : $st[1]++) : $st[1];
+                $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `turn`=:turn, `count_users`=:count_users WHERE `room_id`=:room_id LIMIT 1;")->execute([
+                        ":users" => json_encode($st[0]),
+                        ":turn" => $st[1],
+                        ":count_users" => $count,
+                        ":room_id" => $room
+                    ]);
+                $ui = $this->get_user_info($st[0][$st[1]]);
+                return array(
+                        "word" => $st[2],
+                        "rwd" => $this->getLastChar($st[2]),
+                        "username" => $ui['username'],
+                        "name" => $ui['name'],
+                        "user_count" => $count
+                    );
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
