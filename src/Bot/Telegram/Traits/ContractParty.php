@@ -95,7 +95,7 @@ trait ContractParty
                         );
                     } elseif (is_array($kb)) {
                         if ($kb['salah'] == 1) {
-                            $msg = "Salah <b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].")\nKamu punya ~ kesempatan lagi. Reply untuk jawab.";
+                            $msg = "👎 salah <b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].")\nKamu punya ~ kesempatan lagi. Reply untuk jawab.";
                         } else {
                             $msg = "<b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].") Reply untuk jawab.";
                         }
@@ -129,7 +129,7 @@ trait ContractParty
             if ($a['status'] == "totally_end") {
                 $this->textReply("<b>GAME OVER</b>.\nSelamat buat ".$a['smiter']['nama']." (@".$a['smiter']['username']."), kamu dapat 20 poin. Total {\$total_point}", null, null, array("parse_mode"=>"HTML"));
             } elseif ($a['status'] == "play") {
-                $this->textReply("<b>Next</b>.", null, null, array("parse_mode"=>"HTML"));
+                $this->textReply("<b>Next</b>. ".$a['next_user']['name']." (@".$a['next_user']['username'].")", null, null, array("parse_mode"=>"HTML"));
             } else {
                 $this->textReply("<b>Unknown status</b>\n\nJSON Response :\n".json_encode($a, 128), null, null, array("parse_mode"=>"HTML"));
             }

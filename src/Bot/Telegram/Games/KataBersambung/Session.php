@@ -380,12 +380,17 @@ class Session implements SessionContract
                             ":room_id" => $room
                         ]
                     );
-                    $ui = $this->get_user_info($st[0][$st[1]]);
+                    $ui  = $this->get_user_info($st[0][$userid]);
+                    $uiq = $this->get_user_info($st[0][$st[1]]);
                     return array(
                             "status" => "play",
                             "word" => $st[2],
                             "rwd" => $this->getLastChar($st[2]),
-                            "next_turn" => [
+                            "next_user" => [
+                                "username" => $uiq['username'],
+                                "name" => $uiq['name']
+                            ],
+                            "end_user" => [
                                 "username" => $ui['username'],
                                 "name" => $ui['name']
                             ],
