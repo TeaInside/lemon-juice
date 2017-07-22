@@ -31,7 +31,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
  	{
  		$kb = new Handler();
         if ($a = $kb->user_join($this->actor_id, $this->room) and $a > 1) {
-        	$this->textReply("@".$this->event['message']['from']." (".$this->actor.") berhasil bergabung ke dalam party.\n\nJumlah peserta party, {\$jml_peserta} orang\n\n\n{$a}", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+        	$this->textReply("@".$this->event['message']['from']['username']." (".$this->actor.") berhasil bergabung ke dalam party.\n\nJumlah peserta party, {\$jml_peserta} orang\n\n\n{$a}", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
         }
  	}
  }
