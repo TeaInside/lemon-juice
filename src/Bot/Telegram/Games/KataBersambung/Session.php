@@ -68,7 +68,7 @@ class Session implements SessionContract
 
     public function register_user($userid, $username, $name)
     {
-        $st = $this->db->pdo->prepare("SELECT COUNT(`userid`) FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
+        $st = $this->db->pdo->prepare("SELECT `userid` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
         $exe = $st->execute([":userid" => $userid]);
         $st = $st->fetch(PDO::FETCH_NUM);
         if (!$st) {
