@@ -77,7 +77,7 @@ class Session implements SessionContract
                     ":userid" => $userid,
                     ":username" => $username,
                     ":name" => $name
-                ]) ? true : json_encode($st->errorInfo());
+                ]) ? true : file_put_contents("pdo_error.txt", json_encode($st->errorInfo()));
         } else {
             // registered
             return true;
