@@ -102,7 +102,7 @@ class Session implements SessionContract
             $exe = $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
                 ":room_id"     => $room_id
             ]);
-            return $exe ? $st[1] : false;
+            return $exe ? array($st[1], $this->getLastChar($st[1])) : false;
         }
     }
 
