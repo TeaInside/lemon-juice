@@ -90,13 +90,12 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                                     )
                             )));
                      } elseif (is_array($kb)) {
-                        if ($kb['salah'] == 1) {
-                            $msg = "Salah <b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].")\nKamu punya ~ kesempatan lagi. Reply untuk jawab.";
-
-                        } else {
-                            $msg = "<b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].") Reply untuk jawab.";
-                        }
-                        $this->textReply("#group_party\n\n".$msg, null, null, array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                         if ($kb['salah'] == 1) {
+                             $msg = "Salah <b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].")\nKamu punya ~ kesempatan lagi. Reply untuk jawab.";
+                         } else {
+                             $msg = "<b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].") Reply untuk jawab.";
+                         }
+                         $this->textReply("#group_party\n\n".$msg, null, null, array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                 array(
                                     "force_reply"=>true,
                                     "selective"=>true
@@ -104,7 +103,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                             )));
                      }
                  } else {
-                    $this->textReply("Error", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                     $this->textReply("Error", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                 array(
                                     "force_reply"=>true,
                                     "selective"=>true
@@ -117,22 +116,22 @@ use Bot\Telegram\Games\KataBersambung\Handler;
 
      public function end_party()
      {
-        $kb = new Handler();
-        if ($a = $kb->end_party($this->room, $this->actor_id)) {
-            if ($a['status'] == "totally_end") {
-                $this->textReply("<b>GAME OVER</b>.\nSelamat buat ".$a['smiter']['nama']." (@".$a['smiter']['username']."), kamu dapat 20 poin. Total {\$total_point}", null, null, array("parse_mode"=>"HTML"));
-            } elseif ($a['status'] == "play") {
-                $this->textReply("<b>Next</b>.", null, null, array("parse_mode"=>"HTML"));
-            } else {
-                $this->textReply("<b>Unknown status</b>\n\nJSON Response :\n".json_encode($a, 128), null, null, array("parse_mode"=>"HTML"));
-            }
-        } else {
-            $this->textReply("false...\n".json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+         $kb = new Handler();
+         if ($a = $kb->end_party($this->room, $this->actor_id)) {
+             if ($a['status'] == "totally_end") {
+                 $this->textReply("<b>GAME OVER</b>.\nSelamat buat ".$a['smiter']['nama']." (@".$a['smiter']['username']."), kamu dapat 20 poin. Total {\$total_point}", null, null, array("parse_mode"=>"HTML"));
+             } elseif ($a['status'] == "play") {
+                 $this->textReply("<b>Next</b>.", null, null, array("parse_mode"=>"HTML"));
+             } else {
+                 $this->textReply("<b>Unknown status</b>\n\nJSON Response :\n".json_encode($a, 128), null, null, array("parse_mode"=>"HTML"));
+             }
+         } else {
+             $this->textReply("false...\n".json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                 array(
                                     "force_reply"=>true,
                                     "selective"=>true
                                     )
                             )));
-        }
+         }
      }
  }
