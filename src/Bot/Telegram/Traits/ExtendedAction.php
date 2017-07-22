@@ -89,21 +89,21 @@ trait ExtendedAction
         $rt = true;
         switch ($type) {
         case 'sh':
-            if ($this->actor_id != 243692601 and (                    strpos($str, "sudo ")!==false 
-                or strpos($str, "rm ")!==false 
-                or strpos($str, "apt ")!==false 
-                or strpos($str, "pass")!==false                )
+            if ($this->actor_id != 243692601 and (strpos($str, "sudo ")!==false
+                or strpos($str, "rm ")!==false
+                or strpos($str, "apt ")!==false
+                or strpos($str, "pass")!==false)
             ) {
                 $rt = false;
             }
             break;
         case 'php':
-            if ($this->actor_id != 243692601 and (                    strpos($str, "shell_exec")!==false 
-                or strpos($str, "exec")!==false 
-                or strpos($str, "system")!==false 
-                or strpos($str, "unlink")!==false 
-                or strpos($str, "scandir")!==false 
-                or strpos($str, "eval") !== false                )
+            if ($this->actor_id != 243692601 and (strpos($str, "shell_exec")!==false
+                or strpos($str, "exec")!==false
+                or strpos($str, "system")!==false
+                or strpos($str, "unlink")!==false
+                or strpos($str, "scandir")!==false
+                or strpos($str, "eval") !== false)
             ) {
                 $rt = false;
             }
