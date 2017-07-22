@@ -30,13 +30,21 @@ use Bot\Telegram\Games\KataBersambung\Handler;
  	public function join_party()
  	{
  		$kb = new Handler();
-        if ($a = $kb->user_join($this->actor_id, $this->room) and $a > 1) {
+        if ($a = $kb->user_join($this->actor_id, $this->room) and is_int($a)) {
         	$this->textReply("@".$this->event['message']['from']['username']." (".$this->actor.") berhasil bergabung ke dalam party.\n\nJumlah peserta party, {\$jml_peserta} orang.\n/start_party untuk memulai.\n\n{$a}", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+        } elseif ($a === "room_not_found") {
+            $this->textReply("Belum ada party, /party untuk memulai !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+        } elseif ($a === "pun_join") {
+            $this->textReply("Anda sudah bergabung ke dalam party. /start_party untuk memulai party.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+        } else {
+            $this->textReply("<b>Error System</b>\n\n".$a, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
         }
  	}
 
     public function start_party()
     {
-
+        $kb = new Handler();
     }
  }
+
+
