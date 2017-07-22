@@ -15,7 +15,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
  	public function party()
  	{
  		if ($this->type_chat != "private") {
-	 		$h = new Handler($this->userid, $this->event['message']['from']['username'], $this->actor);
+	 		$h = new Handler($this->actor_id, $this->event['message']['from']['username'], $this->actor);
 	 		/*
 	 			$this->textReply("Sedang dalam perbaikan :3\n\nMohon dibantu https://github.com/ammarfaizi2/lemon-juice",null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
 	 		*/
@@ -29,7 +29,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
 
  	public function join_party()
  	{
- 		$kb = new Handler($this->userid, $this->event['message']['from']['username'], $this->actor);
+ 		$kb = new Handler($this->actor_id, $this->event['message']['from']['username'], $this->actor);
         if ($a = $kb->user_join($this->actor_id, $this->room) and is_int($a)) {
         	$this->textReply("@".$this->event['message']['from']['username']." (".$this->actor.") berhasil bergabung ke dalam party.\n\nJumlah peserta party, {\$jml_peserta} orang.\n/start_party untuk memulai.\n\n{$a}", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
         } elseif ($a === "room_not_found") {
