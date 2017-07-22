@@ -184,7 +184,7 @@ class Session implements SessionContract
                 $this->next_turn = $st[1]==$st[2] ? 0 : $st[1]+1;
                 return true;
             } else {
-                return false;
+                return null;
             }
         } else {
             return false;
