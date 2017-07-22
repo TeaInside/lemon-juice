@@ -495,7 +495,7 @@ trait Command
                 case '/join_party':
                     $this->join_party();
                     break;
-                case '/start_party': 
+                case '/start_party':
                     $this->start_party();
                     break;
                 default:

@@ -50,7 +50,7 @@ class Session implements SessionContract
         $rst = $rst[0];
         $this->room_id = $room_id;
         $this->count_users = 1;
-        #return 
+        #return
         $std = $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`, `users`, `count_users`, `last_word`, `turn`) VALUES (:room_id, :room_name, :started_at, :status, :type, :users, :count_users, :last_word, :turn);");
         $exe = $std->execute([
                 ":room_id" => intval($room_id),
@@ -191,7 +191,6 @@ class Session implements SessionContract
             $w = json_decode($st[0], true);
             return $w[$st[1]];
         } else {
-
         }
     }
 
