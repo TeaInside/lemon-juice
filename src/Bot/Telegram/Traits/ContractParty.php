@@ -90,7 +90,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                                     )
                             )));
                      } elseif (is_array($kb)) {
-                         $this->textReply("#group_party\n\n".json_encode($kb, 128)."\n\n@".$kb['username'], null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                         $this->textReply("#group_party\n\n".json_encode($kb, 128)."\n\n@".$kb['username'], null, null, array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                 array(
                                     "force_reply"=>true,
                                     "selective"=>true
