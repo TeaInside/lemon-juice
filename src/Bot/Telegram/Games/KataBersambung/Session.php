@@ -151,13 +151,20 @@ class Session implements SessionContract
      */
     public function check_group_input($group_id, $userid, $input)
     {
-        $st = $this->db->pdo->prepare("SELECT `last_word`,`turn`,`count_users` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
+        $st = $this->db->pdo->prepare("SELECT `last_word`,`turn`,`count_users`,`users` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
         $st->execute([
                 ":group_id" => $group_id
             ]);
         $st = $st->fetch(PDO::FETCH_NUM);
         $lsc = $this->getLastChar($st[0]);
         $len = strlen($lsc);
+        $users = json_decode($st[3], true);
+        if (!in_array($userid, $users)) {
+            return "belum_join";
+        }
+        if ($users[$st[1]] != $userid) {
+            return "belum_giliran";
+        }
         if ($lsc == substr($input, 0, $len)) {
             $stq = $this->db->pdo->prepare("SELECT `id` FROM `kb_kamus` WHERE `kata`=:kata LIMIT 1;");
             $stq->execute([
@@ -185,7 +192,13 @@ class Session implements SessionContract
                     ":next_turn" => $this->next_turn,
                     ":room_id" => $this->group_id
                 ]);
-            return true;
+            $ui = $this->get_user_info($userid);
+            return array(
+                    "word" => $this->input,
+                    "rwd" => $this->getLastChar($this->input),
+                    "username" => $ui['username'],
+                    "name" => $ui['name']
+                );
         } else {
             return false;
         }
