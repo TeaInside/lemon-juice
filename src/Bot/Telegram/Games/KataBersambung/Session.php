@@ -100,16 +100,17 @@ class Session implements SessionContract
             $st[0]   = json_decode($st[0], true);
             if (in_array($userid, $st[0])) {
                 // already joined
-                return false;
+                return 'pun_join';
             }
             $st[0][] = $userid;
             $st[1]++;
-            return $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `count_users`= {$st[1]} WHERE `room_id`=:group_id LIMIT 1;")->execute([
+            $stex = $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `count_users`= {$st[1]} WHERE `room_id`=:group_id LIMIT 1;");
+            return  $stex->execute([
                     ":users" => json_encode($st[0]),
                     ":group_id" => $group_id
-                ]) ? $st[1] : false;
+                ]) ? $st[1] : json_encode(["error"=>true, $stex->errorInfo()]);
         } else {
-            return false;
+            return 'room_not_found';
         }
     }
 
