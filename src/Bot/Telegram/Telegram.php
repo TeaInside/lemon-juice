@@ -279,7 +279,7 @@ class Telegram implements TelegramContract
                             "command" => "/whatanime",
                             "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ((isset($this->event['message']['text']) and filter_var(str_replace(" ", urlencode(" "), $this->event['message']['text']), FILTER_VALIDATE_URL)) ? $this->event['message']['text'] : false)),
                         );
-                } elseif (substr($a[0], 0, 12) == "#group_party") {
+                } elseif (!isset($this->entities['bot_command']) and substr($a[0], 0, 12) == "#group_party") {
                     $this->entities['party'][] = array(
                             "group_in" => strtolower(trim(preg_replace("#[^[:print:]]#", "", $this->event['message']['text'])))
                         );
