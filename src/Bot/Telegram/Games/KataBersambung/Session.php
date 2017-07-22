@@ -53,7 +53,7 @@ class Session implements SessionContract
         #return 
         $std = $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`, `users`, `count_users`, `last_word`, `turn`) VALUES (:room_id, :room_name, :started_at, :status, :type, :users, :count_users, :last_word, :turn);");
         $exe = $std->execute([
-                ":room_id" => (int)$room_id,
+                ":room_id" => intval($room_id),
                 ":room_name" => $room_name,
                 ":started_at" => date("Y-m-d H:i:s"),
                 ":status" => "idle",
