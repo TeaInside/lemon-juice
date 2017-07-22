@@ -31985,14 +31985,46 @@ INSERT INTO `kb_kamus` VALUES
 
 
 
-CREATE TABLE `kb_session` (
-  `group_id` int(11) NOT NULL,
-  `group_name` varchar(500) NOT NULL,
-  `started_at` datetime DEFAULT NULL,
-  `status` enum('game','idle') NOT NULL
+CREATE TABLE `kb_point` (
+  `userid` varchar(225) NOT NULL,
+  `point` int(11) NOT NULL,
+  `username` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+
+
+
+
+CREATE TABLE `kb_session` (
+  `room_id` bigint(20) NOT NULL,
+  `room_name` varchar(500) NOT NULL,
+  `started_at` datetime DEFAULT NULL,
+  `status` enum('game','idle') NOT NULL,
+  `type` enum('private','group') NOT NULL,
+  `users` text NOT NULL,
+  `count_users` int(11) NOT NULL,
+  `last_word` varchar(500) DEFAULT NULL,
+  `turn` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `kb_session` VALUES
+("-1001128531173","LTM Group","2017-07-22 20:40:32","game","group","[24369260,243692601]","2","ensiklopedis","0");
+
+
+
+
+CREATE TABLE `kb_user_info` (
+  `userid` bigint(20) NOT NULL,
+  `username` varchar(225) NOT NULL,
+  `name` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `kb_user_info` VALUES
+("24369260","ammarfaizi2","Ammar F"),
+("243692601","ammarfaizi2","Ammar F");
 
 
 
