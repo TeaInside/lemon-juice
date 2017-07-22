@@ -14,10 +14,11 @@ use Bot\Telegram\Games\KataBersambung\Handler;
  {
  	public function party()
  	{
- 		# var_dump($this->type_chat);
  		if ($this->type_chat != "private") {
 	 		$h = new Handler();
-	 		/*$this->textReply("Sedang dalam perbaikan :3\n\nMohon dibantu https://github.com/ammarfaizi2/lemon-juice",null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));*/
+	 		/*
+	 			$this->textReply("Sedang dalam perbaikan :3\n\nMohon dibantu https://github.com/ammarfaizi2/lemon-juice",null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+	 		*/
 	 		if ($h->openGroup($this->room, $this->actor_id, $this->event['message']['chat']['title'])) {
 	 			$this->textReply("Berhasil memulai session !\n\n/join_party untuk join.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
 	 		} else {
@@ -28,6 +29,9 @@ use Bot\Telegram\Games\KataBersambung\Handler;
 
  	public function join_party()
  	{
-
+ 		$kb = new Handler();
+        if ($kb->user_join($this->actor_id, $this->room)) {
+        	$this->textReply("@".$this->event['message']['from']." (".$this->actor.") berhasil bergabung ke dalam party.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+        }
  	}
  }

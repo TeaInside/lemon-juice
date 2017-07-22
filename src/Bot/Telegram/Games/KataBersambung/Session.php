@@ -63,7 +63,6 @@ class Session implements SessionContract
                 ":last_word" => $rst,
                 ":turn" => 0
             ]);
-        #file_put_contents("pdo_logs.txt", json_encode($std->errorInfo(), 128)."\n\npdo_logs");
         return $exe;
     }
 
@@ -108,7 +107,7 @@ class Session implements SessionContract
             return $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `count_users`= {$st[1]} WHERE `room_id`=:group_id LIMIT 1;")->execute([
                     ":users" => json_encode($st[0]),
                     ":group_id" => $group_id
-                ]);
+                ]) ? $st[1] : false;
         } else {
             return false;
         }
