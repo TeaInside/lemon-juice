@@ -76,12 +76,6 @@ use Bot\Telegram\Games\KataBersambung\Handler;
          }
      }
 
-     public function party_user_in()
-     {
-         $kb = new Handler();
-         $kb->group_input();
-     }
-
      public function parseParty()
      {
          if (isset($this->entities['party'])) {
@@ -104,6 +98,13 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                                         )
                                 )));
                          }
+                     } else {
+                        $this->textReply("Error", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                                    array(
+                                        "force_reply"=>true,
+                                        "selective"=>true
+                                        )
+                                )));
                      }
                  }
              }
