@@ -56,7 +56,7 @@ class Handler implements HandlerContract
         if ($qw = $this->sess->check_group_input($group_id, $userid, $input)) {
             return $this->sess->group_input($group_id, $userid, $input);
         } else {
-            return $qw;
+            return "qw";
         }
     }
 
