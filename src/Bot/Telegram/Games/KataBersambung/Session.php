@@ -139,6 +139,7 @@ class Session implements SessionContract
             ]
         );
         $st = $st->fetch(PDO::FETCH_ASSOC);
+        $st['username'] = empty($st['username']) ? "No Username" : $st['username'];
         return $st;
     }
 
