@@ -90,7 +90,13 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                                     )
                             )));
                      } elseif (is_array($kb)) {
-                         $this->textReply("#group_party\n\n".json_encode($kb, 128)."\n\n@".$kb['username'], null, null, array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                        if ($kb['salah'] == 1) {
+                            $msg = "Salah <b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].")\nKamu punya ~ kesempatan lagi. Reply untuk jawab.";
+
+                        } else {
+                            $msg = "<b>".strtoupper($kb['rwd'])."...</b>\nSekarang ".$kb['name']." (@".$kb['username'].") Reply untuk jawab.";
+                        }
+                        $this->textReply("#group_party\n\n".$msg, null, null, array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                 array(
                                     "force_reply"=>true,
                                     "selective"=>true
