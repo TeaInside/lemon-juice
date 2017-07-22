@@ -107,7 +107,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                                 )));
                      }
                      // debug
-                      $this->textReply(json_encode([$kb, [$this->room, $this->actor_id, $val]], 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                      $this->textReply(json_encode([$kb, [$this->room, $this->actor_id, $val, $this->entities['party']]], 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                     array(
                                         "force_reply"=>true,
                                         "selective"=>true
