@@ -63,7 +63,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                     $this->textReply("Kamu belum bergabung ke party ini.\n/join_party untuk bergabung.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
                 default:
-                    $this->textReply("#group_party\n\nBerhasil memulai party.\n@".($kb->userturn['username'])."\n\n".json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                    $this->textReply("#group_party\n\nBerhasil memulai party.\n@".($a['username'])."\n\n".json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                     array(
                                         "force_reply"=>true,
                                         "selective"=>true

@@ -90,7 +90,7 @@ class Session implements SessionContract
      */
     public function session_start($room_id, $userid)
     {
-        $st = $this->db->pdo->prepare("SELECT `count_users`,`last_word`,`users` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
+        $st = $this->db->pdo->prepare("SELECT `count_users`,`last_word`,`users`,`turn` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
         $st->execute([":room_id" => $room_id]);
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st[0] < 2) {
@@ -103,7 +103,14 @@ class Session implements SessionContract
                 ":room_id"     => $room_id
             ]);
             $this->userturn = $this->get_user_info;
-            return $exe ? array($st[1], $this->getLastChar($st[1])) : false;
+            $st[2] = json_decode($st[2], true);
+            $ui = $this->get_user_info($st[2][$st[3]]);
+            return $exe ? array(
+                    "word" => $st[1],
+                    "rwd" => $this->getLastChar($st[1]),
+                    "username" => $ui['username'],
+                    "name" => $ui['name']
+                ); : false;
         }
     }
 
