@@ -63,7 +63,7 @@ class Session implements SessionContract
                 ":last_word" => $rst,
                 ":turn" => 0
             ]);
-        file_put_contents("pdo_logs.txt", json_encode($std->errorInfo(), 128)."\n\npdo_logs");
+        #file_put_contents("pdo_logs.txt", json_encode($std->errorInfo(), 128)."\n\npdo_logs");
         return $exe;
     }
 
