@@ -94,7 +94,7 @@ class Session implements SessionContract
         $st->execute([":room_id" => $room_id]);
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st[0] < 2) {
-            return "kurang_wong";
+            return $st === false ? "room_not_found" : "kurang_wong";
         } else {
             if (strpos($st[2], trim($userid))===false) {
                 return "belum_join";
