@@ -75,7 +75,7 @@ class Session implements SessionContract
      * @param string $name
      * @return bool
      */
-    public function register_user($userid, $username, $name)
+    public function register_user($userid, $username = "", $name = "")
     {
         $st = $this->db->pdo->prepare("SELECT `userid` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
         $exe = $st->execute([":userid" => $userid]);
