@@ -184,14 +184,14 @@ class Session implements SessionContract
                 $this->next_turn = $st[1]==($st[2]-1) ? 0 : $st[1]+1;
                 return true;
             } else {
-                $this->input = $input;
+                $this->input = $st[0];
                 $this->userid = $userid;
                 $this->group_id = $group_id;
                 $this->next_turn = $st[1];
                 return null;
             }
         } else {
-            $this->input = $input;
+            $this->input = $st[0];
             $this->userid = $userid;
             $this->group_id = $group_id;
             $this->next_turn = $st[1];
