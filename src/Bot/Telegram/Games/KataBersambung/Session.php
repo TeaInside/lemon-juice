@@ -199,7 +199,7 @@ class Session implements SessionContract
                     ":next_turn" => $this->next_turn,
                     ":room_id" => $this->group_id
                 ]);
-            $ui = $this->get_user_info($userid);
+            $ui = $this->get_user_info($this->userid);
             return array(
                     "word" => $this->input,
                     "rwd" => $this->getLastChar($this->input),
