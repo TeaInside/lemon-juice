@@ -289,6 +289,9 @@ class Session implements SessionContract
                     break;
                 }
             } else {
+                if ($vocal_flag) {
+                    break;
+                }
                 $rok .= $a;
             }
         }
