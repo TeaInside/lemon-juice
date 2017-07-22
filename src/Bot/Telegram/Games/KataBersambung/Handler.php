@@ -27,9 +27,12 @@ class Handler implements HandlerContract
      * Constructor.
      * @param string $pdo_connect
      */
-    public function __construct()
+    public function __construct($userid = "", $username = "", $name = "")
     {
         $this->sess    = new Session(new Database());
+        $this->userid = $userid;
+        $this->username = $username;
+        $this->name = $name;
     }
 
     /**
@@ -39,6 +42,7 @@ class Handler implements HandlerContract
      */
     public function openGroup($group_id, $starter, $group_name = "")
     {
+        $this->sess->register($this->userid, $this->username, $this->name);
         return $this->sess->make_session($group_id, "group", $starter, $group_name);
     }
 
@@ -61,14 +65,23 @@ class Handler implements HandlerContract
      */
     public function user_join($userid, $group_id)
     {
+        $this->sess->register($this->userid, $this->username, $this->name);
         return $this->sess->join($userid, $group_id);
     }
 
     /**
      * Start the game.
      */
-    public function start($group_id)
+    public function start($group_id, $userid)
     {
-        return $this->sess->session_start($group_id);
+        return $this->sess->session_start($group_id, $userid);
+    }
+
+    /**
+     * Get turn
+     */
+    public function get_turn($group_id)
+    {
+        return $this->sess->turn_gr($group_id);
     }
 }

@@ -66,18 +66,39 @@ class Session implements SessionContract
         return $exe;
     }
 
+    public function register_user($userid, $username, $name)
+    {
+        $st = $this->db->pdo->prepare("SELECT COUNT(`userid`) FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
+        $st->execute([":userid" => $userid]);
+        $st = $st->fetch(PDO::FETCH_NUM);
+        if (!$st) {
+            $st = $this->db->pdo->prepare("INSERT INTO `kb_user_info` (`userid`, `username`, `name`) VALUES (:userid, :username, :name);");
+            return $st->execute([
+                    ":userid" => $userid,
+                    ":username" => $username,
+                    ":name" => $name
+                ]) ? true : json_encode($st->errorInfo());
+        } else {
+            // registered
+            return true;
+        }
+    }
+
     /**
      * Start session.
      * @param string $room_id
      */
-    public function session_start($room_id)
+    public function session_start($room_id, $userid)
     {
-        $st = $this->db->pdo->prepare("SELECT `count_users`,`last_word` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
+        $st = $this->db->pdo->prepare("SELECT `count_users`,`last_word`,`users` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
         $st->execute([":room_id" => $room_id]);
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st[0] < 2) {
-            return false;
+            return "kurang_wong";
         } else {
+            if (strpos($st[2], trim($userid))===false) {
+                return "belum_join";
+            }
             $exe = $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
                 ":room_id"     => $room_id
             ]);
@@ -156,6 +177,21 @@ class Session implements SessionContract
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function turn_gr($room_id)
+    {
+        $st = $this->db->pdo->prepare("SELECT `users`,`turn` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
+        $st->execute([
+                ":group_id" => $group_id
+            ]);
+        $st = $st->fetch(PDO::FETCH_NUM);
+        if ($st) {
+            $w = json_decode($st[0], true);
+            return $w[$st[1]];
+        } else {
+
         }
     }
 

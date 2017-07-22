@@ -44,6 +44,9 @@ use Bot\Telegram\Games\KataBersambung\Handler;
     public function start_party()
     {
         $kb = new Handler();
+        if ($a = $kb->start($this->room, $this->actor_id)) {
+            $this->textReply("<b>Error System</b>\n\n".$a, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+        }
     }
  }
 
