@@ -84,4 +84,9 @@ class Handler implements HandlerContract
     {
         return $this->sess->turn_gr($group_id);
     }
+
+    public function end_party($room, $userid)
+    {
+        return $this->sess->end_party($room, $userid)
+    }
 }

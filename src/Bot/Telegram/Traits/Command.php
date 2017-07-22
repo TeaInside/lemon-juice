@@ -34,7 +34,8 @@ trait Command
                 "/info",
                 "/party",
                 "/join_party",
-                "/start_party"
+                "/start_party",
+                "/end_party"
             );
         if (file_exists(storage."/telegram/extended_keywords.json")) {
             $a = json_decode(file_get_contents(storage."/telegram/extended_keywords.json"), true);
@@ -497,6 +498,9 @@ trait Command
                     break;
                 case '/start_party':
                     $this->start_party();
+                    break;
+                case '/end_party':
+                    $this->end_party();
                     break;
                 default:
                         count($this->extended_commands) and $this->parseExtendedCommand($val);
