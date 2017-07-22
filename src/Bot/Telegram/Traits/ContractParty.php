@@ -53,6 +53,9 @@ use Bot\Telegram\Games\KataBersambung\Handler;
          $kb = new Handler();
          if ($a = $kb->start($this->room, $this->actor_id)) {
              switch ($a) {
+                case 'room_not_found':
+                    $this->textReply("Belum ada party, /party untuk memulai !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+                    break;
                 case 'kurang_wong':
                     $this->textReply("Kurang anggota party. Minimal 2 orang untuk memulai.\n/join_party untuk join.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
