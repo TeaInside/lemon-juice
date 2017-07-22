@@ -12,28 +12,28 @@ use Bot\Telegram\Games\KataBersambung\Handler;
 
  trait ContractParty
  {
- 	public function party()
- 	{
- 		if ($this->type_chat != "private") {
-	 		$h = new Handler($this->actor_id, $this->event['message']['from']['username'], $this->actor);
-	 		/*
-	 			$this->textReply("Sedang dalam perbaikan :3\n\nMohon dibantu https://github.com/ammarfaizi2/lemon-juice",null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-	 		*/
-	 		if ($h->openGroup($this->room, $this->actor_id, $this->event['message']['chat']['title'])) {
-	 			$this->textReply("Berhasil memulai session !\n\n/join_party untuk join.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-	 		} else {
-	 			$this->textReply("Error", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-	 		}
-	 	}
- 	}
+     public function party()
+     {
+         if ($this->type_chat != "private") {
+             $h = new Handler($this->actor_id, $this->event['message']['from']['username'], $this->actor);
+            /*
+                 $this->textReply("Sedang dalam perbaikan :3\n\nMohon dibantu https://github.com/ammarfaizi2/lemon-juice",null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+             */
+            if ($h->openGroup($this->room, $this->actor_id, $this->event['message']['chat']['title'])) {
+                $this->textReply("Berhasil memulai session !\n\n/join_party untuk join.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+            } else {
+                $this->textReply("Error", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+            }
+         }
+     }
 
- 	public function join_party()
- 	{
- 		$kb = new Handler($this->actor_id, $this->event['message']['from']['username'], $this->actor);
-        if ($a = $kb->user_join($this->actor_id, $this->room) and is_int($a)) {
-        	$this->textReply("@".$this->event['message']['from']['username']." (".$this->actor.") berhasil bergabung ke dalam party.\n\nJumlah peserta party, {\$jml_peserta} orang.\n/start_party untuk memulai.\n\n{$a}", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-        } else {
-            switch ($a) {
+     public function join_party()
+     {
+         $kb = new Handler($this->actor_id, $this->event['message']['from']['username'], $this->actor);
+         if ($a = $kb->user_join($this->actor_id, $this->room) and is_int($a)) {
+             $this->textReply("@".$this->event['message']['from']['username']." (".$this->actor.") berhasil bergabung ke dalam party.\n\nJumlah peserta party, {\$jml_peserta} orang.\n/start_party untuk memulai.\n\n{$a}", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+         } else {
+             switch ($a) {
                 case 'room_not_found':
                     $this->textReply("Belum ada party, /party untuk memulai !", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
@@ -45,31 +45,29 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                     $this->textReply("<b>Error System</b>\n\n".$a, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
             }
-        }
- 	}
+         }
+     }
 
-    public function start_party()
-    {
-        $kb = new Handler();
-        if ($a = $kb->start($this->room, $this->actor_id)) {
-            switch ($a) {
+     public function start_party()
+     {
+         $kb = new Handler();
+         if ($a = $kb->start($this->room, $this->actor_id)) {
+             switch ($a) {
                 case 'ok':
                     $this->textReply("Berhasil memulai party.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
                 case 'kurang_wong':
                     $this->textReply("Kurang anggota party. Minimal 2 orang untuk memulai.\n/join_party untuk join.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
-                case 'belum_join': 
+                case 'belum_join':
                     $this->textReply("Kamu belum bergabung ke party ini.\n/join_party untuk bergabung.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
                 default:
                     # code...
                     break;
             }
-        } else {
-            $this->textReply("<b>Error System</b>\n\n".$a, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-        }
-    }
+         } else {
+             $this->textReply("<b>Error System</b>\n\n".$a, null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
+         }
+     }
  }
-
-
