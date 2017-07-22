@@ -42,7 +42,8 @@ class Handler implements HandlerContract
      */
     public function openGroup($group_id, $starter, $group_name = "")
     {
-        $this->sess->register_user($this->userid, $this->username, $this->name);
+        $aa = $this->sess->register_user($this->userid, $this->username, $this->name);
+        file_put_contents("aaaa.pdo", $aa);
         return $this->sess->make_session($group_id, "group", $starter, $group_name);
     }
 
