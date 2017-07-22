@@ -307,7 +307,7 @@ class Session implements SessionContract
                 $rok .= $a;
                 if ($vocal_flag) {
                     break;
-                }                
+                }
             }
         }
         return strrev($rok);
