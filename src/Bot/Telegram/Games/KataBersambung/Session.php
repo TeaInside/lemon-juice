@@ -314,28 +314,54 @@ class Session implements SessionContract
             $st[0] = json_decode($st[0], true);
             if (in_array($userid, $st[0])) {
                 $keyer = array();
+                $smiter = null;
                 foreach ($st[0] as $key => $val) {
                     if ($val == $userid) {
+                        if ($key == 0) {
+                            $smiter = $st[0][count($st[0])-1];
+                        } else {
+                            $smiter = $st[0][$key-1];
+                        }
                         $keyer[] = $key;
                         unset($st[0][$key]);
                     }
                 }
                 $count = count($st[0]);
-                $st[1] = in_array($st[1], $keyer) ? ($st[1]==($count-1) ? 0 : $st[1]++) : $st[1];
-                $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `turn`=:turn, `count_users`=:count_users WHERE `room_id`=:room_id LIMIT 1;")->execute([
-                        ":users" => json_encode($st[0]),
-                        ":turn" => $st[1],
-                        ":count_users" => $count,
-                        ":room_id" => $room
-                    ]);
-                $ui = $this->get_user_info($st[0][$st[1]]);
-                return array(
-                        "word" => $st[2],
-                        "rwd" => $this->getLastChar($st[2]),
-                        "username" => $ui['username'],
-                        "name" => $ui['name'],
-                        "user_count" => $count
-                    );
+                $mui = $this->get_user_info($smiter);
+                if ($count > 0) {
+                    $st[1] = in_array($st[1], $keyer) ? ($st[1]==($count-1) ? 0 : $st[1]++) : $st[1];
+                    $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `turn`=:turn, `count_users`=:count_users WHERE `room_id`=:room_id LIMIT 1;")->execute([
+                            ":users" => json_encode($st[0]),
+                            ":turn" => $st[1],
+                            ":count_users" => $count,
+                            ":room_id" => $room
+                        ]);
+                    $ui = $this->get_user_info($st[0][$st[1]]);
+                    return array(
+                            "status" => "play",
+                            "word" => $st[2],
+                            "rwd" => $this->getLastChar($st[2]),
+                            "next_turn" => [
+                                "username" => $ui['username'],
+                                "name" => $ui['name']
+                            ],
+                            "smiter" => [
+                                "username" => $mui['username'],
+                                "name" => $mui['name']
+                            ]
+                        );
+                } else {
+                    $this->db->pdo->prepare("DELETE FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;")->execute([
+                            ":room_id" => $room
+                        ]);
+                    return array(
+                            "status" => "end_totally",
+                            "smiter" => [
+                                "username" => $mui['username'],
+                                "name" => $mui['name']
+                            ]
+                        );
+                }
             } else {
                 return false;
             }
