@@ -87,6 +87,6 @@ class Handler implements HandlerContract
 
     public function end_party($room, $userid)
     {
-        return $this->sess->end_party($room, $userid)
+        return $this->sess->end_party($room, $userid);
     }
 }
