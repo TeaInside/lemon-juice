@@ -32,9 +32,11 @@ class VGMdb implements VGMdbContract
     public function seacrh($q)
     {
         $ch = new Curl(self::API_URL."search/".urlencode($q));
-        $ch->set_opt([
+        $ch->set_opt(
+            [
                 CURLOPT_HTTPHEADER => array("Accept: application/json")
-            ]);
+            ]
+        );
         $out = $ch->exec();
         return $out;
     }

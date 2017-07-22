@@ -60,8 +60,8 @@ class LINE
 
     /**
      * @param string|array $text
-     * @param string 	   $to
-     * @param string 	   $reply
+     * @param string       $to
+     * @param string       $reply
      */
     public function textMessage($text)
     {
@@ -91,7 +91,7 @@ class LINE
         $opt = [
                 CURLOPT_BINARYTRANSFER => true,
                 CURLOPT_HTTPHEADER => $this->headers,
-                #CURLOPT_HEADER => true
+                // CURLOPT_HEADER => true
             ];
         if ($post) {
             $opt[CURLOPT_CUSTOMREQUEST] = "POST";
