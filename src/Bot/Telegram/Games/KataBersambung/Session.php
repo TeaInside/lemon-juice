@@ -314,7 +314,7 @@ class Session implements SessionContract
                 foreach ($st[0] as $key => $val) {
                     if ($val == $userid) {
                         $keyer[] = $key;
-                        unset($st[0]['key']);
+                        unset($st[0][$key]);
                     }
                 }
                 $count = count($st[0]);
