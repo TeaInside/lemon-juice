@@ -33,7 +33,7 @@ class UserStartTest extends TestCase
     {
         $kb = new Handler();
         $join = $kb->user_join($this->user2, $this->group_id);
-        $this->assertTrue($join);
+        $this->assertTrue($join > 1);
     }
 
     public function testStart()
