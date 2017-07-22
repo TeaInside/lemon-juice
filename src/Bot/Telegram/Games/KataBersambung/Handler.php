@@ -42,7 +42,7 @@ class Handler implements HandlerContract
      */
     public function openGroup($group_id, $starter, $group_name = "")
     {
-        $this->sess->register($this->userid, $this->username, $this->name);
+        $this->sess->register_user($this->userid, $this->username, $this->name);
         return $this->sess->make_session($group_id, "group", $starter, $group_name);
     }
 
@@ -65,7 +65,7 @@ class Handler implements HandlerContract
      */
     public function user_join($userid, $group_id)
     {
-        $this->sess->register($this->userid, $this->username, $this->name);
+        $this->sess->register_user($this->userid, $this->username, $this->name);
         return $this->sess->join($userid, $group_id);
     }
 
