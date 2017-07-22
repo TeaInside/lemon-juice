@@ -102,8 +102,19 @@ class Session implements SessionContract
             $exe = $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
                 ":room_id"     => $room_id
             ]);
+            $this->userturn = $this->get_user_info;
             return $exe ? array($st[1], $this->getLastChar($st[1])) : false;
         }
+    }
+
+    public function get_user_info($userid)
+    {
+        $st = $this->db->pdo->prepare("SELECT `username`, `name` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
+        $st->execute([
+                ":userid" => $userid
+            ]);
+        $st = $st->fetch(PDO::FETCH_ASSOC);
+        return $st;
     }
 
     /**
