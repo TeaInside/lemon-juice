@@ -289,10 +289,10 @@ class Session implements SessionContract
                     break;
                 }
             } else {
+                $rok .= $a;
                 if ($vocal_flag) {
                     break;
-                }
-                $rok .= $a;
+                }                
             }
         }
         return strrev($rok);
