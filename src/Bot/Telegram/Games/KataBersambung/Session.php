@@ -191,6 +191,10 @@ class Session implements SessionContract
                 return null;
             }
         } else {
+            $this->input = $input;
+            $this->userid = $userid;
+            $this->group_id = $group_id;
+            $this->next_turn = $st[1];
             return false;
         }
     }
