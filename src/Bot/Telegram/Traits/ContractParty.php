@@ -82,7 +82,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
              foreach ($this->entities['party'] as $key => $val) {
                  if ($key == "group_in") {
                      $kb = new Handler();
-                     if ($kb = $kb->group_input($this->room, $this->actor_id, $val)) {
+                     if ($kb = $kb->group_input($this->room, $this->actor_id, $val['group_in'])) {
                          if ($kb == "belum_join") {
                              $this->textReply("Kamu belum bergabung ke party ini.\n\n/join_party untuk bergabung.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                     array(
@@ -107,7 +107,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                                 )));
                      }
                      // debug
-                      $this->textReply(json_encode([$kb, [$this->room, $this->actor_id, $val, $this->entities['party']]], 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                      $this->textReply(json_encode([$kb, [$this->room, $this->actor_id, $val, "key $key". $this->entities['party']]], 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                     array(
                                         "force_reply"=>true,
                                         "selective"=>true
