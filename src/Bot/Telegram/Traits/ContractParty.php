@@ -53,9 +53,6 @@ use Bot\Telegram\Games\KataBersambung\Handler;
          $kb = new Handler();
          if ($a = $kb->start($this->room, $this->actor_id)) {
              switch ($a) {
-                case 'ok':
-                    $this->textReply("Berhasil memulai party.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
-                    break;
                 case 'kurang_wong':
                     $this->textReply("Kurang anggota party. Minimal 2 orang untuk memulai.\n/join_party untuk join.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
@@ -63,7 +60,7 @@ use Bot\Telegram\Games\KataBersambung\Handler;
                     $this->textReply("Kamu belum bergabung ke party ini.\n/join_party untuk bergabung.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
                 default:
-                    # code...
+                    $this->textReply("Berhasil memulai party.\n\n".json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML"));
                     break;
             }
          } else {
