@@ -281,8 +281,8 @@ class Telegram implements TelegramContract
                         );
                 } elseif (substr($a[0], 0, 12) == "#group_party") {
                     $this->entities['party'][] = array(
-                            "group_in" => strtolower(trim(preg_replace("#[^[:print:]]#", "", $this->event['message']['text'])));
-                        )
+                            "group_in" => strtolower(trim(preg_replace("#[^[:print:]]#", "", $this->event['message']['text'])))
+                        );
                 }
             }
         }

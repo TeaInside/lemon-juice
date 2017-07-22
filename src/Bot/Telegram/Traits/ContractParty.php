@@ -75,35 +75,35 @@ use Bot\Telegram\Games\KataBersambung\Handler;
 
      public function party_user_in()
      {
-        $kb = new Handler();
-        $kb->group_input();
+         $kb = new Handler();
+         $kb->group_input();
      }
 
      public function parseParty()
      {
-        if (isset($this->entities['party'])) {
-            foreach ($this->entities['party'] as $key => $val) {
-                if ($key == "group_in") {
-                    $kb = new Handler();
-                    if ($kb = $kb->group_input($this->room, $this->actor_id, $val)) {
-                        if ($kb == "belum_join") {
+         if (isset($this->entities['party'])) {
+             foreach ($this->entities['party'] as $key => $val) {
+                 if ($key == "group_in") {
+                     $kb = new Handler();
+                     if ($kb = $kb->group_input($this->room, $this->actor_id, $val)) {
+                         if ($kb == "belum_join") {
                              $this->textReply("Kamu belum bergabung ke party ini.\n\n/join_party untuk bergabung.", null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                     array(
                                         "force_reply"=>true,
                                         "selective"=>true
                                         )
                                 )));
-                        } elseif (is_array($kb)) {
-                            $this->textReply("#group_party\n\n".json_encode($kb,128)."\n\n@".$kb['username'], null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+                         } elseif (is_array($kb)) {
+                             $this->textReply("#group_party\n\n".json_encode($kb, 128)."\n\n@".$kb['username'], null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
                                     array(
                                         "force_reply"=>true,
                                         "selective"=>true
                                         )
                                 )));
-                        }
-                    }
-                }
-            }
-        }
+                         }
+                     }
+                 }
+             }
+         }
      }
  }
