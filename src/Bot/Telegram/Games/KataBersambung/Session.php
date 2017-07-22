@@ -110,7 +110,7 @@ class Session implements SessionContract
                     "rwd" => $this->getLastChar($st[1]),
                     "username" => $ui['username'],
                     "name" => $ui['name']
-                ); : false;
+                ) : false;
         }
     }
 
