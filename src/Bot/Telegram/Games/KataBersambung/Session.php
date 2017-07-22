@@ -179,9 +179,9 @@ class Session implements SessionContract
                 ]);
             if ($stq->fetch(PDO::FETCH_NUM)) {
                 $this->input = $input;
-                $this->userid = $users[$st[1]];
-                $this->group_id = $group_id;
                 $this->next_turn = $st[1]==($st[2]-1) ? 0 : $st[1]+1;
+                $this->userid = $users[$this->next_turn];
+                $this->group_id = $group_id;
                 return true;
             } else {
                 $this->input = $st[0];
