@@ -38,7 +38,7 @@ class Session implements SessionContract
 
     /**
      * @param string $room_id
-     * @param string $type		 (private,group)
+     * @param string $type       (private,group)
      * @param string $starter_id
      * @param string $room_name
      * @return bool
@@ -51,9 +51,10 @@ class Session implements SessionContract
         $rst = $rst[0];
         $this->room_id = $room_id;
         $this->count_users = 1;
-        #return
+        // return
         $std = $this->db->pdo->prepare("INSERT INTO `kb_session` (`room_id`, `room_name`, `started_at`, `status`, `type`, `users`, `count_users`, `last_word`, `turn`) VALUES (:room_id, :room_name, :started_at, :status, :type, :users, :count_users, :last_word, :turn);");
-        $exe = $std->execute([
+        $exe = $std->execute(
+            [
                 ":room_id" => intval($room_id),
                 ":room_name" => $room_name,
                 ":started_at" => date("Y-m-d H:i:s"),
@@ -63,7 +64,8 @@ class Session implements SessionContract
                 ":count_users" => 1,
                 ":last_word" => $rst,
                 ":turn" => 0
-            ]);
+            ]
+        );
         return $exe;
     }
 
@@ -80,11 +82,13 @@ class Session implements SessionContract
         $st = $st->fetch(PDO::FETCH_NUM);
         if (!$st) {
             $st = $this->db->pdo->prepare("INSERT INTO `kb_user_info` (`userid`, `username`, `name`) VALUES (:userid, :username, :name);");
-            return $st->execute([
+            return $st->execute(
+                [
                     ":userid" => $userid,
                     ":username" => $username,
                     ":name" => $name
-                ]) ? true : file_put_contents("pdo_error.txt", json_encode($st->errorInfo()));
+                ]
+            ) ? true : file_put_contents("pdo_error.txt", json_encode($st->errorInfo()));
         } else {
             // registered
             return $exe ? true : json_encode($st->errorInfo());
@@ -106,9 +110,11 @@ class Session implements SessionContract
             if (strpos($st[2], trim($userid))===false) {
                 return "belum_join";
             }
-            $exe = $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute([
+            $exe = $this->db->pdo->prepare("UPDATE `kb_session` SET `status`='game' WHERE `room_id`=:room_id LIMIT 1;")->execute(
+                [
                 ":room_id"     => $room_id
-            ]);
+                ]
+            );
             $this->userturn = $this->get_user_info;
             $st[2] = json_decode($st[2], true);
             $ui = $this->get_user_info($st[2][$st[3]]);
@@ -127,9 +133,11 @@ class Session implements SessionContract
     public function get_user_info($userid)
     {
         $st = $this->db->pdo->prepare("SELECT `username`, `name` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":userid" => $userid
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_ASSOC);
         return $st;
     }
@@ -141,9 +149,11 @@ class Session implements SessionContract
     public function join($userid, $group_id)
     {
         $st = $this->db->pdo->prepare("SELECT `users`, `count_users` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":group_id" => $group_id
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st) {
             $st[0]   = json_decode($st[0], true);
@@ -154,10 +164,12 @@ class Session implements SessionContract
             $st[0][] = $userid;
             $st[1]++;
             $stex = $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `count_users`= {$st[1]} WHERE `room_id`=:group_id LIMIT 1;");
-            return  $stex->execute([
+            return  $stex->execute(
+                [
                     ":users" => json_encode($st[0]),
                     ":group_id" => $group_id
-                ]) ? $st[1] : json_encode(["error"=>true, $stex->errorInfo()]);
+                ]
+            ) ? $st[1] : json_encode(["error"=>true, $stex->errorInfo()]);
         } else {
             return 'room_not_found';
         }
@@ -171,9 +183,11 @@ class Session implements SessionContract
     public function check_group_input($group_id, $userid, $input)
     {
         $st = $this->db->pdo->prepare("SELECT `last_word`,`turn`,`count_users`,`users` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":group_id" => $group_id
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         $lsc = $this->getLastChar($st[0]);
         $len = strlen($lsc);
@@ -186,9 +200,11 @@ class Session implements SessionContract
         }
         if ($lsc == substr($input, 0, $len)) {
             $stq = $this->db->pdo->prepare("SELECT `id` FROM `kb_kamus` WHERE `kata`=:kata LIMIT 1;");
-            $stq->execute([
+            $stq->execute(
+                [
                     ":kata" => strtolower(trim($input))
-                ]);
+                ]
+            );
             if ($stq->fetch(PDO::FETCH_NUM)) {
                 $this->input = $input;
                 $this->next_turn = $st[1]==($st[2]-1) ? 0 : $st[1]+1;
@@ -214,11 +230,13 @@ class Session implements SessionContract
     public function group_input()
     {
         if ($this->point($this->userid)) {
-            $this->db->pdo->prepare("UPDATE `kb_session` SET `last_word`=:last_word, `turn`=:next_turn WHERE room_id=:room_id LIMIT 1;")->execute([
+            $this->db->pdo->prepare("UPDATE `kb_session` SET `last_word`=:last_word, `turn`=:next_turn WHERE room_id=:room_id LIMIT 1;")->execute(
+                [
                     ":last_word" => $this->input,
                     ":next_turn" => $this->next_turn,
                     ":room_id" => $this->group_id
-                ]);
+                ]
+            );
             $ui = $this->get_user_info($this->userid);
             return array(
                     "salah" => 0,
@@ -250,9 +268,11 @@ class Session implements SessionContract
     public function turn_gr($room_id)
     {
         $st = $this->db->pdo->prepare("SELECT `users`,`turn` FROM `kb_session` WHERE `room_id`=:group_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":group_id" => $group_id
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st) {
             $w = json_decode($st[0], true);
@@ -264,9 +284,11 @@ class Session implements SessionContract
     public function point($userid, $username = "")
     {
         $st = $this->db->pdo->prepare("SELECT `userid` FROM `kb_point` WHERE `userid`=:userid LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":userid" => $userid
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st) {
             $exe = [
@@ -280,11 +302,13 @@ class Session implements SessionContract
             }
             return $this->db->pdo->prepare("UPDATE `kb_point` SET `point`= `point`+1{$op_quer} WHERE `userid`=:userid LIMIT 1;")->execute($exe);
         } else {
-            return $this->db->pdo->prepare("INSERT INTO `kb_point` (`userid`, `point`, `username`) VALUES (:userid, :pt, :username)")->execute([
+            return $this->db->pdo->prepare("INSERT INTO `kb_point` (`userid`, `point`, `username`) VALUES (:userid, :pt, :username)")->execute(
+                [
                     ":userid" => $userid,
                     ":pt" => 1,
                     ":username" => $username
-                ]);
+                ]
+            );
         }
     }
 
@@ -321,9 +345,11 @@ class Session implements SessionContract
     public function end_party($room, $userid)
     {
         $st = $this->db->pdo->prepare("SELECT `users`,`turn`,`last_word` FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":room_id" => $room
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st) {
             $st[0] = json_decode($st[0], true);
@@ -345,12 +371,14 @@ class Session implements SessionContract
                 $mui = $this->get_user_info($smiter);
                 if ($count > 0) {
                     $st[1] = in_array($st[1], $keyer) ? ($st[1]==($count-1) ? 0 : $st[1]++) : $st[1];
-                    $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `turn`=:turn, `count_users`=:count_users WHERE `room_id`=:room_id LIMIT 1;")->execute([
+                    $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `turn`=:turn, `count_users`=:count_users WHERE `room_id`=:room_id LIMIT 1;")->execute(
+                        [
                             ":users" => json_encode($st[0]),
                             ":turn" => $st[1],
                             ":count_users" => $count,
                             ":room_id" => $room
-                        ]);
+                        ]
+                    );
                     $ui = $this->get_user_info($st[0][$st[1]]);
                     return array(
                             "status" => "play",
@@ -366,9 +394,11 @@ class Session implements SessionContract
                             ]
                         );
                 } else {
-                    $this->db->pdo->prepare("DELETE FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;")->execute([
+                    $this->db->pdo->prepare("DELETE FROM `kb_session` WHERE `room_id`=:room_id LIMIT 1;")->execute(
+                        [
                             ":room_id" => $room
-                        ]);
+                        ]
+                    );
                     return array(
                             "status" => "end_totally",
                             "smiter" => [
