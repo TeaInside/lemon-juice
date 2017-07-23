@@ -7,7 +7,7 @@ We put a wrong condition in an if else statement but compile it and run it anywa
 Our only goal is to make Team Leaders dream come true.
 So we copy our code from stackoverflow.
 
-Our life is stuck in an infinite for{ } loop, till our kindom come.
+Our life is stuck in an infinite for{ } loop, till our kingdom come.
 
 If you see someone with a lonely life, He is an Engineer a Software Engineer,
 Google Infosys and Intel Inside.
