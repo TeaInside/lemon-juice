@@ -394,7 +394,7 @@ trait Command
                                 return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
                             };
                             file_put_contents("debug_dur.txt", json_encode($dur));
-                            $x = $this->tel->sendVideo("https://webhooks.redangel.ga/.webhooks/telegram/video/".$hash_fn.".mp4", $this->room, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($dur['start'])." - ".$fd($dur['end']), $this->event['message']['message_id']);
+                            $x = $this->tel->sendVideo("https://webhooks.redangel.ga/telegram/video/".$hash_fn.".mp4", $this->room, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($dur['start'])." - ".$fd($dur['end']), $this->event['message']['message_id']);
                             file_put_contents("debug_video.txt", $x);
                         } else {
                             $this->textReply("Mohon maaf, pencarian tidak ditemukan !", null, $this->event['message']['message_id']);
