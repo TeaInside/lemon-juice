@@ -450,7 +450,7 @@ trait Command
                                 $this->load_callback_flag_data();
                                 $callback_flag = time();
                                 $this->textReply(
-                                    "@".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['message']['reply_to_message']['message_id'],
+                                    "@".$this->actor_id." (".$this->actor.") (@".$this->event['message']['reply_to_message']['from']['username'].") anda diperingatkan !\n\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['message']['reply_to_message']['message_id'],
                                     array(
                                     "parse_mode"=>"HTML",
                                     "reply_markup"=>json_encode(
