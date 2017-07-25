@@ -171,7 +171,7 @@ class Session
                 } else {
                 	$tr = $st[1][$st[3]];
                 	$u = $this->getUserInfo($tr);
-                    return "Mulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab.";
+                    return "#katabersambung\n\nMulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab.";
                 }
             }
         } else {
@@ -230,7 +230,7 @@ class Session
                                 $u = $this->getUserInfo();
                             } else {
                                 $u = $this->getUserInfo();
-                                return "👎 salah <b>".strtoupper($lscr)."...</b>\nSekarang ".$u['name']." (@".$u['username'].")\nKamu punya ".$live." kesempatan lagi. Reply untuk jawab.";
+                                return "#katabersambung\n\n👎 salah <b>".strtoupper($lscr)."...</b>\nSekarang ".$u['name']." (@".$u['username'].")\nKamu punya ".$live." kesempatan lagi. Reply untuk jawab.";
                             }
                         }
                     } else {
@@ -266,10 +266,10 @@ class Session
                                 if (isset($sm)) {
                                     $this->upPoint(20);
                                     $u = $this->getUserInfo($sm);
-                                    return "Kamu gagal menjawab tantangan dari ".$u['name']. "(@".$u['username'].").\n".$u['name']. "(@".$u['username'].") mendapatkan 20 point, total point ".($u['point']);
+                                    return "#katabersambung\n\nKamu gagal menjawab tantangan dari ".$u['name']. "(@".$u['username'].").\n".$u['name']. "(@".$u['username'].") mendapatkan 20 point, total point ".($u['point']);
                                 } else {
                                     $u = $this->getUserInfo($participants[$turn]);
-                                    return "Kamu gagal menjawab tantangan dari moderator.\nSekarang ".trim($u['name'])." (@".$u['username'].")\n";
+                                    return "#katabersambung\n\nKamu gagal menjawab tantangan dari moderator.\nSekarang ".trim($u['name'])." (@".$u['username'].")\n";
                                 }
                             }
                             $this->upPoint(30);
