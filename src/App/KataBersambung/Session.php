@@ -85,7 +85,9 @@ class Session
                         ":count_users" => 1
                     ]);
                 $this->createUserSession();
-                return $exe ? true : $st->errorInfo();
+                $player = "";
+
+                return $exe ? "Gunakan /join_party untuk bergabung, /start_party untuk memulai.\n<b>Reply</b> pesan dari BOT untuk menjawab.\nWaktumu kurang dari 90 dtk.\n\nPlayer yang siap bermain:\n- ".$this->actor." (@".$this->username.")\n=================" : $st->errorInfo();
             } else {
                 return $r[0];
             }
@@ -118,10 +120,15 @@ class Session
                 $st[0] = json_decode($st[0], true);
                 $st[0][] = $this->userid;
                 $sta = $this->pdo->prepare("UPDATE `kb_room` SET `participants`=:par, `count_users`=`count_users`+1 WHERE `room_id`=:room_id LIMIT 1;");
+                $par = "";
+                foreach ($st[0] as $val) {
+                	$u = $this->getUserInfo($val);
+                	$par.= " - <b>".$u['name']."</b> (@".$u['username'].")\n";
+                }
                 return $sta->execute([
                         ":par" => json_encode($st[0]),
                         ":room_id" => $this->room_id
-                    ]) ? "Berhasil bergabung!" : json_encode($sta->errorInfo());
+                    ]) ? "Gunakan /join_party untuk bergabung, /start_party untuk memulai.\n<b>Reply</b> pesan dari BOT untuk menjawab.\nWaktumu kurang dari 90 dtk.\n\nPlayer yang siap bermain:\n".$par."\n=================" : json_encode($sta->errorInfo());
             }
         } else {
             return false;
@@ -158,13 +165,13 @@ class Session
                             ":room_id" => $this->room_id
                         ]);
                     $u = $this->getUserInfo($tr);
-                    return "Mulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab."
+                    return "Mulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab.";
                 } elseif ($st[0] == "off") {
                     return "Belum ada sesi";
                 } else {
                 	$tr = $st[1][$st[3]];
                 	$u = $this->getUserInfo($tr);
-                    return "Mulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab."
+                    return "Mulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab.";
                 }
             }
         } else {
