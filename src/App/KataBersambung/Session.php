@@ -319,7 +319,9 @@ class Session
         $st->execute([
                 ":userid" => ($userid === null ? $this->userid : $userid)
             ]);
-        return $st->fetch(PDO::FETCH_ASSOC);
+        $st = $st->fetch(PDO::FETCH_ASSOC);
+        $st['username'] = $st['username'] == "No Username" : $userid;
+        return $st;
     }
 
     private function downLive()
