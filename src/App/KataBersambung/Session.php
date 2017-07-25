@@ -277,7 +277,7 @@ class Session
                             $this->truncateSession();
                             return "GAME OVER\nPemain yang tersisa ".$u['name']." (@".$u['username'].").\n".$u['name']." (@".$u['username'].") mendapat tambahan 30 point karena berhasil bertahan.";
                         } else {
-                            return "👎 salah <b>".strtoupper($lscr)."...</b>\nSekarang ".$u['name']." (@".$u['username'].")\nKamu punya ".$live." kesempatan lagi. Reply untuk jawab.";
+                            return "#katabersambung\n\n👎 salah <b>".strtoupper($lscr)."...</b>\nSekarang ".$u['name']." (@".$u['username'].")\nKamu punya ".$live." kesempatan lagi. Reply untuk jawab.";
                         }
                     }
                 }
