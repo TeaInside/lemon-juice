@@ -27,7 +27,7 @@ trait ContractParty
     public function start_party()
     {
         $st1 = new Group($this->room, $this->event['message']['chat']['title'], $this->actor_id, $this->username, $this->actor);
-        $this->textReply($st1->start(), null, null, ["parse_mode" => "HTML"]);
+        $this->textReply($st1->start(), null, null, ["parse_mode" => "HTML", "reply_markup"=>json_encode(["force_reply"=>true,"selective"=>true])]);
     }
 
     public function parseParty()
@@ -35,7 +35,7 @@ trait ContractParty
         if (isset($this->entities['party'])) {
             foreach ($this->entities['party'] as $key => $val) {
                 $st1 = new Group($this->room, $this->event['message']['chat']['title'], $this->actor_id, $this->username, $this->actor);
-                $this->textReply($st1->input($val['group_in']), null, null, ["parse_mode" => "HTML"]);
+                $this->textReply($st1->input($val['group_in']), null, null, ["parse_mode" => "HTML", "reply_markup"=>json_encode(["force_reply"=>true,"selective"=>true])]);
             }
         }
     }
