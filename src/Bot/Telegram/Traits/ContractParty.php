@@ -15,19 +15,19 @@ trait ContractParty
     public function party()
     {
         $st1 = new Group($this->room, $this->event['message']['chat']['title'], $this->actor_id, $this->username, $this->actor);
-        $this->textReply($st1->open());
+        $this->textReply($st1->open(), null, null, ["parse_mode" => "HTML"]);
     }
 
     public function join_party()
     {
         $st1 = new Group($this->room, $this->event['message']['chat']['title'], $this->actor_id, $this->username, $this->actor);
-        $this->textReply($st1->join());
+        $this->textReply($st1->join(), null, null, ["parse_mode" => "HTML"]);
     }
 
     public function start_party()
     {
         $st1 = new Group($this->room, $this->event['message']['chat']['title'], $this->actor_id, $this->username, $this->actor);
-        $this->textReply($st1->start());
+        $this->textReply($st1->start(), null, null, ["parse_mode" => "HTML"]);
     }
 
     public function parseParty()
@@ -35,7 +35,7 @@ trait ContractParty
         if (isset($this->entities['party'])) {
             foreach ($this->entities['party'] as $key => $val) {
                 $st1 = new Group($this->room, $this->event['message']['chat']['title'], $this->actor_id, $this->username, $this->actor);
-                $this->textReply($st1->input($val['group_in']));
+                $this->textReply($st1->input($val['group_in']), null, null, ["parse_mode" => "HTML"]);
             }
         }
     }
