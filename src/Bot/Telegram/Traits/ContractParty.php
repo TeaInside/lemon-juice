@@ -2,7 +2,7 @@
 
 namespace Bot\Telegram\Traits;
 
-use App\KataBersambung\Session\Group;
+use App\KataBersambung\Group;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

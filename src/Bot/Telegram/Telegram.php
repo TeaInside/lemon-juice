@@ -171,13 +171,37 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        /* $this->webhook_input = '{"update_id":344180649,
-        "message":{"message_id":545,"from":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","language_code":"en-US"},"chat":{"id":-1001128531173,"title":"LTM Group","type":"supergroup"},"date":1500655222,"text":"/party","entities":[{"type":"bot_command","offset":0,"length":6}]}}';*/
-        if (defined("webhook_input")) {
+         $this->webhook_input = '{
+    "update_id": 344183053,
+    "message": {
+        "message_id": 3007,
+        "from": {
+            "id": 302497774,
+            "first_name": "Herwin",
+            "language_code": "en-GB"
+        },
+        "chat": {
+            "id": -1001128531173,
+            "title": "LTM Group",
+            "type": "supergroup"
+        },
+        "date": 1500993429,
+        "text": "\/party",
+        "entities": [
+            {
+                "type": "bot_command",
+                "offset": 0,
+                "length": 6
+            }
+        ]
+    }
+}
+';
+        /*if (defined("webhook_input")) {
             $this->webhook_input = file_get_contents(webhook_input);
         } else {
             $this->webhook_input = file_get_contents("php://input");
-        }
+        }*/
         $this->event = json_decode($this->webhook_input, true);
     }
 
