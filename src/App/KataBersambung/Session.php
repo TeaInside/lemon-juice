@@ -222,7 +222,7 @@ class Session
                                 ]);
                             $u = $this->getUserInfo($st[0][$turn]);
                             $this->addRoomCycle();
-                            return "<b>".strtoupper(self::getLastChar($input))."...</b>\nSekarang ".$u['name']." (@".$u['username'].") Reply untuk jawab.";
+                            return "#katabersambung\n\n<b>".strtoupper(self::getLastChar($input))."...</b>\nSekarang ".$u['name']." (@".$u['username'].") Reply untuk jawab.";
                         } else {
                             $live = $this->getLive();
                             $this->downLive();
