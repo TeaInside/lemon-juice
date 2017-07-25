@@ -121,7 +121,7 @@ class Session
 				return $sta->execute([
 						":par" => json_encode($st[0]),
 						":room_id" => $this->room_id
-					]);
+					]) ? "Berhasil bergabung!" : json_encode($sta->errorInfo());
 			}
 		} else {
 			return false;
