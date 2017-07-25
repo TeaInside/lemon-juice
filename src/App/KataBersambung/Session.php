@@ -87,7 +87,7 @@ class Session
                 $this->createUserSession();
                 $player = "";
 
-                return $exe ? "Gunakan /join_party untuk bergabung, /start_party untuk memulai.\n<b>Reply</b> pesan dari BOT untuk menjawab.\nWaktumu kurang dari 90 dtk.\n\nPlayer yang siap bermain:\n- ".$this->actor." (@".$this->username.")\n=================" : $st->errorInfo();
+                return $exe ? "Gunakan /join_party untuk bergabung, /start_party untuk memulai.\n<b>Reply</b> pesan dari BOT untuk menjawab.\nWaktumu kurang dari 90 dtk.\n\nPlayer yang siap bermain:\n- ".$this->name." (@".$this->uname.")\n=================" : $st->errorInfo();
             } else {
                 return $r[0];
             }
