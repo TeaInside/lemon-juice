@@ -193,6 +193,7 @@ class Telegram implements TelegramContract
             $this->room = $this->event['message']['chat']['id'];
             $this->actor_call = $this->event['message']['from']['first_name'];
             $this->actor_id = $this->event['message']['from']['id'];
+            $this->username = (isset($this->event['message']['from']['username']) and !empty($this->event['message']['from']['username'])) ? $this->event['message']['from']['username'] : "No Username";
         } elseif (isset($this->event['callback_query'])) {
             $this->type_msg = "callback_query";
             $this->callback_data = $this->event['callback_query']['data'];
