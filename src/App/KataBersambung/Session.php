@@ -157,11 +157,14 @@ class Session
                             ":last_word" => $wd[0],
                             ":room_id" => $this->room_id
                         ]);
-                    return "Mulai ".$tr."\n\n".$wd[0];
+                    $u = $this->getUserInfo($tr);
+                    return "Mulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab."
                 } elseif ($st[0] == "off") {
                     return "Belum ada sesi";
                 } else {
-                    return $st[4];
+                	$tr = $st[1][$st[3]];
+                	$u = $this->getUserInfo($tr);
+                    return "Mulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab."
                 }
             }
         } else {
