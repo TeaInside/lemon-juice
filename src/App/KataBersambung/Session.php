@@ -195,7 +195,7 @@ class Session
         } else {
             $st[0] = json_decode($st[0], true);
             if (!$this->isJoined()) {
-                return "Anda belum bergabung ke permainan. /join untuk bergabung!";
+                return "Anda belum bergabung ke permainan. /join_party untuk bergabung!";
             } else {
                 if (!in_array($this->userid, $st[0])) {
                     return "Sabar, nunggu selesai dulu baru main :p";
