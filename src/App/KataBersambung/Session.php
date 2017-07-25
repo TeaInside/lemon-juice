@@ -320,7 +320,7 @@ class Session
                 ":userid" => ($userid === null ? $this->userid : $userid)
             ]);
         $st = $st->fetch(PDO::FETCH_ASSOC);
-        $st['username'] = $st['username'] == "No Username" : $userid;
+        $st['username'] = $st['username'] == "No Username" ? $userid : $st['username'];
         return $st;
     }
 
