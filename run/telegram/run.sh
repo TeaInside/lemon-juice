@@ -1,0 +1,1 @@
+/usr/bin/php run.php
