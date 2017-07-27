@@ -9,6 +9,7 @@ namespace Bot\Telegram;
 
 use SysUtils\Curl;
 use SysUtils\Hub\Singleton;
+use Stack\Telegram\Telegram;
 
 class Bot
 {
@@ -19,6 +20,18 @@ class Bot
 	 */
 	public function __construct()
 	{
-					
+		$this->tel = new Telegram(TELEGRAM_TOKEN);
+	}
+
+	/**
+	 * Run
+	 */
+	public static function run()
+	{
+		if (defined("webhook_input")) {
+			$this->webhook_input = webhook_input;
+		} else {
+			$this->webhook_input = file_get_contents("php://input");
+		}
 	}
 }
