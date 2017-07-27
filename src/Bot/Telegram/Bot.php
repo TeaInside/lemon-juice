@@ -93,7 +93,8 @@ class Bot
 	private function __run()
 	{
 		$this->getInput();
-		$this->parseEvents();
+		$this->parseEvent();
+		$this->reaction();
 	}
 
 	/**
@@ -147,5 +148,13 @@ class Bot
 			$this->room		   = $event['message']['chat']['id'];
 			$this->room_title  = isset($event['message']['from']['chat']['title']) ? $event['message']['from']['chat']['title'] : null;
 		}
+	}
+	
+	/**
+	 * Reaction.
+	 */
+	private function reaction()
+	{
+
 	}
 }
