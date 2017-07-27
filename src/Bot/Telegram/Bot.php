@@ -95,6 +95,7 @@ class Bot
 		$this->getInput();
 		$this->parseEvent();
 		$this->reaction();
+		print "\n\n";
 	}
 
 	/**
@@ -155,6 +156,6 @@ class Bot
 	 */
 	private function reaction()
 	{
-
+		print $this->tel->sendMessage($this->text, $this->room, $this->event['message']['message_id']);
 	}
 }
