@@ -17,7 +17,7 @@
             "App\\": "src/",
             "Bot\\": "src/",
             "Stack\\": "src/",
-            "IceTeaSystem\\": "src/"
+            "SysUtils\\": "src/"
     	},
         "files": [
             "config.php"
