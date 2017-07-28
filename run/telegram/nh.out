@@ -1,0 +1,2 @@
+{"ok":true,"result":{"message_id":6101,"from":{"id":448907482,"first_name":"Apple Wilder","username":"MyIceTea_Bot"},"chat":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","type":"private"},"date":1501247392,"reply_to_message":{"message_id":1487,"from":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","language_code":"en-US"},"chat":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","type":"private"},"date":1499070307,"text":"<?php print 123;"},"text":"<?php print 123;"}}
+
