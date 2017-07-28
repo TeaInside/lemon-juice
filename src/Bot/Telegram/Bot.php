@@ -106,7 +106,7 @@ class Bot
 		if (defined("webhook_input")) {
 			$this->webhook_input = webhook_input;
 		} else {
-			$this->webhook_input = '{
+			/*$this->webhook_input = '{
     "update_id": 344174728,
     "message": {
         "message_id": 1487,
@@ -127,8 +127,8 @@ class Bot
         "date": 1499070307,
         "text": "<?php print 123;"
     }
-}';
-			#$this->webhook_input = file_get_contents("php://input");
+}';*/
+			$this->webhook_input = file_get_contents("php://input");
 		}
 		$this->event = json_decode($this->webhook_input, true);
 	}
