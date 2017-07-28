@@ -8,17 +8,13 @@ namespace Bot\Telegram;
  */
 
 use SysUtils\Curl;
+use Bot\Telegram\Traits\Command;
 use SysUtils\Hub\Singleton;
 use Stack\Telegram\Telegram;
 
 class Bot
 {
-	use Singleton;
-
-	/**
-	 * @var Stack\Telegram\Telegram
-	 */
-	private $tel;
+	use Singleton, Command;
 
 	/**
 	 * @var string
@@ -75,7 +71,7 @@ class Bot
 	 */
 	public function __construct()
 	{
-		$this->tel = new Telegram(TELEGRAM_TOKEN);
+		
 	}
 
 	/**
@@ -106,7 +102,7 @@ class Bot
 		if (defined("webhook_input")) {
 			$this->webhook_input = webhook_input;
 		} else {
-			/*$this->webhook_input = '{
+			$this->webhook_input = '{
     "update_id": 344174728,
     "message": {
         "message_id": 1487,
@@ -125,10 +121,10 @@ class Bot
             "type": "private"
         },
         "date": 1499070307,
-        "text": "<?php print 123;"
+        "text": "/time"
     }
-}';*/
-			$this->webhook_input = file_get_contents("php://input");
+}';
+			#$this->webhook_input = file_get_contents("php://input");
 		}
 		$this->event = json_decode($this->webhook_input, true);
 	}
@@ -148,6 +144,7 @@ class Bot
 			$this->actor_uname = isset($event['message']['from']['username']) ? $event['message']['from']['username'] : null;
 			$this->room		   = $event['message']['chat']['id'];
 			$this->room_title  = isset($event['message']['from']['chat']['title']) ? $event['message']['from']['chat']['title'] : null;
+			$this->msg_id 	   = $event['message']['message_id'];
 		}
 	}
 	

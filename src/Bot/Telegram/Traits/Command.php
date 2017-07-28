@@ -2,12 +2,14 @@
 
 namespace Bot\Telegram\Traits;
 
+use Bot\Telegram\B;
+
 trait Command
 {
 	/**
 	 * @var array
 	 */
-	private $expoded_message = [];
+	private $exploded_message = [];
 
 	/**
 	 * Command
@@ -19,12 +21,15 @@ trait Command
 				"/ban"  => ["!ban"],
 				"/warn" => ["!warn"],
 				"/user" => ["!user"],
-				"/time" => ["!time"]
+				"/time" => ["!time"],
+				"/whois" => ["!whois", "whois"]
 			];
-			$this->expoded_message = explode(" ", $this->event_type);
+			$this->exploded_message = explode(" ", $this->text);
 			foreach ($command_list as $key => $value) {
-				if (in_array($key, $this->exploded_message) or in_array($val, $this->exploded_message)) {
-					$this->exec($key);
+				if (in_array($key, $this->exploded_message)) {
+					if ($this->exec($key)) {
+						break;
+					}
 				}
 			}
 		}
@@ -40,6 +45,11 @@ trait Command
 			case '/ban':
 					shell_exec($this->bgc."/Command/Ban.php ");
 				break;
+			case '/time':
+					B::sendMessage(date("Y-m-d h:i:s A"), $this->room, $this->msg_id);
+					return true;
+				break;
+			case '/ytdl':
 			
 			default:
 					
