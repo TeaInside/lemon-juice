@@ -370,7 +370,7 @@ class Session implements SessionContract
                 }
                 $count = count($st[0]);
                 $mui = $this->get_user_info($smiter);
-                if ($count > 0) {
+                if ($count > 1) {
                     $st[1] = in_array($st[1], $keyer) ? ($st[1]==($count-1) ? 0 : $st[1]++) : $st[1];
                     $this->db->pdo->prepare("UPDATE `kb_session` SET `users`=:users, `turn`=:turn, `count_users`=:count_users WHERE `room_id`=:room_id LIMIT 1;")->execute(
                         [
@@ -406,7 +406,7 @@ class Session implements SessionContract
                         ]
                     );
                     return array(
-                            "status" => "end_totally",
+                            "status" => "totally_end",
                             "smiter" => [
                                 "username" => $mui['username'],
                                 "name" => $mui['name']

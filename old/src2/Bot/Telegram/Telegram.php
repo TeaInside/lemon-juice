@@ -171,8 +171,32 @@ class Telegram implements TelegramContract
      */
     private function getEvent()
     {
-        /* $this->webhook_input = '{"update_id":344180649,
-        "message":{"message_id":545,"from":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","language_code":"en-US"},"chat":{"id":-1001128531173,"title":"LTM Group","type":"supergroup"},"date":1500655222,"text":"/party","entities":[{"type":"bot_command","offset":0,"length":6}]}}';*/
+        /*$this->webhook_input = '{
+    "update_id": 344183053,
+    "message": {
+        "message_id": 3007,
+        "from": {
+            "id": 302497774,
+            "first_name": "Herwin",
+            "language_code": "en-GB"
+        },
+        "chat": {
+            "id": -1001128531173,
+            "title": "LTM Group",
+            "type": "supergroup"
+        },
+        "date": 1500993429,
+        "text": "\/party",
+        "entities": [
+            {
+                "type": "bot_command",
+                "offset": 0,
+                "length": 6
+            }
+        ]
+    }
+}
+';*/
         if (defined("webhook_input")) {
             $this->webhook_input = file_get_contents(webhook_input);
         } else {
@@ -193,6 +217,7 @@ class Telegram implements TelegramContract
             $this->room = $this->event['message']['chat']['id'];
             $this->actor_call = $this->event['message']['from']['first_name'];
             $this->actor_id = $this->event['message']['from']['id'];
+            $this->username = (isset($this->event['message']['from']['username']) and !empty($this->event['message']['from']['username'])) ? $this->event['message']['from']['username'] : "No Username";
         } elseif (isset($this->event['callback_query'])) {
             $this->type_msg = "callback_query";
             $this->callback_data = $this->event['callback_query']['data'];
@@ -279,7 +304,7 @@ class Telegram implements TelegramContract
                             "command" => "/whatanime",
                             "salt"    => (isset($this->event['message']['photo'][1]) ? $this->getPhotoUrl($this->event['message']['photo'][1]['file_id']) : ((isset($this->event['message']['text']) and filter_var(str_replace(" ", urlencode(" "), $this->event['message']['text']), FILTER_VALIDATE_URL)) ? $this->event['message']['text'] : false)),
                         );
-                } elseif (!isset($this->entities['bot_command']) and substr($a[0], 0, 12) == "#group_party") {
+                } elseif (!isset($this->entities['bot_command']) and substr($a[0], 0, 15) == "#katabersambung") {
                     $this->entities['party'][] = array(
                             "group_in" => strtolower(trim(preg_replace("#[^[:print:]]#", "", $this->event['message']['text'])))
                         );
