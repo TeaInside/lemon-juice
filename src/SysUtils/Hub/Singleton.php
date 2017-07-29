@@ -1,6 +1,6 @@
 <?php
 
-namespace IceTeaSystem\Hub;
+namespace SysUtils\Hub;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

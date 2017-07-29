@@ -2,11 +2,18 @@
 
 namespace Bot\Telegram\Traits;
 
-use Bot\Telegram\B;
+use IceTeaSystem\Curl;
+use App\WhatAnime\WhatAnime;
+use App\MyAnimeList\MyAnimeList;
+
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ * @package Bot\Telegram\Traits
+ * @since 0.0.1
+ */
 
 trait Command
 {
-<<<<<<< HEAD
     /**
      * Parse Command
      */
@@ -443,7 +450,7 @@ trait Command
                                 $this->load_callback_flag_data();
                                 $callback_flag = time();
                                 $this->textReply(
-                                    "@".$this->event['message']['reply_to_message']['from']['id']." (".$this->event['message']['reply_to_message']['from']['first_name'].")"." ".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['message']['reply_to_message']['message_id'],
+                                    "@".$this->event['message']['reply_to_message']['from']['username']." anda diperingatkan !\n\n<b>Harap jangan diulangi lagi !</b>\n\nJumlah peringatan <b>".($warning_count)."</b> dari <b>5</b>", null, $this->event['message']['reply_to_message']['message_id'],
                                     array(
                                     "parse_mode"=>"HTML",
                                     "reply_markup"=>json_encode(
@@ -505,56 +512,3 @@ trait Command
         }
     }
 }
-=======
-	/**
-	 * @var array
-	 */
-	private $exploded_message = [];
-
-	/**
-	 * Command
-	 */
-	public function command()
-	{
-		if ($this->event_type == "text") {
-			$command_list = [
-				"/ban"  => ["!ban"],
-				"/warn" => ["!warn"],
-				"/user" => ["!user"],
-				"/time" => ["!time"],
-				"/whois" => ["!whois", "whois"]
-			];
-			$this->exploded_message = explode(" ", $this->text);
-			foreach ($command_list as $key => $value) {
-				if (in_array($key, $this->exploded_message)) {
-					if ($this->exec($key)) {
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Execute command
-	 */
-	private function exec($cmd)
-	{
-		$this->bgc = __DIR__."/../bg_controller";
-		switch ($cmd) {
-			case '/ban':
-					shell_exec($this->bgc."/Command/Ban.php ");
-				break;
-			case '/time':
-					B::sendMessage(date("Y-m-d h:i:s A"), $this->room, $this->msg_id);
-					return true;
-				break;
-			case '/ytdl':
-			
-			default:
-					
-				break;
-		}
-	}
-}
->>>>>>> f70a6b3fccf265a97d662b2704773406e8bbc94f

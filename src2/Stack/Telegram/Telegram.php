@@ -2,7 +2,7 @@
 
 namespace Stack\Telegram;
 
-use SysUtils\Curl;
+use IceTeaSystem\Curl;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
@@ -12,7 +12,7 @@ use SysUtils\Curl;
 
 class Telegram
 {
-    #const USERAGENT = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:46.0) Gecko/20100101 Firefox/46.0";
+    const USERAGENT = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:46.0) Gecko/20100101 Firefox/46.0";
 
     /**
      * @var int
@@ -207,8 +207,9 @@ class Telegram
         if ($post !== null) {
             $ch->post($post);
         }
-        $option[CURLOPT_USERAGENT] = null;
-        $ch->set_opt($option);
+        if (is_array($option)) {
+            $ch->set_opt($option);
+        }
         $out = $ch->exec();
         $this->curl_errno = $ch->errno;
         $this->curl_error = $ch->error;
