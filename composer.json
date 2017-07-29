@@ -14,9 +14,10 @@
     "minimum-stability": "dev",
     "autoload": {
     	"psr-4": {
-            "Telegram\\": "Bot/telegram",
-            "Messenger": "Bot/messenger",
-            "LINE\\": "Bot/line"
+            "Telegram\\": "Bot/telegram/",
+            "Messenger": "Bot/messenger/",
+            "LINE\\": "Bot/line/",
+            "Foundation\\": "Foundation/"
         }
     },
     "require-dev": {
