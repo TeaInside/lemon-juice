@@ -1,0 +1,32 @@
+{"ok":true,"result":{"message_id":6101,"from":{"id":448907482,"first_name":"Apple Wilder","username":"MyIceTea_Bot"},"chat":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","type":"private"},"date":1501247392,"reply_to_message":{"message_id":1487,"from":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","language_code":"en-US"},"chat":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","type":"private"},"date":1499070307,"text":"<?php print 123;"},"text":"<?php print 123;"}}
+
+PHP Fatal error:  Uncaught Error: Call to undefined method Bot\Telegram\Bot::command() in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php:155
+Stack trace:
+#0 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(92): Bot\Telegram\Bot->reaction()
+#1 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(82): Bot\Telegram\Bot->__run()
+#2 /home/redangel/public_html/btrm/run/telegram/run.php(5): Bot\Telegram\Bot::run()
+#3 {main}
+  thrown in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php on line 155
+
+Fatal error: Uncaught Error: Call to undefined method Bot\Telegram\Bot::command() in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php:155
+Stack trace:
+#0 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(92): Bot\Telegram\Bot->reaction()
+#1 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(82): Bot\Telegram\Bot->__run()
+#2 /home/redangel/public_html/btrm/run/telegram/run.php(5): Bot\Telegram\Bot::run()
+#3 {main}
+  thrown in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php on line 155
+PHP Fatal error:  Uncaught Error: Call to undefined method Bot\Telegram\Bot::command() in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php:155
+Stack trace:
+#0 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(92): Bot\Telegram\Bot->reaction()
+#1 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(82): Bot\Telegram\Bot->__run()
+#2 /home/redangel/public_html/btrm/run/telegram/run.php(5): Bot\Telegram\Bot::run()
+#3 {main}
+  thrown in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php on line 155
+
+Fatal error: Uncaught Error: Call to undefined method Bot\Telegram\Bot::command() in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php:155
+Stack trace:
+#0 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(92): Bot\Telegram\Bot->reaction()
+#1 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(82): Bot\Telegram\Bot->__run()
+#2 /home/redangel/public_html/btrm/run/telegram/run.php(5): Bot\Telegram\Bot::run()
+#3 {main}
+  thrown in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php on line 155

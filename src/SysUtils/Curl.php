@@ -1,6 +1,6 @@
 <?php
 
-namespace IceTeaSystem;
+namespace SysUtils;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
