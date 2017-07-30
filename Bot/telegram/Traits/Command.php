@@ -15,7 +15,7 @@ trait Command
 			"/kick" => ["!kick"],
 			"/user" => ["!user"],
 			"/report" => ["!report"],
-			"/whatanime"
+			"/whatanime" => ["!whatanime", "whatanime"]
 		];
 		$ex = explode(" ", str_replace("\n", " ", $qw = strtolower($this->text)));
 		foreach ($list_cmd as $key => $val) {
