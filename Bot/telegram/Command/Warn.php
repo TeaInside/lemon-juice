@@ -27,7 +27,7 @@ class Warn
 				$res[][$this->warner] = $this->reason;
 				$get = $get->warn_count;
 			} else {
-				$res = [[$this->warner => $this->reason];
+				$res = [[$this->warner => $this->reason]];
 			}
 			$a = ((int) $get) + 1;
 			if ($a < 3) {
