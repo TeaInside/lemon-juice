@@ -61,8 +61,8 @@ trait Command
 				}
 				break;
 			case '/save':
-				if (isset($this->reply_to['photo'][3])) {
-					$a = json_decode(B::getFile($this->reply_to['photo'][3]['file_id']), true);
+				if (isset($this->reply_to['photo'][2])) {
+					$a = json_decode(B::getFile($this->reply_to['photo'][2]['file_id']), true);
 					$ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$a['result']['file_path']);
 					$sv = new Saver();
 					$w = explode(" ", trim($this->c_param), 1);
