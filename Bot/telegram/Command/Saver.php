@@ -25,5 +25,6 @@ class Saver
 			]);
 		is_dir("/home/web/bot/public/assets/images/") or shell_exec("sudo mkdir -p /home/web/bot/public/assets/images/");
 		file_put_contents("/home/web/bot/public/assets/images/".$file_name, $image);
+		return "https://webhooks.redangel.ga/assets/images/".$file_name;
 	}
 }
