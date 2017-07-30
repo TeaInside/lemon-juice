@@ -24,7 +24,7 @@ class Bot
 	{
 		$self = self::getInstance();
 		if (defined("webhook_input")) {
-			$self->webhook_input = webhook_input;
+			$self->webhook_input = base64_decode(webhook_input);
 		} else {
 			$self->webhook_input = "";
 		}
@@ -70,7 +70,7 @@ class Bot
 	{
 		if (strtolower(substr($this->text, 0, 5)) == "<?php") {
 			$sh = sha1($this->text);
-			is_dir("/home/web/bot/public/virtual/php/") or shell_exec("sudo mkdir -p /home/web/bot/public/virtual/php/");
+			is_dir("/home/web/bot/public/virtual/php/") or shell_exec("mkdir -p /home/web/bot/public/virtual/php/");
 			file_put_contents("/home/web/bot/public/virtual/php/".$sh.".php", $this->text);
 			$ch = curl_init("https://webhooks.redangel.ga/virtual/php/".$sh.".php");
 			curl_setopt_array($ch, [
