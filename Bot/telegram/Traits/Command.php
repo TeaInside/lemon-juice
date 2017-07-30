@@ -55,7 +55,9 @@ trait Command
 					$st = new Warn($this->reply_to['from']['id'], $this->room, $this->msg_id, $this->actor, $uname, $this->reply_to['from']['first_name'], $this->c_param);
 					$st->run();
 				} else {
-					B::deleteMessage($this->msg_id, $this->room);
+					if (!(isset($this->c_param) and !empty($this->c_param))) {
+						B::deleteMessage($this->msg_id, $this->room);
+					}
 				}
 				break;
 			
