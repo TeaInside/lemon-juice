@@ -15,7 +15,7 @@
     "autoload": {
     	"psr-4": {
             "Telegram\\": "Bot/telegram/",
-            "Messenger": "Bot/messenger/",
+            "Messenger\\": "Bot/messenger/",
             "LINE\\": "Bot/line/",
             "Foundation\\": "Foundation/"
         }
