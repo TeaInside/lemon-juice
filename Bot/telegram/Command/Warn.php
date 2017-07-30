@@ -31,7 +31,7 @@ class Warn
 			}
 			$a = ((int) $get) + 1;
 			if ($a < 3) {
-				print B::sendMessage("@{$this->userwarn} (Test) <b>has been warned!</b> (<b>".($a)."/3</b>)", $this->room_id, null, [
+				print B::sendMessage("{$this->wname} {$this->uwarn} <b>has been warned!</b> (<b>".($a)."/3</b>)", $this->room_id, null, [
 					"parse_mode" => "HTML"
 				]);
 				if ($get === false) {
