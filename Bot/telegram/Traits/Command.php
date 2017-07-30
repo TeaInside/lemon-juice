@@ -26,7 +26,7 @@ trait Command
 			} else {
 				foreach ($val as $val) {;
 					if (in_array($val, $ex)) {
-						$a = explode($key, $qw, 2);
+						$a = explode($val, $qw, 2);
 						$this->c_param = isset($a[1]) ? $a[1] : "";
 						$this->exec($key, $ex);
 						break;
