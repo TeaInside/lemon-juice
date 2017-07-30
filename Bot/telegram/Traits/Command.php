@@ -63,15 +63,18 @@ trait Command
 			case '/save':
 				if (isset($this->reply_to['photo'])) {
 					$wg = end($this->reply_to['photo']);
+					$ag = B::sendMessage("Downloading your image...", $this->room, $this->msg_id);
+					$ag = json_decode($a, true);
 					$a = json_decode(B::getFile($wg['file_id']), true);
 					$ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$a['result']['file_path']);
 					$sv = new Saver();
 					$w = explode(" ", trim($this->c_param), 2);
 					$w[1] = isset($w[1]) ? $w[1] : "";
 					$sv = $sv->image($ch->exec(), $w[0] = trim($w[0]), $w[1]);
+					B::deleteMessage($ag['result']['message_id'], $this->room);
 					$a = B::sendMessage("Media ini telah disimpan dengan judul ".$w[0]."\n\n{$sv}", $this->room, $this->reply_to['message_id'], ["disable_web_page_preview"=>"true"]);
-					print $a;
 				}
+				break;
 			default:
 				
 				break;

@@ -207,6 +207,13 @@ class Telegram
         return $this->execute($this->bot_url."deleteMessage", $post, []);
     }
 
+    public function __call($a, $b)
+    {
+        $post = isset($b[0]) ? $b[0] : null;
+        $op = isset($b[1]) ? $b[1] : [];
+        return $this->execute($this->bot_url.$a, $post, $op);
+    }
+
     /**
      * Execute.
      *
