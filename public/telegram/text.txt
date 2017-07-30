@@ -1,8 +1,3 @@
 
-{"update_id":344185986,
-"message":{"message_id":7462,"from":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","language_code":"en-US"},"chat":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","type":"private"},"date":1501403968,
-
-
-"text":"/warn"}}
-
-
+{"update_id":344186023,
+"message":{"message_id":7495,"from":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","language_code":"en-US"},"chat":{"id":243692601,"first_name":"Ammar","last_name":"F","username":"ammarfaizi2","type":"private"},"date":1501406427,"text":"/warn","entities":[{"type":"bot_command","offset":0,"length":5}]}}
