@@ -1,0 +1,1 @@
+ult":{"url":"https://ltm-group.cf/Telegram/webhook.php","has_custom_certificate":false,"pending_update_count":2,"last_error_date":1501324658,"last_error_message":"SSL error {337047686, error:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed}","max_connections":40}}
