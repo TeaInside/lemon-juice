@@ -69,7 +69,7 @@ trait Command
 					$w = explode(" ", trim($this->c_param), 2);
 					$w[1] = isset($w[1]) ? $w[1] : "";
 					$sv = $sv->image($ch->exec(), $w[0] = trim($w[0]), $w[1]);
-					B::sendMessage("Media ini telah disimpan dengan judul ".$w[0]."\n\n```{$sv}```", $this->room, $this->reply_to['message_id'], ["parse_mode"=>"Markdown"]);
+					B::sendMessage("Media ini telah disimpan dengan judul ".$w[0]."\n\n{$sv}", $this->room, $this->reply_to['message_id'], ["disable_web_page_preview"=>false]);
 				}
 			default:
 				
