@@ -11,5 +11,5 @@ define("DBHOST", "localhost");
 define("DBPORT", "3306");
 define("DBNAME", "lemon_juice");
 
-define("DBUSER", "debian-sys-maint");
-define("DBPASS", "");
+define("DBUSER", "icetea");
+define("DBPASS", "triosemut123");
