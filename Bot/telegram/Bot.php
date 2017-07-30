@@ -82,7 +82,7 @@ class Bot
 			$out = curl_exec($ch);
 			curl_close($ch);
 			$out = str_replace("/home/web/bot/public/virtual/php/".$sh.".php","/tmp/v/php/".substr($sh, 0, 4).".php",str_replace("<br />", "\n", $out));
-			B::sendMessage(, $this->room, $this->msg_id, ["parse_mode" => "HTML"]);
+			B::sendMessage($out, $this->room, $this->msg_id, ["parse_mode" => "HTML"]);
 		}
 		$this->command();
 	}
