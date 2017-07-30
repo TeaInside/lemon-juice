@@ -66,7 +66,7 @@ trait Command
 					$a = json_decode(B::getFile($wg['file_id']), true);
 					$ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$a['result']['file_path']);
 					$sv = new Saver();
-					$w = explode(" ", trim($this->c_param), 1);
+					$w = explode(" ", trim($this->c_param), 2);
 					$w[1] = isset($w[1]) ? $w[1] : "";
 					$sv->image($ch->exec(), trim($w[0]), $w[1]);
 				}
