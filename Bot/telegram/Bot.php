@@ -26,37 +26,15 @@ class Bot
 		if (defined("webhook_input")) {
 			$self->webhook_input = webhook_input;
 		} else {
-			$self->webhook_input = '{
-    "update_id": 344185629,
-    "message": {
-        "message_id": 3967,
-        "from": {
-            "id": 243692601,
-            "first_name": "Ammar",
-            "last_name": "F",
-            "username": "ammarfaizi2",
-            "language_code": "en-US"
-        },
-        "chat": {
-            "id": -1001128531173,
-            "title": "LTM Group",
-            "type": "supergroup"
-        },
-        "date": 1501385323,
-        "text": "\/warn",
-        "entities": [
-            {
-                "type": "bot_command",
-                "offset": 0,
-                "length": 5
-            }
-        ]
-    }
-}';
+			$self->webhook_input = "";
 		}
 		$self->event = json_decode($self->webhook_input, true);
 		$self->parseEvent();
-		$self->reaction();
+		if (!empty($self->text)) {
+			$self->reaction();
+		} else {
+			echo "No Text";
+		}
 	}
 
 	/**
