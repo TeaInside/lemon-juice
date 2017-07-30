@@ -3,7 +3,9 @@
 namespace Telegram\Traits;
 
 use Telegram\B;
+use Foundation\Curl;
 use Telegram\Command\Warn;
+use Telegram\Command\Saver;
 
 trait Command
 {
@@ -15,7 +17,8 @@ trait Command
 			"/kick" => ["!kick"],
 			"/user" => ["!user"],
 			"/report" => ["!report"],
-			"/whatanime" => ["!whatanime", "whatanime"]
+			"/whatanime" => ["!whatanime", "whatanime"],
+			"/save" => ["!save"]
 		];
 		$ex = explode(" ", str_replace("\n", " ", $qw = strtolower($this->text)));
 		foreach ($list_cmd as $key => $val) {
@@ -57,7 +60,15 @@ trait Command
 					B::deleteMessage($this->msg_id, $this->room);
 				}
 				break;
-			
+			case '/save':
+				if (isset($this->reply_to['photo'][0])) {
+					$a = json_decode(B::getFile($this->reply_to['photo'][0]['file_id']), true);
+					$ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$a['file_path']);
+					$sv = new Saver();
+					$w = explode(" ", trim($this->c_param), 1);
+					$w[1] = isset($w[1]) ? $w[1] : "";
+					$sv->image($ch->exec(), trim($w[0]), $w[1]);
+				}
 			default:
 				
 				break;
