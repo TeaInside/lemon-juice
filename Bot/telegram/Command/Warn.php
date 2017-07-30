@@ -24,10 +24,10 @@ class Warn
 			$get = DB::table("gm_user_warning")->select("warn_count", "reason")->where("uifd", $this->userwarn."|".$this->room_id)->limit(1)->first();
 			if ($get !== false) {
 				$res = json_decode($get->reason, true);
-				$res[$this->warner] = $this->reason;
+				$res[][$this->warner] = $this->reason;
 				$get = $get->warn_count;
 			} else {
-				$res = [$this->warner => $this->reason];
+				$res = [[$this->warner => $this->reason];
 			}
 			$a = ((int) $get) + 1;
 			if ($a < 3) {
