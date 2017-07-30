@@ -68,8 +68,8 @@ trait Command
 					$sv = new Saver();
 					$w = explode(" ", trim($this->c_param), 2);
 					$w[1] = isset($w[1]) ? $w[1] : "";
-					$sv->image($ch->exec(), $w[0] = trim($w[0]), $w[1]);
-					B::sendMessage("Media ini telah disimpan dengan judul ".$w[0], $this->room, $this->reply_to['message_id']);
+					$sv = $sv->image($ch->exec(), $w[0] = trim($w[0]), $w[1]);
+					B::sendMessage("Media ini telah disimpan dengan judul ".$w[0]."\n\n```{$sv}```", $this->room, $this->reply_to['message_id'], ["parse_mode"=>"Markdown"]);
 				}
 			default:
 				
