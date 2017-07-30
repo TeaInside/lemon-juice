@@ -14,7 +14,8 @@ trait Command
 			"/warn" => ["!warn"],
 			"/kick" => ["!kick"],
 			"/user" => ["!user"],
-			"/report" => ["!report"]
+			"/report" => ["!report"],
+			"/whatanime"
 		];
 		$ex = explode(" ", str_replace("\n", " ", $qw = strtolower($this->text)));
 		foreach ($list_cmd as $key => $val) {
@@ -51,18 +52,14 @@ trait Command
 
 			case '/report':
 				if ($this->chat_type!="private") {
-					$uname = isset($this->reply_to['from']['username']) ? "(@".$this->reply_to['from']['username'].")" : "";
-					$st = new Warn($this->reply_to['from']['id'], $this->room, $this->msg_id, $this->actor, $uname, $this->reply_to['from']['first_name'], $this->c_param);
-					$st->run();
+					
 				} else {
-					if (!(isset($this->c_param) and !empty($this->c_param))) {
-						B::deleteMessage($this->msg_id, $this->room);
-					}
+					B::deleteMessage($this->msg_id, $this->room);
 				}
 				break;
 			
 			default:
-				# code...
+				
 				break;
 		}
 	}
