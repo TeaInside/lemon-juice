@@ -15,7 +15,7 @@ class Saver
 	public function image($image, $title, $caption = "")
 	{
 		$file_name = sha1($image).".jpg";
-		B::table("assets")->insert([
+		DB::table("assets")->insert([
 				"id" => null,
 				"title" => $title,
 				"caption" => $caption,
