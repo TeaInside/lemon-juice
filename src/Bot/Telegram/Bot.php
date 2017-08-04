@@ -146,7 +146,7 @@ final class Bot
 							case 'Hasil pencarian anime :':
 								$this->text = "/idan ".$this->text;
 								break;
-							case 'Hasil pencarian manga :'
+							case 'Hasil pencarian manga :':
 								$this->text = "/idma ".$this->text;
 								break;
 							default:
