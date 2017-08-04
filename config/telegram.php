@@ -10,6 +10,13 @@ define("FORCE_ADMIN", "[]");
 define("DBHOST", "localhost");
 define("DBPORT", "3306");
 define("DBNAME", "lemon_juice");
-
 define("DBUSER", "icetea");
 define("DBPASS", "triosemut123");
+
+
+define("data", __DIR__."/../public/data");
+define("logs", data."/logs");
+define("storage", data."/storage");
+
+define("MAL_USER", "ammarfaizi2");
+define("MAL_PASS", "triosemut123");
