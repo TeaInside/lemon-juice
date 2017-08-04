@@ -111,9 +111,19 @@ trait CommandHandler
 			 * Help
 			 */
 			case '/help':
-					B::sendMessage("Hai ".$this->actor_call.", menu yang tersedia :\n\n<b>Anime</b>\n/anime [spasi] [judul] : Pencarian anime secara rinci.\n/idan [spasi] [id_anime] : Pencarian info anime secara lengkap menggunakan id_anime.\n/qanime [spasi] [judul] : Pencarian anime secara instant.\n/whatanime : Mencari judul anime dengan screenshot.\n\n<b>Manga</b>\n/manga [spasi] [judul] : Pencarian manga secara rinci.\n/idma [spasi] [id_manga] : Pencarian info manga secara lengkap menggunakan id_manga.\n/qmanga [spasi] [judul] : Pencarian manga secara instant.", $this->room_id, null, ["parse_mode"=>"HTML"]);
+					if ($this->chat_type == "private") {
+						B::sendMessage("Hai ".$this->actor_call.", menu yang tersedia :\n\n<b>Anime</b>\n/anime [spasi] [judul] : Pencarian anime secara rinci.\n/idan [spasi] [id_anime] : Pencarian info anime secara lengkap menggunakan id_anime.\n/qanime [spasi] [judul] : Pencarian anime secara instant.\n/whatanime : Mencari judul anime dengan screenshot.\n\n<b>Manga</b>\n/manga [spasi] [judul] : Pencarian manga secara rinci.\n/idma [spasi] [id_manga] : Pencarian info manga secara lengkap menggunakan id_manga.\n/qmanga [spasi] [judul] : Pencarian manga secara instant.", $this->room_id, null, ["parse_mode"=>"HTML"]);
+					}
 				break;
 
+			case '/time':
+					B::sendMessage(date("Y-m-d H:i:s"). " <b>Asia/Jakarta</b>", $this->room_id, $this->msg_id, ["parse_mode"=>"HTML"]);
+				break;
+			case '/start':
+					if ($this->chat_type == "private") {
+						B::sendMessage("Hai ".$this->actor_call." !\nKetik /help untuk menampilkan menu.", $this->room_id);
+					}
+				break;
 			default:
 					B::sendMessage("Error system !", $this->room_id, $this->msg_id);
 				break;
