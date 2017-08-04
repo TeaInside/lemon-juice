@@ -118,16 +118,26 @@ final class Bot
 		}
 		if (isset($this->input['message']['reply_to_message']['text'])) {
 			switch ($this->input['message']['reply_to_message']['text']) {
-				case 'Anime apa yang ingin kamu cari? ~':
-					$this->text = "/anime ".$this->text;
-					break;
 				case 'Sebutkan ID Anime yang ingin kamu cari !':
 					$this->text = "/idan ".$this->text;
+					break;
+				case 'Anime apa yang ingin kamu cari? ~':
+					$this->text = "/anime ".$this->text;
 					break;
 				case 'Anime apa yang ingin kamu cari?':
 					$this->text = "/qanime ".$this->text;
 					break;
-				
+
+				case 'Sebutkan ID Manga yang ingin kamu cari !':
+					$this->text = "/idma ".$this->text;
+					break;
+				case 'Manga apa yang ingin kamu cari? ~':
+					$this->text = "/manga ".$this->text;
+					break;
+				case 'Manga apa yang ingin kamu cari?':
+					$this->text = "/qmanga ".$this->text;
+					break;
+
 				case 'Balas pesan dengan screenshot anime yang ingin kamu tanyakan !':
 					$this->special_comannd = "/whatanime";
 					break;
