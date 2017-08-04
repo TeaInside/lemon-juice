@@ -64,7 +64,7 @@ trait Command
 				if (isset($this->reply_to['photo'])) {
 					$wg = end($this->reply_to['photo']);
 					$ag = B::sendMessage("Downloading your image...", $this->room, $this->msg_id);
-					$ag = json_decode($a, true);
+					$ag = json_decode($ag, true);
 					$a = json_decode(B::getFile($wg['file_id']), true);
 					$ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$a['result']['file_path']);
 					$sv = new Saver();
