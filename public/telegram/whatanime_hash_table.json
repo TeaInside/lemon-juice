@@ -1,0 +1,75 @@
+{
+    "file_hash": {
+        "76bb4d1533c78810696e9505685eef0a5fd05943": {
+            "docs": {
+                "from": 3932,
+                "to": 3932.83,
+                "i": 0,
+                "start": 3916,
+                "end": 3936.83,
+                "t": 3932.08,
+                "season": "Movie",
+                "anime": "\u4f60\u7684\u540d\u5b57\u3002",
+                "file": "[JYFanSub x LKSUB&ANK-Raws] \u541b\u306e\u540d\u306f\u3002 (BDrip 1280x720 X264-YUV420P10 AAC).mp4",
+                "episode": "",
+                "expires": 1501482109,
+                "token": "kKF18tviQu0NEVknSIpVjw",
+                "tokenthumb": "3B771xUmo5VIH2F0YsXkYg",
+                "diff": 24.701574,
+                "title": "\u541b\u306e\u540d\u306f\u3002",
+                "title_english": "your name.",
+                "title_romaji": "Kimi no Na wa."
+            }
+        },
+        "eabcd47403f164575c834e822cb912479a8616a1": {
+            "docs": {
+                "from": 1296.75,
+                "to": 1298.58,
+                "i": 0,
+                "start": 1280.75,
+                "end": 1302.58,
+                "t": 1298.58,
+                "season": "2012-07",
+                "anime": "Sword Art Online",
+                "file": "[SOSG&DMG][Sword Art Online][02][1280x720][BIG5].mp4",
+                "episode": 2,
+                "expires": 1501509242,
+                "token": "dC6YZ7RQSli9GTPQKxs8OQ",
+                "tokenthumb": "KARiG_VNXUIxVzPaCeYURQ",
+                "diff": 6.5094547,
+                "title": "\u30bd\u30fc\u30c9\u30a2\u30fc\u30c8\u30fb\u30aa\u30f3\u30e9\u30a4\u30f3",
+                "title_english": "Sword Art Online",
+                "title_romaji": "Sword Art Online"
+            }
+        },
+        "da39a3ee5e6b4b0d3255bfef95601890afd80709": {
+            "docs": false
+        },
+        "4817260dcd6583cef68dbfd0874fe9956e9f5618": {
+            "docs": {
+                "from": 1213.33,
+                "to": 1213.33,
+                "i": 0,
+                "start": 1197.33,
+                "end": 1217.33,
+                "t": 1213.33,
+                "season": "2015-04",
+                "anime": "\u7d42\u7d50\u7684\u71be\u5929\u4f7f",
+                "file": "[EMD][Owari no Seraph][10][BIG5][X264_AAC][1280X720][C0C335FC].mp4",
+                "episode": 10,
+                "expires": 1501509665,
+                "token": "WGikEdYPCJ6ElZaHO4nFJQ",
+                "tokenthumb": "couuDmXDMUJCyWGKdU4DTg",
+                "diff": 6.6502814,
+                "title": "\u7d42\u308f\u308a\u306e\u30bb\u30e9\u30d5",
+                "title_english": "Seraph of the End: Vampire Reign",
+                "title_romaji": "Owari no Seraph"
+            }
+        }
+    },
+    "video_hash": [
+        "1aa49b644188aff0198cb4d08b55c6877368764b",
+        "a29e1babacfdc7b6fb1914154cec07bf743c5fcd",
+        "32b07658c29ba82d996fb198264eaeaea6c6cb2c"
+    ]
+}
