@@ -58,6 +58,9 @@ trait CommandHandler
 		                }
 		            }
 				break;
+			case '/idan': 
+					$this->_idan($args);
+				break;
 			case '/anime': 
                     $this->_anime($args);
 				break;
