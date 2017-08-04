@@ -116,6 +116,8 @@ final class Bot
 		if ($sbt == "ask " || $sbt == "ask\n") {
 			$this->text = "/".$this->text;
 		} elseif (isset($this->input['message']['reply_to_message']['from']['username']) and $this->input['message']['reply_to_message']['from']['username'] == "MyIceTea_Bot") {
+		
+
 			switch ($this->input['message']['reply_to_message']['text']) {
 				case 'Sebutkan ID Anime yang ingin kamu cari !':
 					$this->text = "/idan ".$this->text;
@@ -142,6 +144,7 @@ final class Bot
 					break;
 				default:
 						$a = explode("\n", $this->input['message']['reply_to_message']['text'], 2);
+						var_dump($a);
 						switch ($a[0]) {
 							case 'Hasil pencarian anime :':
 								$this->text = "/idan ".$this->text;
