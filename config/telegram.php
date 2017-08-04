@@ -11,6 +11,11 @@ date_default_timezone_set("Asia/Jakarta");
 define("TOKEN", "448907482:AAGAaT7iP-CUC7xoBeXSyC-mrovzwmYka4w");
 
 /**
+ * Bot username.
+ */
+define("BOT_USERNAME", "MyIceTea_Bot");
+
+/**
  * Admin and root.
  */
 define("SUDOERS", "[]");
