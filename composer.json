@@ -13,11 +13,11 @@
     },
     "minimum-stability": "dev",
     "autoload": {
-    	"psr-4": {
-            "Telegram\\": "Bot/telegram/",
-            "Messenger\\": "Bot/messenger/",
-            "LINE\\": "Bot/line/",
-            "Foundation\\": "Foundation/"
+    	"psr-0": {
+            "Bot": "src/",
+            "App": "src/",
+            "Sys": "src/",
+            "Stacks": "src/"
         }
     },
     "require-dev": {
