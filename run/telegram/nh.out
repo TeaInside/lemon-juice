@@ -1,1 +1,39 @@
-{"ok":false,"error_code":400,"description":"Bad Request: message to delete not found"}
+string(48) "SQLSTATE[HY000] [2002] No such file or directory"
+PHP Notice:  Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 65
+
+Notice: Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 65
+string(48) "SQLSTATE[HY000] [2002] No such file or directory"
+PHP Notice:  Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 65
+
+Notice: Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 65
+string(48) "SQLSTATE[HY000] [2002] No such file or directory"
+PHP Notice:  Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 65
+
+Notice: Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 65
+string(48) "SQLSTATE[HY000] [2002] No such file or directory"
+PHP Notice:  Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 99
+
+Notice: Undefined property: Foundation\DB::$pdo in /home/redangel/public_html/btrm/Foundation/DB.php on line 99
+PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/redangel/public_html/btrm/Foundation/DB.php:99
+Stack trace:
+#0 /home/redangel/public_html/btrm/Foundation/DB.php(403): Foundation\DB::exec('INSERT INTO  (i...', Array)
+#1 /home/redangel/public_html/btrm/Bot/telegram/Command/Saver.php(24): Foundation\DB::insert(Array)
+#2 /home/redangel/public_html/btrm/Bot/telegram/Traits/Command.php(73): Telegram\Command\Saver->image('\r\n<!DOCTYPE htm...', 'ok', '')
+#3 /home/redangel/public_html/btrm/Bot/telegram/Traits/Command.php(28): Telegram\Bot->exec('/save', Array)
+#4 /home/redangel/public_html/btrm/Bot/telegram/Bot.php(87): Telegram\Bot->command()
+#5 /home/redangel/public_html/btrm/Bot/telegram/Bot.php(34): Telegram\Bot->reaction()
+#6 /home/redangel/public_html/btrm/run/telegram/run.php(5): Telegram\Bot::run()
+#7 {main}
+  thrown in /home/redangel/public_html/btrm/Foundation/DB.php on line 99
+
+Fatal error: Uncaught Error: Call to a member function prepare() on null in /home/redangel/public_html/btrm/Foundation/DB.php:99
+Stack trace:
+#0 /home/redangel/public_html/btrm/Foundation/DB.php(403): Foundation\DB::exec('INSERT INTO  (i...', Array)
+#1 /home/redangel/public_html/btrm/Bot/telegram/Command/Saver.php(24): Foundation\DB::insert(Array)
+#2 /home/redangel/public_html/btrm/Bot/telegram/Traits/Command.php(73): Telegram\Command\Saver->image('\r\n<!DOCTYPE htm...', 'ok', '')
+#3 /home/redangel/public_html/btrm/Bot/telegram/Traits/Command.php(28): Telegram\Bot->exec('/save', Array)
+#4 /home/redangel/public_html/btrm/Bot/telegram/Bot.php(87): Telegram\Bot->command()
+#5 /home/redangel/public_html/btrm/Bot/telegram/Bot.php(34): Telegram\Bot->reaction()
+#6 /home/redangel/public_html/btrm/run/telegram/run.php(5): Telegram\Bot::run()
+#7 {main}
+  thrown in /home/redangel/public_html/btrm/Foundation/DB.php on line 99
