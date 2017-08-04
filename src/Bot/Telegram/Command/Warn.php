@@ -40,6 +40,10 @@ class Warn
                         ":uifd" => $this->data['uifd'],
                         ":updated_at" => date("Y-m-d H:i:s")
                     ]);
+                B::restrictChatMember([
+                        "chat_id" => $this->data['room_id'],
+                        "user_id" => $this->data['userid']
+                    ]);
                 B::kickChatMember($this->data['room_id'], $this->data['userid']);
                 B::sendMessage("{$user} <b>banned</b> : reached the max number of warnings (<code>3/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true]);
             } else {
