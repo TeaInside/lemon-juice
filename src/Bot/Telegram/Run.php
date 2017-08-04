@@ -35,7 +35,7 @@ class Run
             "type": "private"
         },
         "date": 1501837683,
-        "text": "!idan 31765 "
+        "text": "/help"
     }
 }
 ';file_get_contents("php://input");
