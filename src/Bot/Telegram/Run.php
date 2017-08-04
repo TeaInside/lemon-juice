@@ -63,6 +63,7 @@ class Run
 	 */
 	public function run()
 	{
+        file_put_contents("text.txt", $this->webhook_input);
 		shell_exec("nohup /usr/bin/php ".__DIR__."/../../../run/telegram/run.php \"".str_replace('"','\"', $this->webhook_input)."\" >> nh.out 2>&1 &");
 	}
 }
