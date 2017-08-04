@@ -3,18 +3,40 @@
 namespace Bot\Telegram\Traits;
 
 use Bot\Telegram\B;
+use Bot\Telegram\Command\Warn;
 use App\MyAnimeList\MyAnimeList;
 
 trait Command
 {
-	private function _warn($args)
-	{
-		
-	}
+    private function _warn($args)
+    {
+    	$args = trim($args);
+    	if ($this->chat_type != "private") {
+    		if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
 
-	private function _idan($args)
-	{
-		$args = trim($args);
+    			$st = new Warn([
+    					"uifd" => $this->user_id."|".$this->room_id,
+    					"userid" => $this->input['message']['reply_to_message']['from']['id'],
+    					"reason" => $args,
+    					"room_id" => $this->room_id,
+    					"warner" => $this->user_id,
+    					"msg_id" => $this->msg_id,
+    					"username" => $this->input['message']['reply_to_message']['from']['username'],
+    					"actor" => ($this->input['message']['reply_to_message']['from']['first_name']. (isset($this->input['message']['reply_to_message']['from']['last_name']) ? " ".$this->input['message']['reply_to_message']['from']['last_name'] : ""))
+    				]);
+    			$st->run();
+    		} else {
+    			B::deleteMessage([
+    					"chat_id" => $this->room_id,
+    					"message_id" => $this->msg_id
+    				]);
+    		}
+    	}
+    }
+
+    private function _idan($args)
+    {
+        $args = trim($args);
         if (!empty($args)) {
             $fx = function ($str) {
                 if (is_array($str)) {
@@ -39,13 +61,13 @@ trait Command
                 B::sendMessage("Mohon maaf, anime \"{$args}\" tidak ditemukan !", $this->room_id, $this->msg_id);
             }
         } else {
-        	B::sendMessage("Sebutkan ID Anime yang ingin kamu cari !", $this->room_id, $this->msg_id, ["reply_markup" => json_encode(["force_reply"=>true, "selective"=>true])]);
+            B::sendMessage("Sebutkan ID Anime yang ingin kamu cari !", $this->room_id, $this->msg_id, ["reply_markup" => json_encode(["force_reply"=>true, "selective"=>true])]);
         }
-	}
+    }
 
-	private function _anime($args)
-	{
-		if (!empty($args)) {
+    private function _anime($args)
+    {
+        if (!empty($args)) {
             $st = new MyAnimeList(MAL_USER, MAL_PASS);
             $st->search($args);
             $st->exec();
@@ -62,16 +84,16 @@ trait Command
                 B::sendMessage("Mohon maaf, anime \"{$args}\" tidak ditemukan !", $this->room_id, $this->msg_id);
             }
         } else {
-        		$a = B::sendMessage("Anime apa yang ingin kamu cari? ~", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
+            $a = B::sendMessage("Anime apa yang ingin kamu cari? ~", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
         }
-	}
+    }
 
-	private function _qanime($args)
-	{
-		if (empty($args)) {
-			B::sendMessage("Anime apa yang ingin kamu cari?", $this->room_id, $this->msg_id);
-		} else {
-			$fx = function ($str) {
+    private function _qanime($args)
+    {
+        if (empty($args)) {
+            B::sendMessage("Anime apa yang ingin kamu cari?", $this->room_id, $this->msg_id);
+        } else {
+            $fx = function ($str) {
                 if (is_array($str)) {
                     return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode(implode($str))));
                 }
@@ -92,11 +114,11 @@ trait Command
                 B::sendMessage("Mohon maaf, anime \"{$args}\" tidak ditemukan !", $this->room_id);
             }
         }
-	}
+    }
 
-	private function _idma($args)
-	{
-		$args = trim($args);
+    private function _idma($args)
+    {
+        $args = trim($args);
         if (!empty($args)) {
             $fx = function ($str) {
                 if (is_array($str)) {
@@ -121,13 +143,13 @@ trait Command
                 B::sendMessage("Mohon maaf, manga \"{$args}\" tidak ditemukan !", $this->room_id, $this->msg_id);
             }
         } else {
-        	B::sendMessage("Sebutkan ID Manga yang ingin kamu cari !", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
+            B::sendMessage("Sebutkan ID Manga yang ingin kamu cari !", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
         }
-	}
+    }
 
-	private function _manga($args)
-	{
-		$args = trim($args);
+    private function _manga($args)
+    {
+        $args = trim($args);
         if (!empty($args)) {
             $st = new MyAnimeList(MAL_USER, MAL_PASS);
             $st->search($args, "manga");
@@ -146,13 +168,13 @@ trait Command
                 B::sendMessage("Mohon maaf, manga \"{$args}\" tidak ditemukan !", $this->room_id, $this->msg_id);
             }
         } else {
-        	B::sendMessage("Manga apa yang ingin kamu cari? ~", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
+            B::sendMessage("Manga apa yang ingin kamu cari? ~", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
         }
-	}
+    }
 
-	private function _qmanga($args)
-	{
-		$args = trim($args);
+    private function _qmanga($args)
+    {
+        $args = trim($args);
         if (!empty($args)) {
             $fx = function ($str) {
                 if (is_array($str)) {
@@ -175,7 +197,7 @@ trait Command
                 B::sendMessage("Mohon maaf, manga \"{$args}\" tidak ditemukan !", $this->room_id, $this->msg_id);
             }
         } else {
-        	B::sendMessage("Manga apa yang ingin kamu cari?", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
+            B::sendMessage("Manga apa yang ingin kamu cari?", $this->room_id, $this->msg_id, ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
         }
-	}
+    }
 }

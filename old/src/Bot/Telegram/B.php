@@ -7,15 +7,15 @@ use Stack\Telegram\Telegram;
 
 class B
 {
-	use Singleton;
+    use Singleton;
 
-	public function __construct()
-	{
-		$this->tel = new Telegram(TELEGRAM_TOKEN);
-	}
+    public function __construct()
+    {
+        $this->tel = new Telegram(TELEGRAM_TOKEN);
+    }
 
-	public static function __callStatic($aa, $bb)
-	{
-		self::getInstance()->tel->{$aa}(...$bb);
-	}
+    public static function __callStatic($aa, $bb)
+    {
+        self::getInstance()->tel->{$aa}(...$bb);
+    }
 }

@@ -5,11 +5,11 @@ $isi = '
 ';
 $ch = curl_init("http://localhost:8000/telegram/webhook.php");
 $op = [
-	CURLOPT_SSL_VERIFYPEER => false,
-	CURLOPT_SSL_VERIFYHOST => false,
-	CURLOPT_RETURNTRANSFER => true,
-	CURLOPT_POST => true,
-	CURLOPT_POSTFIELDS => $isi
+    CURLOPT_SSL_VERIFYPEER => false,
+    CURLOPT_SSL_VERIFYHOST => false,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $isi
 ];
 curl_setopt_array($ch, $op);
 echo curl_exec($ch);
