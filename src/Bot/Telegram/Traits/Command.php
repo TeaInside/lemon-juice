@@ -7,6 +7,11 @@ use App\MyAnimeList\MyAnimeList;
 
 trait Command
 {
+	private function _warn($args)
+	{
+		
+	}
+
 	private function _idan($args)
 	{
 		$args = trim($args);
