@@ -109,8 +109,8 @@ class LINE implements LINEContract
     {
         if (isset($this->event['message']['text'])) {
             $this->type = "text";
-            $this->room = $this->event['source']['userId'];
-            $a = json_decode($this->line->getUserInfo($this->event['source']['groupId']), true);
+            $this->room = isset($this->event['source']['groupId']) ?  $this->event['source']['groupId'] : $this->event['source']['userId'];
+            $a = json_decode($this->line->getUserInfo($this->event['source']['userId']), true);
             $this->actor = $a['displayName'];
         }
     }
