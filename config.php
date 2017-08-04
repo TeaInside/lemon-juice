@@ -13,7 +13,7 @@ if (!defined("data")) {
     define("storage", __DIR__."/storage");
     define("logs", __DIR__."/logs");
 }
-    define("PHPVIRTUAL_URL", "https://ltm-group.cf/virtual/php");
+    define("PHPVIRTUAL_URL", "https://webhooks.redangel.ga/virtual/php");
     define("PHPVIRTUAL_DIR", "/home/web/bot/public/virtual/php");
     define("JAVAVIRTUAL_DIR", "/home/web/bot/public/virtual/java");
     define("RUBYVIRTUAL_DIR", "/home/web/bot/public/virtual/ruby");
