@@ -50,9 +50,9 @@ class Run
                 "type": "private"
             },
             "date": 1501856165,
-            "text": "Anime apa yang ingin kamu cari? ~"
+            "text": "Sebutkan ID Anime yang ingin kamu cari !"
         },
-        "text": "shigatsu wa"
+        "text": "31765"
     }
 }
 ';file_get_contents("php://input");
