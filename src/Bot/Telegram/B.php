@@ -12,6 +12,6 @@ class B
 	{
 		defined("TOKEN") or require __DIR__."/../../../config/telegram.php";
 		$st = new Telegram(TOKEN);
-		$st->{$a}(...$b);
+		return $st->{$a}(...$b);
 	}
 }
