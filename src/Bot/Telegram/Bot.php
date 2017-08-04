@@ -141,6 +141,17 @@ final class Bot
 					$this->special_comannd = "/whatanime";
 					break;
 				default:
+						$a = explode("\n", $this->input['message']['reply_to_message']['text'], 2);
+						switch ($a[0]) {
+							case 'Hasil pencarian anime :':
+								$this->text = "/idan ".$this->text;
+								break;
+							case 'Hasil pencarian manga :'
+								$this->text = "/idma ".$this->text;
+								break;
+							default:
+								break;
+						}
 					break;
 			}
 		}

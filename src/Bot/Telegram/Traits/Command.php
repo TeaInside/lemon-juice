@@ -136,7 +136,7 @@ trait Command
                 foreach ($st['entry'] as $vz) {
                     $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
                 }
-                B::sendMessage($rep."\nBerikut ini adalah beberapa manga yang cocok dengan <b>{$args}</b>.\n\nKetik /idma [spasi] [id_manga] atau balas dengan id manga untuk menampilkan info manga lebih lengkap.", $this->room_id, $this->msg_id, ["parse_mode"=>"HTML", ["reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]]);
+                B::sendMessage($rep."\nBerikut ini adalah beberapa manga yang cocok dengan <b>{$args}</b>.\n\nKetik /idma [spasi] [id_manga] atau balas dengan id manga untuk menampilkan info manga lebih lengkap.", $this->room_id, $this->msg_id, ["parse_mode"=>"HTML", "reply_markup"=>json_encode(["force_reply"=>true, "selective"=>true])]);
             } else {
                 B::sendMessage("Mohon maaf, manga \"{$args}\" tidak ditemukan !", $this->room_id, $this->msg_id);
             }
