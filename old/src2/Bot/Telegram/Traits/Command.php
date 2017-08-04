@@ -88,7 +88,7 @@ trait Command
                                         "selective"=>true
                                         )
                                 )
-                                ) 
+                                )
                         );
                     }
                     break;

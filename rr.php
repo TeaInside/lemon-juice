@@ -1,14 +1,14 @@
 <?php
 if (isset($_GET['q'])) {
-	header("Content-type:application/json") xor
-	print json_encode([
-			"url 1"
-		]) and die();
+    header("Content-type:application/json") xor
+    print json_encode([
+            "url 1"
+        ]) and die();
 } elseif (isset($_GET['w'])) {
-	header("Content-type:application/json") xor
-	print json_encode([
-			"url 2"
-		]) and die();
+    header("Content-type:application/json") xor
+    print json_encode([
+            "url 2"
+        ]) and die();
 }
 ?>
 <!DOCTYPE html>

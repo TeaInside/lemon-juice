@@ -14,95 +14,94 @@ use Stack\Telegram\Telegram;
 
 class Bot
 {
-	use Singleton, Command;
+    use Singleton, Command;
 
-	/**
-	 * @var string
-	 */
-	private $webhook_input;
+    /**
+     * @var string
+     */
+    private $webhook_input;
 
-	/**
-	 * @var array
-	 */
-	private $event;
+    /**
+     * @var array
+     */
+    private $event;
 
-	/**
-	 * @var string
-	 */
-	private $event_type;
+    /**
+     * @var string
+     */
+    private $event_type;
 
-	/**
-	 * @var string
-	 */
-	private $text;
+    /**
+     * @var string
+     */
+    private $text;
 
-	/**
-	 * @var string
-	 */
-	private $actor;
+    /**
+     * @var string
+     */
+    private $actor;
 
-	/**
-	 * @var string
-	 */
-	private $actor_call;
-	
-	/**
-	 * @var int
-	 */
-	private $actor_id;
-	
-	/**
-	 * @var string
-	 */
-	private $actor_uname;
+    /**
+     * @var string
+     */
+    private $actor_call;
+    
+    /**
+     * @var int
+     */
+    private $actor_id;
+    
+    /**
+     * @var string
+     */
+    private $actor_uname;
 
-	/**
-	 * @var int
-	 */
-	private $room;
+    /**
+     * @var int
+     */
+    private $room;
 
-	/**
-	 * @var string
-	 */
-	private $room_title;
+    /**
+     * @var string
+     */
+    private $room_title;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
 
-	/**
-	 * Run
-	 */
-	public static function run()
-	{
-		$self = self::getInstance();
-		$self->__run();
-	}
+    /**
+     * Run
+     */
+    public static function run()
+    {
+        $self = self::getInstance();
+        $self->__run();
+    }
 
-	/**
-	 * Private run
-	 */
-	private function __run()
-	{
-		$this->getInput();
-		$this->parseEvent();
-		$this->reaction();
-		print "\n\n";
-	}
+    /**
+     * Private run
+     */
+    private function __run()
+    {
+        $this->getInput();
+        $this->parseEvent();
+        $this->reaction();
+        print "\n\n";
+    }
 
-	/**
-	 * Get webhook input
-	 */
-	private function getInput()
-	{
-		if (defined("webhook_input")) {
-			$this->webhook_input = webhook_input;
-		} else {
-			$this->webhook_input = '{
+    /**
+     * Get webhook input
+     */
+    private function getInput()
+    {
+        if (defined("webhook_input")) {
+            $this->webhook_input = webhook_input;
+        } else {
+            $this->webhook_input = '{
     "update_id": 344174728,
     "message": {
         "message_id": 1487,
@@ -124,35 +123,35 @@ class Bot
         "text": "/time"
     }
 }';
-			#$this->webhook_input = file_get_contents("php://input");
-		}
-		$this->event = json_decode($this->webhook_input, true);
-	}
+            #$this->webhook_input = file_get_contents("php://input");
+        }
+        $this->event = json_decode($this->webhook_input, true);
+    }
 
-	/**
-	 * Parse Event
-	 */
-	private function parseEvent()
-	{
-		$event = $this->event;
-		if (isset($event['message']['text'])) {
-			$this->event_type  = "text";
-			$this->text		   = $event['message']['text'];
-			$this->actor	   = $event['message']['from']['first_name'].(isset($event['message']['from']['last_name']) ? " ".$event['message']['from']['last_name'] : "");
-			$this->actor_call  = $event['message']['from']['first_name'];
-			$this->actor_id	   = $event['message']['from']['id'];
-			$this->actor_uname = isset($event['message']['from']['username']) ? $event['message']['from']['username'] : null;
-			$this->room		   = $event['message']['chat']['id'];
-			$this->room_title  = isset($event['message']['from']['chat']['title']) ? $event['message']['from']['chat']['title'] : null;
-			$this->msg_id 	   = $event['message']['message_id'];
-		}
-	}
-	
-	/**
-	 * Reaction.
-	 */
-	private function reaction()
-	{
-		$this->command();
-	}
+    /**
+     * Parse Event
+     */
+    private function parseEvent()
+    {
+        $event = $this->event;
+        if (isset($event['message']['text'])) {
+            $this->event_type  = "text";
+            $this->text           = $event['message']['text'];
+            $this->actor       = $event['message']['from']['first_name'].(isset($event['message']['from']['last_name']) ? " ".$event['message']['from']['last_name'] : "");
+            $this->actor_call  = $event['message']['from']['first_name'];
+            $this->actor_id       = $event['message']['from']['id'];
+            $this->actor_uname = isset($event['message']['from']['username']) ? $event['message']['from']['username'] : null;
+            $this->room           = $event['message']['chat']['id'];
+            $this->room_title  = isset($event['message']['from']['chat']['title']) ? $event['message']['from']['chat']['title'] : null;
+            $this->msg_id       = $event['message']['message_id'];
+        }
+    }
+    
+    /**
+     * Reaction.
+     */
+    private function reaction()
+    {
+        $this->command();
+    }
 }
