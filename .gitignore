@@ -4,5 +4,6 @@
 /data
 /logs
 /storage/*
-/public/Telegram/*
+/public/assets/
+/public/virtual/
 *.lock
