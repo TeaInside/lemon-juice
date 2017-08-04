@@ -1,8 +1,9 @@
 /vendor/
-*.tmp
-.dockerignore
+/.dockerignore
 /data
 /logs
 /storage/*
-/public/Telegram/*
+/public/virtual
+/public/assets
 *.lock
+*.tmp

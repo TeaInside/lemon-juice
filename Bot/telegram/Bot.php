@@ -24,7 +24,7 @@ class Bot
 	{
 		$self = self::getInstance();
 		if (defined("webhook_input")) {
-			$self->webhook_input = base64_decode(webhook_input);
+			$self->webhook_input = webhook_input;
 		} else {
 			$self->webhook_input = "";
 		}
@@ -68,23 +68,7 @@ class Bot
 
 	private function reaction()
 	{
-		if (strtolower(substr($this->text, 0, 5)) == "<?php") {
-			$sh = sha1($this->text);
-			is_dir("/home/web/bot/public/virtual/php/") or shell_exec("mkdir -p /home/web/bot/public/virtual/php/");
-			file_put_contents("/home/web/bot/public/virtual/php/".$sh.".php", $this->text);
-			$ch = curl_init("https://webhooks.redangel.ga/virtual/php/".$sh.".php");
-			curl_setopt_array($ch, [
-					CURLOPT_RETURNTRANSFER => true,
-					CURLOPT_SSL_VERIFYPEER => false,
-					CURLOPT_SSL_VERIFYHOST => false,
-					CURLOPT_USERAGENT => "php virtual"
-				]);
-			$out = curl_exec($ch);
-			curl_close($ch);
-			$out = str_replace("/home/web/bot/public/virtual/php/".$sh.".php","/tmp/v/php/".substr($sh, 0, 4).".php",str_replace("<br />", "\n", $out));
-			B::sendMessage($out, $this->room, $this->msg_id, ["parse_mode" => "HTML"]);
-		} else {
-			$this->command();
-		}
+		$this->ll_virtual();
+		$this->command();
 	}
 }
