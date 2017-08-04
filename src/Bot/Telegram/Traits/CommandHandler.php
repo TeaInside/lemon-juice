@@ -20,46 +20,50 @@ trait CommandHandler
 	private function command()
 	{
 		// $this->virtualizor();
-		$cmd_list = [
-			"/ask" => ["!ask", "~ask"],
+		if (!isset($this->special_command)) {
+			$cmd_list = [
+				"/ask" => ["!ask", "~ask"],
 
-			"/idan" => ["!idan", "~idan"],
-			"/anime" => ["!anime", "~anime"],
-			"/qanime" => ["!qanime", "~qanime"],
+				"/idan" => ["!idan", "~idan"],
+				"/anime" => ["!anime", "~anime"],
+				"/qanime" => ["!qanime", "~qanime"],
 
-			"/idma" => ["!idma", "~idma"],
-			"/manga" => ["qmanga", "~manga"],
-			"/qmanga" => ["!qmanga", "~qmanga"],
+				"/idma" => ["!idma", "~idma"],
+				"/manga" => ["qmanga", "~manga"],
+				"/qmanga" => ["!qmanga", "~qmanga"],
 
-			"/help" => ["!help", "~help"],
+				"/help" => ["!help", "~help"],
 
-			"/warn" => ["!warn", "~warn"],
-			"/ban" => ["!ban", "~ban"],
-			"/kick" => ["!kick", "~kick"],
+				"/warn" => ["!warn", "~warn"],
+				"/ban" => ["!ban", "~ban"],
+				"/kick" => ["!kick", "~kick"],
 
-			"/time" => ["!time", "~time", "#time"],
-			"/whatanime" => ["!whatanime", "~whatanime"],
-			"/start" => ["!start", "~start"],
-		];
-		$exploded = explode(" ", strtolower($trimed = trim($this->text)));
-		foreach ($cmd_list as $key => $val) {
-			if (in_array($key, $exploded)) {
-				$exploded = explode($key, $trimed, 2);
-				$this->exec($key, end($exploded));
-				if (!$this->continue) {
-					break;
-				}
-			} else {
-				foreach ($val as $val) {
-					if (in_array($val, $exploded)) {
-						$exploded = explode($val, $trimed, 2);
-						$this->exec($key, end($exploded));
-						if (!$this->continue) {
-							break;
+				"/time" => ["!time", "~time", "#time"],
+				"/whatanime" => ["!whatanime", "~whatanime"],
+				"/start" => ["!start", "~start"],
+			];
+			$exploded = explode(" ", strtolower($trimed = trim($this->text)));
+			foreach ($cmd_list as $key => $val) {
+				if (in_array($key, $exploded)) {
+					$exploded = explode($key, $trimed, 2);
+					$this->exec($key, end($exploded));
+					if (!$this->continue) {
+						break;
+					}
+				} else {
+					foreach ($val as $val) {
+						if (in_array($val, $exploded)) {
+							$exploded = explode($val, $trimed, 2);
+							$this->exec($key, end($exploded));
+							if (!$this->continue) {
+								break;
+							}
 						}
 					}
 				}
 			}
+		} else {
+			$this->exec($this->special_command);
 		}
 	}
 
@@ -124,6 +128,11 @@ trait CommandHandler
 						B::sendMessage("Hai ".$this->actor_call." !\nKetik /help untuk menampilkan menu.", $this->room_id);
 					}
 				break;
+
+			case '/whatanime':
+					$this->_whatanime();
+				break;
+				
 			default:
 					B::sendMessage("Error system !", $this->room_id, $this->msg_id);
 				break;

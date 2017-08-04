@@ -12,11 +12,51 @@ defined("TOKEN") or require __DIR__."/../../../config/telegram.php";
 use Bot\Telegram\Traits\Command;
 use Bot\Telegram\Traits\CommandHandler;
 
-class Bot
+final class Bot
 {
 	use Command;
 	use CommandHandler;
 
+	/**
+	 * @var string
+	 */
+	private $text;
+
+	/**
+	 * @var string
+	 */
+	private $room_id;
+
+	/**
+	 * @var string
+	 */
+	private $user_id;
+
+	/**
+	 * @var uname
+	 */
+	private $uname;
+
+	/**
+	 * @var string
+	 */
+	private $actor;
+
+	/**
+	 * @var string
+	 */
+	private $actor_call;
+
+	/**
+	 * @var string
+	 */
+	private $chat_type;
+
+	/**
+	 * @var string
+	 */
+	private $msg_id;
+	
 	/**
 	 * @var array
 	 */
@@ -26,6 +66,12 @@ class Bot
 	 * @var string
 	 */
 	private $msg_type;
+
+
+	/**
+	 * @var string
+	 */
+	private $special_comannd;
 
 	/**
 	 * Run bot.
@@ -69,6 +115,25 @@ class Bot
 		$sbt = substr($this->text, 0, 4);
 		if ($sbt == "ask " || $sbt == "ask\n") {
 			$this->text = "/".$this->text;
+		}
+		if (isset($this->input['message']['reply_to_message']['text'])) {
+			switch ($this->input['message']['reply_to_message']['text']) {
+				case 'Anime apa yang ingin kamu cari? ~':
+					$this->text = "/anime ".$this->text;
+					break;
+				case 'Sebutkan ID Anime yang ingin kamu cari !':
+					$this->text = "/idan ".$this->text;
+					break;
+				case 'Anime apa yang ingin kamu cari?':
+					$this->text = "/qanime ".$this->text;
+					break;
+				
+				case 'Balas pesan dengan screenshot anime yang ingin kamu tanyakan !':
+					$this->special_comannd = "/whatanime";
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }
