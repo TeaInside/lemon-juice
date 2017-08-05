@@ -232,7 +232,7 @@ final class Bot
                         }
 
                         if (isset($this->input['message']['chat']['username'])) {
-                            $room = "<a href=\"".$this->input['message']['chat']['username']."\">".$this->input['message']['chat']['title']."</a>";
+                            $room = "<a href=\"https://telegram.me/".$this->input['message']['chat']['username']."\">".$this->input['message']['chat']['title']."</a>";
                             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Go to the message","url"=> "https://telegram.me/".$this->input['message']['chat']['username']."/".$this->msg_id]]]])];
                         } else {
                             $room = "<b>".$this->input['message']['chat']['title']."</b>";
