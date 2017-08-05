@@ -51,11 +51,11 @@ trait Command
                         $user = $this->actor_call." banned ";
                     }
                     if (isset($this->input['message']['reply_to_message']['from']['username'])) {
-                        $user .= "<a href=\"".$this->input['message']['reply_to_message']['from']['username']."\">".$this->input['message']['reply_to_message']['from']['first_name']."<a> !";
+                        $user .= "<a href=\"https://telegram.me/".$this->input['message']['reply_to_message']['from']['username']."\">".$this->input['message']['reply_to_message']['from']['first_name']."<a> !";
                     } else {
                         $user .= $this->input['message']['reply_to_message']['from']['first_name'];
                     }
-                    B::sendMessage($user, $this->room_id);
+                    B::sendMessage($user, $this->room_id, null, ["parse_mode"=>"HTML"]);
                 } else {
                     B::sendMessage($a."\n".$b, $this->room_id, $this->user_id);
                 }
