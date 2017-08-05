@@ -170,7 +170,7 @@ final class Bot
     	if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
     		$st['msg_count']++;
     		$pdo->prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=:msg_count, `updated_at`=:up WHERE `userid`=:userid LIMIT 1;")->execute([
-    				":username" => $this->uname,
+    				":username" => strtolower($this->uname),
     				":name" => $this->actor,
     				":msg_count" => $st['msg_count'],
     				":userid" => $this->user_id,
@@ -179,7 +179,7 @@ final class Bot
     	} else {
     		$pdo->prepare("INSERT INTO `a_known_users` (`userid`, `username`, `name`, `created_at`, `updated_at`, `msg_count`) VALUES (:userid, :username, :name, :created_at, :updated_at, :msg_count)")->execute([
     				":userid" => $this->user_id,
-    				":username" => $this->uname,
+    				":username" => strtolower($this->uname),
     				":name" => $this->actor,
     				"created_at" => date("Y-m-d H:i:s"),
     				":updated_at"=>null,
