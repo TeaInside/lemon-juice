@@ -70,6 +70,6 @@ class Run
     public function run()
     {
         file_put_contents("text.txt", json_encode(json_decode($this->webhook_input), 128));
-        print shell_exec("/usr/bin/php ".__DIR__."/../../../run/telegram/run.php \"".str_replace(["\\",'"'], ["\\\\",'\"'], $this->webhook_input)."\"");
+        print shell_exec("nohup /usr/bin/php ".__DIR__."/../../../run/telegram/run.php \"".str_replace(["\\",'"'], ["\\\\",'\"'], $this->webhook_input)."\" >> nh.out 2>&1 &");
     }
 }
