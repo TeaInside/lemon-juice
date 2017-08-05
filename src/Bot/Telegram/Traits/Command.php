@@ -34,7 +34,7 @@ trait Command
     	}
     }
 
-    private function _warn($args)
+    private function _ban($args)
     {
         $args = trim($args);
         if ($this->chat_type != "private") {
