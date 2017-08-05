@@ -27,11 +27,11 @@ define("FORCE_ADMIN", "[]");
 define("DBHOST", "localhost");
 define("DBPORT", "3306");
 define("DBNAME", "lemon_juice");
-define("DBUSER", "debian-sys-maint");
-define("DBPASS", "");
+/*define("DBUSER", "debian-sys-maint");
+define("DBPASS", "");*/
 
-//define("DBUSER", "icetea");
-//define("DBPASS", "triosemut123");
+define("DBUSER", "icetea");
+define("DBPASS", "triosemut123");
 
 /**
  * Logs and Storage.
