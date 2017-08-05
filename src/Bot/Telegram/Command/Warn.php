@@ -55,7 +55,7 @@ class Warn
                         ":uifd" => $this->data['uifd'],
                         ":updated_at" => date("Y-m-d H:i:s")
                     ]);
-                print B::sendMessage("{$user} <b>has been warned</b> (<code>2/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warning","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
+                print B::sendMessage("{$user} <b>has been warned</b> (<code>2/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warn","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
             }
         } else {
             $st = $pdo->prepare("INSERT INTO `gm_user_warning` (`uifd`, `userid`, `reason`, `warn_count`, `room_id`, `created_at`) VALUES (:uifd, :userid, :reason, :warn_count, :room_id, :created_at);");
@@ -67,7 +67,7 @@ class Warn
                     ":room_id" => $this->data['room_id'],
                     ":created_at" => date("Y-m-d H:i:s")
                 ]);
-           print B::sendMessage("{$user} <b>has been warned</b> (<code>1/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warning","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
+           print B::sendMessage("{$user} <b>has been warned</b> (<code>1/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warn","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
         }
         var_dump($st);
     }
