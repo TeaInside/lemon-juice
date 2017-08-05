@@ -97,7 +97,7 @@ final class Bot
             $this->textFixer();
             if (!$this->command()) {
             }
-            $this->notifer();
+            $this->chat_type != "private" and $this->notifer();
         }
         $this->knower();
     }
@@ -219,7 +219,7 @@ final class Bot
 
     private function notifer()
     {
-        if ($this->chat_type != "private" and isset($this->entities['mention'])) {
+        if (isset($this->entities['mention'])) {
             foreach ($this->entities['mention'] as $val) {
                 if ($st = $this->check_recognized($val)) {
                     if ($st['is_private_known'] == "true") {
@@ -240,13 +240,12 @@ final class Bot
                             $room = "<b>".$this->input['message']['chat']['title']."</b>";
                             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
                         }
-                        B::sendMessage("{$mentioner} tagged you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                        B::sendMessage("{$mentioner} mention you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
                     }
                 }
             }
         }
-        var_dump($this->entities['text_mention']);
-        if ($this->chat_type != "private" and isset($this->entities['text_mention'])) {
+        if (isset($this->entities['text_mention'])) {
             var_dump("success");
             foreach ($this->entities['text_mention'] as $val) {
                 if ($st = $this->check_recognized($val, "userid")) {
@@ -277,7 +276,7 @@ final class Bot
                             $room = "<b>".$this->input['message']['chat']['title']."</b>";
                             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
                         }
-                        B::sendMessage("{$mentioner} tagged you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                        B::sendMessage("{$mentioner} mentioned you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
                     }
                         if (isset($this->input['message']['chat']['username'])) {
                             $room = "<a href=\"https://telegram.me/".$this->input['message']['chat']['username']."\">".$this->input['message']['chat']['title']."</a>";
