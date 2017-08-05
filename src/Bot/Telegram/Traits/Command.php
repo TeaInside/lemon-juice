@@ -40,7 +40,7 @@ trait Command
                             "disable_web_page_preview" => true,
                             "chat_id" => $this->room_id,
                             "message_id" => $sb['result']['message_id'],
-                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSEST_URL."/images/".$fname.".jpg"]]]])
+                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSETS_URL."/images/".$fname.".jpg"]]]])
                         ]
                     );
                 } else {
