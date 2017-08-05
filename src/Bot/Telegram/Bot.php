@@ -210,7 +210,7 @@ final class Bot
     {
         foreach ($this->entities_pos as $val) {
             if ($val['type'] == "mention") {
-                $this->entities[$val['type']] = substr($this->text, $val['offset']+1, $val['length']);
+                $this->entities[$val['type']][] = substr($this->text, $val['offset']+1, $val['length']);
             }
         }
     }
