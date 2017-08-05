@@ -17,9 +17,9 @@ class Run
     public function __construct()
     {
         $this->webhook_input = /*'{
-    "update_id": 344188026,
+    "update_id": 344188715,
     "message": {
-        "message_id": 5184,
+        "message_id": 5917,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -33,26 +33,8 @@ class Run
             "username": "LTMGroup",
             "type": "supergroup"
         },
-        "date": 1501860702,
-        "reply_to_message": {
-            "message_id": 5177,
-            "from": {
-                "id": 296883310,
-                "first_name": "Sugandi",
-                "last_name": "S",
-                "username": "Slametsugandi",
-                "language_code": "in-ID"
-            },
-            "chat": {
-                "id": -1001128531173,
-                "title": "LTM Group 2",
-                "username": "LTMGroup",
-                "type": "supergroup"
-            },
-            "date": 1501858124,
-            "text": "Krik2"
-        },
-        "text": "\/warn test",
+        "date": 1501919588,
+        "text": "\/warn",
         "entities": [
             {
                 "type": "bot_command",
@@ -70,6 +52,6 @@ class Run
     public function run()
     {
         file_put_contents("text.txt", json_encode(json_decode($this->webhook_input), 128));
-        print shell_exec("/usr/bin/php ".__DIR__."/../../../run/telegram/run.php \"".str_replace(["\\",'"'], ["\\\\",'\"'], $this->webhook_input)."\"");
+        print shell_exec("nohup /usr/bin/php ".__DIR__."/../../../run/telegram/run.php \"".str_replace(["\\",'"'], ["\\\\",'\"'], $this->webhook_input)."\" >> nh.out 2>&1 &");
     }
 }
