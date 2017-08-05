@@ -248,7 +248,7 @@ final class Bot
         var_dump($this->entities['text_mention']);
         if ($this->chat_type != "private" and isset($this->entities['text_mention'])) {
             var_dump("success");
-            foreach ($this->text_mention as $val) {
+            foreach ($this->entities['text_mention'] as $val) {
                 if ($st = $this->check_recognized($val, "userid")) {
                      if ($st['is_private_known'] == "true") {
                         if ($st['is_notifed'] == "false") {
