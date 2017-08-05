@@ -8,7 +8,7 @@ namespace App\MyAnimeList;
  * @since 0.0.1
  */
 
-use Sys\Curl;
+use IceTeaSystem\Curl;
 use App\MyAnimeList\MyAnimeListContract;
 use App\MyAnimeList\MyAnimeListException;
 
@@ -145,6 +145,7 @@ class MyAnimeList implements MyAnimeListContract
      */
     private function get_entry()
     {
+        debug_print_backtrace();
         if (isset($this->out['entry']['id'])) {
             return array($this->out['entry']['id']);
         } else {

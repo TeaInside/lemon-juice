@@ -1,0 +1,19 @@
+{
+    "protocol": "28",
+    "impl": "27",
+    "schema": "task\/responses\/task.suggest.res",
+    "success": true,
+    "data": {
+        "tasks": {
+            "items": []
+        },
+        "info": {
+            "current_page": 0,
+            "total_hits": 0,
+            "total_pages": 0,
+            "hits_per_page": 100
+        }
+    },
+    "users_data": [],
+    "validated": false
+}
