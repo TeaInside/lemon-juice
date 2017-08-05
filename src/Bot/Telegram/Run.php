@@ -2,8 +2,6 @@
 
 namespace Bot\Telegram;
 
-use Sys\Hub\Singleton;
-
 class Run
 {
     /**
