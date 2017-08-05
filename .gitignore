@@ -1,15 +1,10 @@
 /vendor/
-*.tmp
 .dockerignore
 /data
 /logs
-/storage/*
-<<<<<<< HEAD
+/storage
 /public/assets
 /public/virtual
+/public/data
 *.lock
-=======
-/public/assets/
-/public/virtual/
-*.lock
->>>>>>> b843a9c8c45a0ac7c058d2267cb745d4a5add2ab
+*.tmp
