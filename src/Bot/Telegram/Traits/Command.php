@@ -62,7 +62,7 @@ trait Command
                 $ex = explode(".", $p['result']['file_path']);
                 $st = $st->exec();
                 is_dir(ASSETS_R) or shell_exec("mkdir -p ".ASSETS_R);
-                $handle = fopen(IMG_ASSETS."/".($fname = sha1($st)).end($ex), "w");
+                $handle = fopen(ASSETS_R."/".($fname = sha1($st)).end($ex), "w");
                 fwrite($handle, $st);
                 fclose($handle);
                  $exe = DB::table("assets")->insert([
@@ -81,7 +81,7 @@ trait Command
                             "disable_web_page_preview" => true,
                             "chat_id" => $this->room_id,
                             "message_id" => $sb['result']['message_id'],
-                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSETS_URL."/files/".end($ex).".jpg"]]]])
+                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSETS_URL."/files/".$fname.".".end($ex)]]]])
                         ]
                     );
                 } else {
