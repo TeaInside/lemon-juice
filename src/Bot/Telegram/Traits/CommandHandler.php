@@ -41,6 +41,7 @@ trait CommandHandler
                 "/time" => ["!time", "~time", "#time"],
                 "/whatanime" => ["!whatanime", "~whatanime"],
                 "/start" => ["!start", "~start"],
+                "/save" => ["!save", "~save"]
             ];
             $exploded = explode(" ", strtolower($trimed = trim($this->text)));
             foreach ($cmd_list as $key => $val) {
@@ -137,6 +138,9 @@ trait CommandHandler
             	break;
             case '/ban':
                     $this->_ban($args);
+                break;
+            case '/save':
+                    $this->_save($args);
                 break;
             default:
                     B::sendMessage("Error system !", $this->room_id, $this->msg_id);
