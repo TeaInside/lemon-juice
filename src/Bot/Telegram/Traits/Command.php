@@ -32,7 +32,6 @@ trait Command
                         "type" => "image",
                         "created_at" => (date("Y-m-d H:i:s"))
                     ]);
-                var_dump($sb);
                 if ($exe) {
                     B::editMessageText(
                         [
@@ -40,7 +39,8 @@ trait Command
                             "parse_mode" => "HTML",
                             "disable_web_page_preview" => true,
                             "chat_id" => $this->room_id,
-                            "message_id" => $sb['result']['message_id']
+                            "message_id" => $sb['result']['message_id'],
+                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSEST_URL."/images/".$file.".jpg"]]]])
                         ]
                     );
                 } else {
