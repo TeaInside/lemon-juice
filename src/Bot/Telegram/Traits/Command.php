@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Traits;
 
+use Sys\Curl;
 use Bot\Telegram\B;
 use Bot\Telegram\Command\Warn;
 use App\MyAnimeList\MyAnimeList;
@@ -11,11 +12,11 @@ trait Command
     private function _save($args)
     {
         $args = trim($args);
-        if (isset($this->input['reply_to_message'])) {
-            if (isset($this->input['reply_to_message']['photo'])) {
-                $p = end($this->input['reply_to_message']['photo']);
+        if (isset($this->input['message']['reply_to_message'])) {
+            if (isset($this->input['message']['reply_to_message']['photo'])) {
+                $p = end($this->input['message']['reply_to_message']['photo']);
                 $p = json_decode(B::getFile($p['file_id']),true);
-                print "\n\n";
+                $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
                 B::sendMessage(json_encode($p, 128), $this->room_id);
             }
         }
