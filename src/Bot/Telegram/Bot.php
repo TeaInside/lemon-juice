@@ -69,6 +69,15 @@ final class Bot
      */
     private $msg_type;
 
+    /**
+     * @var array
+     */
+    private $entities = [];
+
+    /**
+     * @var array
+     */
+    private $entities_pos = [];
 
     /**
      * @var string
@@ -84,9 +93,11 @@ final class Bot
         $this->input = json_decode($arg, true);
         $this->parseEvent();
         if ($this->msg_type == "text") {
+            $this->parseEntities();
             $this->textFixer();
             if (!$this->command()) {
             }
+            $this->notifer();
         }
         $this->knower();
     }
@@ -106,6 +117,7 @@ final class Bot
             $this->actor_call = $this->input['message']['from']['first_name'];
             $this->chat_type = $this->input['message']['chat']['type'];
             $this->msg_id = $this->input['message']['message_id'];
+            $this->entities_pos = isset($this->input['message']['entities']) ? $this->input['message']['entities'] : [];
         }
     }
 
@@ -162,29 +174,54 @@ final class Bot
 
     private function knower()
     {
+        $is_private = $this->chat_type == "private" ? "true" : "false";
     	$pdo = DB::pdoInstance();
-    	$st = $pdo->prepare("SELECT `userid`, `username`, `name`, `msg_count` FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
+    	$st = $pdo->prepare("SELECT `userid`, `username`, `name`, `msg_count`, `is_private_known` FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
     	$st->execute([
     			":userid" => $this->user_id,
     		]);
     	if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
+            if ($st['is_private_known'] == "true" and $is_private == "false") {
+                $is_private = "true";
+            }
     		$st['msg_count']++;
-    		$pdo->prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=:msg_count, `updated_at`=:up WHERE `userid`=:userid LIMIT 1;")->execute([
+    		$pdo->prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=:msg_count, `updated_at`=:up, `is_private_known`=:priv WHERE `userid`=:userid LIMIT 1;")->execute([
     				":username" => strtolower($this->uname),
     				":name" => $this->actor,
     				":msg_count" => $st['msg_count'],
     				":userid" => $this->user_id,
-    				":up" => date("Y-m-d H:i:s")
+    				":up" => date("Y-m-d H:i:s"),
+                    ":priv" => $is_private
     			]);
     	} else {
-    		$pdo->prepare("INSERT INTO `a_known_users` (`userid`, `username`, `name`, `created_at`, `updated_at`, `msg_count`) VALUES (:userid, :username, :name, :created_at, :updated_at, :msg_count)")->execute([
+    		$pdo->prepare("INSERT INTO `a_known_users` (`userid`, `username`, `name`, `created_at`, `updated_at`, `msg_count`, `is_private_known`) VALUES (:userid, :username, :name, :created_at, :updated_at, :msg_count, :priv_known)")->execute([
     				":userid" => $this->user_id,
     				":username" => strtolower($this->uname),
     				":name" => $this->actor,
     				"created_at" => date("Y-m-d H:i:s"),
     				":updated_at"=>null,
-    				":msg_count"=> 1
+    				":msg_count"=> 1,
+                    ":priv_known" => $is_private
     			]);
     	}
+    }
+
+    private function parseEntities()
+    {
+        foreach ($this->entities_pos as $val) {
+            if ($val['type'] == "mention") {
+                $this->entities[$val['type']] = substr($this->text, $val['offset']+1, $val['length']);
+            }
+        }
+    }
+
+    private function notifer()
+    {
+        /**
+         * 
+It often happens, in groups, to tag (mention) an user or to reply (quote) to one of his messages, and that he miss the related notification among all the others. In addition, if you have more than one notification all coming from the the same group, once opened the chat they're all lost forever!
+
+So, I'll notify you when someone tags you, i.e. mentions you, using your username.
+         */
     }
 }

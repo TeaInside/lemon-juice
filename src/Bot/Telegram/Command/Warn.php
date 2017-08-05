@@ -73,6 +73,5 @@ class Warn
                 ]);
            print B::sendMessage("{$user} <b>has been warned</b> (<code>1/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warn","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
         }
-        var_dump($st);
     }
 }
