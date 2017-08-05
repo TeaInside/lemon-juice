@@ -16,10 +16,10 @@ class Run
      */
     public function __construct()
     {
-        $this->webhook_input = /*'{
-    "update_id": 344188026,
+        $this->webhook_input = '{
+    "update_id": 344188293,
     "message": {
-        "message_id": 5184,
+        "message_id": 5511,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -33,35 +33,17 @@ class Run
             "username": "LTMGroup",
             "type": "supergroup"
         },
-        "date": 1501860702,
-        "reply_to_message": {
-            "message_id": 5177,
-            "from": {
-                "id": 296883310,
-                "first_name": "Sugandi",
-                "last_name": "S",
-                "username": "Slametsugandi",
-                "language_code": "in-ID"
-            },
-            "chat": {
-                "id": -1001128531173,
-                "title": "LTM Group 2",
-                "username": "LTMGroup",
-                "type": "supergroup"
-            },
-            "date": 1501858124,
-            "text": "Krik2"
-        },
-        "text": "\/warn test",
+        "date": 1501907075,
+        "text": "qwer @ammarfaizi2",
         "entities": [
             {
-                "type": "bot_command",
-                "offset": 0,
-                "length": 5
+                "type": "mention",
+                "offset": 5,
+                "length": 12
             }
         ]
     }
-}';*/file_get_contents("php://input");
+}';file_get_contents("php://input");
     }
 
     /**
