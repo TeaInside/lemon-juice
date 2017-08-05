@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Traits;
 
+use Sys\DB;
 use Sys\Curl;
 use Bot\Telegram\B;
 use Bot\Telegram\Command\Warn;
@@ -11,16 +12,49 @@ trait Command
 {   
     private function _save($args)
     {
-        $args = trim($args);
+        $args = explode(" ",trim($args), 2);
         if (isset($this->input['message']['reply_to_message'])) {
             if (isset($this->input['message']['reply_to_message']['photo'])) {
                 is_dir(IMG_ASSETS) or print shell_exec("mkdir -p ".IMG_ASSETS);
                 $p = end($this->input['message']['reply_to_message']['photo']);
                 $p = json_decode(B::getFile($p['file_id']),true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
-                $file = $st->exec();
-                file_put_contents(IMG_ASSETS."/".sha1($file).".jpg", $file);
-                B::sendMessage(json_encode($p, 128), $this->room_id);
+                $handle = fopen(IMG_ASSETS."/".($fname = sha1($file)).".jpg", "w");
+                fwrite($handle,  $st->exec());
+                fclose($handle);
+                $sb = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
+                $exe = DB::table("assets")->insert([
+                        "id" => null,
+                        "title" => $args[0],
+                        "caption" => (isset($args[1]) ? $args[1] : null),
+                        "file_name" => $fname,
+                        "type" => "image",
+                        "created_at" => (date("Y-m-d H:i:s"))
+                    ]);
+                if ($exe) {
+                    B::editMessageText(
+                        [
+                            "text"=>"Media ini telah disimpan dengan judul <code>".htmlspecialchars($args[0])."</code>",
+                            "parse_mode" => "HTML",
+                            "disable_web_page_preview" => true,
+                            "chat_id" => $this->room_id,
+                            "message_id" => $sb['message']['message_id']
+                        ]
+                    );
+                } else {
+                    B::editMessageText(
+                        [
+                            "text"=>"Gagal menyimpan media !",
+                            "parse_mode" => "HTML",
+                            "disable_web_page_preview" => true,
+                            "chat_id" => $this->room_id,
+                            "message_id" => $sb['message']['message_id']
+                        ]
+                    );
+                }
+                
+            } elseif (isset($this->input['message']['reply_to_message']['document'])) {
+
             }
         }
     }
