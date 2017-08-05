@@ -59,6 +59,7 @@ define("RUBY_VIRTUAL_PATH", $vr."ruby");
 define("NODE_VIRTUAL_PATH", $vr."node");
 define("PYTHON_VIRTUAL_PATH", $vr."python");
 
+define("ASSETS_R", $pb."/assets/files");
 define("IMG_ASSETS", $pb."/assets/images");
 define("VID_ASSETS", $pb."/assets/videos");
 define("ASSETS_URL", "https://webhooks.redangel.ga/assets");
