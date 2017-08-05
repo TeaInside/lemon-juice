@@ -17,6 +17,8 @@ trait Command
                 $p = end($this->input['message']['reply_to_message']['photo']);
                 $p = json_decode(B::getFile($p['file_id']),true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
+                $file = $st->exec();
+                file_put_contents(ASSETS."/".sha1($file).".jpg", $file);
                 B::sendMessage(json_encode($p, 128), $this->room_id);
             }
         }
