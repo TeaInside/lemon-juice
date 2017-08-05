@@ -15,9 +15,9 @@ class Run
     public function __construct()
     {
         $this->webhook_input = /*'{
-    "update_id": 344188808,
+    "update_id": 344188835,
     "message": {
-        "message_id": 6030,
+        "message_id": 6049,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -31,9 +31,9 @@ class Run
             "username": "LTMGroup",
             "type": "supergroup"
         },
-        "date": 1501934752,
+        "date": 1501938832,
         "reply_to_message": {
-            "message_id": 6029,
+            "message_id": 6044,
             "from": {
                 "id": 243692601,
                 "first_name": "Ammar",
@@ -47,42 +47,30 @@ class Run
                 "username": "LTMGroup",
                 "type": "supergroup"
             },
-            "date": 1501934740,
-            "photo": [
-                {
-                    "file_id": "AgADBQADsacxG13aMFTtATiR_FUkWMQezDIABKJL6yeGvixNMjcBAAEC",
-                    "file_size": 761,
+            "date": 1501938705,
+            "document": {
+                "file_name": "giphy.mp4",
+                "mime_type": "video\/mp4",
+                "thumb": {
+                    "file_id": "AAQEABOQQCYZAAQTDBpuCDeLORLbAQABAg",
+                    "file_size": 1916,
                     "width": 90,
-                    "height": 43
+                    "height": 51
                 },
-                {
-                    "file_id": "AgADBQADsacxG13aMFTtATiR_FUkWMQezDIABL6AgP211bdzMzcBAAEC",
-                    "file_size": 8982,
-                    "width": 320,
-                    "height": 153
-                },
-                {
-                    "file_id": "AgADBQADsacxG13aMFTtATiR_FUkWMQezDIABSL6cbS4dZQ0NwEAAQI",
-                    "file_size": 38578,
-                    "width": 736,
-                    "height": 353
-                }
-            ]
+                "file_id": "CgADBAAD2BsAAkAcZAdqxTCbkb1c5wI",
+                "file_size": 158200
+            }
         },
-        "text": "\/save #pengganti_bash_rc",
+        "text": "\/save",
         "entities": [
             {
                 "type": "bot_command",
                 "offset": 0,
                 "length": 5
-            },
-            {
-                "type": "hashtag",
-                "offset": 6,
-                "length": 18
             }
         ]
     }
+}   }
 }';*/file_get_contents("php://input");
     }
 
