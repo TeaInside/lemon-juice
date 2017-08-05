@@ -59,6 +59,7 @@ trait Command
                 $a = B::getFile($this->input['message']['reply_to_message']['document']['file_id']);
                 var_dump($a);
             }
+            var_dump($this->input['message']['reply_to_message']['document'], $this->input['message']['reply_to_message']);
         }
     }
 
