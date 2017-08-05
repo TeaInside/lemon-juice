@@ -246,7 +246,6 @@ final class Bot
             }
         }
         if (isset($this->entities['text_mention'])) {
-            var_dump("success");
             foreach ($this->entities['text_mention'] as $val) {
                 if ($st = $this->check_recognized($val, "userid")) {
                      if ($st['is_private_known'] == "true") {
@@ -268,6 +267,29 @@ final class Bot
                         }
                         B::sendMessage("{$mentioner} mentioned you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
                     }
+                }
+            }
+        }
+        if (isset($this->input['message']['reply_to_message']['from']['id'])) {
+            if ($st = $this->check_recognized($this->input['message']['reply_to_message']['from']['id'], "userid")) {
+                if ($st['is_private_known'] == "true") {
+                    if ($st['is_notifed'] == "false") {
+                        B::sendMessage("It often happens, in groups, to tag (mention) an user or to reply (quote) to one of his messages, and that he miss the related notification among all the others. In addition, if you have more than one notification all coming from the the same group, once opened the chat they're all lost forever!\n\nSo, I'll notify you when someone tags you, i.e. mentions you, using your username.", $st['userid'], null, ['parse_mode'=>"HTML"]);
+                        $this->recognized($st['userid']);
+                    }
+                    if (isset($this->uname)) {
+                        $mentioner = "@".$this->uname;
+                    } else {
+                        $mentioner = $this->actor_call;
+                    }
+                    if (isset($this->input['message']['chat']['username'])) {
+                        $room = "<a href=\"https://telegram.me/".$this->input['message']['chat']['username']."\">".$this->input['message']['chat']['title']."</a>";
+                        $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Go to the message","url"=> "https://telegram.me/".$this->input['message']['chat']['username']."/".$this->msg_id]]]])];
+                    } else {
+                        $room = "<b>".$this->input['message']['chat']['title']."</b>";
+                        $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
+                    }
+                    B::sendMessage("{$mentioner} replied to your message in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
                 }
             }
         }
