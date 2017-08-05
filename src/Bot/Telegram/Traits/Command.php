@@ -15,7 +15,7 @@ trait Command
     		if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
 
     			$st = new Warn([
-    					"uifd" => $this->user_id."|".$this->room_id,
+    					"uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id,
     					"userid" => $this->input['message']['reply_to_message']['from']['id'],
     					"reason" => $args,
     					"room_id" => $this->room_id,
