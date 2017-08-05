@@ -22,6 +22,7 @@ trait CommandHandler
         // $this->virtualizor();
         if (!isset($this->special_command)) {
             $cmd_list = [
+                "/save" => ["!save", "~save"],
                 "/ask" => ["!ask", "~ask"],
 
                 "/idan" => ["!idan", "~idan"],
@@ -41,7 +42,6 @@ trait CommandHandler
                 "/time" => ["!time", "~time", "#time"],
                 "/whatanime" => ["!whatanime", "~whatanime"],
                 "/start" => ["!start", "~start"],
-                "/save" => ["!save", "~save"]
             ];
             $exploded = explode(" ", strtolower($trimed = trim($this->text)));
             foreach ($cmd_list as $key => $val) {
