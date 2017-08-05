@@ -17,9 +17,9 @@ class Run
     public function __construct()
     {
         $this->webhook_input = /*'{
-    "update_id": 344188293,
+    "update_id": 344188715,
     "message": {
-        "message_id": 5511,
+        "message_id": 5917,
         "from": {
             "id": 243692601,
             "first_name": "Ammar",
@@ -33,13 +33,13 @@ class Run
             "username": "LTMGroup",
             "type": "supergroup"
         },
-        "date": 1501907075,
-        "text": "qwer @ammarfaizi2",
+        "date": 1501919588,
+        "text": "\/warn",
         "entities": [
             {
-                "type": "mention",
-                "offset": 5,
-                "length": 12
+                "type": "bot_command",
+                "offset": 0,
+                "length": 5
             }
         ]
     }

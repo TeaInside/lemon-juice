@@ -1,0 +1,17 @@
+{"ok":false,"error_code":400,"description":"Bad Request: message to delete not found"}string(88) "SQLSTATE[HY000] [1045] Access denied for user 'icetea'@'localhost' (using password: YES)"
+PHP Notice:  Undefined property: Sys\DB::$pdo in /home/redangel/public_html/btrm/src/Sys/DB.php on line 701
+
+Notice: Undefined property: Sys\DB::$pdo in /home/redangel/public_html/btrm/src/Sys/DB.php on line 701
+PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php:202
+Stack trace:
+#0 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(115): Bot\Telegram\Bot->knower()
+#1 /home/redangel/public_html/btrm/run/telegram/run.php(5): Bot\Telegram\Bot->run('{\n    "update_i...')
+#2 {main}
+  thrown in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php on line 202
+
+Fatal error: Uncaught Error: Call to a member function prepare() on null in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php:202
+Stack trace:
+#0 /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php(115): Bot\Telegram\Bot->knower()
+#1 /home/redangel/public_html/btrm/run/telegram/run.php(5): Bot\Telegram\Bot->run('{\n    "update_i...')
+#2 {main}
+  thrown in /home/redangel/public_html/btrm/src/Bot/Telegram/Bot.php on line 202
