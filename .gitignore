@@ -4,6 +4,12 @@
 /data
 /logs
 /storage/*
+<<<<<<< HEAD
 /public/assets
 /public/virtual
 *.lock
+=======
+/public/assets/
+/public/virtual/
+*.lock
+>>>>>>> b843a9c8c45a0ac7c058d2267cb745d4a5add2ab
