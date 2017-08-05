@@ -14,11 +14,13 @@ trait Command
         $args = trim($args);
         if (isset($this->input['message']['reply_to_message'])) {
             if (isset($this->input['message']['reply_to_message']['photo'])) {
+                is_dir(IMG_ASSETS) or shell_exec("mkdir -p ".IMG_ASSETS);
+                is_dir(VID_ASSETS) or shell_exec("mkdir -p ".VID_ASSETS)
                 $p = end($this->input['message']['reply_to_message']['photo']);
                 $p = json_decode(B::getFile($p['file_id']),true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
                 $file = $st->exec();
-                file_put_contents(ASSETS."/".sha1($file).".jpg", $file);
+                file_put_contents(IMG_ASSETS."/".sha1($file).".jpg", $file);
                 B::sendMessage(json_encode($p, 128), $this->room_id);
             }
         }

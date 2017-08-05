@@ -58,3 +58,6 @@ define("JAVA_VIRTUAL_PATH", $vr."java");
 define("RUBY_VIRTUAL_PATH", $vr."ruby");
 define("NODE_VIRTUAL_PATH", $vr."node");
 define("PYTHON_VIRTUAL_PATH", $vr."python");
+
+define("IMG_ASSETS", $pb."/assets/images");
+define("VID_ASSETS", $pb."/assets/videos");
