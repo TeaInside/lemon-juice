@@ -135,6 +135,9 @@ trait CommandHandler
             case '/warn':
             		$this->_warn($args);
             	break;
+            case '/ban':
+                    $this->_ban($args);
+                break;
             default:
                     B::sendMessage("Error system !", $this->room_id, $this->msg_id);
                 break;
