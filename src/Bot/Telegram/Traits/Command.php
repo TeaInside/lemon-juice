@@ -56,6 +56,8 @@ trait Command
                         $user .= $this->input['message']['reply_to_message']['from']['first_name'];
                     }
                     B::sendMessage($user, $this->room_id);
+                } else {
+                    B::sendMessage($a, $this->room_id);
                 }
             } else {
                 B::deleteMessage([
