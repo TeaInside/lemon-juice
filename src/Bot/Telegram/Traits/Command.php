@@ -44,7 +44,19 @@ trait Command
                         "user_id" => $this->input['message']['reply_to_message']['from']['id']
                     ]);
                 $b = B::kickChatMember($this->room_id, $this->input['message']['reply_to_message']['from']['id']);
-                file_put_contents("ban_debug.txt", $a."\n\n".$b);
+                if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
+                    if (isset($this->uname)) {
+                        $user = "<a href=\"https://telegram.me/".$this->uname."\">".$this->actor_call."</a> banned ";
+                    } else {
+                        $user = $this->actor_call." banned ";
+                    }
+                    if (isset($this->input['message']['reply_to_message']['from']['username'])) {
+                        $user .= "<a href=\"".$this->input['message']['reply_to_message']['from']['username']."\">".$this->input['message']['reply_to_message']['from']['first_name']."<a> !";
+                    } else {
+                        $user .= $this->input['message']['reply_to_message']['from']['first_name'];
+                    }
+                    B::sendMessage($user, $this->room_id);
+                }
             } else {
                 B::deleteMessage([
                         "chat_id" => $this->room_id,
