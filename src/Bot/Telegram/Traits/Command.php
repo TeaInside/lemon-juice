@@ -15,7 +15,6 @@ trait Command
         if (isset($this->input['message']['reply_to_message'])) {
             if (isset($this->input['message']['reply_to_message']['photo'])) {
                 is_dir(IMG_ASSETS) or print shell_exec("mkdir -p ".IMG_ASSETS);
-                is_dir(VID_ASSETS) or print shell_exec("mkdir -p ".VID_ASSETS);
                 $p = end($this->input['message']['reply_to_message']['photo']);
                 $p = json_decode(B::getFile($p['file_id']),true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
