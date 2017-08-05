@@ -33,6 +33,14 @@ trait Command
                         "created_at" => (date("Y-m-d H:i:s"))
                     ]);
                 if ($exe) {
+                    print_r([
+                            "text"=>"Media ini telah disimpan dengan judul <code>".htmlspecialchars($args[0])."</code>",
+                            "parse_mode" => "HTML",
+                            "disable_web_page_preview" => true,
+                            "chat_id" => $this->room_id,
+                            "message_id" => $sb['result']['message_id'],
+                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSEST_URL."/images/".$fname.".jpg"]]]])
+                        ]);die();
                     B::editMessageText(
                         [
                             "text"=>"Media ini telah disimpan dengan judul <code>".htmlspecialchars($args[0])."</code>",
@@ -40,7 +48,7 @@ trait Command
                             "disable_web_page_preview" => true,
                             "chat_id" => $this->room_id,
                             "message_id" => $sb['result']['message_id'],
-                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSEST_URL."/images/".$file.".jpg"]]]])
+                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSEST_URL."/images/".$fname.".jpg"]]]])
                         ]
                     );
                 } else {
