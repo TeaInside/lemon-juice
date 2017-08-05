@@ -20,6 +20,11 @@ final class Bot
     use CommandHandler;
 
     /**
+     * @var array
+     */
+    private $sticker = [];
+
+    /**
      * @var string
      */
     private $text;
@@ -92,12 +97,20 @@ final class Bot
     {
         $this->input = json_decode($arg, true);
         $this->parseEvent();
-        if ($this->msg_type == "text") {
-            $this->parseEntities();
-            $this->textFixer();
-            if (!$this->command()) {
-            }
-            $this->chat_type != "private" and $this->notifer();
+        switch ($this->msg_type) {
+            case 'text':
+                $this->parseEntities();
+                $this->textFixer();
+                if (!$this->command()) {
+                }
+                $this->chat_type != "private" and $this->notifer();
+                break;
+            case 'sticker': 
+                $this->chat_type != "private" and $this->notifer();
+                break;
+            default:
+                # code...
+                break;
         }
         $this->knower();
     }
@@ -118,6 +131,16 @@ final class Bot
             $this->chat_type = $this->input['message']['chat']['type'];
             $this->msg_id = $this->input['message']['message_id'];
             $this->entities_pos = isset($this->input['message']['entities']) ? $this->input['message']['entities'] : [];
+        } elseif (isset($this->input['message']['sticker'])) {
+            $this->msg_type = "sticker";
+            $this->sticker = $this->input['message']['sticker'];
+            $this->room_id = $this->input['message']['chat']['id'];
+            $this->user_id = $this->input['message']['from']['id'];
+            $this->uname = isset($this->input['message']['from']['username']) ? $this->input['message']['from']['username'] : null;
+            $this->actor = $this->input['message']['from']['first_name']. (isset($this->input['message']['from']['last_name']) ? " ".$this->input['message']['from']['last_name'] : "");
+            $this->actor_call = $this->input['message']['from']['first_name'];
+            $this->chat_type = $this->input['message']['chat']['type'];
+            $this->msg_id = $this->input['message']['message_id'];
         }
     }
 
@@ -224,6 +247,7 @@ final class Bot
             foreach ($this->entities['mention'] as $val) {
                 if ($st = $this->check_recognized($val)) {
                     if ($st['is_private_known'] == "true") {
+                        $context = isset($this->text) ? "<pre>".htmlspecialchars($this->text)."</pre>" : (isset($this->sticker) ? json_encode($this->sticker, 128) : "Error, please report to @LTMGroup");
                         if ($st['is_notifed'] == "false") {
                             B::sendMessage("It often happens, in groups, to tag (mention) an user or to reply (quote) to one of his messages, and that he miss the related notification among all the others. In addition, if you have more than one notification all coming from the the same group, once opened the chat they're all lost forever!\n\nSo, I'll notify you when someone tags you, i.e. mentions you, using your username.", $st['userid'], null, ['parse_mode'=>"HTML"]);
                             $this->recognized($st['userid']);
@@ -250,7 +274,8 @@ final class Bot
         if (isset($this->entities['text_mention'])) {
             foreach ($this->entities['text_mention'] as $val) {
                 if ($st = $this->check_recognized($val, "userid")) {
-                     if ($st['is_private_known'] == "true") {
+                    if ($st['is_private_known'] == "true") {
+                        $context = isset($this->text) ? "<pre>".htmlspecialchars($this->text)."</pre>" : (isset($this->sticker) ? json_encode($this->sticker, 128) : "Error, please report to @LTMGroup");
                         if ($st['is_notifed'] == "false") {
                             B::sendMessage("It often happens, in groups, to tag (mention) an user or to reply (quote) to one of his messages, and that he miss the related notification among all the others. In addition, if you have more than one notification all coming from the the same group, once opened the chat they're all lost forever!\n\nSo, I'll notify you when someone tags you, i.e. mentions you, using your username.", $st['userid'], null, ['parse_mode'=>"HTML"]);
                             $this->recognized($st['userid']);
@@ -267,7 +292,7 @@ final class Bot
                             $room = "<b>".$this->input['message']['chat']['title']."</b>";
                             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
                         }
-                        B::sendMessage("{$mentioner} mentioned you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                        B::sendMessage("{$mentioner} mentioned you in {$room}\n\n{$context}", $st['userid'], null, $op);
                         $flagger = true;
                     }
                 }
@@ -276,6 +301,7 @@ final class Bot
         if ($flagger === false and isset($this->input['message']['reply_to_message']['from']['id'])) {
             if ($st = $this->check_recognized($this->input['message']['reply_to_message']['from']['id'], "userid")) {
                 if ($st['is_private_known'] == "true") {
+                    $context = isset($this->text) ? "<pre>".htmlspecialchars($this->text)."</pre>" : (isset($this->sticker) ? json_encode($this->sticker, 128) : "Error, please report to @LTMGroup");
                     if ($st['is_notifed'] == "false") {
                         B::sendMessage("It often happens, in groups, to tag (mention) an user or to reply (quote) to one of his messages, and that he miss the related notification among all the others. In addition, if you have more than one notification all coming from the the same group, once opened the chat they're all lost forever!\n\nSo, I'll notify you when someone tags you, i.e. mentions you, using your username.", $st['userid'], null, ['parse_mode'=>"HTML"]);
                         $this->recognized($st['userid']);
@@ -292,7 +318,7 @@ final class Bot
                         $room = "<b>".$this->input['message']['chat']['title']."</b>";
                         $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
                     }
-                    B::sendMessage("{$mentioner} replied to your message in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                    B::sendMessage("{$mentioner} replied to your message in {$room}\n\n{$context}", $st['userid'], null, $op);
                 }
             }
         }
