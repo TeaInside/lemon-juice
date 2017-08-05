@@ -40,7 +40,7 @@ trait Command
                             "parse_mode" => "HTML",
                             "disable_web_page_preview" => true,
                             "chat_id" => $this->room_id,
-                            "message_id" => $sb['message']['message_id']
+                            "message_id" => $sb['result']['message_id']
                         ]
                     );
                 } else {
@@ -50,7 +50,7 @@ trait Command
                             "parse_mode" => "HTML",
                             "disable_web_page_preview" => true,
                             "chat_id" => $this->room_id,
-                            "message_id" => $sb['message']['message_id']
+                            "message_id" => $sb['result']['message_id']
                         ]
                     );
                 }
