@@ -40,12 +40,16 @@ class Warn
                         ":uifd" => $this->data['uifd'],
                         ":updated_at" => date("Y-m-d H:i:s")
                     ]);
-                B::restrictChatMember([
+                $a = B::restrictChatMember([
                         "chat_id" => $this->data['room_id'],
                         "user_id" => $this->data['userid']
                     ]);
-                B::kickChatMember($this->data['room_id'], $this->data['userid']);
-                B::sendMessage("{$user} <b>banned</b> : reached the max number of warnings (<code>3/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true]);
+                $b = B::kickChatMember($this->data['room_id'], $this->data['userid']);
+                if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
+                    B::sendMessage("{$user} <b>banned</b> : reached the max number of warnings (<code>3/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true]);
+                } else {
+                    B::sendMessage("{$user} <b>banned</b> : reached the max number of warnings (<code>3/3</code>)\n\n".$a."\n\n".$b, $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true]);
+                }
             } else {
                 $res = json_decode($st[1], true);
                 $res[$this->data['warner']][] = $this->data['reason'];

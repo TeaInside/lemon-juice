@@ -57,7 +57,7 @@ trait Command
                     }
                     B::sendMessage($user, $this->room_id);
                 } else {
-                    B::sendMessage($a, $this->room_id);
+                    B::sendMessage($a."\n".$b, $this->room_id, $this->user_id);
                 }
             } else {
                 B::deleteMessage([
