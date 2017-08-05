@@ -39,11 +39,12 @@ trait Command
         $args = trim($args);
         if ($this->chat_type != "private") {
             if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
-                 B::restrictChatMember([
+                $a = B::restrictChatMember([
                         "chat_id" => $this->room_id,
                         "user_id" => $this->input['message']['reply_to_message']['from']['id']
                     ]);
-                B::kickChatMember($this->room_id, $this->input['message']['reply_to_message']['from']['id']);
+                $b = B::kickChatMember($this->room_id, $this->input['message']['reply_to_message']['from']['id']);
+                file_put_contents("ban_debug.txt", $a."\n\n".$b);
             } else {
                 B::deleteMessage([
                         "chat_id" => $this->room_id,
