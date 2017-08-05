@@ -7,7 +7,20 @@ use Bot\Telegram\Command\Warn;
 use App\MyAnimeList\MyAnimeList;
 
 trait Command
-{
+{   
+    private function _save($args)
+    {
+        $args = trim($args);
+        if (isset($this->input['reply_to_message'])) {
+            if (isset($this->input['reply_to_message']['photo'])) {
+                $p = end($this->input['reply_to_message']['photo']);
+                $p = json_decode(B::getFile($p['file_id']),true);
+                print "\n\n";
+                B::sendMessage(json_encode($p, 128), $this->room_id);
+            }
+        }
+    }
+
     private function _warn($args)
     {
     	$args = trim($args);
