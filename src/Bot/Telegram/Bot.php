@@ -219,6 +219,7 @@ final class Bot
 
     private function notifer()
     {
+        $flagger = false;
         if (isset($this->entities['mention'])) {
             foreach ($this->entities['mention'] as $val) {
                 if ($st = $this->check_recognized($val)) {
@@ -241,6 +242,7 @@ final class Bot
                             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
                         }
                         B::sendMessage("{$mentioner} mention you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                        $flagger = true;
                     }
                 }
             }
@@ -266,11 +268,12 @@ final class Bot
                             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
                         }
                         B::sendMessage("{$mentioner} mentioned you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                        $flagger = true;
                     }
                 }
             }
         }
-        if (isset($this->input['message']['reply_to_message']['from']['id'])) {
+        if ($flagger === false and isset($this->input['message']['reply_to_message']['from']['id'])) {
             if ($st = $this->check_recognized($this->input['message']['reply_to_message']['from']['id'], "userid")) {
                 if ($st['is_private_known'] == "true") {
                     if ($st['is_notifed'] == "false") {
