@@ -217,11 +217,49 @@ final class Bot
 
     private function notifer()
     {
-        /**
-         * 
-It often happens, in groups, to tag (mention) an user or to reply (quote) to one of his messages, and that he miss the related notification among all the others. In addition, if you have more than one notification all coming from the the same group, once opened the chat they're all lost forever!
+        if ($this->chat_type != "private" and isset($this->entities['mention'])) {
+            foreach ($this->entities['mention'] as $val) {
+                if ($st = $this->check_recognized($val)) {
+                    if ($st['is_private_known'] == "true") {
+                        if ($st['is_notifed'] == "false") {
+                            B::sendMessage("It often happens, in groups, to tag (mention) an user or to reply (quote) to one of his messages, and that he miss the related notification among all the others. In addition, if you have more than one notification all coming from the the same group, once opened the chat they're all lost forever!\n\nSo, I'll notify you when someone tags you, i.e. mentions you, using your username.", $st['userid'], null, ['parse_mode'=>"HTML"]);
+                            $this->recognized($st['userid']);
+                        }
+                        if (isset($this->uname)) {
+                            $mentioner = "@".$this->uname;
+                        } else {
+                            $mentioner = $this->actor_call;
+                        }
 
-So, I'll notify you when someone tags you, i.e. mentions you, using your username.
-         */
+                        if (isset($this->input['message']['chat']['username'])) {
+                            $room = "<a href=\"".$this->input['message']['chat']['username']."\">".$this->input['message']['chat']['title']."</a>";
+                            $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Go to the message","url"=> "https://telegram.me/".$this->input['message']['chat']['username']."/".$this->msg_id]]]])];
+                        } else {
+                            $room = "<b>".$this->input['message']['chat']['title']."</b>";
+                            $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
+                        }
+                        B::sendMessage("{$mentioner} tagged you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Check recognized
+     */
+    private function check_recognized($username)
+    {
+        $st = DB::pdoInstance()->prepare("SELECT `userid`,`is_private_known`,`is_notifed` FROM `a_known_users` WHERE `username`=:username LIMIT 1;");
+        $st->execute([
+                ":username" => strtolower($username)
+            ]);
+        $st = $st->fetch(PDO::FETCH_ASSOC);        
+        return $st;
+    }
+
+    private function recognized($userid)
+    {
+        return DB::pdoInstance()->prepare("UPDATE `a_known_users` SET `is_notifed`='true' WHERE `userid`=:userid LIMIT 1;")->execute([':userid'=>$userid]);
     }
 }
