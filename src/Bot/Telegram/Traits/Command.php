@@ -56,7 +56,8 @@ trait Command
                 }
                 
             } elseif (isset($this->input['message']['reply_to_message']['document'])) {
-
+                $a = B::getFile($this->input['message']['reply_to_message']['document']['file_id']);
+                var_dump($a);
             }
         }
     }
