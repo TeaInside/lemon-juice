@@ -57,7 +57,7 @@ trait Command
                     }
                     B::sendMessage($user, $this->room_id, null, ["parse_mode"=>"HTML", 'disable_web_page_preview'=>true]);
                 } else {
-                    B::sendMessage($a."\n".$b, $this->room_id, $this->user_id);
+                    B::sendMessage($a."\n".$b, $this->room_id, $this->msg_id);
                 }
             } else {
                 B::deleteMessage([
