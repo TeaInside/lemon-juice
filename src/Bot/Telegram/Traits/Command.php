@@ -19,8 +19,9 @@ trait Command
                 $p = end($this->input['message']['reply_to_message']['photo']);
                 $p = json_decode(B::getFile($p['file_id']),true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
+                $file = $st->exec();
                 $handle = fopen(IMG_ASSETS."/".($fname = sha1($file)).".jpg", "w");
-                fwrite($handle,  $st->exec());
+                fwrite($handle,  $file);
                 fclose($handle);
                 $sb = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
                 $exe = DB::table("assets")->insert([
@@ -31,6 +32,7 @@ trait Command
                         "type" => "image",
                         "created_at" => (date("Y-m-d H:i:s"))
                     ]);
+                var_dump($sb);
                 if ($exe) {
                     B::editMessageText(
                         [
