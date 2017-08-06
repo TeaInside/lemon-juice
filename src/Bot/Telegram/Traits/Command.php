@@ -137,7 +137,7 @@ trait Command
                 }
             } elseif (isset($this->input['message']['reply_to_message']['sticker'])) {
                 $sb = json_decode(B::sendMessage("Downloading your sticker...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
-                $p = json_decode(B::getFile($this->input['message']['reply_to_message']['sticker']['file_id']), true);
+                $p = json_decode(B::getFile($this->input['message']['reply_to_message']['sticker']['thumb']['file_id']), true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
                 $ex = explode(".", $p['result']['file_path']);
                 $st = $st->exec();
