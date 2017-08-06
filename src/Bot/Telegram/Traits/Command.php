@@ -96,7 +96,7 @@ trait Command
                     );
                 }
             } elseif (isset($this->input['message']['reply_to_message']['video'])) {
-                $sb = json_decode(B::sendMessage("Downloading your file...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
+                $sb = json_decode(B::sendMessage("Downloading your video...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
                 $p = json_decode(B::getFile($this->input['message']['reply_to_message']['video']['file_id']), true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
                 $ex = explode(".", $p['result']['file_path']);
@@ -122,6 +122,46 @@ trait Command
                             "chat_id" => $this->room_id,
                             "message_id" => $sb['result']['message_id'],
                             "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSETS_URL."/videos/".$fname.".".end($ex)]]]])
+                        ]
+                    );
+                } else {
+                    B::editMessageText(
+                        [
+                            "text"=>"Gagal menyimpan media !",
+                            "parse_mode" => "HTML",
+                            "disable_web_page_preview" => true,
+                            "chat_id" => $this->room_id,
+                            "message_id" => $sb['result']['message_id']
+                        ]
+                    );
+                }
+            } elseif (isset($this->input['message']['reply_to_message']['sticker'])) {
+                $sb = json_decode(B::sendMessage("Downloading your sticker...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
+                $p = json_decode(B::getFile($this->input['message']['reply_to_message']['sticker']['file_id']), true);
+                $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
+                $ex = explode(".", $p['result']['file_path']);
+                $st = $st->exec();
+                is_dir(ASSETS_R) or shell_exec("mkdir -p ".ASSETS_R);
+                $handle = fopen(ASSETS_R."/".($fname = sha1($st)).".".end($ex), "w");
+                fwrite($handle, $st);
+                fclose($handle);
+                 $exe = DB::table("assets")->insert([
+                        "id" => null,
+                        "title" => $args[0],
+                        "caption" => (isset($args[1]) ? $args[1] : null),
+                        "file_name" => $fname,
+                        "type" => "sticker",
+                        "created_at" => (date("Y-m-d H:i:s"))
+                    ]);
+                if ($exe) {
+                    B::editMessageText(
+                        [
+                            "text"=>"Media ini telah disimpan dengan judul <code>".htmlspecialchars($args[0])."</code>",
+                            "parse_mode" => "HTML",
+                            "disable_web_page_preview" => true,
+                            "chat_id" => $this->room_id,
+                            "message_id" => $sb['result']['message_id'],
+                            "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Buka file","url"=>ASSETS_URL."/files/".$fname.".".end($ex)]]]])
                         ]
                     );
                 } else {
