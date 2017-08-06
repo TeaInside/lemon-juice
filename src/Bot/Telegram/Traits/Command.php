@@ -142,7 +142,7 @@ trait Command
                 $ex = explode(".", $p['result']['file_path']);
                 $st = $st->exec();
                 is_dir(ASSETS_R) or shell_exec("mkdir -p ".ASSETS_R);
-                $handle = fopen(ASSETS_R."/".($fname = sha1($st)).".".end($ex), "w");
+                $handle = fopen(ASSETS_R."/".($fname = sha1($st)).".png", "w");
                 fwrite($handle, $st);
                 fclose($handle);
                  $exe = DB::table("assets")->insert([
