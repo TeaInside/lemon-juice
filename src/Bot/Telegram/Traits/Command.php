@@ -95,7 +95,7 @@ trait Command
                         ]
                     );
                 }
-            } elseif (isset(isset($this->input['message']['reply_to_message']['video'])) {
+            } elseif (isset($this->input['message']['reply_to_message']['video'])) {
                 $sb = json_decode(B::sendMessage("Downloading your file...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
                 $p = json_decode(B::getFile($this->input['message']['reply_to_message']['video']['file_id']), true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
