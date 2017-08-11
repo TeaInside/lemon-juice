@@ -351,13 +351,32 @@ final class Bot
     {
         if (isset($this->entities['url']) && $this->chat_type != "private") {
             $list_pattern = [
-                "cashbot" => "Cash bot scam.",
-                "botcash" => "Cash bot scam.",
-                "cashrobot" => "Cash bot scam.",
-                "maifam" => "Fuck game scam.",
-                "hentai" => "Hentai link.",
-                "porn" => "Pornograpy.",
-                "sex" => "Pornograpy.",
+                "cashbot"       => "Cash bot scam.",
+                "botcash"       => "Cash bot scam.",
+                "cashrobot"     => "Cash bot scam.",
+                "cashzoo"       => "Cash bot scam.",
+                "bitcoin"       => "Bitcoin scam.",
+                "maifam"        => "Fuck game scam.",
+                "dinopark"      => "Fuck game scam.",
+                "mfarm"         => "Fuck game scam.",
+                "happyfarm"     => "Fuck game scam.",
+                "pirate_bay"    => "Fuck game scam.",
+                "miningbtc"     => "Mining cryptocurrency.",
+                "minergate"     => "Mining cryptocurrency.",
+                "ltcminer"      => "Mining cryptocurrency.",
+                "blockchain"    => "Mining cryptocurrency.",
+                "hexamining"    => "Mining cryptocurrency.",
+                "microhash"     => "Mining cryptocurrency.",
+                "btcprominer"   => "Mining cryptocurrency.",
+                "topbtcsites"   => "Mining cryptocurrency.",
+                "knolix"        => "Mining cryptocurrency.",
+                "cryptorush"    => "Mining cryptocurrency.",
+                "rentmania"     => "Mining cryptocurrency.",
+                "hash-mlm"      => "Scam.",
+                "adbanner"      => "Advertising.",
+                "hentai"        => "Hentai link.",
+                "porn"          => "Pornograpy.",
+                "sex"           => "Pornograpy."
             ];
             foreach($this->entities['url'] as $url) {
                 foreach ($list_pattern as $key => $val) {
@@ -367,13 +386,18 @@ final class Bot
                             "user_id" => $this->user_id
                         ]);
                         $b = B::kickChatMember($this->room_id, $this->user_id);
-                        $user = "<b>Auto banned</b> :\n<a href=\"https://telegram.me/".$this->uname."\">".$this->actor_call."</a> has been banned!\n\n<b>Reason :</b>\n{$val}";
+                        $user = "<b>Auto banned :</b>\n<a href=\"https://telegram.me/".$this->uname."\">".$this->actor_call."</a> has been banned!\n\n<b>Reason :</b>\n{$val}";
                         if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
                             B::sendMessage($user, $this->room_id, $this->msg_id, ["parse_mode"=>"HTML", 'disable_web_page_preview'=>true]);
                         } else {
                             B::sendMessage($user."\n\n".$a."\n".$b, $this->room_id, $this->msg_id, ["parse_mode"=>"HTML", 'disable_web_page_preview'=>true]);
                         }
+                        $stop = true;
+                        break;
                     }
+                }
+                if (isset($stop)) {
+                    break;
                 }
             }
         }
