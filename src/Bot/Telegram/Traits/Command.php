@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Traits;
 
+use PDO;
 use Sys\DB;
 use Sys\Curl;
 use Bot\Telegram\B;
@@ -10,6 +11,22 @@ use App\MyAnimeList\MyAnimeList;
 
 trait Command
 {   
+    private function _nowarn($args)
+    {
+        $args = trim($args);
+        /*$st = DB::pdoInstance()->prepare("SELECT `warn_count`,`reason` FROM `gm_user_warning` WHERE `uifd`=:uifd LIMIT 1;");
+        $st->execute([
+                ":uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id
+            ]);
+        $st = $st->fetch(PDO::FETCH_NUM);*/
+        if (isset($this->uname)) {
+            $user = "<a href=\"https://telegram.me/".$this->uname."\">".htmlspecialchars($this->actor_call)."</a>";
+        } else {
+            $user = "<code>".htmlspecialchars($this->actor_call)."</code>";
+        }
+        B::sendMessage("Done! {$user} has been forgiven", $this->room_id, $this->msg_id, ['parse_mode' => 'HTML']);
+    }
+
     private function _report($args)
     {
         $args = trim($args);
