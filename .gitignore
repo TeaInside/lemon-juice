@@ -6,6 +6,7 @@
 /public/assets
 /public/virtual
 /public/data
+/public/kangest
 *.lock
 *.tmp
 nh.out
