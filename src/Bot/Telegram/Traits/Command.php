@@ -10,6 +10,23 @@ use App\MyAnimeList\MyAnimeList;
 
 trait Command
 {   
+    private function _report($args)
+    {
+        $args = trim($args);
+        $r = json_decode(B::getChatAdministrators($this->room_id), 1) xor $i = 0;
+        B::sendMessage("<i>Reported to ".count($r['result'])." admin(s)</i>", $this->room_id, $this->msg_id, ['parse_mode' => "HTML"]);
+        if (isset($this->input['message']['chat']['username'])) {
+            $room = "<a href=\"https://telegram.me/".$this->input['message']['chat']['username']."\">".$this->input['message']['chat']['title']."</a>";
+            $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Go to the message","url"=> "https://telegram.me/".$this->input['message']['chat']['username']."/".$this->msg_id]]]])];
+        } else {
+            $room = "<b>".$this->input['message']['chat']['title']."</b>";
+            $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
+        }
+        foreach($r['result'] as $a) {
+            B::sendMessage("Laporan dari grup <b>".$room."</b>", $a['user']['id']);
+        }
+    }
+
     private function _save($args)
     {
         $args = explode(" ", trim(str_replace("\n", " ", $args)), 2);
