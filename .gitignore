@@ -8,3 +8,5 @@
 /public/data
 *.lock
 *.tmp
+nh.out
+text.txt
