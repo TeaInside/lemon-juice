@@ -11,6 +11,7 @@ defined("TOKEN") or require __DIR__."/../../../config/telegram.php";
 
 use PDO;
 use Sys\DB;
+use Bot\Telegram\Command\Warn;
 use Bot\Telegram\Traits\Command;
 use Bot\Telegram\Traits\CommandHandler;
 
@@ -114,6 +115,7 @@ final class Bot
         }
         $this->knower();
         $this->auto_ban();
+        $this->auto_warn();
     }
 
     /**
@@ -399,6 +401,37 @@ final class Bot
                 if (isset($stop)) {
                     break;
                 }
+            }
+        }
+    }
+
+    private function auto_warn()
+    {
+        if ($this->chat_type != "private" && isset($this->text)) {
+            $a = ["anjeng", "anjing", "anjir", "anus", "asu", "bajigur", "bajingan", "banci", "bangsat", "bawok", "bego", "bejad", "bencong", "berengsek", "bf", "bluefilm", "bokep", "bokong", "bolot", "brengsek", "budek", "cangkemmu", "cekik", "celeh", "cewek murahan", "cewek telanjang", "cewek tidur", "cocot", "cocote", "cuk", "dada", "dada besar", "damput", "dancok", "dancuk", "dapurmu", "dengkulmu", "eek", "gak waras", "gamblus", "gancok", "gancuk", "gathel", "geblek", "gembel", "gendeng", "goblok", "hohohihe", "huasyu", "idiot", "idoni", "itel", "itil", "jablay", "jaran", "jancik", "jancok", "jancuk", "jangkrik", "jeh", "jelek", "jembot", "jembut", "joh", "juh", "kampret", "kampungan", "kemaluan", "katrok", "kenthu", "kentu", "keparat", "kepet", "kimpet", "kirek", "kirik", "kere", "kojor", "kontol", "kunyuk", "lakang", "lambe", "lambemu", "lesbi", "lola", "lonte", "lonthe", "lubang kemaluan", "maho", "mampus", "mani", "maria ozawa", "matamu", "matamu cok", "matane", "membuta", "memek", "miyabi", "modar", "ndasmu", "ngaceng", "ngapleki", "ngehe", "ngentot", "ngewe", "ngocok", "norak", "ola olo", "oral", "orang gila", "orang stress", "orgasm", "orgasme", "pantat", "payah", "payudara", "pejoh", "pejuh", "pekok", "peler", "peli", "penis", "pentel", "pentil", "pepek", "perek", "perkosa", "persetan", "picek", "purel", "puting", "raimu", "sange", "sarap", "seks", "semprul", "sial", "sinting", "sontoloyo", "sperma", "tai", "taik", "taek", "telanjang", "temempik", "tempek", "tempik", "tetek", "tolol", "tua bangka", "turok", "uasu", "udik", "wanita jalang", "wanita murahan", "wanita telanjang", "wanita tidur", "vagina"];
+            $tgg = explode(" ", $tgq = strtolower($this->text));
+            foreach ($a as $b) {
+                $c = explode(" ", $b) xor $cond = null;
+                foreach ($c as $d) {
+                    $cond = isset($cond) ? $cond && in_array($d, $tgg) : in_array($d, $tgg);
+                }
+                if ($cond === true) {
+                    break;
+                }
+            }
+            if ($cond) {
+                $st = new Warn([
+                        "uifd" => $this->user_id."|".$this->room_id,
+                        "userid" => $this->user_id,
+                        "reason" => "Bad word.",
+                        "room_id" => $this->room_id,
+                        "warner" => 'auto',
+                        "msg_id" => $this->msg_id,
+                        "username" => $this->uname,
+                        "actor" => $this->actor_call,
+                        "auto" => true
+                    ]);
+                $st->run();
             }
         }
     }

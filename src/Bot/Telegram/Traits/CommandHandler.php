@@ -22,6 +22,7 @@ trait CommandHandler
         // $this->virtualizor();
         if (!isset($this->special_command)) {
             $cmd_list = [
+                "/report" => ["!report", "~report"],
                 "/save" => ["!save", "~save"],
                 "/ask" => ["!ask", "~ask"],
 
@@ -141,6 +142,9 @@ trait CommandHandler
                 break;
             case '/save':
                     $this->_save($args);
+                break;
+            case '/report':
+                    $this->_report($args);
                 break;
             default:
                     B::sendMessage("Error system !", $this->room_id, $this->msg_id);
