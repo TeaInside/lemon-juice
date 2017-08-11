@@ -22,8 +22,9 @@ trait Command
             $room = "<b>".$this->input['message']['chat']['title']."</b>";
             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
         }
+        $reporter = isset($this->uname) ? "<a href=\"".$this->uname."\">".$this->actor."</a>" : "<code>".$this->actor."</code>";
         foreach($r['result'] as $a) {
-            B::sendMessage("Laporan dari grup <b>".$room."</b>", $a['user']['id']);
+            B::sendMessage("Laporan dari grup <b>".$room."</b> oleh ".$reporter.(!empty($args) ? "\n\n<pre>".htmlspecialchars($args)."</pre>" : ""), $a['user']['id'], null, $op);
         }
     }
 
