@@ -23,6 +23,7 @@ trait Command
             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
         }
         $reporter = isset($this->uname) ? "<a href=\"https://telegram.me/".$this->uname."\">".$this->actor."</a>" : "<code>".$this->actor."</code>";
+        var_dump("Laporan dari grup <b>".$room."</b> oleh ".$reporter.(!empty($args) ? "\n\n<pre>".htmlspecialchars($args)."</pre>" : ""));
         foreach($r['result'] as $a) {
             B::sendMessage("Laporan dari grup <b>".$room."</b> oleh ".$reporter.(!empty($args) ? "\n\n<pre>".htmlspecialchars($args)."</pre>" : ""), $a['user']['id'], null, $op);
         }
