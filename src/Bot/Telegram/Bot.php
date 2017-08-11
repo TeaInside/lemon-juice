@@ -267,7 +267,7 @@ final class Bot
                             $room = "<b>".$this->input['message']['chat']['title']."</b>";
                             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
                         }
-                        B::sendMessage("{$mentioner} mention you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
+                        B::sendMessage("{$mentioner} mentioned you in {$room}\n\n<pre>".htmlspecialchars($this->text)."</pre>", $st['userid'], null, $op);
                         $flagger = true;
                     }
                 }

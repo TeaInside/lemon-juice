@@ -12,7 +12,7 @@ trait Command
 {   
     private function _save($args)
     {
-        $args = explode(" ",trim($args), 2);
+        $args = explode(" ", trim(str_replace("\n", " ", $args)), 2);
         if (isset($this->input['message']['reply_to_message'])) {
             if (isset($this->input['message']['reply_to_message']['photo'])) {
                 $sb = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
