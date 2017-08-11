@@ -354,7 +354,10 @@ final class Bot
                 "cashbot" => "Cash bot scam.",
                 "botcash" => "Cash bot scam.",
                 "cashrobot" => "Cash bot scam.",
-                "maifam" => "Fuck game scam."
+                "maifam" => "Fuck game scam.",
+                "hentai" => "Hentai link.",
+                "porn" => "Pornograpy.",
+                "sex" => "Pornograpy.",
             ];
             foreach($this->entities['url'] as $url) {
                 foreach ($list_pattern as $key => $val) {
