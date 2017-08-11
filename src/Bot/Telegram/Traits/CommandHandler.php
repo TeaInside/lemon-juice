@@ -37,6 +37,7 @@ trait CommandHandler
                 "/help" => ["!help", "~help"],
 
                 "/warn" => ["!warn", "~warn"],
+                "/nowarn" => ["!nowarn", "~nowarn"],
                 "/ban" => ["!ban", "~ban"],
                 "/kick" => ["!kick", "~kick"],
 
@@ -145,6 +146,9 @@ trait CommandHandler
                 break;
             case '/report':
                     $this->_report($args);
+                break;
+            case '/nowarn':
+                    $this->_nowarn($args);
                 break;
             default:
                     B::sendMessage("Error system !", $this->room_id, $this->msg_id);
