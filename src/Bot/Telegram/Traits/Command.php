@@ -24,7 +24,7 @@ trait Command
         }
         $reporter = isset($this->uname) ? "<a href=\"https://telegram.me/".$this->uname."\">".$this->actor."</a>" : "<code>".$this->actor."</code>";
         foreach($r['result'] as $a) {
-            B::sendMessage("Laporan dari grup ".$room." oleh ".$reporter.(!empty($args) ? "\n\n<pre>".htmlspecialchars($args)."</pre>" : ""), $a['user']['id'], null, $op);
+            B::sendMessage("Laporan dari grup ".$room." oleh ".$reporter.(!empty($args) ? "\n<pre>".htmlspecialchars($args)."</pre>" : ""), $a['user']['id'], null, $op);
         }
     }
 
