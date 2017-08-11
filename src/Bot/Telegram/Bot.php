@@ -113,6 +113,7 @@ final class Bot
                 break;
         }
         $this->knower();
+        $this->auto_ban();
     }
 
     /**
@@ -238,6 +239,8 @@ final class Bot
                 $this->entities[$val['type']][] = substr($this->text, $val['offset']+1, $val['length']);
             } elseif ($val['type'] == "text_mention") {
                 $this->entities[$val['type']][] = $val['user']['id'];
+            } elseif ($val['type'] == "url") {
+                $this->entities[$val['type']][] = substr($this->text, $val['offset']+1, $val['length']);
             }
         }
     }
@@ -342,5 +345,34 @@ final class Bot
     private function recognized($userid)
     {
         return DB::pdoInstance()->prepare("UPDATE `a_known_users` SET `is_notifed`='true' WHERE `userid`=:userid LIMIT 1;")->execute([':userid'=>$userid]);
+    }
+
+    private function auto_ban()
+    {
+        if (isset($this->entities['url']) && $this->chat_type != "private") {
+            $list_pattern = [
+                "cashbot" => "Cash bot scam.",
+                "botcash" => "Cash bot scam.",
+                "cashrobot" => "Cash bot scam.",
+                "maifam" => "Fuck game scam."
+            ];
+            foreach($this->entities['url'] as $url) {
+                foreach ($list_pattern as $key => $val) {
+                    if (strpos(strtolower($url), $key) !== false) {
+                        $a = B::restrictChatMember([
+                            "chat_id" => $this->room_id,
+                            "user_id" => $this->user_id
+                        ]);
+                        $b = B::kickChatMember($this->room_id, $this->user_id);
+                        $user = "<b>Auto banned</b> :\n<a href=\"https://telegram.me/".$this->uname."\">".$this->actor_call."</a> has been banned!\n\n<b>Reason :</b>\n{$val}";
+                        if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
+                            B::sendMessage($user, $this->room_id, $this->msg_id, ["parse_mode"=>"HTML", 'disable_web_page_preview'=>true]);
+                        } else {
+                            B::sendMessage($user."\n\n".$a."\n".$b, $this->room_id, $this->msg_id, ["parse_mode"=>"HTML", 'disable_web_page_preview'=>true]);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
