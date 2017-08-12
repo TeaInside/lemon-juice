@@ -44,7 +44,7 @@ trait Command
                 ":uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id
             ]);
         $st = $st->fetch(PDO::FETCH_ASSOC);
-        B::sendMessage(json_encode($st, 128), $this->room_id, $this->msg_id);b z7  
+        B::sendMessage(json_encode($st, 128), $this->room_id, $this->msg_id);
     }
 
     private function _nowarn($args)
