@@ -77,4 +77,14 @@ class WhatAnime implements WhatAnimeContract
         is_dir($a = PUBLIC_DIR."/whatanime/hash") or shell_exec("mkdir -p ".$a);
         file_put_contents(PUBLIC_DIR."/whatanime/hash/".$this->hash.".json", $this->new_data);
     }
+
+    public static function download_video($link)
+    {
+        is_dir($a = PUBLIC_DIR."/whatanime/video") or shell_exec("mkdir -p ".$a);
+    }
+
+    public static function check_video($link)
+    {
+        return file_exists(PUBLIC_DIR."/whatanime/video/".sha1($link).".mp4");
+    }
 }

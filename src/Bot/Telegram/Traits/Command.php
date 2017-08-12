@@ -21,13 +21,25 @@ trait Command
     {
         $args = trim($args);
         if (isset($this->input['message']['reply_to_message']['photo'])) {
+            $r = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
             $p = end($this->input['message']['reply_to_message']['photo']);
             $p = json_decode(B::getFile($p['file_id']),true);
             $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
             $st = new WhatAnime($st->exec());
-            $st = $st->exec();
-            echo "\n\n";
-            var_dump($st);
+            B::editMessageText(
+                    [
+                        "text" => "I've got your image, searching...",
+                        "chat_id" => $this->room_id,
+                        "message_id" => $r['result']['message_id'],
+                    ]);
+            $st = json_decode($st->exec(), 128);
+            $st = $st['docs'];
+            B::editMessageText(
+                    [
+                        "text" => json_encode($st[0]),
+                        "chat_id" => $this->room_id,
+                        "message_id" => $r['result']['message_id'],
+                    ]);      
         } else {
             if (!empty($args) and filter_var($args, FILTER_VALIDATE_URL)) {
                 $st = new Curl($args);
