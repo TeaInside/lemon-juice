@@ -33,14 +33,33 @@ trait Command
                         "message_id" => $r['result']['message_id'],
                     ]);
             $st = json_decode($st->exec(), 128);
-            $st = $st['docs'];
-            var_dump($st);
-            B::editMessageText(
-                    [
-                        "text" => json_encode($st[0], 128),
-                        "chat_id" => $this->room_id,
-                        "message_id" => $r['result']['message_id'],
-                    ]);      
+            if (isset($st['docs'][0])) {
+                $a = $st['docs'][0];
+                $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
+                isset($a['title_english']) and $rep.="<b>Judul Inggris</b> : ".htmlspecialchars($a['title_english'])."\n";
+                isset($a['title_romaji']) and $rep.="<b>Judul Romanji</b> : ".htmlspecialchars($a['title_romaji'])."\n";
+                isset($a['episode']) and $rep.= "<b>Episode</b> : ".htmlspecialchars($a['episode'])."\n";
+                isset($a['season']) and $rep.= "<b>Season</b> : ".htmlspecialchars($a['season'])."\n";
+                isset($a['anime']) and $rep.= "<b>Anime</b> : ".htmlspecialchars($a['anime'])."\n";
+                isset($a['file']) and $rep.= "<b>File</b> : ".htmlspecialchars($a['file']);
+                B::editMessageText(
+                        [
+                            "text" => $rep,
+                            "parse_mode" => "HTML",
+                            "chat_id" => $this->room_id,
+                            "message_id" => $r['result']['message_id'],
+                        ]
+                    );
+            } else {
+                B::editMessageText(
+                        [
+                            "text" => "Mohon maaf, anime yang mirip tidak ditemukan.",
+                            "parse_mode" => "HTML",
+                            "chat_id" => $this->room_id,
+                            "message_id" => $r['result']['message_id'],
+                        ]
+                    );
+            }
         } else {
             if (!empty($args) and filter_var($args, FILTER_VALIDATE_URL)) {
                 $st = new Curl($args);
