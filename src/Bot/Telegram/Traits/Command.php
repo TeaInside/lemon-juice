@@ -50,6 +50,11 @@ trait Command
                             "message_id" => $r['result']['message_id'],
                         ]
                     );
+                $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
+                if (!($a = WhatAnime::check_video($video_url))) {
+                    $a = WhatAnime::download_video($video_url);
+                }
+                B::sendVideo(WHATANIME_URL."/video/".$a);
             } else {
                 B::editMessageText(
                         [
@@ -61,10 +66,7 @@ trait Command
                     );
             }
         } else {
-            if (!empty($args) and filter_var($args, FILTER_VALIDATE_URL)) {
-                $st = new Curl($args);
-                $file = $st->exec();
-            }
+            
         }
     }
 
