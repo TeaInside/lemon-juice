@@ -31,11 +31,11 @@ trait CommandHandler
                 "/qanime" => ["!qanime", "~qanime"],
 
                 "/idma" => ["!idma", "~idma"],
-                "/manga" => ["qmanga", "~manga"],
+                "/manga" => ["!manga", "~manga"],
                 "/qmanga" => ["!qmanga", "~qmanga"],
 
                 "/help" => ["!help", "~help"],
-
+                "/user" => ["!user", "~user"],
                 "/warn" => ["!warn", "~warn"],
                 "/nowarn" => ["!nowarn", "~nowarn"],
                 "/ban" => ["!ban", "~ban"],
@@ -149,6 +149,9 @@ trait CommandHandler
                 break;
             case '/nowarn':
                     $this->_nowarn($args);
+                break;
+            case '/user':
+                    $this->_user($args);
                 break;
             default:
                     B::sendMessage("Error system !", $this->room_id, $this->msg_id);
