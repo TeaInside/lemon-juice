@@ -67,7 +67,7 @@ class Bot
     public function getEvent()
     {
         // $this->webhook_input = '{"events":[{"type":"message","replyToken":"8c0de2f888ef4445b1d03ec4174203bb","source":{"userId":"U547ba62dc793c6557abbb42ab347f15f","type":"user"},"timestamp":1499414643059,"message":{"type":"text","id":"6351180096433","text":"ask penemu lampu"}}]}';
-        $this->webhook_input = file_get_contents("in");
+        $this->webhook_input = '{"events":[{"type":"message","replyToken":"2b5f30b30e25427383fd123715fbf4f0","source":{"userId":"U547ba62dc793c6557abbb42ab347f15f","type":"user"},"timestamp":1502551482182,"message":{"type":"text","id":"6534315671443","text":"Jadwal senin"}}]}';#file_get_contents("in");
     }
 
     /**
@@ -117,7 +117,9 @@ class Bot
     private function parseReply()
     {
         if (isset($this->event['message']['text'])) {
-            switch (strtolower($this->event['message']['text'])) {
+            $this->reply = true;
+            $wq = strtolower($this->event['message']['text']);
+            switch ($wq) {
                 case 'jadwal senin':
                         $this->line->buildMessage($this->room);
                         $this->line->textMessage("Senin :\n\nUpacara\nB.Jawa\nB.Jawa\nAgama\nIstirahat\nB.Inggris\nB.Inggris\nFisika\nIstirahat\nFisika\nSeni Musik\nSeni Musik");
@@ -146,7 +148,8 @@ class Bot
                         $reply = $reply['text'][0];
                         $this->line->buildMessage($this->room);
                         $this->line->textMessage($reply);
-                        $this->reply = true;
+                    } else {
+                        $this->reply = false;
                     }
                     break;
             }
