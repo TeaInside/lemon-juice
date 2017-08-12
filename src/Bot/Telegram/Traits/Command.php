@@ -19,12 +19,12 @@ trait Command
                 ":uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id
             ]);
         $st = $st->fetch(PDO::FETCH_NUM);*/
-        if (isset($this->uname)) {
-            $user = "<a href=\"https://telegram.me/".$this->uname."\">".htmlspecialchars($this->actor_call)."</a>";
+        if (isset($this->input['message']['reply_to_message']['from']['username'])) {
+            $user = "<a href=\"https://telegram.me/".$this->input['message']['reply_to_message']['from']['username']."\">".htmlspecialchars($this->input['message']['reply_to_message']['from']['first_name'])."</a>";
         } else {
-            $user = "<code>".htmlspecialchars($this->actor_call)."</code>";
+            $user = "<code>".htmlspecialchars($this->input['message']['reply_to_message']['from']['first_name'])."</code>";
         }
-        B::sendMessage("Done! {$user} has been forgiven", $this->room_id, $this->msg_id, ['parse_mode' => 'HTML']);
+        B::sendMessage("Done! {$user} has been forgiven", $this->room_id, $this->msg_id, ['parse_mode' => 'HTML', 'disable_web_page_preview'=>true]);
         DB::pdoInstance()->prepare("DELETE FROM `gm_user_warning` WHERE `uifd`=:uifd LIMIT 1;")->execute([':uifd' => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id]);
     }
 
