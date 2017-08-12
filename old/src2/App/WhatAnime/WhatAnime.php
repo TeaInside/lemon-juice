@@ -21,41 +21,24 @@ class WhatAnime implements WhatAnimeContract
      */
     private $image;
 
-    /**
-     * Constructor.
-     *
-     * @param string
-     */
-    public function __construct($image, $type=null)
+    public function __construct($image_binary)
     {
-        if ($type=="real") {
-            $this->image = $image;
-        } elseif (filter_var($image, FILTER_VALIDATE_URL)) {
-            $ch = new Curl($image);
-            $this->image = $ch->exec();
-            // header("Content-Type:image/jpg");
-            // var_dump(base64_encode($this->image));die;
-        } else {
-            $this->image = $image;
-        }
+        $this->image = base64_encode($image_binary);
     }
-    
-    /**
-     * Execute search.
-     */
+
     public function exec()
     {
         $ch = new Curl("https://whatanime.ga/search");
-        $ch->post("data=data%3Aimage%2Fjpeg%3Bbase64%2C".urlencode(base64_encode($this->image)));
+        $ch->post("data=data%3Aimage%2Fjpeg%3Bbase64%2C".urlencode($this->image));
         $ch->set_opt(
-            array(
+            [
                 CURLOPT_REFERER    => "https://whatanime.ga/",
-                CURLOPT_HTTPHEADER => array(
+                CURLOPT_HTTPHEADER => [
                     "X-Requested-With: XMLHttpRequest",
                     "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
-                )
-            )
+                ]
+            ]
         );
-        return $ch->exec();
+        return json_encode(json_decode($ch->exec(), true), 128);
     }
 }

@@ -9,8 +9,29 @@ use Bot\Telegram\B;
 use Bot\Telegram\Command\Warn;
 use App\MyAnimeList\MyAnimeList;
 
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ *
+ */
+
 trait Command
 {   
+    private function _whatanime($args)
+    {
+        $args = trim($args);
+        if (isset($this->input['message']['reply_to_message']['photo'])) {
+            $p = end($this->input['message']['reply_to_message']['photo']);
+            $p = json_decode(B::getFile($p['file_id']),true);
+            $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
+            $photo = base64_encode($st->exec());
+        } else {
+            if (!empty($args) and filter_var($args, FILTER_VALIDATE_URL)) {
+                $st = new Curl($args);
+                $file = $st->exec();
+            }
+        }
+    }
+
     private function _user($args)
     {
         $args = trim($args);
@@ -19,7 +40,7 @@ trait Command
                 ":uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id
             ]);
         $st = $st->fetch(PDO::FETCH_ASSOC);
-        B::sendMessage(json_encode($st, 128), $this->room_id, $this->msg_id);
+        B::sendMessage(json_encode($st, 128), $this->room_id, $this->msg_id);b z7  
     }
 
     private function _nowarn($args)
@@ -36,7 +57,7 @@ trait Command
             } else {
                 $user = "<code>".htmlspecialchars($this->input['message']['reply_to_message']['from']['first_name'])."</code>";
             }
-            B::sendMessage("Done! {$user} has been forgiven", $this->room_id, $this->msg_id, ['parse_mode' => 'HTML', 'disable_web_page_preview'=>true]);
+            B::sendMessage("Done! {$user} has been forgiven.", $this->room_id, $this->msg_id, ['parse_mode' => 'HTML', 'disable_web_page_preview'=>true]);
             DB::pdoInstance()->prepare("DELETE FROM `gm_user_warning` WHERE `uifd`=:uifd LIMIT 1;")->execute([':uifd' => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id]);
         }
     }
@@ -53,7 +74,7 @@ trait Command
             $room = "<b>".$this->input['message']['chat']['title']."</b>";
             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
         }
-        $reporter = isset($this->uname) ? "<a href=\"https://telegram.me/".$this->uname."\">".$this->actor."</a>" : "<code>".$this->actor."</code>";
+        $reporter = isset($this->uname) ? "<a href=\"https://telegram.me/".$this->uname."\">".htmlspecialchars($this->actor)."</a>" : "<code>".$this->actor."</code>";
         foreach($r['result'] as $a) {
             B::sendMessage("Laporan dari grup ".$room." oleh ".$reporter.(!empty($args) ? "\n<pre>".htmlspecialchars($args)."</pre>" : ""), $a['user']['id'], null, $op);
         }
