@@ -54,7 +54,24 @@ trait Command
                 if (!($a = WhatAnime::check_video($video_url))) {
                     $a = WhatAnime::download_video($video_url);
                 }
-                B::sendVideo(WHATANIME_URL."/video/".$a, $this->room_id);
+                $fd = function ($time) {
+                    $time = (int)$time;
+                    $menit = 0;
+                    $detik = 0;
+                    while ($time>0) {
+                        if ($time>60) {
+                            $menit += 1;
+                            $time -= 60;
+                        } elseif ($time>1) {
+                            $detik += $time;
+                            $time = 0;
+                        }
+                    }
+                    $menit = (string) $menit;
+                    $detik = (string) $detik;
+                    return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
+                };
+                B::sendVideo(WHATANIME_URL."/video/".$a, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']));
             } else {
                 B::editMessageText(
                         [
