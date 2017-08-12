@@ -1,10 +1,9 @@
 <?php
 
-namespace Foundation\Traits;
+namespace Sys\Hub;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
- * @package Foundation\Traits
  *
  * Singleton pattern.
  */
@@ -12,7 +11,6 @@ namespace Foundation\Traits;
 trait Singleton
 {
     protected static $instance;
-    
     public static function getInstance()
     {
         if (self::$instance === null) {

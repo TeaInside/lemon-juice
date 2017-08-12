@@ -1,8 +1,8 @@
 <?php
 
-namespace Foundation;
+namespace Sys;
 
-use Foundation\Traits\Singleton;
+use Sys\Hub\Singleton;
 
 /**
  * @author arbiyanto <arbiyantowijaya17@gmail.com>
@@ -72,10 +72,9 @@ class DB
     {
         $this->showErrorQuery = true;
         try {
-            $this->pdo = new \PDO(
-                "mysql:host=".DBHOST.";port=".DBPORT.";dbname=".DBNAME, DBUSER, DBPASS, array(
+            $this->pdo = new \PDO("mysql:host=".DBHOST.";dbname=".DBNAME.";", DBUSER, DBPASS, [
                     \PDO::ATTR_PERSISTENT => false
-                )
+                ]
             );
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Foundation;
+namespace Sys;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
- * @package Foundation
+ * @package Lemon
  * @version 0.0.1
  */
 

@@ -1,4 +1,30 @@
 <?php
+
+function toText($conv)
+{
+    $lc = [33554432 => "Z",16777216 => "Y",8388608 => "X",4194304 => "W",2097152 => "V",1048576 => "U",524288 => "T",262144 => "S",131072 => "R",65536 => "Q",32768 => "P",16384 => "O",8192 => "N",4096 => "M",2048 => "L",1024 => "K",512 => "J",256 => "I",128 => "H",64 => "G",32 => "F",16 => "E",8 => "D",4 => "C",2 => "B",1 => "A"];
+    $result = "";
+    foreach($lc as $i => $v) {
+        while (($lf = $conv - $i) >= 0) {
+            $result .= $v xor $conv = $lf; break;
+        }
+    }
+    return $result;
+}
+echo toText(2051)."\n";
+
+
+
+
+
+
+
+
+
+
+
+
+die();
 require __DIR__."/vendor/autoload.php";
 
 use App\MyAnimeList\MyAnimeList;

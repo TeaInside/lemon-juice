@@ -1,8 +1,8 @@
 <?php
 
-namespace Telegram\Stack;
+namespace Stacks\Telegram;
 
-use Foundation\Curl;
+use Sys\Curl;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
@@ -12,7 +12,7 @@ use Foundation\Curl;
 
 class Telegram
 {
-    # const USERAGENT = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:46.0) Gecko/20100101 Firefox/46.0";
+    #const USERAGENT = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:46.0) Gecko/20100101 Firefox/46.0";
 
     /**
      * @var int
@@ -33,6 +33,11 @@ class Telegram
      * @var string
      */
     private $bot_url;
+
+    /**
+     * @var bool
+     */
+    private $isFile = false;
 
     /**
      * Constructor.
@@ -169,49 +174,9 @@ class Telegram
         return $this->execute($this->bot_url."getChatAdministrators?chat_id=".$chat_id, null, []);
     }
 
-    /**
-     * Edit message text.
-     *
-     * @param  string|int $chat_id
-     * @param  int        $message_id
-     * @param  string     $text
-     * @param  array      $option
-     * @return string
-     */
-    public function editMessageText($chat_id, $message_id, $text, $option = null)
-    {
-        $post = array(
-                "chat_id" => $chat_id,
-                "message_id" => $message_id,
-                "text" => $text,
-            );
-        if (is_array($option)) {
-            foreach ($option as $key => $value) {
-                $post[$key] = $value;
-            }
-        }
-        return $this->execute($this->bot_url."editMessageText", $post, []);
-    }
-
-    /**
-     * Delete message.
-     * @param string $msg_id
-     * @param string $chat_id
-     */
-    public function deleteMessage($msg_id, $chat_id)
-    {
-        $post = array(
-                "chat_id" => $chat_id,
-                "message_id" => $msg_id,
-            );
-        return $this->execute($this->bot_url."deleteMessage", $post, []);
-    }
-
     public function __call($a, $b)
     {
-        $post = isset($b[0]) ? $b[0] : null;
-        $op = isset($b[1]) ? $b[1] : [];
-        return $this->execute($this->bot_url.$a, $post, $op);
+        return $this->execute($this->bot_url.$a, ...$b);
     }
 
     /**
@@ -226,20 +191,16 @@ class Telegram
     {
         $ch = new Curl($url);
         if ($post !== null) {
+            $this->isFile === false and $post = http_build_query($post);
             $ch->post($post);
         }
-        if (is_array($option)) {
-            $ch->set_opt($option);
-        } else {
-            $ch->set_opt([
-                    CURLOPT_USERAGENT => null
-                ]);
-        }
+        $option[CURLOPT_USERAGENT] = null;
+        $ch->set_opt($option);
         $out = $ch->exec();
         $this->curl_errno = $ch->errno;
         $this->curl_error = $ch->error;
         $this->curl_info  = $ch->info;
-        return $this->curl_error ? $this->curl_error : $out;
+        return !empty($this->curl_error) ? $this->curl_error : $out;
     }
 
     public static function getInput()

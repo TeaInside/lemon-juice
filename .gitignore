@@ -1,4 +1,5 @@
 /vendor/
+<<<<<<< HEAD
 /.dockerignore
 /data
 /logs
@@ -7,3 +8,19 @@
 /public/assets
 *.lock
 *.tmp
+=======
+.dockerignore
+/data
+/logs
+/storage
+/public/assets
+/public/virtual
+/public/data
+/public/kangest
+/public/whatanime
+/public/LINE/data
+*.lock
+*.tmp
+nh.out
+text.txt
+>>>>>>> master

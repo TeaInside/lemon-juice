@@ -3,9 +3,8 @@
 namespace Bot\LINE;
 
 use AI\AI;
-use IceTeaSystem\Hub\Singleton;
-use Stack\LINE\LINE as LINEStack;
-use Bot\BotContracts\LINEContract;
+use Sys\Hub\Singleton;
+use Stacks\LINE\LINE as LINEStack;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
@@ -13,7 +12,7 @@ use Bot\BotContracts\LINEContract;
  * @since 0.0.1
  */
 
-class LINE implements LINEContract
+class Bot
 {
     use Singleton;
 
@@ -117,14 +116,43 @@ class LINE implements LINEContract
 
     private function parseReply()
     {
-        $st = new AI();
-        $st->input($this->event['message']['text'], $this->actor);
-        if ($st->execute()) {
-            $reply = $st->output();
-            $reply = $reply['text'][0];
-            $this->line->buildMessage($this->room);
-            $this->line->textMessage($reply);
+        if (isset($this->event['message']['text'])) {
             $this->reply = true;
+            $wq = strtolower($this->event['message']['text']);
+            switch ($wq) {
+                case 'jadwal senin':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Senin :\n\nUpacara\nB.Jawa\nB.Jawa\nAgama\nIstirahat\nB.Inggris\nB.Inggris\nFisika\nIstirahat\nFisika\nSeni Musik\nSeni Musik");
+                    break;
+                case 'jadwal selasa':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Selasa :\n\nEkonomi\nEkonomi\nMat.Minat\nMat.Minat\nIstirahat\nKimia\nKimia\nB.Indo\nIstirahat\nB.Indo\nKWU\nKWU");
+                    break;
+                case 'jadwal rabu':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Rabu :\n\nMat.wajib\nMat.wajib\nFisika\nFisika\nIstirahat\nBiologi\nBiologi\nEkonomi\nIstirahat\nEkonomi\nSejarah\nSejarah");
+                    break;
+                case 'jadwal kamis':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Kamis :\n\nAgama\nAgama\nB.Indo\nB.Indo\nIstirahat\nPKN\nPKN\nBiologi\nIstirahat\nBiologi\nMat.Minat\nMat.Minat");
+                    break;
+                case 'jadwal jumat': case 'jadwal jum\'at':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Jum'at :\n\nKimia\nKimia\nBK\nPenjas\nIstirahat\nPenjas\nPenjas\nIstirahat\nMat.wajib\nMat.wajib");
+                    break;
+                default:
+                    $st = new AI();
+                    $st->input($this->event['message']['text'], $this->actor);
+                    if ($st->execute()) {
+                        $reply = $st->output();
+                        $reply = $reply['text'][0];
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage($reply);
+                    } else {
+                        $this->reply = false;
+                    }
+                    break;
+            }
         }
     }
 

@@ -122,8 +122,8 @@ class Session
                 $sta = $this->pdo->prepare("UPDATE `kb_room` SET `participants`=:par, `count_users`=`count_users`+1 WHERE `room_id`=:room_id LIMIT 1;");
                 $par = "";
                 foreach ($st[0] as $val) {
-                	$u = $this->getUserInfo($val);
-                	$par.= " - <b>".$u['name']."</b> (@".$u['username'].")\n";
+                    $u = $this->getUserInfo($val);
+                    $par.= " - <b>".$u['name']."</b> (@".$u['username'].")\n";
                 }
                 return $sta->execute([
                         ":par" => json_encode($st[0]),
@@ -169,8 +169,8 @@ class Session
                 } elseif ($st[0] == "off") {
                     return "Belum ada sesi";
                 } else {
-                	$tr = $st[1][$st[3]];
-                	$u = $this->getUserInfo($tr);
+                    $tr = $st[1][$st[3]];
+                    $u = $this->getUserInfo($tr);
                     return "#katabersambung\n\nMulai: ".strtoupper($wd[0])."\n<b>".(strtoupper(self::getLastChar($wd[0])))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab.";
                 }
             }
