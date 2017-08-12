@@ -25,22 +25,18 @@ trait CommandHandler
                 "/report" => ["!report", "~report"],
                 "/save" => ["!save", "~save"],
                 "/ask" => ["!ask", "~ask"],
-
                 "/idan" => ["!idan", "~idan"],
                 "/anime" => ["!anime", "~anime"],
                 "/qanime" => ["!qanime", "~qanime"],
-
                 "/idma" => ["!idma", "~idma"],
                 "/manga" => ["!manga", "~manga"],
                 "/qmanga" => ["!qmanga", "~qmanga"],
-
                 "/help" => ["!help", "~help"],
                 "/user" => ["!user", "~user"],
                 "/warn" => ["!warn", "~warn"],
                 "/nowarn" => ["!nowarn", "~nowarn"],
                 "/ban" => ["!ban", "~ban"],
                 "/kick" => ["!kick", "~kick"],
-
                 "/time" => ["!time", "~time", "#time"],
                 "/whatanime" => ["!whatanime", "~whatanime"],
                 "/start" => ["!start", "~start"],
