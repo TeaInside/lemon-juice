@@ -42,9 +42,9 @@ class Session
 
     /**
      * Constructor.
-     * @param int 	 $room_id
+     * @param int    $room_id
      * @param string $room_name
-     * @param int	 $userid
+     * @param int    $userid
      * @param string $uname
      * @param string $name
      */
@@ -65,15 +65,18 @@ class Session
     public function openGroup()
     {
         $st = $this->pdo->prepare("SELECT `status` FROM `kb_room` WHERE `room_id`=:room_id LIMIT 1;");
-        $exe = $st->execute([
+        $exe = $st->execute(
+            [
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
         if ($exe) {
             $r = $st->fetch(PDO::FETCH_NUM);
             if ($r === false || $r[0] == "off") {
                 $st = $this->pdo->prepare("INSERT INTO `kb_room` (`room_id`, `room_name`, `status`, `created_at`, `expired_at`, `participants`, `turn`, `last_word`, `count_users`) VALUES (:room_id, :room_name, :status, :created_at, :expired_at, :participants, :turn, :last_word, :count_users);");
                 $t = time();
-                $exe = $st->execute([
+                $exe = $st->execute(
+                    [
                         ":room_id" => $this->room_id,
                         ":room_name" => $this->room_name,
                         ":status" => "idle",
@@ -83,7 +86,8 @@ class Session
                         ":turn" => rand(0, 1),
                         ":last_word" => null,
                         ":count_users" => 1
-                    ]);
+                    ]
+                );
                 $this->createUserSession();
                 $player = "";
 
@@ -103,16 +107,20 @@ class Session
     {
         if (!$this->isJoined()) {
             $st = $this->pdo->prepare("INSERT INTO `kb_user_session` (`userid`, `room_id`, `live`, `expired`) VALUES (:userid, :room_id, :live, :expired);");
-            $st->execute([
+            $st->execute(
+                [
                     ":userid" => $this->userid,
                     ":room_id" => $this->room_id,
                     ":live" => 3,
                     ":expired" => null
-                ]);
+                ]
+            );
             $st = $this->pdo->prepare("SELECT `participants` FROM `kb_room` WHERE `room_id`=:room_id LIMIT 1;");
-            $st->execute([
+            $st->execute(
+                [
                     ":room_id" => $this->room_id
-                ]);
+                ]
+            );
             $st = $st->fetch(PDO::FETCH_NUM);
             if ($st === false) {
                 return "group_gak_ada";
@@ -125,10 +133,12 @@ class Session
                     $u = $this->getUserInfo($val);
                     $par.= " - <b>".$u['name']."</b> (@".$u['username'].")\n";
                 }
-                return $sta->execute([
+                return $sta->execute(
+                    [
                         ":par" => json_encode($st[0]),
                         ":room_id" => $this->room_id
-                    ]) ? "Gunakan /join_party untuk bergabung, /start_party untuk memulai.\n<b>Reply</b> pesan dari BOT untuk menjawab.\nWaktumu kurang dari 90 dtk.\n\nPlayer yang siap bermain:\n".$par."\n=================" : json_encode($sta->errorInfo());
+                    ]
+                ) ? "Gunakan /join_party untuk bergabung, /start_party untuk memulai.\n<b>Reply</b> pesan dari BOT untuk menjawab.\nWaktumu kurang dari 90 dtk.\n\nPlayer yang siap bermain:\n".$par."\n=================" : json_encode($sta->errorInfo());
             }
         } else {
             return false;
@@ -141,9 +151,11 @@ class Session
     public function start()
     {
         $st = $this->pdo->prepare("SELECT `status`,`participants`,`count_users`,`turn`,`last_word` FROM `kb_room` WHERE `room_id`=:room_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st) {
             if ($st[2] < 2) {
@@ -159,11 +171,13 @@ class Session
                     $wd = $stq->fetch(PDO::FETCH_NUM);
                     $tr = $st[1][$st[3]];
                     $st = $this->pdo->prepare("UPDATE `kb_room` SET `status`=:status,`last_word`=:last_word WHERE `room_id`=:room_id LIMIT 1;");
-                    $st->execute([
+                    $st->execute(
+                        [
                             ":status" => 'game',
                             ":last_word" => $wd[0],
                             ":room_id" => $this->room_id
-                        ]);
+                        ]
+                    );
                     $u = $this->getUserInfo($tr);
                     return "#katabersambung\n\nMulai: ".strtoupper($wd[0])."\n<b>".(self::getLastChar($wd[0]))."...</b>\nSekarang <b>".$u['name']."</b> (@".$u['username'].") Reply untuk jawab.";
                 } elseif ($st[0] == "off") {
@@ -186,9 +200,11 @@ class Session
     {
         $input = strtolower(trim(preg_replace("#[^[:print:]]#", "", $input)));
         $st = $this->pdo->prepare("SELECT `participants`,`turn`,`last_word`,`status`,`count_users`,`cycle` FROM `kb_room` WHERE `room_id`=:room_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st === false || $st[3] == "off") {
             return "Gak ada sesi";
@@ -208,18 +224,22 @@ class Session
                     if ($lscr == substr($input, 0, $len)) {
                         // check kamus
                         $std = $this->pdo->prepare("SELECT `kata` FROM `kb_kamus` WHERE `kata`=:kata LIMIT 1;");
-                        $std->execute([
+                        $std->execute(
+                            [
                                 ":kata" => $input
-                            ]);
+                            ]
+                        );
                         if ($std->fetch(PDO::FETCH_ASSOC)) {
                             $this->upPoint();
                             $std = $this->pdo->prepare("UPDATE `kb_room` SET `turn`=:turn,`last_word`=:last_word WHERE `room_id`=:room_id LIMIT 1;");
                             $turn = $st[1] == $st[4]-1 ? 0 : $st[1]+1;
-                            $std->execute([
+                            $std->execute(
+                                [
                                     ":turn" => $turn,
                                     ":last_word" => $input,
                                     ":room_id" => $this->room_id
-                                ]);
+                                ]
+                            );
                             $u = $this->getUserInfo($st[0][$turn]);
                             $this->addRoomCycle();
                             return "#katabersambung\n\n<b>".strtoupper(self::getLastChar($input))."...</b>\nSekarang ".$u['name']." (@".$u['username'].") Reply untuk jawab.";
@@ -258,11 +278,13 @@ class Session
                                     $turn = $st[1];
                                 }
                                 $pst = $this->pdo->prepare("UPDATE `kb_room` SET `participants`=:par,`count_users`=`count_users`-1,`turn`=:turn WHERE `room_id`=:room_id LIMIT 1;");
-                                $pst->execute([
+                                $pst->execute(
+                                    [
                                         ":par" => json_encode($participants),
                                         ":room_id" => $this->room_id,
                                         ":turn" => $turn
-                                ]);
+                                    ]
+                                );
                                 if (isset($sm)) {
                                     $this->upPoint(20);
                                     $u = $this->getUserInfo($sm);
@@ -287,28 +309,36 @@ class Session
 
     private function truncateSession()
     {
-        $this->pdo->prepare("DELETE FROM `kb_user_session` WHERE `room_id`=:room_id;")->execute([
+        $this->pdo->prepare("DELETE FROM `kb_user_session` WHERE `room_id`=:room_id;")->execute(
+            [
                 ":room_id" => $this->room_id
-            ]);
-        $this->pdo->prepare("DELETE FROM `kb_room` WHERE `room_id`=:room_id LIMIT 1;")->execute([
+            ]
+        );
+        $this->pdo->prepare("DELETE FROM `kb_room` WHERE `room_id`=:room_id LIMIT 1;")->execute(
+            [
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
     }
 
     private function addRoomCycle()
     {
-        return $this->pdo->prepare("UPDATE `kb_room` SET `cycle`=`cycle`+1 WHERE `room_id`=:room_id LIMIT 1;")->execute([
+        return $this->pdo->prepare("UPDATE `kb_room` SET `cycle`=`cycle`+1 WHERE `room_id`=:room_id LIMIT 1;")->execute(
+            [
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
     }
 
     private function getLive()
     {
         $st = $this->pdo->prepare("SELECT `live` FROM `kb_user_session` WHERE `userid`=:userid AND `room_id`=:room_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":userid" => $this->userid,
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         return isset($st[0]) ? (string) ($st[0]-1) : false;
     }
@@ -316,9 +346,11 @@ class Session
     private function getUserInfo($userid = null)
     {
         $st = $this->pdo->prepare("SELECT `username`, `name`, `point` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":userid" => ($userid === null ? $this->userid : $userid)
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_ASSOC);
         $st['username'] = $st['username'] == "No Username" ? $userid : $st['username'];
         return $st;
@@ -326,18 +358,22 @@ class Session
 
     private function downLive()
     {
-        return $this->pdo->prepare("UPDATE `kb_user_session` SET `live`=`live`-1 WHERE `userid`=:userid AND `room_id`=:room_id LIMIT 1;")->execute([
+        return $this->pdo->prepare("UPDATE `kb_user_session` SET `live`=`live`-1 WHERE `userid`=:userid AND `room_id`=:room_id LIMIT 1;")->execute(
+            [
                 ":userid" => $this->userid,
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
     }
 
     private function upPoint($point = 1)
     {
         $point = (int) $point;
-        return $this->pdo->prepare("UPDATE `kb_user_info` SET `point`=`point`+{$point} WHERE `userid`=:userid LIMIT 1;")->execute([
+        return $this->pdo->prepare("UPDATE `kb_user_info` SET `point`=`point`+{$point} WHERE `userid`=:userid LIMIT 1;")->execute(
+            [
                 ":userid" => $this->userid
-            ]);
+            ]
+        );
     }
 
     private function gameOver()
@@ -351,17 +387,21 @@ class Session
     private function createUserSession()
     {
         $st = $this->pdo->prepare("SELECT `userid` FROM `kb_user_session` WHERE `userid`=:userid LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":userid" => $this->userid
-            ]);
+            ]
+        );
         if ($st->fetch(PDO::FETCH_NUM) === false) {
             $st = $this->pdo->prepare("INSERT INTO `kb_user_session` (`userid`, `room_id`, `live`, `expired`) VALUES (:userid, :room_id, :live, :expired);");
-            $exe = $st->execute([
+            $exe = $st->execute(
+                [
                     ":userid" => $this->userid,
                     ":room_id" => $this->room_id,
                     ":live" => 3,
                     ":expired" => null
-                ]);
+                ]
+            );
             return $exe;
         }
     }
@@ -372,10 +412,12 @@ class Session
     private function isJoined()
     {
         $st = $this->pdo->prepare("SELECT `userid` FROM `kb_user_session` WHERE `userid`=:userid AND `room_id`=:room_id LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":userid" => $this->userid,
                 ":room_id" => $this->room_id
-            ]);
+            ]
+        );
         return $st->fetch(PDO::FETCH_NUM) === false ? false : true;
     }
 
@@ -385,31 +427,37 @@ class Session
     private function save_user_info()
     {
         $st = $this->pdo->prepare("SELECT `username`, `name` FROM `kb_user_info` WHERE `userid`=:userid LIMIT 1;");
-        $exe = $st->execute([
+        $exe = $st->execute(
+            [
                 ":userid" => $this->userid
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_NUM);
         if ($st) {
             // update user info
             if ($st[0] != $this->uname || $st[1] != $this->name) {
                 $st = $this->pdo->prepare("UPDATE `kb_user_info` SET `username`=:user, `name`=:name WHERE `userid`=:userid LIMIT 1;");
-                $exe = $st->execute([
+                $exe = $st->execute(
+                    [
                         ":user" => $this->uname,
                         ":name" => $this->name,
                         ":userid" => $this->userid
-                    ]);
+                    ]
+                );
             }
             return $exe;
         } else {
             // insert
             $st = $this->pdo->prepare("INSERT INTO `kb_user_info` (`userid`, `username`, `name`, `registered_at`, `point`) VALUES (:userid, :username, :name, :registered_at, :pt);");
-            return $st->execute([
+            return $st->execute(
+                [
                     ":userid" => $this->userid,
                     ":username" => $this->uname,
                     ":name" => $this->name,
                     ":registered_at" => date("Y-m-d H:i:s"),
                     ":pt" => 0
-                ]);
+                ]
+            );
         }
     }
 
