@@ -80,7 +80,7 @@ class Warn
                     ":room_id" => $this->data['room_id'],
                     ":created_at" => date("Y-m-d H:i:s")
                 ]);
-           print B::sendMessage("{$user} <b>has been warned</b> (<code>1/3</code>)\n\n<b>Reason :</b>\nBad word.", $this->data['room_id'], $this->data['reply_to'], ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warn","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
+            print B::sendMessage("{$user} <b>has been warned</b> (<code>1/3</code>)\n\n<b>Reason :</b>\nBad word.", $this->data['room_id'], $this->data['reply_to'], ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warn","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
         }
     }
 
@@ -132,7 +132,7 @@ class Warn
                     ":room_id" => $this->data['room_id'],
                     ":created_at" => date("Y-m-d H:i:s")
                 ]);
-           print B::sendMessage("{$user} <b>has been warned</b> (<code>1/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warn","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
+            print B::sendMessage("{$user} <b>has been warned</b> (<code>1/3</code>)", $this->data['room_id'], null, ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true, "reply_markup"=>json_encode(["inline_keyboard"=>[[["text"=>"Remove warn","callback_data"=> "/nowarn ".$this->data['uifd']]]]])]);
         }
     }
 }
