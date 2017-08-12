@@ -15,8 +15,8 @@ class Run
     public function __construct()
     {
         $this->webhook_input = /*'{
-    "update_id": 344188835,
-    "message": {
+        "update_id": 344188835,
+        "message": {
         "message_id": 6049,
         "from": {
             "id": 243692601,
@@ -69,9 +69,9 @@ class Run
                 "length": 5
             }
         ]
-    }
-}   }
-}';*/file_get_contents("php://input");
+        }
+        }   }
+        }';*/file_get_contents("php://input");
     }
 
     /**

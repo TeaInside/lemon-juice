@@ -99,19 +99,19 @@ final class Bot
         $this->input = json_decode($arg, true);
         $this->parseEvent();
         switch ($this->msg_type) {
-            case 'text':
-                $this->parseEntities();
-                $this->textFixer();
-                if (!$this->command()) {
-                }
-                $this->chat_type != "private" and $this->notifer();
-                break;
-            case 'sticker':
-                $this->chat_type != "private" and $this->notifer();
-                break;
-            default:
-                # code...
-                break;
+        case 'text':
+            $this->parseEntities();
+            $this->textFixer();
+            if (!$this->command()) {
+            }
+            $this->chat_type != "private" and $this->notifer();
+            break;
+        case 'sticker':
+            $this->chat_type != "private" and $this->notifer();
+            break;
+        default:
+            // code...
+            break;
         }
         $this->knower();
         $this->auto_ban();
@@ -157,43 +157,43 @@ final class Bot
             $this->text = "/".$this->text;
         } elseif (isset($this->input['message']['reply_to_message']['from']['username']) and $this->input['message']['reply_to_message']['from']['username'] == "MyIceTea_Bot") {
             switch ($this->input['message']['reply_to_message']['text']) {
-                case 'Sebutkan ID Anime yang ingin kamu cari !':
+            case 'Sebutkan ID Anime yang ingin kamu cari !':
+                $this->text = "/idan ".$this->text;
+                break;
+            case 'Anime apa yang ingin kamu cari? ~':
+                $this->text = "/anime ".$this->text;
+                break;
+            case 'Anime apa yang ingin kamu cari?':
+                $this->text = "/qanime ".$this->text;
+                break;
+
+            case 'Sebutkan ID Manga yang ingin kamu cari !':
+                $this->text = "/idma ".$this->text;
+                break;
+            case 'Manga apa yang ingin kamu cari? ~':
+                $this->text = "/manga ".$this->text;
+                break;
+            case 'Manga apa yang ingin kamu cari?':
+                $this->text = "/qmanga ".$this->text;
+                break;
+
+            case 'Balas pesan dengan screenshot anime yang ingin kamu tanyakan !':
+                $this->special_comannd = "/whatanime";
+                break;
+            default:
+                    $a = explode("\n", $this->input['message']['reply_to_message']['text'], 2);
+                    var_dump($a);
+                    switch ($a[0]) {
+                case 'Hasil pencarian anime :':
                     $this->text = "/idan ".$this->text;
                     break;
-                case 'Anime apa yang ingin kamu cari? ~':
-                    $this->text = "/anime ".$this->text;
-                    break;
-                case 'Anime apa yang ingin kamu cari?':
-                    $this->text = "/qanime ".$this->text;
-                    break;
-
-                case 'Sebutkan ID Manga yang ingin kamu cari !':
+                case 'Hasil pencarian manga :':
                     $this->text = "/idma ".$this->text;
                     break;
-                case 'Manga apa yang ingin kamu cari? ~':
-                    $this->text = "/manga ".$this->text;
-                    break;
-                case 'Manga apa yang ingin kamu cari?':
-                    $this->text = "/qmanga ".$this->text;
-                    break;
-
-                case 'Balas pesan dengan screenshot anime yang ingin kamu tanyakan !':
-                    $this->special_comannd = "/whatanime";
-                    break;
                 default:
-                        $a = explode("\n", $this->input['message']['reply_to_message']['text'], 2);
-                        var_dump($a);
-                        switch ($a[0]) {
-                            case 'Hasil pencarian anime :':
-                                $this->text = "/idan ".$this->text;
-                                break;
-                            case 'Hasil pencarian manga :':
-                                $this->text = "/idma ".$this->text;
-                                break;
-                            default:
-                                break;
-                        }
                     break;
+                    }
+                break;
             }
         }
     }
@@ -204,24 +204,29 @@ final class Bot
             $is_private = $this->chat_type == "private" ? "true" : "false";
             $pdo = DB::pdoInstance();
             $st = $pdo->prepare("SELECT `userid`, `username`, `name`, `msg_count`, `is_private_known` FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
-            $st->execute([
+            $st->execute(
+                [
                     ":userid" => $this->user_id,
-                ]);
+                ]
+            );
             if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
                 if ($st['is_private_known'] == "true" and $is_private == "false") {
                     $is_private = "true";
                 }
                 $st['msg_count']++;
-                $pdo->prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=:msg_count, `updated_at`=:up, `is_private_known`=:priv WHERE `userid`=:userid LIMIT 1;")->execute([
+                $pdo->prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=:msg_count, `updated_at`=:up, `is_private_known`=:priv WHERE `userid`=:userid LIMIT 1;")->execute(
+                    [
                         ":username" => strtolower($this->uname),
                         ":name" => $this->actor,
                         ":msg_count" => $st['msg_count'],
                         ":userid" => $this->user_id,
                         ":up" => date("Y-m-d H:i:s"),
                         ":priv" => $is_private
-                    ]);
+                    ]
+                );
             } else {
-                $pdo->prepare("INSERT INTO `a_known_users` (`userid`, `username`, `name`, `created_at`, `updated_at`, `msg_count`, `is_private_known`) VALUES (:userid, :username, :name, :created_at, :updated_at, :msg_count, :priv_known)")->execute([
+                $pdo->prepare("INSERT INTO `a_known_users` (`userid`, `username`, `name`, `created_at`, `updated_at`, `msg_count`, `is_private_known`) VALUES (:userid, :username, :name, :created_at, :updated_at, :msg_count, :priv_known)")->execute(
+                    [
                         ":userid" => $this->user_id,
                         ":username" => strtolower($this->uname),
                         ":name" => $this->actor,
@@ -229,7 +234,8 @@ final class Bot
                         ":updated_at"=>null,
                         ":msg_count"=> 1,
                         ":priv_known" => $is_private
-                    ]);
+                    ]
+                );
             }
         }
     }
@@ -337,9 +343,11 @@ final class Bot
     private function check_recognized($username, $fl = "username")
     {
         $st = DB::pdoInstance()->prepare("SELECT `userid`,`is_private_known`,`is_notifed` FROM `a_known_users` WHERE `{$fl}`=:username LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":username" => strtolower($username)
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_ASSOC);
         return $st;
     }
@@ -383,10 +391,12 @@ final class Bot
             foreach ($this->entities['url'] as $url) {
                 foreach ($list_pattern as $key => $val) {
                     if (strpos(strtolower($url), $key) !== false) {
-                        $a = B::restrictChatMember([
+                        $a = B::restrictChatMember(
+                            [
                             "chat_id" => $this->room_id,
                             "user_id" => $this->user_id
-                        ]);
+                            ]
+                        );
                         $b = B::kickChatMember($this->room_id, $this->user_id);
                         $user = "<b>Auto banned :</b>\n<a href=\"https://telegram.me/".$this->uname."\">".$this->actor_call."</a> has been banned!\n\n<b>Reason :</b>\n{$val}";
                         if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
@@ -420,7 +430,8 @@ final class Bot
                 }
             }
             if ($cond) {
-                $st = new Warn([
+                $st = new Warn(
+                    [
                         "uifd" => $this->user_id."|".$this->room_id,
                         "userid" => $this->user_id,
                         "reason" => "Bad word.",
@@ -431,7 +442,8 @@ final class Bot
                         "actor" => $this->actor_call,
                         "reply_to" => $this->msg_id,
                         "auto" => true
-                    ]);
+                    ]
+                );
                 $st->run();
             }
         }

@@ -82,12 +82,14 @@ class WhatAnime implements WhatAnimeContract
     {
         is_dir($a = PUBLIC_DIR."/whatanime/video") or shell_exec("mkdir -p ".$a);
         $st = new Curl($link);
-        $st->set_opt([
+        $st->set_opt(
+            [
                         CURLOPT_TIMEOUT => false,
                         CURLOPT_CONNECTTIMEOUT => false,
                         CURLOPT_REFERER => "https://whatanime.ga/",
                         CURLOPT_HTTPHEADER => ["X-Requested-With: XMLHttpRequest","Content-Type: application/x-www-form-urlencoded; charset=UTF-8"]
-                        ]);
+                        ]
+        );
         $handle = fopen(PUBLIC_DIR."/whatanime/video/".($a = sha1($link).".mp4"), "w");
         fwrite($handle, $st->exec());
         fclose($handle);

@@ -9,7 +9,7 @@ class B
 {
     public static function __callStatic($a, $b)
     {
-        defined("TOKEN") or require __DIR__."/../../../config/telegram.php";
+        defined("TOKEN") or include __DIR__."/../../../config/telegram.php";
         $st = new Telegram(TOKEN);
         $st = $st->{$a}(...$b);
         print $st;
