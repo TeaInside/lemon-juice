@@ -54,7 +54,7 @@ trait Command
                 if (!($a = WhatAnime::check_video($video_url))) {
                     $a = WhatAnime::download_video($video_url);
                 }
-                B::sendVideo(WHATANIME_URL."/video/".$a);
+                B::sendVideo(WHATANIME_URL."/video/".$a, $this->room_id);
             } else {
                 B::editMessageText(
                         [
