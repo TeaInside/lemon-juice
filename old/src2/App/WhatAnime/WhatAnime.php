@@ -8,7 +8,7 @@ namespace App\WhatAnime;
  * @since 0.0.1
  */
 
-use IceTeaSystem\Curl;
+use Sys\Curl;
 use App\WhatAnime\WhatAnimeContract;
 use App\WhatAnime\WhatAnimeException;
 
