@@ -8,6 +8,7 @@
 /public/data
 /public/kangest
 /public/whatanime
+/public/LINE/data
 *.lock
 *.tmp
 nh.out
