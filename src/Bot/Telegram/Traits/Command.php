@@ -37,7 +37,7 @@ trait Command
             var_dump($st);
             B::editMessageText(
                     [
-                        "text" => json_encode($st, 128),
+                        "text" => $st[0],
                         "chat_id" => $this->room_id,
                         "message_id" => $r['result']['message_id'],
                     ]);      
