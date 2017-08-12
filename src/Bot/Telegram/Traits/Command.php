@@ -6,6 +6,7 @@ use PDO;
 use Sys\DB;
 use Sys\Curl;
 use Bot\Telegram\B;
+use App\WhatAnime\WhatAnime;
 use Bot\Telegram\Command\Warn;
 use App\MyAnimeList\MyAnimeList;
 
@@ -23,7 +24,10 @@ trait Command
             $p = end($this->input['message']['reply_to_message']['photo']);
             $p = json_decode(B::getFile($p['file_id']),true);
             $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
-            $photo = base64_encode($st->exec());
+            $st = new WhatAnime($st->exec());
+            $st = $st->exec();
+            echo "\n\n";
+            var_dump($st);
         } else {
             if (!empty($args) and filter_var($args, FILTER_VALIDATE_URL)) {
                 $st = new Curl($args);
