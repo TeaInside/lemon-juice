@@ -1,4 +1,5 @@
 <?php
+file_put_contents('in',file_get_contents("php://input"));
 shell_exec('echo \'<?php
 require __DIR__."/../../vendor/autoload.php";
 
