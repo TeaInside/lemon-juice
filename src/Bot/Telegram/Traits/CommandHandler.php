@@ -132,8 +132,8 @@ trait CommandHandler
                     $this->_whatanime($args);
                 break;
             case '/warn':
-            		$this->_warn($args);
-            	break;
+                    $this->_warn($args);
+                break;
             case '/ban':
                     $this->_ban($args);
                 break;

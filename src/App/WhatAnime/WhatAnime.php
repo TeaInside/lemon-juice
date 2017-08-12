@@ -24,7 +24,7 @@ class WhatAnime implements WhatAnimeContract
 
     /**
      * @var string
-     */ 
+     */
     private $hash;
 
     /**

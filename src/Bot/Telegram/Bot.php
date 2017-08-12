@@ -106,7 +106,7 @@ final class Bot
                 }
                 $this->chat_type != "private" and $this->notifer();
                 break;
-            case 'sticker': 
+            case 'sticker':
                 $this->chat_type != "private" and $this->notifer();
                 break;
             default:
@@ -202,35 +202,35 @@ final class Bot
     {
         if (isset($this->user_id)) {
             $is_private = $this->chat_type == "private" ? "true" : "false";
-        	$pdo = DB::pdoInstance();
-        	$st = $pdo->prepare("SELECT `userid`, `username`, `name`, `msg_count`, `is_private_known` FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
-        	$st->execute([
-        			":userid" => $this->user_id,
-        		]);
-        	if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
+            $pdo = DB::pdoInstance();
+            $st = $pdo->prepare("SELECT `userid`, `username`, `name`, `msg_count`, `is_private_known` FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
+            $st->execute([
+                    ":userid" => $this->user_id,
+                ]);
+            if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
                 if ($st['is_private_known'] == "true" and $is_private == "false") {
                     $is_private = "true";
                 }
-        		$st['msg_count']++;
-        		$pdo->prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=:msg_count, `updated_at`=:up, `is_private_known`=:priv WHERE `userid`=:userid LIMIT 1;")->execute([
-        				":username" => strtolower($this->uname),
-        				":name" => $this->actor,
-        				":msg_count" => $st['msg_count'],
-        				":userid" => $this->user_id,
-        				":up" => date("Y-m-d H:i:s"),
+                $st['msg_count']++;
+                $pdo->prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=:msg_count, `updated_at`=:up, `is_private_known`=:priv WHERE `userid`=:userid LIMIT 1;")->execute([
+                        ":username" => strtolower($this->uname),
+                        ":name" => $this->actor,
+                        ":msg_count" => $st['msg_count'],
+                        ":userid" => $this->user_id,
+                        ":up" => date("Y-m-d H:i:s"),
                         ":priv" => $is_private
-        			]);
-        	} else {
-        		$pdo->prepare("INSERT INTO `a_known_users` (`userid`, `username`, `name`, `created_at`, `updated_at`, `msg_count`, `is_private_known`) VALUES (:userid, :username, :name, :created_at, :updated_at, :msg_count, :priv_known)")->execute([
-        				":userid" => $this->user_id,
-        				":username" => strtolower($this->uname),
-        				":name" => $this->actor,
-        				"created_at" => date("Y-m-d H:i:s"),
-        				":updated_at"=>null,
-        				":msg_count"=> 1,
+                    ]);
+            } else {
+                $pdo->prepare("INSERT INTO `a_known_users` (`userid`, `username`, `name`, `created_at`, `updated_at`, `msg_count`, `is_private_known`) VALUES (:userid, :username, :name, :created_at, :updated_at, :msg_count, :priv_known)")->execute([
+                        ":userid" => $this->user_id,
+                        ":username" => strtolower($this->uname),
+                        ":name" => $this->actor,
+                        "created_at" => date("Y-m-d H:i:s"),
+                        ":updated_at"=>null,
+                        ":msg_count"=> 1,
                         ":priv_known" => $is_private
-        			]);
-        	}
+                    ]);
+            }
         }
     }
 
@@ -340,7 +340,7 @@ final class Bot
         $st->execute([
                 ":username" => strtolower($username)
             ]);
-        $st = $st->fetch(PDO::FETCH_ASSOC);        
+        $st = $st->fetch(PDO::FETCH_ASSOC);
         return $st;
     }
 
@@ -380,7 +380,7 @@ final class Bot
                 "porn"          => "Pornograpy.",
                 "sex"           => "Pornograpy."
             ];
-            foreach($this->entities['url'] as $url) {
+            foreach ($this->entities['url'] as $url) {
                 foreach ($list_pattern as $key => $val) {
                     if (strpos(strtolower($url), $key) !== false) {
                         $a = B::restrictChatMember([

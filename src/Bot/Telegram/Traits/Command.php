@@ -16,14 +16,14 @@ use App\MyAnimeList\MyAnimeList;
  */
 
 trait Command
-{   
+{
     private function _whatanime($args)
     {
         $args = trim($args);
         if (isset($this->input['message']['reply_to_message']['photo'])) {
             $r = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
             $p = end($this->input['message']['reply_to_message']['photo']);
-            $p = json_decode(B::getFile($p['file_id']),true);
+            $p = json_decode(B::getFile($p['file_id']), true);
             $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
             $st = new WhatAnime($st->exec());
             B::editMessageText(
@@ -130,7 +130,7 @@ trait Command
             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
         }
         $reporter = isset($this->uname) ? "<a href=\"https://telegram.me/".$this->uname."\">".htmlspecialchars($this->actor)."</a>" : "<code>".$this->actor."</code>";
-        foreach($r['result'] as $a) {
+        foreach ($r['result'] as $a) {
             B::sendMessage("Laporan dari grup ".$room." oleh ".$reporter.(!empty($args) ? "\n<pre>".htmlspecialchars($args)."</pre>" : ""), $a['user']['id'], null, $op);
         }
     }
@@ -143,11 +143,11 @@ trait Command
                 $sb = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
                 is_dir(IMG_ASSETS) or print shell_exec("mkdir -p ".IMG_ASSETS);
                 $p = end($this->input['message']['reply_to_message']['photo']);
-                $p = json_decode(B::getFile($p['file_id']),true);
+                $p = json_decode(B::getFile($p['file_id']), true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
                 $file = $st->exec();
                 $handle = fopen(IMG_ASSETS."/".($fname = sha1($file)).".jpg", "w");
-                fwrite($handle,  $file);
+                fwrite($handle, $file);
                 fclose($handle);
                 $exe = DB::table("assets")->insert([
                         "id" => null,
@@ -179,7 +179,6 @@ trait Command
                         ]
                     );
                 }
-                
             } elseif (isset($this->input['message']['reply_to_message']['document'])) {
                 $sb = json_decode(B::sendMessage("Downloading your file...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
                 $p = json_decode(B::getFile($this->input['message']['reply_to_message']['document']['file_id']), true);
@@ -190,7 +189,7 @@ trait Command
                 $handle = fopen(ASSETS_R."/".($fname = sha1($st)).".".end($ex), "w");
                 fwrite($handle, $st);
                 fclose($handle);
-                 $exe = DB::table("assets")->insert([
+                $exe = DB::table("assets")->insert([
                         "id" => null,
                         "title" => $args[0],
                         "caption" => (isset($args[1]) ? $args[1] : null),
@@ -230,7 +229,7 @@ trait Command
                 $handle = fopen(VID_ASSETS."/".($fname = sha1($st)).".".end($ex), "w");
                 fwrite($handle, $st);
                 fclose($handle);
-                 $exe = DB::table("assets")->insert([
+                $exe = DB::table("assets")->insert([
                         "id" => null,
                         "title" => $args[0],
                         "caption" => (isset($args[1]) ? $args[1] : null),
@@ -270,7 +269,7 @@ trait Command
                 $handle = fopen(ASSETS_R."/".($fname = sha1($st)).".png", "w");
                 fwrite($handle, $st);
                 fclose($handle);
-                 $exe = DB::table("assets")->insert([
+                $exe = DB::table("assets")->insert([
                         "id" => null,
                         "title" => $args[0],
                         "caption" => (isset($args[1]) ? $args[1] : null),
@@ -306,28 +305,27 @@ trait Command
 
     private function _warn($args)
     {
-    	$args = trim($args);
-    	if ($this->chat_type != "private") {
-    		if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
-
-    			$st = new Warn([
-    					"uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id,
-    					"userid" => $this->input['message']['reply_to_message']['from']['id'],
-    					"reason" => $args,
-    					"room_id" => $this->room_id,
-    					"warner" => $this->user_id,
-    					"msg_id" => $this->msg_id,
-    					"username" => $this->input['message']['reply_to_message']['from']['username'],
-    					"actor" => ($this->input['message']['reply_to_message']['from']['first_name']. (isset($this->input['message']['reply_to_message']['from']['last_name']) ? " ".$this->input['message']['reply_to_message']['from']['last_name'] : ""))
-    				]);
-    			$st->run();
-    		} else {
-    			B::deleteMessage([
-    					"chat_id" => $this->room_id,
-    					"message_id" => $this->msg_id
-    				]);
-    		}
-    	}
+        $args = trim($args);
+        if ($this->chat_type != "private") {
+            if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
+                $st = new Warn([
+                        "uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id,
+                        "userid" => $this->input['message']['reply_to_message']['from']['id'],
+                        "reason" => $args,
+                        "room_id" => $this->room_id,
+                        "warner" => $this->user_id,
+                        "msg_id" => $this->msg_id,
+                        "username" => $this->input['message']['reply_to_message']['from']['username'],
+                        "actor" => ($this->input['message']['reply_to_message']['from']['first_name']. (isset($this->input['message']['reply_to_message']['from']['last_name']) ? " ".$this->input['message']['reply_to_message']['from']['last_name'] : ""))
+                    ]);
+                $st->run();
+            } else {
+                B::deleteMessage([
+                        "chat_id" => $this->room_id,
+                        "message_id" => $this->msg_id
+                    ]);
+            }
+        }
     }
 
     private function _ban($args)
