@@ -116,14 +116,40 @@ class Bot
 
     private function parseReply()
     {
-        $st = new AI();
-        $st->input($this->event['message']['text'], $this->actor);
-        if ($st->execute()) {
-            $reply = $st->output();
-            $reply = $reply['text'][0];
-            $this->line->buildMessage($this->room);
-            $this->line->textMessage($reply);
-            $this->reply = true;
+        if (isset($this->event['message']['text'])) {
+            switch (strtolower($this->event['message']['text'])) {
+                case 'jadwal senin':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Senin :\n\nUpacara\nB.Jawa\nB.Jawa\nAgama\nIstirahat\nB.Inggris\nB.Inggris\nFisika\nIstirahat\nFisika\nSeni Musik\nSeni Musik");
+                    break;
+                case 'jadwal selasa':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Selasa :\n\nEkonomi\nEkonomi\nMat.Minat\nMat.Minat\nIstirahat\nKimia\nKimia\nB.Indo\nIstirahat\nB.Indo\nKWU\nKWU");
+                    break;
+                case 'jadwal rabu':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Rabu :\n\nMat.wajib\nMat.wajib\nFisika\nFisika\nIstirahat\nBiologi\nBiologi\nEkonomi\nIstirahat\nEkonomi\nSejarah\nSejarah");
+                    break;
+                case 'jadwal kamis':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Kamis :\n\nAgama\nAgama\nB.Indo\nB.Indo\nIstirahat\nPKN\nPKN\nBiologi\nIstirahat\nBiologi\nMat.Minat\nMat.Minat");
+                    break;
+                case 'jadwal jumat': case 'jadwal jum\'at':
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage("Jum'at :\n\nKimia\nKimia\nBK\nPenjas\nIstirahat\nPenjas\nPenjas\nIstirahat\nMat.wajib\nMat.wajib");
+                    break;
+                default:
+                    $st = new AI();
+                    $st->input($this->event['message']['text'], $this->actor);
+                    if ($st->execute()) {
+                        $reply = $st->output();
+                        $reply = $reply['text'][0];
+                        $this->line->buildMessage($this->room);
+                        $this->line->textMessage($reply);
+                        $this->reply = true;
+                    }
+                    break;
+            }
         }
     }
 
