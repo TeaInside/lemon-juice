@@ -64,3 +64,5 @@ define("ASSETS_R", $pb."/assets/files");
 define("IMG_ASSETS", $pb."/assets/images");
 define("VID_ASSETS", $pb."/assets/videos");
 define("ASSETS_URL", "https://webhooks.redangel.ga/assets");
+
+define("WHATANIME_URL", "https://webhooks.redangel.ga/whatanime");
