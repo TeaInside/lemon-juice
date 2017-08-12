@@ -34,6 +34,7 @@ trait Command
                     ]);
             $st = json_decode($st->exec(), 128);
             $st = $st['docs'];
+            var_dump($st);
             B::editMessageText(
                     [
                         "text" => $st,
