@@ -36,7 +36,7 @@ trait Command
             $st = $st['docs'];
             B::editMessageText(
                     [
-                        "text" => json_encode($st[0]),
+                        "text" => $st,
                         "chat_id" => $this->room_id,
                         "message_id" => $r['result']['message_id'],
                     ]);      

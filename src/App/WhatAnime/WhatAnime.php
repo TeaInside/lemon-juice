@@ -65,7 +65,7 @@ class WhatAnime implements WhatAnimeContract
         if (file_exists(PUBLIC_DIR."/whatanime/hash/".$this->hash.".json")) {
             $st = json_decode($rr = file_get_contents(PUBLIC_DIR."/whatanime/hash/".$this->hash.".json"), true);
             if ($st) {
-                return $st;
+                return json_encode($st, 128);
             }
         }
         return false;
