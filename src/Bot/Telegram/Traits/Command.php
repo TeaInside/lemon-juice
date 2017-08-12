@@ -51,8 +51,8 @@ trait Command
                         ]
                     );
                 $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
-                if (!($a = WhatAnime::check_video($video_url))) {
-                    $a = WhatAnime::download_video($video_url);
+                if (!($video_file = WhatAnime::check_video($video_url))) {
+                    $video_file = WhatAnime::download_video($video_url);
                 }
                 $fd = function ($time) {
                     $time = (int)$time;
@@ -71,7 +71,7 @@ trait Command
                     $detik = (string) $detik;
                     return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
                 };
-                B::sendVideo(WHATANIME_URL."/video/".$a, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']));
+                B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']));
             } else {
                 B::editMessageText(
                         [
