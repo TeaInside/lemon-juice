@@ -71,7 +71,7 @@ trait Command
                     $detik = (string) $detik;
                     return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
                 };
-                B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']));
+                B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
             } else {
                 B::editMessageText(
                         [
