@@ -83,7 +83,7 @@ trait Command
                     );
             }
         } else {
-            
+            B::sendMessage("Please reply an image with /whatanime!", $this->room_id, $this->msg_id);
         }
     }
 
