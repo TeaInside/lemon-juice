@@ -51,6 +51,7 @@ define("MAL_PASS", "triosemut123");
  */
 $pb = "/home/web/bot/public/";
 $vr = $pb."virtual/";
+define("PUBLIC_DIR", $pb);
 define("PHP_VIRTUAL_URL", "https://webhooks.redangel.ga/virtual");
 define("PHP_VIRTUAL_PATH", $vr."php");
 define("C_VIRTUAL_PATH", $vr."c");
