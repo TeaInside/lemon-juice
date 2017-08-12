@@ -100,4 +100,7 @@ define("VID_ASSETS", $pb."/assets/videos");
 define("ASSETS_URL", "https://webhooks.redangel.ga/assets");
 
 define("WHATANIME_URL", "https://webhooks.redangel.ga/whatanime");
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master

@@ -12,27 +12,27 @@ use App\MyAnimeList\MyAnimeList;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
- *
  */
 
 trait Command
-{   
+{
     private function _whatanime($args)
     {
         $args = trim($args);
         if (isset($this->input['message']['reply_to_message']['photo'])) {
             $r = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
             $p = end($this->input['message']['reply_to_message']['photo']);
-            $p = json_decode(B::getFile($p['file_id']),true);
+            $p = json_decode(B::getFile($p['file_id']), true);
             $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
             $st = new WhatAnime($st->exec());
             B::editMessageText(
-                    [
+                [
                         "text" => "I've got your image, searching...",
                         "chat_id" => $this->room_id,
                         "message_id" => $r['result']['message_id'],
-                    ]);
-            $st = json_decode($st->exec(), 128);
+                    ]
+            );
+                    $st = json_decode($st->exec(), 128);
             if (isset($st['docs'][0])) {
                 $a = $st['docs'][0];
                 $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
@@ -43,13 +43,13 @@ trait Command
                 isset($a['anime']) and $rep.= "<b>Anime</b> : ".htmlspecialchars($a['anime'])."\n";
                 isset($a['file']) and $rep.= "<b>File</b> : ".htmlspecialchars($a['file']);
                 B::editMessageText(
-                        [
-                            "text" => $rep,
-                            "parse_mode" => "HTML",
-                            "chat_id" => $this->room_id,
-                            "message_id" => $r['result']['message_id'],
-                        ]
-                    );
+                    [
+                    "text" => $rep,
+                    "parse_mode" => "HTML",
+                    "chat_id" => $this->room_id,
+                    "message_id" => $r['result']['message_id'],
+                    ]
+                );
                 $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
                 if (!($video_file = WhatAnime::check_video($video_url))) {
                     $video_file = WhatAnime::download_video($video_url);
@@ -71,16 +71,16 @@ trait Command
                     $detik = (string) $detik;
                     return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
                 };
-                B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
+                        B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
             } else {
                 B::editMessageText(
-                        [
-                            "text" => "Mohon maaf, anime yang mirip tidak ditemukan.",
-                            "parse_mode" => "HTML",
-                            "chat_id" => $this->room_id,
-                            "message_id" => $r['result']['message_id'],
-                        ]
-                    );
+                    [
+                    "text" => "Mohon maaf, anime yang mirip tidak ditemukan.",
+                    "parse_mode" => "HTML",
+                    "chat_id" => $this->room_id,
+                    "message_id" => $r['result']['message_id'],
+                    ]
+                );
             }
         } else {
             B::sendMessage("Please reply an image with /whatanime!", $this->room_id, $this->msg_id);
@@ -91,9 +91,11 @@ trait Command
     {
         $args = trim($args);
         $st = DB::pdoInstance()->prepare("SELECT * FROM `gm_user_warning` WHERE `uifd`=:uifd LIMIT 1;");
-        $st->execute([
+        $st->execute(
+            [
                 ":uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id
-            ]);
+            ]
+        );
         $st = $st->fetch(PDO::FETCH_ASSOC);
         B::sendMessage(json_encode($st, 128), $this->room_id, $this->msg_id);
     }
@@ -130,7 +132,7 @@ trait Command
             $op = ['parse_mode'=>'HTML', 'disable_web_page_preview'=>true];
         }
         $reporter = isset($this->uname) ? "<a href=\"https://telegram.me/".$this->uname."\">".htmlspecialchars($this->actor)."</a>" : "<code>".$this->actor."</code>";
-        foreach($r['result'] as $a) {
+        foreach ($r['result'] as $a) {
             B::sendMessage("Laporan dari grup ".$room." oleh ".$reporter.(!empty($args) ? "\n<pre>".htmlspecialchars($args)."</pre>" : ""), $a['user']['id'], null, $op);
         }
     }
@@ -143,20 +145,22 @@ trait Command
                 $sb = json_decode(B::sendMessage("Downloading your image...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
                 is_dir(IMG_ASSETS) or print shell_exec("mkdir -p ".IMG_ASSETS);
                 $p = end($this->input['message']['reply_to_message']['photo']);
-                $p = json_decode(B::getFile($p['file_id']),true);
+                $p = json_decode(B::getFile($p['file_id']), true);
                 $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
                 $file = $st->exec();
                 $handle = fopen(IMG_ASSETS."/".($fname = sha1($file)).".jpg", "w");
-                fwrite($handle,  $file);
+                fwrite($handle, $file);
                 fclose($handle);
-                $exe = DB::table("assets")->insert([
+                $exe = DB::table("assets")->insert(
+                    [
                         "id" => null,
                         "title" => $args[0],
                         "caption" => (isset($args[1]) ? $args[1] : null),
                         "file_name" => $fname,
                         "type" => "image",
                         "created_at" => (date("Y-m-d H:i:s"))
-                    ]);
+                    ]
+                );
                 if ($exe) {
                     B::editMessageText(
                         [
@@ -179,7 +183,6 @@ trait Command
                         ]
                     );
                 }
-                
             } elseif (isset($this->input['message']['reply_to_message']['document'])) {
                 $sb = json_decode(B::sendMessage("Downloading your file...", $this->room_id, $this->input['message']['reply_to_message']['message_id']), true);
                 $p = json_decode(B::getFile($this->input['message']['reply_to_message']['document']['file_id']), true);
@@ -190,14 +193,16 @@ trait Command
                 $handle = fopen(ASSETS_R."/".($fname = sha1($st)).".".end($ex), "w");
                 fwrite($handle, $st);
                 fclose($handle);
-                 $exe = DB::table("assets")->insert([
+                $exe = DB::table("assets")->insert(
+                    [
                         "id" => null,
                         "title" => $args[0],
                         "caption" => (isset($args[1]) ? $args[1] : null),
                         "file_name" => $fname,
                         "type" => "file",
                         "created_at" => (date("Y-m-d H:i:s"))
-                    ]);
+                    ]
+                );
                 if ($exe) {
                     B::editMessageText(
                         [
@@ -230,14 +235,16 @@ trait Command
                 $handle = fopen(VID_ASSETS."/".($fname = sha1($st)).".".end($ex), "w");
                 fwrite($handle, $st);
                 fclose($handle);
-                 $exe = DB::table("assets")->insert([
+                $exe = DB::table("assets")->insert(
+                    [
                         "id" => null,
                         "title" => $args[0],
                         "caption" => (isset($args[1]) ? $args[1] : null),
                         "file_name" => $fname,
                         "type" => "video",
                         "created_at" => (date("Y-m-d H:i:s"))
-                    ]);
+                    ]
+                );
                 if ($exe) {
                     B::editMessageText(
                         [
@@ -270,14 +277,16 @@ trait Command
                 $handle = fopen(ASSETS_R."/".($fname = sha1($st)).".png", "w");
                 fwrite($handle, $st);
                 fclose($handle);
-                 $exe = DB::table("assets")->insert([
+                $exe = DB::table("assets")->insert(
+                    [
                         "id" => null,
                         "title" => $args[0],
                         "caption" => (isset($args[1]) ? $args[1] : null),
                         "file_name" => $fname,
                         "type" => "sticker",
                         "created_at" => (date("Y-m-d H:i:s"))
-                    ]);
+                    ]
+                );
                 if ($exe) {
                     B::editMessageText(
                         [
@@ -306,28 +315,31 @@ trait Command
 
     private function _warn($args)
     {
-    	$args = trim($args);
-    	if ($this->chat_type != "private") {
-    		if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
-
-    			$st = new Warn([
-    					"uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id,
-    					"userid" => $this->input['message']['reply_to_message']['from']['id'],
-    					"reason" => $args,
-    					"room_id" => $this->room_id,
-    					"warner" => $this->user_id,
-    					"msg_id" => $this->msg_id,
-    					"username" => $this->input['message']['reply_to_message']['from']['username'],
-    					"actor" => ($this->input['message']['reply_to_message']['from']['first_name']. (isset($this->input['message']['reply_to_message']['from']['last_name']) ? " ".$this->input['message']['reply_to_message']['from']['last_name'] : ""))
-    				]);
-    			$st->run();
-    		} else {
-    			B::deleteMessage([
-    					"chat_id" => $this->room_id,
-    					"message_id" => $this->msg_id
-    				]);
-    		}
-    	}
+        $args = trim($args);
+        if ($this->chat_type != "private") {
+            if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
+                $st = new Warn(
+                    [
+                        "uifd" => $this->input['message']['reply_to_message']['from']['id']."|".$this->room_id,
+                        "userid" => $this->input['message']['reply_to_message']['from']['id'],
+                        "reason" => $args,
+                        "room_id" => $this->room_id,
+                        "warner" => $this->user_id,
+                        "msg_id" => $this->msg_id,
+                        "username" => $this->input['message']['reply_to_message']['from']['username'],
+                        "actor" => ($this->input['message']['reply_to_message']['from']['first_name']. (isset($this->input['message']['reply_to_message']['from']['last_name']) ? " ".$this->input['message']['reply_to_message']['from']['last_name'] : ""))
+                    ]
+                );
+                $st->run();
+            } else {
+                B::deleteMessage(
+                    [
+                        "chat_id" => $this->room_id,
+                        "message_id" => $this->msg_id
+                    ]
+                );
+            }
+        }
     }
 
     private function _ban($args)
@@ -335,10 +347,12 @@ trait Command
         $args = trim($args);
         if ($this->chat_type != "private") {
             if (isset($this->input['message']['reply_to_message']['from']['id']) and strpos(B::getChatAdministrators($this->room_id), $this->user_id)) {
-                $a = B::restrictChatMember([
+                $a = B::restrictChatMember(
+                    [
                         "chat_id" => $this->room_id,
                         "user_id" => $this->input['message']['reply_to_message']['from']['id']
-                    ]);
+                    ]
+                );
                 $b = B::kickChatMember($this->room_id, $this->input['message']['reply_to_message']['from']['id']);
                 if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
                     if (isset($this->uname)) {
@@ -356,10 +370,12 @@ trait Command
                     B::sendMessage($a."\n".$b, $this->room_id, $this->msg_id);
                 }
             } else {
-                B::deleteMessage([
+                B::deleteMessage(
+                    [
                         "chat_id" => $this->room_id,
                         "message_id" => $this->msg_id
-                    ]);
+                    ]
+                );
             }
         }
     }
