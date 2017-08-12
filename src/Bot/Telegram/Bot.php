@@ -429,6 +429,7 @@ final class Bot
                         "msg_id" => $this->msg_id,
                         "username" => $this->uname,
                         "actor" => $this->actor_call,
+                        "reply_to" => $this->msg_id,
                         "auto" => true
                     ]);
                 $st->run();
