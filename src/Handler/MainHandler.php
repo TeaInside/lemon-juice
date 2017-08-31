@@ -124,6 +124,8 @@ class MainHandler
                         "chat_id" => $this->chatid,
                         "reply_to_message_id" => $this->msgid
                     ]);
+            } else {
+                $this->__comannd();
             }
         }
     }
