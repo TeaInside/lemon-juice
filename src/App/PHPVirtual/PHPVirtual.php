@@ -5,6 +5,10 @@ namespace App\PHPVirtual;
 defined("PHPVIRTUAL_DIR") or die("PHPVIRTUAL_DIR not defined!");
 defined("PHPVIRTUAL_URL") or die("PHPVIRTUAL_URL not defined!");
 
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ * @license MIT
+ */
 final class PHPVirtual
 {
 	public static function run($code, $sudo = false)

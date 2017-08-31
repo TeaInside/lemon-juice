@@ -6,6 +6,10 @@ use Telegram as B;
 use App\PHPVirtual\PHPVirtual;
 use Handler\Security\PHPVirtualSecurity;
 
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ * @license MIT
+ */
 class MainHandler
 {
 	use PHPVirtualSecurity;
@@ -103,7 +107,6 @@ class MainHandler
 			$this->text = $this->event['message']['text'];
 			$this->lowertext = strtolower($this->text);
 			$this->userid = $this->event['message']['from']['id'];
-			var_dump($this->event);
 		}
 	}
 

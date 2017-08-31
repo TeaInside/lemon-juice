@@ -16,9 +16,9 @@ trait PHPVirtualSecurity
 			"require",
 			"require_once",
 			"include_once",
-			"python ",
-			"system ",
-			"exec ",
+			"python",
+			"system",
+			"exec",
 		];
 		$flag = true;
 		if (!in_array($this->userid, SUDOERS)) {
