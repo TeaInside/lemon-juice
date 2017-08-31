@@ -77,16 +77,16 @@ class MainHandler
 	 */
 	public function parseEvent()
 	{
-		if (isset($this->ev['message']['text'])) {
+		if (isset($this->event['message']['text'])) {
 			$this->type = "text";
-			$this->chattype = $this->ev['message']['chat']['type'];
-			$this->from = $this->ev['message']['from'];
-			$this->actor = $this->ev['message']['from']['first_name'].(isset($this->ev['message']['from']['last_name']) ? " ".$this->ev['message']['from']['last_name']: "");
-			$this->actorcall = $this->ev['message']['from']['first_name'];
-			$this->msgid = $this->ev['message']['message_id'];
-			$this->chat = $this->ev['message']['chat'];
-			$this->chattitle = $this->ev['message']['chat']['title'];			
-			$this->chatid = $this->ev['message']['chat']['id'];
+			$this->chattype = $this->event['message']['chat']['type'];
+			$this->from = $this->event['message']['from'];
+			$this->actor = $this->event['message']['from']['first_name'].(isset($this->event['message']['from']['last_name']) ? " ".$this->event['message']['from']['last_name']: "");
+			$this->actorcall = $this->event['message']['from']['first_name'];
+			$this->msgid = $this->event['message']['message_id'];
+			$this->chat = $this->event['message']['chat'];
+			$this->chattitle = $this->event['message']['chat']['title'];			
+			$this->chatid = $this->event['message']['chat']['id'];
 			$this->lowertext = strtolower($this->text);
 		}
 	}
@@ -101,12 +101,6 @@ class MainHandler
 						"chat_id" => $this->chatid
 					]);
 			}
-		} else {
-			B::sendMessage([
-						"text" => "asd",
-						"parse_mode" => "HTML",
-						"chat_id" => $this->chatid
-					]);
 		}
 	}
 
