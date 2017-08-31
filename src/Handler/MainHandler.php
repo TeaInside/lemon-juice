@@ -2,6 +2,8 @@
 
 namespace Handler;
 
+use Telegram as B;
+
 class MainHandler
 {
 	/**
@@ -52,7 +54,7 @@ class MainHandler
 	/**
 	 * @var string
 	 */
-	private $roomid;
+	private $chatid;
 
 
 	/**
@@ -78,7 +80,18 @@ class MainHandler
 			$this->msgid = $this->ev['message']['message_id'];
 			$this->chat = $this->ev['message']['chat'];
 			$this->chattitle = $this->ev['message']['chat']['title'];			
-			$this->roomid = $this->ev['message']['chat']['id'];
+			$this->chatid = $this->ev['message']['chat']['id'];
+		}
+	}
+
+	public function runHandler()
+	{
+		if ($out = $this->checkVirtualLang()) {
+			B::sendMessage([
+					"text" => $out,
+					"parse_mode" => "HTML",
+					"chat_id" => $this->chatid
+				], "POST");
 		}
 	}
 }
