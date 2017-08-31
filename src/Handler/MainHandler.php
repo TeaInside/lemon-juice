@@ -3,6 +3,7 @@
 namespace Handler;
 
 use Telegram as B;
+use Handler\Command\Command;
 use App\PHPVirtual\PHPVirtual;
 use Handler\Security\PHPVirtualSecurity;
 
@@ -12,7 +13,7 @@ use Handler\Security\PHPVirtualSecurity;
  */
 class MainHandler
 {
-    use PHPVirtualSecurity;
+    use PHPVirtualSecurity, Command;
 
     /**
      * @var array
