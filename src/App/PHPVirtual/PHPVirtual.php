@@ -37,7 +37,7 @@ final class PHPVirtual
 				CURLOPT_CONNECTTIMEOUT => 5
 			]);
 		$out = curl_exec($ch);
-		$err = curl_error($ch) and $out = $err;
+		$err = curl_error($ch) and $out = $err and shell_exec("sudo service apache2 restart &");
 		curl_close($ch);
 		return str_replace(PHPVIRTUAL_DIR."/".$file, "/tmp/phpvirtual/".substr($file, 0, 5).".php", $out);
 	}
