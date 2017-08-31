@@ -4,9 +4,12 @@ namespace Handler;
 
 use Telegram as B;
 use App\PHPVirtual\PHPVirtual;
+use Handler\Security\PHPVirtualSecurity;
 
 class MainHandler
 {
+	use PHPVirtualSecurity;
+
 	/**
 	 * @var array
 	 */
@@ -67,6 +70,11 @@ class MainHandler
 	 */
 	private $lowertext;
 
+	/**
+	 * @var int
+	 */
+	private $userid;
+
 
 	/**
 	 * Constructor.
@@ -94,6 +102,7 @@ class MainHandler
 			$this->chatid = $this->event['message']['chat']['id'];
 			$this->text = $this->event['message']['text'];
 			$this->lowertext = strtolower($this->text);
+			$this->userid = $this->event['message']['from']['id'];
 			var_dump($this->event);
 		}
 	}
@@ -115,8 +124,12 @@ class MainHandler
 	private function checkVirtualLang()
 	{
 		if (substr($this->lowertext, 0, 5) == "<?php") {
-			$a = str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text));
-			return empty($a) ? "~" : $a;
+			if ($this->__php_security()) {
+				$a = str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text));
+				return empty($a) ? "~" : $a;
+			} else {
+				return "<b>PHP Auto Rejection : </b> Rejected for security reason!";
+			}
 		}
 	}
 }
