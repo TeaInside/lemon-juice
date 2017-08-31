@@ -104,7 +104,7 @@ class MainHandler
 			if ($out = $this->checkVirtualLang()) {
 				B::sendMessage([
 						"text" => $out,
-						"parse_mode" => "HTML",
+						//"parse_mode" => "HTML",
 						"chat_id" => $this->chatid
 					]);
 			}
