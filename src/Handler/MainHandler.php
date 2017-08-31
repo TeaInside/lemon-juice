@@ -60,6 +60,11 @@ class MainHandler
 	/**
 	 * @var string
 	 */
+	private $text;
+
+	/**
+	 * @var string
+	 */
 	private $lowertext;
 
 
@@ -85,11 +90,12 @@ class MainHandler
 			$this->actorcall = $this->event['message']['from']['first_name'];
 			$this->msgid = $this->event['message']['message_id'];
 			$this->chat = $this->event['message']['chat'];
-			$this->chattitle = $this->event['message']['chat']['title'];			
+			$this->chattitle = isset($this->event['message']['chat']['title']) ? $this->event['message']['chat']['title'] : null;			
 			$this->chatid = $this->event['message']['chat']['id'];
+			$this->text = $this->event['message']['text'];
 			$this->lowertext = strtolower($this->text);
+			var_dump($this->event);
 		}
-		file_put_contents("test", json_encode($this->event, 128));
 	}
 
 	public function runHandler()
