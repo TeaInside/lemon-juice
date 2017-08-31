@@ -20,5 +20,6 @@ class Bot
 	{
 		$handler = new MainHandler($this->in);
 		$handler->parseEvent();
+		$handler->runHandler();
 	}
 }

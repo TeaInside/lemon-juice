@@ -107,6 +107,7 @@ class MainHandler
 	private function checkVirtualLang()
 	{
 		if (substr($this->lowertext, 0, 5) == "<?php") {
+			var_dump(123);
 			return PHPVirtual::run($this->text);
 		}
 	}
