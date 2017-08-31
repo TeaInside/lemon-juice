@@ -7,7 +7,7 @@ use Handler\MainHandler;
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
  * @license MIT
  */
-class Bot
+final class Bot
 {
 	private $in;
 

@@ -99,15 +99,20 @@ class MainHandler
 						"text" => $out,
 						"parse_mode" => "HTML",
 						"chat_id" => $this->chatid
-					], "POST");
+					]);
 			}
+		} else {
+			B::sendMessage([
+						"text" => "asd",
+						"parse_mode" => "HTML",
+						"chat_id" => $this->chatid
+					]);
 		}
 	}
 
 	private function checkVirtualLang()
 	{
 		if (substr($this->lowertext, 0, 5) == "<?php") {
-			var_dump(123);
 			return PHPVirtual::run($this->text);
 		}
 	}
