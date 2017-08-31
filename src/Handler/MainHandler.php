@@ -69,18 +69,16 @@ class MainHandler
 	 */
 	public function parseEvent()
 	{
-		$ev = $this->event;
-		if (isset($ev['message']['text'])) {
+		if (isset($this->ev['message']['text'])) {
 			$this->type = "text";
-			$this->chattype = $ev['message']['chat']['type'];
-			$this->from = $ev['message']['from'];
-			$this->actor = $ev['message']['from']['first_name'].(isset($ev['message']['from']['last_name']) ? " ".$ev['message']['from']['last_name']: "");
-			$this->actorcall = $ev['message']['from']['first_name'];
-			$this->msgid = $ev['message']['message_id'];
-			$this->chat = $ev['message']['chat'];
-			$this->chattitle = $ev['message']['chat']['title'];			
-			$this->roomid = $ev['message']['chat']['id'];
+			$this->chattype = $this->ev['message']['chat']['type'];
+			$this->from = $this->ev['message']['from'];
+			$this->actor = $this->ev['message']['from']['first_name'].(isset($this->ev['message']['from']['last_name']) ? " ".$this->ev['message']['from']['last_name']: "");
+			$this->actorcall = $this->ev['message']['from']['first_name'];
+			$this->msgid = $this->ev['message']['message_id'];
+			$this->chat = $this->ev['message']['chat'];
+			$this->chattitle = $this->ev['message']['chat']['title'];			
+			$this->roomid = $this->ev['message']['chat']['id'];
 		}
-		var_dump($ev);
 	}
 }
