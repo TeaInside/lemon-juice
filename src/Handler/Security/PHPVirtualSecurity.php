@@ -23,7 +23,7 @@ trait PHPVirtualSecurity
 		$flag = true;
 		if (!in_array($this->userid, SUDOERS)) {
 			foreach ($a as $val) {
-				if (strpos($this->lowertext, $val)) {
+				if (strpos($this->lowertext, $val) !== false) {
 					$flag = false;
 					break;
 				}
