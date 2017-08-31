@@ -1,6 +1,6 @@
 <?php
 
-class CLI
+final class CLI
 {
 	public static function run($path = null)
 	{

@@ -1,7 +1,7 @@
 <?php
 
 
-class Telegram
+final class Telegram
 {
 	/**
 	 * @param string $method
