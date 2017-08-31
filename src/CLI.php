@@ -30,7 +30,7 @@ final class CLI
         "text": "<?php print \'halo\';"
     }
 }';*/
-		print shell_exec("/usr/bin/php ".$path." \"".urlencode($input)."\"");
-		//print shell_exec("nohup /usr/bin/php ".$path." \"".urlencode($input)."\" >> ".$logs." 2>&1 &");
+		//print shell_exec("/usr/bin/php ".$path." \"".urlencode($input)."\"");
+		print shell_exec("nohup /usr/bin/php ".$path." \"".urlencode($input)."\" >> ".$logs." 2>&1 &");
 	}
 }
