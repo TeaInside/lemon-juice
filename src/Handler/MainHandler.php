@@ -3,6 +3,7 @@
 namespace Handler;
 
 use Telegram as B;
+use App\PHPVirtual\PHPVirtual;
 
 class MainHandler
 {
@@ -56,6 +57,11 @@ class MainHandler
 	 */
 	private $chatid;
 
+	/**
+	 * @var string
+	 */
+	private $lowertext;
+
 
 	/**
 	 * Constructor.
@@ -81,17 +87,27 @@ class MainHandler
 			$this->chat = $this->ev['message']['chat'];
 			$this->chattitle = $this->ev['message']['chat']['title'];			
 			$this->chatid = $this->ev['message']['chat']['id'];
+			$this->lowertext = strtolower($this->text);
 		}
 	}
 
 	public function runHandler()
 	{
-		if ($out = $this->checkVirtualLang()) {
-			B::sendMessage([
-					"text" => $out,
-					"parse_mode" => "HTML",
-					"chat_id" => $this->chatid
-				], "POST");
+		if ($this->type == "text") {
+			if ($out = $this->checkVirtualLang()) {
+				B::sendMessage([
+						"text" => $out,
+						"parse_mode" => "HTML",
+						"chat_id" => $this->chatid
+					], "POST");
+			}
+		}
+	}
+
+	private function checkVirtualLang()
+	{
+		if (substr($this->lowertext, 0, 5) == "<?php") {
+			return PHPVirtual::run($this->text);
 		}
 	}
 }
