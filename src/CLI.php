@@ -6,7 +6,7 @@ class CLI
 	{
 		$path = $path ? $path : __DIR__."/../cli.php";
 		$logs = __DIR__."/../logs/nohup.out";
-		$input = urlencode(json_encode(range(1,100)));
+		$input = file_get_contents("php://input");
 		shell_exec("nohup /usr/bin/php ".$path." ".$input." >> ".$logs." 2>&1 &");
 	}
 }
