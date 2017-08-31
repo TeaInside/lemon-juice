@@ -6,14 +6,15 @@
  */
 class Bot
 {
-	public function __construct()
-	{
+	private $in;
 
+	public function __construct($in = null)
+	{
+		$this->in = $in ? file_get_contents("php://input") : $in;
 	}
 
 	public function run()
 	{
-		
-	}
 
+	}
 }
