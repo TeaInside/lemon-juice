@@ -114,7 +114,7 @@ class MainHandler
 	private function checkVirtualLang()
 	{
 		if (substr($this->lowertext, 0, 5) == "<?php") {
-			$a = strip_tags(str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text)));
+			$a = str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text));
 			return empty($a) ? "~" : $a;
 		}
 	}
