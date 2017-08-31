@@ -104,7 +104,7 @@ class MainHandler
 			if ($out = $this->checkVirtualLang()) {
 				B::sendMessage([
 						"text" => $out,
-						//"parse_mode" => "HTML",
+						"parse_mode" => "HTML",
 						"chat_id" => $this->chatid
 					]);
 			}
@@ -114,7 +114,8 @@ class MainHandler
 	private function checkVirtualLang()
 	{
 		if (substr($this->lowertext, 0, 5) == "<?php") {
-			return PHPVirtual::run($this->text);
+			$a = strip_tags(str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text)));
+			return empty($a) ? "~" : $a;
 		}
 	}
 }
