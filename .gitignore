@@ -2,4 +2,4 @@
 /storage/*
 /public/kangest
 /public/.well-known
-/public/logs
+/public/logs/*
