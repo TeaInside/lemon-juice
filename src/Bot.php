@@ -12,12 +12,12 @@ class Bot
 
 	public function __construct($in = null)
 	{
-		$this->in = $in ? file_get_contents("php://input") : urldecode($in);
+		$this->in = $in ? json_decode(urldecode($in), true) : json_decode(file_get_contents("php://input"), true);
 	}
 
 	public function run()
 	{
-		print $this->in;
 		//B::sendMessage()
+		var_dump($this->in);
 	}
 }
