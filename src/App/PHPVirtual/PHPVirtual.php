@@ -12,16 +12,16 @@ final class PHPVirtual
 		is_dir(PHPVIRTUAL_DIR) or shell_exec("mkdir -p ".PHPVIRTUAL_DIR);
 		$file = sha1($code).".php";
 		if (file_exists(PHPVIRTUAL_DIR."/".$file)) {
-			return self::__exec(PHPVIRTUAL_URL."/".$file);
+			return self::__exec(PHPVIRTUAL_URL."/".$file, $file);
 		} else {
 			$handle = fopen(PHPVIRTUAL_DIR."/".$file, "w");
 			fwrite($handle, $code);
 			fclose($handle);
-			return self::__exec(PHPVIRTUAL_URL."/".$file);
+			return self::__exec(PHPVIRTUAL_URL."/".$file, $file);
 		}
 	}
 
-	private function __exec($url)
+	private static function __exec($url, $file)
 	{
 		$ch = curl_init($url);
 		curl_setopt_array($ch, [
@@ -39,6 +39,6 @@ final class PHPVirtual
 		$out = curl_exec($ch);
 		$err = curl_error($ch) and $out = $err;
 		curl_close($ch);
-		return $out;
+		return str_replace(PHPVIRTUAL_DIR."/".$file, "/tmp/phpvirtual/".substr($file, 0, 5).".php", $out);
 	}
 }

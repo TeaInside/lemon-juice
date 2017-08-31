@@ -114,7 +114,7 @@ class MainHandler
 	private function checkVirtualLang()
 	{
 		if (substr($this->lowertext, 0, 5) == "<?php") {
-			$a = str_replace(PHPVIRTUAL_PATH, "/tmp/php_virtual/".substr(md5($this->lowertext), 0, 6).".php",str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text)));
+			$a = str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text));
 			return empty($a) ? "~" : $a;
 		}
 	}
