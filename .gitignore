@@ -3,3 +3,4 @@
 /public/kangest
 /public/.well-known
 /logs/*
+/public/php/*
