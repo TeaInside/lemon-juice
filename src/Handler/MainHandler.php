@@ -89,6 +89,7 @@ class MainHandler
 			$this->chatid = $this->event['message']['chat']['id'];
 			$this->lowertext = strtolower($this->text);
 		}
+		file_put_contents("test", json_encode($this->event, 128));
 	}
 
 	public function runHandler()
