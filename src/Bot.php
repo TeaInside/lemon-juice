@@ -12,7 +12,7 @@ class Bot
 
 	public function __construct($in = null)
 	{
-		$this->in = $in ? file_get_contents("php://input") : $in;
+		$this->in = $in ? file_get_contents("php://input") : urldecode($in);
 	}
 
 	public function run()
