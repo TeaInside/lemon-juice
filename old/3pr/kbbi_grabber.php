@@ -10,7 +10,7 @@ do {
     if (count($a) != 0) {
         # code...
     
-    $a = explode('</nav>', $a[1])[0];
+        $a = explode('</nav>', $a[1])[0];
         $a = explode('<nav', $a)[0];
         $a = explode("<li>", $a);
         $ct = count($a);

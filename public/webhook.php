@@ -1,1 +1,2 @@
-<?php require __DIR__."/../load.php"; die(1);
+<?php require __DIR__."/../load.php";
+die(1);

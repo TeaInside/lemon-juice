@@ -18,7 +18,7 @@ trait MessageBuilder
      * @param int    $reply_to Message ID
      * @param string $option   JSON Sereliazed
      */
-    private function textReply($text, $to=null, $reply_to=null, $option=null)
+    private function textReply($text, $to = null, $reply_to = null, $option = null)
     {
         $this->reply[] = array(
                 "type"=>"text",
@@ -37,7 +37,7 @@ trait MessageBuilder
      * @param int    $reply_to Message ID
      * @param string $option   JSON Sereliazed
      */
-    private function imageReply($imageUrl, $to=null, $reply_to=null, $option=null)
+    private function imageReply($imageUrl, $to = null, $reply_to = null, $option = null)
     {
         $this->reply[] = array(
                 "type"=>"image",

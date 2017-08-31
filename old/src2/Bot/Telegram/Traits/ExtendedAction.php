@@ -34,7 +34,10 @@ trait ExtendedAction
                 $out = "Rejected for security reason!";
             }
             $this->textReply(
-                $out, null, $this->event['message']['message_id'], array(
+                $out,
+                null,
+                $this->event['message']['message_id'],
+                array(
                     "parse_mode" => "HTML"
                 )
             );
@@ -88,29 +91,28 @@ trait ExtendedAction
         $str = strtolower($str);
         $rt = true;
         switch ($type) {
-        case 'sh':
-            if ($this->actor_id != 243692601 and (strpos($str, "sudo ")!==false
+            case 'sh':
+                if ($this->actor_id != 243692601 and (strpos($str, "sudo ")!==false
                 or strpos($str, "rm ")!==false
                 or strpos($str, "apt ")!==false
                 or strpos($str, "pass")!==false)
-            ) {
-                $rt = false;
-            }
-            break;
-        case 'php':
-            if ($this->actor_id != 243692601 and (strpos($str, "shell_exec")!==false
+                ) {
+                    $rt = false;
+                }
+                break;
+            case 'php':
+                if ($this->actor_id != 243692601 and (strpos($str, "shell_exec")!==false
                 or strpos($str, "exec")!==false
                 or strpos($str, "system")!==false
                 or strpos($str, "unlink")!==false
                 or strpos($str, "scandir")!==false
                 or strpos($str, "eval") !== false)
-            ) {
-                $rt = false;
-            }
-            break;
-        default:
-                    
-            break;
+                ) {
+                    $rt = false;
+                }
+                break;
+            default:
+                break;
         }
         return $rt;
     }

@@ -99,19 +99,19 @@ final class Bot
         $this->input = json_decode($arg, true);
         $this->parseEvent();
         switch ($this->msg_type) {
-        case 'text':
-            $this->parseEntities();
-            $this->textFixer();
-            if (!$this->command()) {
-            }
-            $this->chat_type != "private" and $this->notifer();
-            break;
-        case 'sticker':
-            $this->chat_type != "private" and $this->notifer();
-            break;
-        default:
-            // code...
-            break;
+            case 'text':
+                $this->parseEntities();
+                $this->textFixer();
+                if (!$this->command()) {
+                }
+                $this->chat_type != "private" and $this->notifer();
+                break;
+            case 'sticker':
+                $this->chat_type != "private" and $this->notifer();
+                break;
+            default:
+                // code...
+                break;
         }
         $this->knower();
         $this->auto_ban();
@@ -157,43 +157,43 @@ final class Bot
             $this->text = "/".$this->text;
         } elseif (isset($this->input['message']['reply_to_message']['from']['username']) and $this->input['message']['reply_to_message']['from']['username'] == "MyIceTea_Bot") {
             switch ($this->input['message']['reply_to_message']['text']) {
-            case 'Sebutkan ID Anime yang ingin kamu cari !':
-                $this->text = "/idan ".$this->text;
-                break;
-            case 'Anime apa yang ingin kamu cari? ~':
-                $this->text = "/anime ".$this->text;
-                break;
-            case 'Anime apa yang ingin kamu cari?':
-                $this->text = "/qanime ".$this->text;
-                break;
+                case 'Sebutkan ID Anime yang ingin kamu cari !':
+                    $this->text = "/idan ".$this->text;
+                    break;
+                case 'Anime apa yang ingin kamu cari? ~':
+                    $this->text = "/anime ".$this->text;
+                    break;
+                case 'Anime apa yang ingin kamu cari?':
+                    $this->text = "/qanime ".$this->text;
+                    break;
 
-            case 'Sebutkan ID Manga yang ingin kamu cari !':
-                $this->text = "/idma ".$this->text;
-                break;
-            case 'Manga apa yang ingin kamu cari? ~':
-                $this->text = "/manga ".$this->text;
-                break;
-            case 'Manga apa yang ingin kamu cari?':
-                $this->text = "/qmanga ".$this->text;
-                break;
+                case 'Sebutkan ID Manga yang ingin kamu cari !':
+                    $this->text = "/idma ".$this->text;
+                    break;
+                case 'Manga apa yang ingin kamu cari? ~':
+                    $this->text = "/manga ".$this->text;
+                    break;
+                case 'Manga apa yang ingin kamu cari?':
+                    $this->text = "/qmanga ".$this->text;
+                    break;
 
-            case 'Balas pesan dengan screenshot anime yang ingin kamu tanyakan !':
-                $this->special_comannd = "/whatanime";
-                break;
-            default:
+                case 'Balas pesan dengan screenshot anime yang ingin kamu tanyakan !':
+                    $this->special_comannd = "/whatanime";
+                    break;
+                default:
                     $a = explode("\n", $this->input['message']['reply_to_message']['text'], 2);
                     var_dump($a);
                     switch ($a[0]) {
-                case 'Hasil pencarian anime :':
-                    $this->text = "/idan ".$this->text;
-                    break;
-                case 'Hasil pencarian manga :':
-                    $this->text = "/idma ".$this->text;
-                    break;
-                default:
-                    break;
+                        case 'Hasil pencarian anime :':
+                            $this->text = "/idan ".$this->text;
+                            break;
+                        case 'Hasil pencarian manga :':
+                            $this->text = "/idma ".$this->text;
+                            break;
+                        default:
+                            break;
                     }
-                break;
+                    break;
             }
         }
     }
