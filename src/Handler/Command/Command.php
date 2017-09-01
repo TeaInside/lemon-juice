@@ -33,7 +33,7 @@ trait Command
 
     private function __do_command($command)
     {
-        switch ($command) {
+        /*switch ($command) {
         case '/start':
             return B::sendMessage(
                 [
@@ -43,6 +43,14 @@ trait Command
                     ]
             );
                 break;
-        }
+        case 'help':
+            return B::sendMessage([
+                    "text" => "/time : Menampilkan waktu saat ini (Asia/Jakarta).",
+                    "chat_id" => $this->chat_id,
+                    "reply_to_message_id" => $this->msgid
+                ]);
+                break;  
+
+        }*/
     }
 }
