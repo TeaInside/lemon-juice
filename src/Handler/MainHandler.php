@@ -111,7 +111,6 @@ class MainHandler
             $this->lowertext = strtolower($this->text);
             $this->userid = $this->event['message']['from']['id'];
         }
-        file_put_contents("qwetest", json_encode($this->event, 128));
     }
 
     /**
@@ -151,6 +150,17 @@ class MainHandler
                             ":uname" => strtolower($this->from['username']),
                             ":name" => $this->actor,
                             ":created_at" => (date("Y-m-d H:i:s"))
+                        ]);
+                    if (!$exe) {
+                        var_dump($st->errorInfo());
+                        die();
+                    }
+                } else {
+                    $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=`msg_count`+1 WHERE `userid`=:userid LIMIT 1");
+                    $exe = $st->execute([
+                            ":username" => strtolower($this->from['username']),
+                            ":userid" => $this->userid,
+                            ":name" => $this->actor
                         ]);
                     if (!$exe) {
                         var_dump($st->errorInfo());
