@@ -20,67 +20,67 @@ class MainHandler
     /**
      * @var array
      */
-    private $event;
+    public $event;
 
     /**
      * @var string
      */
-    private $type;
+    public $type;
     
     /**
      * @var string
      */
-    private $chattype;
+    public $chattype;
 
     /**
      * @var array
      */
-    private $from;
+    public $from;
 
     /**
      * @var string
      */
-    private $actor;
+    public $actor;
 
     /**
      * @var string
      */
-    private $actorcall;
+    public $actorcall;
 
     /**
      * @var int
      */
-    private $msgid;
+    public $msgid;
 
     /**
      * @var array
      */
-    private $chat;
+    public $chat;
 
     /**
      * @var string
      */
-    private $chattitle;
+    public $chattitle;
 
     /**
      * @var string
      */
-    private $chatid;
+    public $chatid;
 
     /**
      * @var string
      */
-    private $text;
+    public $text;
 
     /**
      * @var string
      */
-    private $lowertext;
+    public $lowertext;
 
     /**
      * @var int
      */
-    private $userid;
+    public $userid;
 
 
     /**
