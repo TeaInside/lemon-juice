@@ -28,7 +28,8 @@ final class PHPVirtual
     private static function __exec($url, $file)
     {
         $ch = curl_init($url);
-        curl_setopt_array($ch, [
+        curl_setopt_array(
+            $ch, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
@@ -39,7 +40,8 @@ final class PHPVirtual
                 ],
                 CURLOPT_TIMEOUT => 5,
                 CURLOPT_CONNECTTIMEOUT => 5
-            ]);
+            ]
+        );
         $out = curl_exec($ch);
         $err = curl_error($ch) and $out = $err.".";
         curl_close($ch);

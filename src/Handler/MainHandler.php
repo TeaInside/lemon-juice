@@ -118,12 +118,14 @@ class MainHandler
     {
         if ($this->type == "text") {
             if ($out = $this->checkVirtualLang()) {
-                B::sendMessage([
+                B::sendMessage(
+                    [
                         "text" => $out,
                         "parse_mode" => "HTML",
                         "chat_id" => $this->chatid,
                         "reply_to_message_id" => $this->msgid
-                    ]);
+                    ]
+                );
             } else {
                 $this->__comannd();
             }
@@ -136,6 +138,7 @@ class MainHandler
     private function checkVirtualLang()
     {
         if (substr($this->lowertext, 0, 5) == "<?php") {
+            $q=array(1,2,3,4,5,6,7,8);
             if ($this->__php_security()) {
                 $a = str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text));
                 return empty($a) ? "~" : $a;
