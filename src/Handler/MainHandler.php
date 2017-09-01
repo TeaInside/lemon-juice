@@ -129,8 +129,13 @@ class MainHandler
                     ]
                 );
             } else {
-                $this->__command();
-                
+                if (!$this->__command()) {
+                    B::sendMessage([
+                            "chat_id" => $this->chatid,
+                            "text" => json_encode($this->event, 128),
+                            "reply_to_message_id" => $this->msgid
+                        ]);
+                }
             }
         }
     }
