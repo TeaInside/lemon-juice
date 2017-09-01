@@ -19,21 +19,33 @@ trait Command
             "/warn"   => ["!warn", "~nowarn"],
             "/help"   => ["!help", "~help"]
         ];
+        $cmd = explode(" ", $this->lowertext, 2);
+        $param = isset($cmd[1]) ? $cmd[1] : "";
+        $cmd = explode("@", $cmd[0], 2);
+        $cmd = $cmd[0];
+        $flag = false;
         foreach ($__command_list as $key => $val) {
-            if (!$this->__do_command($key)) {
-                foreach ($val as $vax) {
-                    $this->__do_command($key);
+            if ($cmd == $key) {
+                $this->__do_command($key, $param);
+                break;
+            } else {
+                foreach ($val as $vel) {
+                    if ($cmd == $vel) {
+                        $this->__do_command($key, $param);
+                        $flag = true;
+                        break;
+                    }
+                }
+                if ($flag) {
                     break;
                 }
-            } else {
-                break;
             }
         }
     }
 
-    private function __do_command($command)
+    private function __do_command($command, $param = null)
     {
-        /*switch ($command) {
+        switch ($command) {
         case '/start':
             return B::sendMessage(
                 [
@@ -43,7 +55,7 @@ trait Command
                     ]
             );
                 break;
-        case 'help':
+        case '/help':
             return B::sendMessage([
                     "text" => "/time : Menampilkan waktu saat ini (Asia/Jakarta).",
                     "chat_id" => $this->chat_id,
@@ -51,6 +63,6 @@ trait Command
                 ]);
                 break;  
 
-        }*/
+        }
     }
 }
