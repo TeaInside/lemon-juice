@@ -2,6 +2,7 @@
 
 namespace Handler;
 
+use DB;
 use PDO;
 use Telegram as B;
 use Handler\Command\Command;
