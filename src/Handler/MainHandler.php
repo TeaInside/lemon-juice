@@ -130,6 +130,7 @@ class MainHandler
                 );
             } else {
                 $this->__command();
+                
             }
         }
     }

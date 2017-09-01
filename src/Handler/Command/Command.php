@@ -26,12 +26,12 @@ trait Command
         $flag = false;
         foreach ($__command_list as $key => $val) {
             if ($cmd == $key) {
-                $this->__do_command($key, $param);
+                $r = $this->__do_command($key, $param);
                 break;
             } else {
                 foreach ($val as $vel) {
                     if ($cmd == $vel) {
-                        $this->__do_command($key, $param);
+                        $r = $this->__do_command($key, $param);
                         $flag = true;
                         break;
                     }
@@ -41,6 +41,7 @@ trait Command
                 }
             }
         }
+        return $r;
     }
 
     private function __do_command($command, $param = null)
