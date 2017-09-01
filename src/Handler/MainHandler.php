@@ -146,7 +146,7 @@ class MainHandler
                 }
             }
         } elseif ($this->type == "new_member") {
-            $st = DB::prepare("SELECT `welcome_message` FROM `a_known_groups` WHERE `group_id`=:gid LIMIT 1;");
+            $st = DB::prepare("SELECT `group_id`,`group_name`,`group_username`,`welcome_message` FROM `a_known_groups` WHERE `group_id`=:gid LIMIT 1;");
             $exe = $st->execute([
                     ":gid" => $this->chatid
                 ]);
@@ -156,10 +156,26 @@ class MainHandler
             }
             $st = $st->fetch(PDO::FETCH_NUM);
             if (isset($st[0]) and !empty($st[0])) {
+                $a = [
+                    "{group_id}",
+                    "{group_name}",
+                    "{group_username}",
+                    "{username}",
+                    "{name}",
+                    "{userid}"
+                ];
+                $b = [
+                    $st[0],
+                    $st[1],
+                    $st[2],
+                    (isset($this->new_from['username']) ? "@".$this->new_from['username'] : ""),
+                    $this->new_userid
+                ];
                 B::sendMessage([
                         "chat_id" => $this->chatid,
-                        "text" => $st[0],
-                        "reply_to_message_id" => $this->msgid
+                        "text" => str_replace($a, $b, $st[3]),
+                        "reply_to_message_id" => $this->msgid,
+                        "markdown" => "HTML"
                     ]);
             }
         }
