@@ -61,8 +61,14 @@ trait Command
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
-                break;  
-
+                break;
+        case '/time':
+            return B::sendMessage([
+                    "text" => date("Y-m-d H:i:s"),
+                    "chat_id" => $this->chatid,
+                    "reply_to_message_id" => $this->msgid
+                ]);
+                break;
         }
     }
 }
