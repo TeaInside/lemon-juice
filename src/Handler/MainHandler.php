@@ -178,7 +178,7 @@ class MainHandler
                         "chat_id" => $this->chatid,
                         "text" => str_replace($a, $b, $st[3]),
                         "reply_to_message_id" => $this->msgid,
-                        "markdown" => "HTML"
+                        "parse_mode" => "HTML"
                     ]);
             }
         }
