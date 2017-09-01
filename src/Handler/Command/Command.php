@@ -73,7 +73,7 @@ trait Command
                 break;
         case '/ping':
             return B::sendMessage([
-                    "text" => ($this->input['message']['date'] - time())." s",
+                    "text" => ($this->event['message']['date'] - time())." s",
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
