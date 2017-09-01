@@ -16,7 +16,8 @@ trait Command
             "/ban"    => ["!ban", "~ban"],
             "/unban"  => ["!unban", "~unban"],
             "/nowarn" => ["!nowarn", "~nowarn"],
-            "/warn"   => ["!warn", "~nowarn"]
+            "/warn"   => ["!warn", "~nowarn"],
+            "/help"   => ["!help", "~help"]
         ];
         foreach ($__command_list as $key => $val) {
             if (!$this->__do_command($key)) {
@@ -36,7 +37,7 @@ trait Command
         case '/start':
             return B::sendMessage(
                 [
-                        "text" => "Sedang dalam perbaikan. Laporkan masalah ke @DeadInsideGroup!",
+                        "text" => "Hai ".$this->actorcall.", ketik /help untuk menampilkan menu!",
                         "chat_id" => $this->chatid,
                         "reply_to_message_id" => $this->msgid,
                     ]
