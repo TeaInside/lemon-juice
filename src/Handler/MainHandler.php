@@ -129,7 +129,7 @@ class MainHandler
                     ]
                 );
             } else {
-                if (!$this->__command()) {
+                if (!$this->__command() and $this->chattype == "private") {
                     B::sendMessage([
                             "chat_id" => $this->chatid,
                             "text" => json_encode($this->event, 128),
