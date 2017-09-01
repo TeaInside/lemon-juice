@@ -58,7 +58,7 @@ trait Command
         case '/help':
             return B::sendMessage([
                     "text" => "/time : Menampilkan waktu saat ini (Asia/Jakarta).",
-                    "chat_id" => $this->chat_id,
+                    "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
                 break;  
