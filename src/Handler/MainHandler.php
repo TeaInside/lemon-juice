@@ -213,7 +213,8 @@ class MainHandler
                 ]);
             $st = $st->fetch(PDO::FETCH_NUM);
             if ($st[0] == 0) {
-                $st = DB::prepare("INSERT INTO `a_known_users` (`userid`,`username`,`name`,`is_private_known`,`notification`,`msg_count`,`created_at`,`updated_at`) VALUES (:userid, :uname, :name, 'true', 'true', 1, :created_at, null);");
+                $private = $this->chattype == "private" ? "true" : "false";
+                $st = DB::prepare("INSERT INTO `a_known_users` (`userid`,`username`,`name`,`is_private_known`,`notification`,`msg_count`,`created_at`,`updated_at`) VALUES (:userid, :uname, :name, '{$private}', '{$private}', 1, :created_at, null);");
                 $exe = $st->execute([
                         ":userid" => $this->userid,
                         ":uname" => strtolower($this->from['username']),
