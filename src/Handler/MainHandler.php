@@ -137,35 +137,59 @@ class MainHandler
     public function __save_event()
     {
         if ($this->type == "text") {
+            if ($this->chattype == "private") {
+                $st = DB::prepare("INSERT INTO `private_chat` (`userid`,`time`,`message`,`created_at`) VALUES (:userid,:tm,:msg,:created_at);");
+                $exe = $st->execute([
+                        ":userid" => $this->userid,
+                        ":tm" => date("Y-m-d H:i:s", $this->input['date']),
+                        ":msg" => $this->text,
+                        ":created_at" => date("Y-m-d H:i:s")
+                    ]);
+                if (!$exe) {
+                    var_dump($st->errorInfo());
+                    die(1);
+                }
+            } else {
+                $st = DB::prepare("INSERT INTO `group_chat` (`group_id`,`userid`,`time`,`message`,`created_at`) VALUES (:gr, :uid, :tm, :msg, :created_at);");
+                $exe = $st->execute([
+                        ":gr" => $this->chatid,
+                        ":uid" => $this->userid,
+                        ":tm" => date("Y-m-d H:i:s", $this->input['date']),
+                        ":msg" => $this->text,
+                        ":created_at" => date("Y-m-d H:i:s")
+                    ]);
+                if (!$exe) {
+                    var_dump($st->errorInfo());
+                    die(1);
+                }
+            }
             $st = DB::prepare("SELECT COUNT(`userid`) FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
             $st->execute([
                     ":userid" => $this->userid
                 ]);
             $st = $st->fetch(PDO::FETCH_NUM);
-            if ($this->chattype == "private") {
-                if ($st[0] == 0) {
-                    $st = DB::prepare("INSERT INTO `a_known_users` (`userid`,`username`,`name`,`is_private_known`,`notification`,`msg_count`,`created_at`,`updated_at`) VALUES (:userid, :uname, :name, 'true', 'true', 1, :created_at, null);");
-                    $exe = $st->execute([
-                            ":userid" => $this->userid,
-                            ":uname" => strtolower($this->from['username']),
-                            ":name" => $this->actor,
-                            ":created_at" => (date("Y-m-d H:i:s"))
-                        ]);
-                    if (!$exe) {
-                        var_dump($st->errorInfo());
-                        die();
-                    }
-                } else {
-                    $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=`msg_count`+1 WHERE `userid`=:userid LIMIT 1");
-                    $exe = $st->execute([
-                            ":username" => strtolower($this->from['username']),
-                            ":userid" => $this->userid,
-                            ":name" => $this->actor
-                        ]);
-                    if (!$exe) {
-                        var_dump($st->errorInfo());
-                        die();
-                    }
+            if ($st[0] == 0) {
+                $st = DB::prepare("INSERT INTO `a_known_users` (`userid`,`username`,`name`,`is_private_known`,`notification`,`msg_count`,`created_at`,`updated_at`) VALUES (:userid, :uname, :name, 'true', 'true', 1, :created_at, null);");
+                $exe = $st->execute([
+                        ":userid" => $this->userid,
+                        ":uname" => strtolower($this->from['username']),
+                        ":name" => $this->actor,
+                        ":created_at" => (date("Y-m-d H:i:s"))
+                    ]);
+                if (!$exe) {
+                    var_dump($st->errorInfo());
+                    die();
+                }
+            } else {
+                $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=`msg_count`+1 WHERE `userid`=:userid LIMIT 1");
+                $exe = $st->execute([
+                        ":username" => strtolower($this->from['username']),
+                        ":userid" => $this->userid,
+                        ":name" => $this->actor
+                    ]);
+                if (!$exe) {
+                    var_dump($st->errorInfo());
+                    die();
                 }
             }
         }
