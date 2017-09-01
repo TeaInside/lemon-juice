@@ -51,45 +51,45 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
-        case '/start':
-            return B::sendMessage(
-                [
+            case '/start':
+                return B::sendMessage(
+                    [
                         "text" => "Hai ".$this->actorcall.", ketik /help untuk menampilkan menu!",
                         "chat_id" => $this->chatid,
                         "reply_to_message_id" => $this->msgid,
                     ]
-            );
+                );
                 break;
-        case '/help':
-            return B::sendMessage([
+            case '/help':
+                return B::sendMessage([
                     "text" => "/time : Menampilkan waktu saat ini (Asia/Jakarta).",
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
                 break;
-        case '/time':
-            return B::sendMessage([
+            case '/time':
+                return B::sendMessage([
                     "text" => date("Y-m-d H:i:s"),
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
                 break;
-        case '/ping':
-            return B::sendMessage([
+            case '/ping':
+                return B::sendMessage([
                     "text" => (time() - $this->event['message']['date'])." s",
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
             break;
-        case '/welcome':
-            if ($this->__set_welcome($param)) {
-                return B::sendMessage([
+            case '/welcome':
+                if ($this->__set_welcome($param)) {
+                    return B::sendMessage([
                         "text" => "Berhasil setting welcome message!",
                         "chat_id" => $this->chatid,
                         "reply_to_message_id" => $this->msgid
                     ]);
-            }
-            break;
+                }
+                break;
         }
     }
 

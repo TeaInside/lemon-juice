@@ -29,7 +29,8 @@ final class PHPVirtual
     {
         $ch = curl_init($url);
         curl_setopt_array(
-            $ch, [
+            $ch,
+            [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
