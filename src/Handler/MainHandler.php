@@ -82,6 +82,10 @@ class MainHandler
      */
     public $userid;
 
+    /**
+     * @var string
+     */
+    public $new_actorcall;
 
     /**
      * Constructor.

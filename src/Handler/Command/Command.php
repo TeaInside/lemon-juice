@@ -83,9 +83,18 @@ trait Command
                 break;
             case '/help':
                 return B::sendMessage([
-                    "text" => "/time : Menampilkan waktu saat ini (Asia/Jakarta).",
+                    "text" =>   "<b>Time :</b>".
+                                "\n/time : Menampilkan waktu saat ini (Asia/Jakarta).".
+                                "\n\n<b>Anime :</b>".
+                                "\n/anime [spasi] [nama anime] : Mencari anime.".
+                                "\n/idan [spasi] [id_anime] : Info anime.".
+                                "\n\n<b>Manga :</b>".
+                                "\n/manga [spasi] [nama_manga] : Mencari manga.".
+                                "\n/idma [spasi] [id_manga] : Info manga."
+                    ,
                     "chat_id" => $this->chatid,
-                    "reply_to_message_id" => $this->msgid
+                    "reply_to_message_id" => $this->msgid,
+                    "parse_mode" => "HTML"
                 ]);
                 break;
             case '/time':
