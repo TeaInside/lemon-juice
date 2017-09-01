@@ -5,12 +5,15 @@ namespace Handler\Command;
 use DB;
 use PDO;
 use Telegram as B;
+use Handler\Command\MyAnimeListCMD;
 
 trait Command
 {
     private function __command()
     {
         $__command_list = [
+            "/anime"  => ["!anime", "~anime"],
+            "/manga"  => ["!manga", "~manga"],
             "/start"  => ["!start", "~start"],
             "/time"   => ["!time", "~time"],
             "/ping"   => ["!ping", "~ping"],
@@ -51,6 +54,10 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
+            case '/anime':
+                    $app = new MyAnimeListCMD($this);
+                    $app->__anime($param);
+                break;
             case '/start':
                 return B::sendMessage(
                     [
