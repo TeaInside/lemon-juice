@@ -4,3 +4,4 @@
 /public/.well-known
 /logs/*
 /public/php/*
+/public/data/*
