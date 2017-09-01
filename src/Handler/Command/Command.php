@@ -11,6 +11,7 @@ trait Command
         $__command_list = [
             "/start"  => ["!start", "~start"],
             "/time"   => ["!time", "~time"],
+            "/ping"   => ["!ping", "~ping"],
             "/report" => ["!report", "~report"],
             "/kick"   => ["!kick", "~kick"],
             "/ban"    => ["!ban", "~ban"],
@@ -70,6 +71,13 @@ trait Command
                     "reply_to_message_id" => $this->msgid
                 ]);
                 break;
+        case '/ping':
+            return B::sendMessage([
+                    "text" => ($this->input['message']['date'] - time())." s",
+                    "chat_id" => $this->chatid,
+                    "reply_to_message_id" => $this->msgid
+                ]);
+            break;
         }
     }
 }
