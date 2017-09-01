@@ -168,8 +168,46 @@ class MainHandler
                     var_dump($st->errorInfo());
                     die(1);
                 }
+                $st = DB::prepare("SELECT COUNT(`group_id`) FROM `a_known_groups` WHERE `group_id`=:gr LIMIT 1;");
+                $exe = $st->execute([
+                        ":gr" => $this->chatid
+                    ]);
+                if (!$exe) {
+                    var_dump($st->errorInfo());
+                    die(1);
+                }
+                $st = $st->fetch(PDO::FETCH_NUM);
+                if ($st[0] == 0) {
+                    $st = DB::prepare("INSERT INTO `a_known_groups` (`group_id`,`group_name`,`group_username`,`group_link`,`welcome_message`,`msg_count`,`created_at`,`updated_at`) VALUES (:gr,:gn,:gu,:gl,:wm,:mc,:ca,:ua);");
+                    $exe = $st->execute([
+                            ":gr" => $this->chatid,
+                            ":gn" => $this->chattitle,
+                            ":gu" => (isset($this->event['message']['chat']['username']) ? $this->event['message']['chat']['username'] : null),
+                            ":gl" => (isset($this->event['message']['chat']['username']) ? "https://t.me.".$this->event['message']['chat']['username'] : null),
+                            ":wm" => null,
+                            ":mc" => 1,
+                            ":ca" => date("Y-m-d H:i:s"),
+                            ":ua" => null
+                        ]);
+                    if (!$exe) {
+                        var_dump($st->errorInfo());
+                        die(1);
+                    }
+                } else {
+                    $st = DB::prepare("UPDATE `a_known_groups` SET `group_name`=:gn, `group_username`=:gu, `group_link`=:gl, `msg_count`=`msg_count`+1 WHERE `group_id`=:gr LIMIT 1;");
+                    $exe = $st->execute([
+                        ":gr" => $this->chatid,
+                        ":gn" => $this->chattitle,
+                        ":gu" => (isset($this->event['message']['chat']['username']) ? $this->event['message']['chat']['username'] : null),
+                        ":gl" => (isset($this->event['message']['chat']['username']) ? "https://t.me.".$this->event['message']['chat']['username'] : null),
+                    ]);
+                    if (!$exe) {
+                        var_dump($st->errorInfo());
+                        die(1);
+                    }
+                }
             }
-            $st = DB::prepare("SELECT COUNT(`userid`) FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
+            $st = DB::prepare("SELECT COUNT(`userid`) FROM `a_known_groups` WHERE `userid`=:userid LIMIT 1;");
             $st->execute([
                     ":userid" => $this->userid
                 ]);
