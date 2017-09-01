@@ -227,11 +227,12 @@ class MainHandler
                     die();
                 }
             } else {
-                $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `msg_count`=`msg_count`+1 WHERE `userid`=:userid LIMIT 1");
+                $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `updated_at`=:ua, `msg_count`=`msg_count`+1 WHERE `userid`=:userid LIMIT 1");
                 $exe = $st->execute([
                         ":username" => strtolower($this->from['username']),
                         ":userid" => $this->userid,
-                        ":name" => $this->actor
+                        ":name" => $this->actor,
+                        ":ua" => date("Y-m-d H:i:s")
                     ]);
                 if (!$exe) {
                     var_dump($st->errorInfo());
