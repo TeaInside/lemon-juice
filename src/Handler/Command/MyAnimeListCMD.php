@@ -144,4 +144,50 @@ class MyAnimeListCMD
                 ]);
         }
     }
+
+    public function __idma($id)
+    {
+        if (!empty($id)) {
+            $fx = function ($str) {
+                if (is_array($str)) {
+                    return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode(implode($str))));
+                }
+                return trim(str_replace(array("[i]", "[/i]","<br />"), array("<i>", "</i>","\n"), html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
+            };
+            $st = new MyAnimeList(MAL_USER, MAL_PASS);
+            $st = $st->get_info($id, "manga");
+            $st = isset($st['entry']) ? $st['entry'] : $st;
+            if (is_array($st) and count($st)) {
+                $img = $st['image'];
+                unset($st['image']);
+                $rep = "";
+                foreach ($st as $key => $value) {
+                    $ve = $fx($value);
+                    !empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
+                }
+                isset($img) and B::sendPhoto([
+                    "chat_id" => $this->hd->chatid,
+                    "photo" => $img,
+                    "reply_to_message_id" => $this->hd->msgid
+                ]);
+                return B::sendMessage([
+                    "chat_id" => $this->hd->chatid,
+                    "text" => $rep,
+                    "reply_to_message_id" => $this->hd->msgid,
+                    "parse_mode" => "HTML"
+                ]);
+            } else {
+                B::sendMessage([
+                        "text" => "Mohon maaf, manga \"{$id}\" tidak ditemukan !",
+                        "chat_id" => $this->hd->chatid
+                    ]);
+            }
+        } else {
+            B::sendMessage([
+                    "text" => "Sebutkan ID Manga yang ingin kamu cari !",
+                    "chat_id" => $this->hd->chatid,
+                    "reply_to_message_id" => $this->hd->msgid
+                ]);
+        }
+    }
 }

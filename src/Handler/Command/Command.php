@@ -15,6 +15,7 @@ trait Command
             "/anime"    => ["!anime", "~anime"],
             "/idan"     => ["!idan", "~idan"],
             "/manga"    => ["!manga", "~manga"],
+            "/idma"     => ["!idma", "~idma"],
             "/start"    => ["!start", "~start"],
             "/time"     => ["!time", "~time"],
             "/ping"     => ["!ping", "~ping"],
