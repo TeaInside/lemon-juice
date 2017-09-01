@@ -13,6 +13,7 @@ trait Command
     {
         $__command_list = [
             "/anime"  => ["!anime", "~anime"],
+            "/idan"   => ["!idan", "~idan"],
             "/manga"  => ["!manga", "~manga"],
             "/start"  => ["!start", "~start"],
             "/time"   => ["!time", "~time"],
@@ -57,6 +58,10 @@ trait Command
             case '/anime':
                 $app = new MyAnimeListCMD($this);
                 return $app->__anime($param);
+                break;
+            case '/idan':
+                $app = new MyAnimeListCMD($this);
+                return $app->__idan($param);
                 break;
             case '/start':
                 return B::sendMessage(
