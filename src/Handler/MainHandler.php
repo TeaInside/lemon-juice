@@ -2,6 +2,7 @@
 
 namespace Handler;
 
+use PDO;
 use Telegram as B;
 use Handler\Command\Command;
 use App\PHPVirtual\PHPVirtual;
@@ -109,6 +110,7 @@ class MainHandler
             $this->lowertext = strtolower($this->text);
             $this->userid = $this->event['message']['from']['id'];
         }
+        file_put_contents("qwetest", json_encode($this->event, 128));
     }
 
     /**
@@ -128,6 +130,32 @@ class MainHandler
                 );
             } else {
                 $this->__command();
+            }
+        }
+    }
+
+    public function __save_event()
+    {
+        if ($this->type == "text") {
+            $st = DB::prepare("SELECT COUNT(`userid`) FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
+            $st->execute([
+                    ":userid" => $this->userid
+                ]);
+            $st = $st->fetch(PDO::FETCH_NUM);
+            if ($this->chattype == "private") {
+                if ($st[0] == 0) {
+                    $st = DB::prepare("INSERT INTO `a_known_users` (`userid`,`username`,`name`,`is_private_known`,`notification`,`msg_count`,`created_at`,`updated_at`) VALUES (:userid, :uname, :name, 'true', 'true', 1, :created_at, null);");
+                    $exe = $st->execute([
+                            ":userid" => $this->userid,
+                            ":uname" => strtolower($this->from['username']),
+                            ":name" => $this->actor,
+                            ":created_at" => (date("Y-m-d H:i:s"))
+                        ]);
+                    if (!$exe) {
+                        var_dump($st->errorInfo());
+                        die();
+                    }
+                }
             }
         }
     }
