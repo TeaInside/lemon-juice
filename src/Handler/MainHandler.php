@@ -110,6 +110,14 @@ class MainHandler
             $this->text = $this->event['message']['text'];
             $this->lowertext = strtolower($this->text);
             $this->userid = $this->event['message']['from']['id'];
+        } elseif (isset($this->event['message']['new_chat_member'])) {
+            $this->type = "new_member";
+            $this->chatid = $this->event['message']['chat']['id'];
+             $this->msgid = $this->event['message']['message_id'];
+            $this->new_userid = $this->event['message']['new_chat_member']['userid'];
+            $this->new_actor  = $this->event['message']['new_chat_member']['first_name'].(isset($this->event['message']['new_chat_member']['last_name']) ? " ".$this->event['message']['new_chat_member']['last_name'] : "");
+            $this->new_actorcall = $this->event['message']['new_chat_member']['first_name'];
+            $this->new_from = $this->event['message']['new_chat_member'];
         }
     }
 
@@ -136,6 +144,23 @@ class MainHandler
                             "reply_to_message_id" => $this->msgid
                         ]);
                 }
+            }
+        } elseif ($this->type == "new_member") {
+            $st = DB::prepare("SELECT `welcome_message` FROM `a_known_groups` WHERE `group_id`=:gid LIMIT 1;");
+            $exe = $st->execute([
+                    ":gid" => $this->chatid
+                ]);
+            if (!$exe) {
+                var_dump($st->errorInfo());
+                die(1);
+            }
+            $st = $st->fetch(PDO::FETCH_NUM);
+            if (isset($st[0]) and !empty($st[0])) {
+                B::sendMessage([
+                        "chat_id" => $this->chatid,
+                        "text" => $st[0],
+                        "reply_to_message_id" => $this->msgid
+                    ]);
             }
         }
     }
