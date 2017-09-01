@@ -12,20 +12,20 @@ trait Command
     private function __command()
     {
         $__command_list = [
-            "/anime"  => ["!anime", "~anime"],
-            "/idan"   => ["!idan", "~idan"],
-            "/manga"  => ["!manga", "~manga"],
-            "/start"  => ["!start", "~start"],
-            "/time"   => ["!time", "~time"],
-            "/ping"   => ["!ping", "~ping"],
-            "/report" => ["!report", "~report"],
-            "/kick"   => ["!kick", "~kick"],
-            "/ban"    => ["!ban", "~ban"],
-            "/unban"  => ["!unban", "~unban"],
-            "/nowarn" => ["!nowarn", "~nowarn"],
-            "/warn"   => ["!warn", "~nowarn"],
-            "/help"   => ["!help", "~help"],
-            "/welcome" => ["!welcome", "~welcome"]
+            "/anime"    => ["!anime", "~anime"],
+            "/idan"     => ["!idan", "~idan"],
+            "/manga"    => ["!manga", "~manga"],
+            "/start"    => ["!start", "~start"],
+            "/time"     => ["!time", "~time"],
+            "/ping"     => ["!ping", "~ping"],
+            "/report"   => ["!report", "~report"],
+            "/kick"     => ["!kick", "~kick"],
+            "/ban"      => ["!ban", "~ban"],
+            "/unban"    => ["!unban", "~unban"],
+            "/nowarn"   => ["!nowarn", "~nowarn"],
+            "/warn"     => ["!warn", "~nowarn"],
+            "/help"     => ["!help", "~help"],
+            "/welcome"  => ["!welcome", "~welcome"]
         ];
         $cmd = explode(" ", $this->text, 2);
         $param = isset($cmd[1]) ? trim($cmd[1]) : "";
@@ -62,6 +62,14 @@ trait Command
             case '/idan':
                 $app = new MyAnimeListCMD($this);
                 return $app->__idan($param);
+                break;
+            case '/manga':
+                $app = new MyAnimeListCMD($this);
+                return $app->__manga($param);
+                break;
+            case '/idma':
+                $app = new MyAnimeListCMD($this);
+                return $app->__idma($param);
                 break;
             case '/start':
                 return B::sendMessage(
