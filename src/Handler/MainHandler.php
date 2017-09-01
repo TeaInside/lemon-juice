@@ -162,6 +162,7 @@ class MainHandler
                     "{group_username}",
                     "{username}",
                     "{name}",
+                    "{first_name}",
                     "{userid}"
                 ];
                 $b = [
@@ -169,6 +170,8 @@ class MainHandler
                     $st[1],
                     $st[2],
                     (isset($this->new_from['username']) ? "@".$this->new_from['username'] : ""),
+                    $this->new_actor,
+                    $this->new_actorcall,
                     $this->new_userid
                 ];
                 B::sendMessage([
