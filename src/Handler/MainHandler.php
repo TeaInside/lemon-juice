@@ -127,7 +127,7 @@ class MainHandler
                     ]
                 );
             } else {
-                $this->__comannd();
+                $this->__command();
             }
         }
     }
@@ -138,7 +138,6 @@ class MainHandler
     private function checkVirtualLang()
     {
         if (substr($this->lowertext, 0, 5) == "<?php") {
-            $q=array(1,2,3,4,5,6,7,8);
             if ($this->__php_security()) {
                 $a = str_replace(["<br />", "<br>", "<br/>"], "\n", PHPVirtual::run($this->text));
                 return empty($a) ? "~" : $a;
