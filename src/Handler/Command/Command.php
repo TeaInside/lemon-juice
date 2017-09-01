@@ -23,10 +23,10 @@ trait Command
             "/help"   => ["!help", "~help"],
             "/welcome" => ["!welcome", "~welcome"]
         ];
-        $cmd = explode(" ", $this->lowertext, 2);
+        $cmd = explode(" ", $this->text, 2);
         $param = isset($cmd[1]) ? trim($cmd[1]) : "";
         $cmd = explode("@", $cmd[0], 2);
-        $cmd = $cmd[0];
+        $cmd = strtolower($cmd[0]);
         $flag = false;
         foreach ($__command_list as $key => $val) {
             if ($cmd == $key) {
