@@ -2,6 +2,8 @@
 
 namespace Handler\Command;
 
+use DB;
+use PDO;
 use Telegram as B;
 
 trait Command
@@ -18,10 +20,11 @@ trait Command
             "/unban"  => ["!unban", "~unban"],
             "/nowarn" => ["!nowarn", "~nowarn"],
             "/warn"   => ["!warn", "~nowarn"],
-            "/help"   => ["!help", "~help"]
+            "/help"   => ["!help", "~help"],
+            "/welcome" => ["!welcome", "~welcome"]
         ];
         $cmd = explode(" ", $this->lowertext, 2);
-        $param = isset($cmd[1]) ? $cmd[1] : "";
+        $param = isset($cmd[1]) ? trim($cmd[1]) : "";
         $cmd = explode("@", $cmd[0], 2);
         $cmd = $cmd[0];
         $flag = false;
@@ -78,6 +81,29 @@ trait Command
                     "reply_to_message_id" => $this->msgid
                 ]);
             break;
+        case '/welcome':
+            if ($this->__set_welcome($param)) {
+                return B::sendMessage([
+                        "text" => "Berhasil setting welcome message!",
+                        "chat_id" => $this->chatid,
+                        "reply_to_message_id" => $this->msgid
+                    ]);
+            }
+            break;
         }
+    }
+
+    private function __set_welcome($msg)
+    {
+        $st = DB::prepare("UPDATE `a_known_groups` SET `welcome_message`=:wm WHERE `group_id`=:gi LIMIT 1;");
+        $exe = $st->execute([
+                ":gi" => $this->chatid,
+                ":wm" => $msg
+            ]);
+        if (!$exe) {
+            var_dump($st->errorInfo());
+            print "\n\n";
+        }
+        return $exe;
     }
 }
