@@ -141,7 +141,7 @@ class MainHandler
                 $st = DB::prepare("INSERT INTO `private_chat` (`userid`,`time`,`message`,`created_at`) VALUES (:userid,:tm,:msg,:created_at);");
                 $exe = $st->execute([
                         ":userid" => $this->userid,
-                        ":tm" => date("Y-m-d H:i:s", $this->input['date']),
+                        ":tm" => date("Y-m-d H:i:s", $this->event['date']),
                         ":msg" => $this->text,
                         ":created_at" => date("Y-m-d H:i:s")
                     ]);
@@ -154,7 +154,7 @@ class MainHandler
                 $exe = $st->execute([
                         ":gr" => $this->chatid,
                         ":uid" => $this->userid,
-                        ":tm" => date("Y-m-d H:i:s", $this->input['date']),
+                        ":tm" => date("Y-m-d H:i:s", $this->event['date']),
                         ":msg" => $this->text,
                         ":created_at" => date("Y-m-d H:i:s")
                     ]);
