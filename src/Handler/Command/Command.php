@@ -2,6 +2,8 @@
 
 namespace Handler\Command;
 
+use Telegram as B;
+
 trait Command
 {
     private function __command()
