@@ -111,23 +111,23 @@ class MyAnimeListCMD
 
     public function __manga($query)
     {
-        if (!empty($val['salt'])) {
+        if (!empty($query)) {
             $st = new MyAnimeList(MAL_USER, MAL_PASS);
-            $st->search($val['salt'], "manga");
+            $st->search($query, "manga");
             $st->exec();
             $st = $st->get_result();
             if (isset($st['entry']['id'])) {
                 $rep = "";
-                $rep.="Hasil pencarian manga :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah manga yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idma [spasi] [id_anime] atau balas dengan id manga untuk menampilkan info manga lebih lengkap.";
+                $rep.="Hasil pencarian manga :\n<b>{$st['entry']['id']}</b> : {$st['entry']['title']}\n\nBerikut ini adalah manga yang cocok dengan <b>{$query}</b>.\n\nKetik /idma [spasi] [id_anime] atau balas dengan id manga untuk menampilkan info manga lebih lengkap.";
             } elseif (is_array($st) and $xz = count($st['entry'])) {
                 $rep = "Hasil pencarian manga :\n";
                 foreach ($st['entry'] as $vz) {
                     $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
                 }
-                $rep.="\nBerikut ini adalah beberapa manga yang cocok dengan <b>{$val['salt']}</b>.\n\nKetik /idma [spasi] [id_manga] atau balas dengan id manga untuk menampilkan info manga lebih lengkap.";
+                $rep.="\nBerikut ini adalah beberapa manga yang cocok dengan <b>{$query}</b>.\n\nKetik /idma [spasi] [id_manga] atau balas dengan id manga untuk menampilkan info manga lebih lengkap.";
                 
             } else {
-                $rep = "Mohon maaf, anime \"{$val['salt']}\" tidak ditemukan !";
+                $rep = "Mohon maaf, anime \"{$query}\" tidak ditemukan !";
             }
             return B::sendMessage([
                     "chat_id" => $this->hd->chatid,
