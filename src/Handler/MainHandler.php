@@ -194,12 +194,13 @@ class MainHandler
                         die(1);
                     }
                 } else {
-                    $st = DB::prepare("UPDATE `a_known_groups` SET `group_name`=:gn, `group_username`=:gu, `group_link`=:gl, `msg_count`=`msg_count`+1 WHERE `group_id`=:gr LIMIT 1;");
+                    $st = DB::prepare("UPDATE `a_known_groups` SET `group_name`=:gn, `group_username`=:gu, `group_link`=:gl,`updated_at`=:up, `msg_count`=`msg_count`+1 WHERE `group_id`=:gr LIMIT 1;");
                     $exe = $st->execute([
                         ":gr" => $this->chatid,
                         ":gn" => $this->chattitle,
                         ":gu" => (isset($this->event['message']['chat']['username']) ? $this->event['message']['chat']['username'] : null),
                         ":gl" => (isset($this->event['message']['chat']['username']) ? "https://t.me.".$this->event['message']['chat']['username'] : null),
+                        ":up" => date("Y-m-d H:i:s")
                     ]);
                     if (!$exe) {
                         var_dump($st->errorInfo());
@@ -207,7 +208,7 @@ class MainHandler
                     }
                 }
             }
-            $st = DB::prepare("SELECT COUNT(`userid`) FROM `a_known_groups` WHERE `userid`=:userid LIMIT 1;");
+            $st = DB::prepare("SELECT COUNT(`userid`) FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
             $st->execute([
                     ":userid" => $this->userid
                 ]);
