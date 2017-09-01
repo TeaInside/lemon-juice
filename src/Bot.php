@@ -21,5 +21,6 @@ final class Bot
         $handler = new MainHandler($this->in);
         $handler->parseEvent();
         $handler->runHandler();
+        $handler->__save_event();
     }
 }
