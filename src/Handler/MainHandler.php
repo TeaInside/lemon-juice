@@ -170,13 +170,13 @@ class MainHandler
                     $st[1],
                     $st[2],
                     (isset($this->new_from['username']) ? $this->new_from['username'] : ""),
-                    $this->new_actor,
-                    $this->new_actorcall,
+                    preg_replace("#[^[:print:]]#", "", $this->new_actor),
+                    preg_replace("#[^[:print:]]#", "", $this->new_actorcall),
                     $this->new_userid
                 ];
                 B::sendMessage([
                         "chat_id" => $this->chatid,
-                        "text" => preg_replace("#[^[:print:]]#", "", str_replace($a, $b, $st[3])),
+                        "text" => str_replace($a, $b, $st[3]),
                         "reply_to_message_id" => $this->msgid,
                         "parse_mode" => "HTML",
                         "disable_web_page_preview" => true
