@@ -55,8 +55,8 @@ trait Command
     {
         switch ($command) {
             case '/anime':
-                    $app = new MyAnimeListCMD($this);
-                    $app->__anime($param);
+                $app = new MyAnimeListCMD($this);
+                return $app->__anime($param);
                 break;
             case '/start':
                 return B::sendMessage(
