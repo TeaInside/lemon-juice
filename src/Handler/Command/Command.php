@@ -99,7 +99,7 @@ trait Command
                 break;
             case '/time':
                 return B::sendMessage([
-                    "text" => date("Y-m-d H:i:s"),
+                    "text" => date("Y-m-d H:i:s", (time() + (3600 * 7))),
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
