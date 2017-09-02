@@ -33,7 +33,7 @@ final class Telegram
             $op = array_merge($op, $param[2]);
         }
         curl_setopt_array($ch, $op);
-        $out = curl_exec($ch);
+        print $out = curl_exec($ch);
         $err = curl_error($ch) and $out = $err;
         $info = curl_getinfo($ch);
         curl_close($ch);
