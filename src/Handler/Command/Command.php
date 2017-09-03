@@ -131,7 +131,7 @@ trait Command
                         B::sendMessage([
                                 "text" => '<a href="tg://user?id='.$this->userid.'">'.$this->actorcall.'</a> banned <a href="tg://user?id='.$this->replyto['from']['id'].'">'.$this->replyto['from']['first_name']."</a>!",
                                 "chat_id" => $this->chatid,
-                               // "parse_mode" => "HTML"
+                                "parse_mode" => "HTML"
                             ]);
                     }
                 }
