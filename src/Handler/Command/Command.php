@@ -127,7 +127,7 @@ trait Command
                             "user_id" => $this->replyto['from']['id']
                         ]
                     );
-                    if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
+                    if ($a['content'] == '{"ok":true,"result":true}' or $b['content'] == '{"ok":true,"result":true}') {
                         B::sendMessage([
                                 "text" => '<a href="tg://user?id='.$this->userid.'">'.$this->actorcall.'</a> banned <a href="tg://user?id='.$this->replyto['from']['id']."'>".$this->replyto['from']['first_name']."</a>!",
                                 "chat_id" => $this->chatid,
