@@ -117,13 +117,13 @@ trait Command
                     ], "GET"), $this->userid) !== false){
                     $a = B::restrictChatMember(
                         [
-                            "chat_id" => $this->room_id,
+                            "chat_id" => $this->chatid,
                             "user_id" => $this->replyto['from']['id']
                         ]
                     );
                     $b = B::kickChatMember(
                         [
-                            "chat_id" => $this->room_id,
+                            "chat_id" => $this->chatid,
                             "user_id" => $this->replyto['from']['id']
                         ]
                     );
