@@ -111,6 +111,31 @@ trait Command
                     "reply_to_message_id" => $this->msgid
                 ]);
             break;
+            case '/ban':
+                if (strpos(B::getChatAdministrators([
+                        "chat_id" => $this->chatid
+                    ], "GET"), $this->userid) !== false){
+                    $a = B::restrictChatMember(
+                        [
+                            "chat_id" => $this->room_id,
+                            "user_id" => $this->replyto['from']['id']
+                        ]
+                    );
+                    $b = B::kickChatMember(
+                        [
+                            "chat_id" => $this->room_id,
+                            "user_id" => $this->replyto['from']['id']
+                        ]
+                    );
+                    if ($a == '{"ok":true,"result":true}' or $b == '{"ok":true,"result":true}') {
+                        B::sendMessage([
+                                "text" => '<a href="tg://user?id='.$this->userid.'">'.$this->actorcall.'</a> banned <a href="tg://user?id='.$this->replyto['from']['id']."'>".$this->replyto['from']['first_name']."</a>!",
+                                "chat_id" => $this->chatid,
+                                "parse_mode" => "HTML"
+                            ]);
+                    }
+                }
+                break;
             case '/welcome':
                 if ($this->__set_welcome($param)) {
                     return B::sendMessage([

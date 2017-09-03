@@ -101,6 +101,7 @@ class MainHandler
      */
     public function parseEvent()
     {
+        $this->replyto = isset($this->event['message']['reply_to_message']) ? $this->event['message']['reply_to_message'] : null;
         if (isset($this->event['message']['text'])) {
             $this->type = "text";
             $this->chattype = $this->event['message']['chat']['type'];
