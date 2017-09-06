@@ -115,7 +115,7 @@ trait Command
                 $flag = false;
                 $a = json_decode(B::getChatAdministrators([
                         "chat_id" => $this->chatid
-                    ], "GET"), true);
+                    ], "GET")['content'], true);
                 foreach ($a['result'] as $val) {
                     if ($val['user']['id'] == $this->userid) {
                         if ($val['can_restrict_members'] || $val['status']=="creator") {
