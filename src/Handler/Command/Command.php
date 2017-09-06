@@ -113,7 +113,9 @@ trait Command
             break;
             case '/ban':
                 $flag = false;
-                $a = json_decode($a, true);
+                $a = json_decode(B::getChatAdministrators([
+                        "chat_id" => $this->chatid
+                    ], "GET"), true);
                 foreach ($a['result'] as $val) {
                     if ($val['user']['id'] == $this->userid) {
                         if ($val['can_restrict_members'] || $val['status']=="creator") {
