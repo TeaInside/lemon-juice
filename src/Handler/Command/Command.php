@@ -112,9 +112,10 @@ trait Command
                 ]);
             break;
             case '/ban':
-                if (strpos(B::getChatAdministrators([
+                if (strpos($a = B::getChatAdministrators([
                         "chat_id" => $this->chatid
                     ], "GET"), $this->userid) !== false){
+                    file_put_contents("aaa.txt", $a);
                     $a = B::restrictChatMember(
                         [
                             "chat_id" => $this->chatid,
