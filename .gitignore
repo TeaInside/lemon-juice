@@ -6,3 +6,5 @@
 /public/php/*
 /public/data/*
 config.php
+
+/vendor/

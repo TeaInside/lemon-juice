@@ -1,0 +1,12 @@
+{
+    "name": "root/bot",
+    "description": "Telegram Bot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ammar Faizi",
+            "email": "ammarfaizi2@gmail.com"
+        }
+    ],
+    "require": {}
+}
