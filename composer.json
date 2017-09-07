@@ -14,6 +14,9 @@
             "App":"src/",
             "Handler":"src/",
             "":"src/"
-        }
+        },
+        "files":[
+            "config.php"
+        ]
     }
 }
