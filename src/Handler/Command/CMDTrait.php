@@ -40,7 +40,7 @@ trait CMDTrait
                 var_dump($st->errorInfo());
                 die(1);
             }
-            $wt = "";
+            $wr = "";
             if ($st = $st->fetch(PDO::FETCH_NUM)){
                 $wr.= "<b>Warns found</b>:\n";
                 $st = json_decode($st[0], true) xor $i = 1;
@@ -48,6 +48,7 @@ trait CMDTrait
                     $wr.= ($i++).". ".($val['reason']===null ? "<code>Normal warn</code>" : "<code>".htmlspecialchars($val['reason'])."</code>");
                 }
             }
+            var_dump($st);
             return B::sendMessage([
                     "chat_id" => $this->chatid,
                     "text" => "Done! <a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> has been forgiven.".$wr,
