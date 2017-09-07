@@ -32,7 +32,7 @@ trait CMDTrait
     			die(1);
     		}
     		$sq = $sq->fetch(PDO::FETCH_NUM);
-        	$uniq = $this->replyto['from']['id']."-".$this->chatid;
+        	$uniq = $this->replyto['from']['id']."|".$this->chatid;
         	$st = DB::prepare("SELECT `warn_count`,`reasons` FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
         	$exe = $st->execute([
         			":uniq" => $uniq
