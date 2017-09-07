@@ -25,7 +25,7 @@ trait Command
             "/unban"    => ["!unban", "~unban"],
             "/nowarn"   => ["!nowarn", "~nowarn"],
             "/forgive"  => ["!forgive", "~forgive"],
-            "/warn"     => ["!warn", "~nowarn"],
+            "/warn"     => ["!warn", "~warn"],
             "/help"     => ["!help", "~help"],
             "/welcome"  => ["!welcome", "~welcome"]
         ];
