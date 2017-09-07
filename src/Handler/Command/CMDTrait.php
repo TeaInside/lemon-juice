@@ -16,7 +16,7 @@ trait CMDTrait
             ], "GET")['content'], true);
         foreach ($a['result'] as $val) {
             if ($val['user']['id'] == $this->userid) {
-                if ($val['can_restrict_members'] || $val['status']=="creator") {
+                if ($val['status']=="creator" || $val['can_restrict_members']) {
                     $flag = true;
                 }
                 break;
@@ -54,6 +54,9 @@ trait CMDTrait
         			var_dump($se->errorInfo());
         			die(1);
         		}
+        		print "\n\n";
+        		var_dump($st[0]."+1", $sq[0]);
+        		print "\n\n";
         		if ($st[0]+1 >= $sq[0]) {
         			$a = B::kickChatMember(
 	                    [
