@@ -1,0 +1,50 @@
+<?php
+/**
+ * @author Ammar Faizi <ammarfaizi2@gmail.com>
+ * @license MIT
+ */
+
+/**
+ * Database.
+ */
+define("DBHOST", "localhost");
+define("DBNAME", "root");
+define("DBUSER", "");
+define("DBPASS", "");
+
+/**
+ * Token.
+ */
+define("TOKEN", "1234567890:qwertyuiopasdfghjklzxcvbnm");
+
+/**
+ * Super User.
+ */
+define("SUDOERS", [123456789]);
+
+/**
+ * Data
+ */
+define("data", __DIR__."/public/data");
+
+/**
+ * Virtualizor.
+ */
+$v = "/home/bot/public/";
+define("PHPVIRTUAL_DIR", "{$v}php");
+define("PHPVIRTUAL_URL", "https://www.example.com/php_virtual");
+define("CVIRTUAL_DIR", "{$v}c");
+define("CPPVIRTUAL_DIR", "{$v}cpp");
+define("NODEVIRTUAL_DIR", "{$v}node");
+define("RUBYVIRTUAL_DIR", "{$v}ruby");
+define("JAVAVIRTUAL_DIR", "{$v}java");
+define("PYTHONVIRTUAL_DIR", "{$v}python");
+
+define("PUBLIC_DIR", __DIR__."/public");
+
+
+/**
+ * MyAnimeList
+ */
+define("MAL_USER", "username");
+define("MAL_PASS", "password");

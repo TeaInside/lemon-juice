@@ -1,0 +1,22 @@
+{
+    "name": "root/bot",
+    "description": "Telegram Bot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ammar Faizi",
+            "email": "ammarfaizi2@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload":{
+        "psr-0":{
+            "App":"src/",
+            "Handler":"src/",
+            "":"src/"
+        },
+        "files":[
+            "config.php"
+        ]
+    }
+}
