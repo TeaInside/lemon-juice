@@ -60,10 +60,13 @@ trait CMDTrait
 	                        "chat_id" => $this->chatid,
 	                        "user_id" => $this->replyto['from']['id']
 	                    ]
-                	);
+                	) xor $err = "";
+                    if ($a['content'] != '{"ok":true,"result":true}') {
+                        $err .= $a['content']['description'];
+                    }
                 	return B::sendMessage([
                 			"chat_id" => $this->chatid,
-                			"text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>banned:</b> reached the max number of warnings (<code>".($st[0])."/".$sq[0]."</code>)",
+                			"text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>banned:</b> reached the max number of warnings (<code>".($st[0])."/".$sq[0]."</code>)\n\n".$err,
                 			"parse_mode" => "HTML"
                 		]);
         		} else {
