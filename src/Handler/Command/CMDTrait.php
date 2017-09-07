@@ -42,7 +42,7 @@ trait CMDTrait
             }
             $wt = "";
             if ($st = $st->fetch(PDO::FETCH_NUM)){
-                $wr.= "<b>Warns found</b>:\n"
+                $wr.= "<b>Warns found</b>:\n";
                 $st = json_decode($st[0], true) xor $i = 1;
                 foreach ($st as $val) {
                     $wr.= ($i++).". ".($val['reason']===null ? "<code>Normal warn</code>" : "<code>".htmlspecialchars($val['reason'])."</code>");
