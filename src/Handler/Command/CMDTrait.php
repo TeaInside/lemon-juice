@@ -43,7 +43,7 @@ trait CMDTrait
         	}
         	if ($st = $st->fetch(PDO::FETCH_NUM)){
         		$se = DB::prepare("UPDATE `user_warning` SET `warn_count`=`warn_count`+1,`reasons`=:rr,`updated_at`=:up WHERE `uniq_id`=:uniq LIMIT 1;");
-        		$st[1] = json_decode($st[1], true);
+        		$st[1] = json_decode($st[1], true) xor $st[0] += 1;
         		$st[1][] = ["warned_by"=>$this->userid,"reason"=>$reason,"warned_at"=>date("Y-m-d H:i:s")];
         		$exe = $se->execute([
         				":rr" => json_encode($st[1]),
@@ -54,10 +54,7 @@ trait CMDTrait
         			var_dump($se->errorInfo());
         			die(1);
         		}
-        		print "\n\n";
-        		var_dump($st[0]."+1", $sq[0]);
-        		print "\n\n";
-        		if ($st[0]+1 >= $sq[0]) {
+        		if ($st[0] >= $sq[0]) {
         			$a = B::kickChatMember(
 	                    [
 	                        "chat_id" => $this->chatid,
@@ -66,13 +63,13 @@ trait CMDTrait
                 	);
                 	return B::sendMessage([
                 			"chat_id" => $this->chatid,
-                			"text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>banned:</b> reached the max number of warnings (<code>".($st[0]+1)."/".$sq[0]."</code>)",
+                			"text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>banned:</b> reached the max number of warnings (<code>".($st[0])."/".$sq[0]."</code>)",
                 			"parse_mode" => "HTML"
                 		]);
         		} else {
         			return B::sendMessage([
                 			"chat_id" => $this->chatid,
-                			"text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>has been warned</b> (<code>".($st[0]+1)."/".$sq[0]."</code>)",
+                			"text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>has been warned</b> (<code>".($st[0])."/".$sq[0]."</code>)",
                 			"parse_mode" => "HTML"
                 		]);
         		}
