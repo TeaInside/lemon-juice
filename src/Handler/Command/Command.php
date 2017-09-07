@@ -129,7 +129,7 @@ trait Command
                 $param = empty($param) ? null : $param;
                 return $this->__warn($param);
                 break;
-            case 'forgive':
+            case '/forgive':
                 return $this->__forgive();
                 break;
         }
