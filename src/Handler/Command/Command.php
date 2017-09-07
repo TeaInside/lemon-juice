@@ -112,57 +112,7 @@ trait Command
                 ]);
             break;
             case '/ban':
-                $flag = false;
-                $a = json_decode(B::getChatAdministrators([
-                        "chat_id" => $this->chatid
-                    ], "GET")['content'], true);
-                foreach ($a['result'] as $val) {
-                    if ($val['user']['id'] == $this->userid) {
-                        if ($val['can_restrict_members'] || $val['status']=="creator") {
-                            $flag = true;
-                        }
-                        break;
-                    }
-                }
-                if ($flag){
-
-                    if (isset($this->replyto['from']['username']) && strtolower($this->replyto['from']['username']) === strtolower(BOT_USERNAME)) {
-                        return B::sendMessage([
-                                "chat_id" => $this->chatid,
-                                "text" => "<b>Error</b> : \n<pre>Bad Request: user is a bot</pre>",
-                                "parse_mode" => "HTML",
-                                "reply_to_message_id" => $this->msgid
-                            ]);
-                    } else {
-                        $a = B::kickChatMember(
-                            [
-                                "chat_id" => $this->chatid,
-                                "user_id" => $this->replyto['from']['id']
-                            ]
-                        );
-                        if ($a['content'] == '{"ok":true,"result":true}') {
-                            return B::sendMessage([
-                                    "text" => '<a href="tg://user?id='.$this->userid.'">'.$this->actorcall.'</a> banned <a href="tg://user?id='.$this->replyto['from']['id'].'">'.$this->replyto['from']['first_name']."</a>!",
-                                    "chat_id" => $this->chatid,
-                                    "parse_mode" => "HTML"
-                                ]);
-                        } else {
-                            return B::sendMessage([
-                                "chat_id" => $this->chatid,
-                                "text" => "<b>Error</b> : \n<pre>".htmlspecialchars(json_decode($a['content'], true)['description'])."</pre>",
-                                "parse_mode" => "HTML",
-                                "reply_to_message_id" => $this->msgid
-                            ]);    
-                        }
-                    }
-                } else {
-                    return B::sendMessage([
-                            "chat_id" => $this->chatid,
-                            "text" => "You are not allowed to use this command !",
-                            "reply_to_message_id" => $this->msgid
-                        ]);
-                }
-                return false;
+                return $this->__ban();
                 break;
             case '/welcome':
                 if ($this->__set_welcome($param)) {
@@ -172,6 +122,9 @@ trait Command
                         "reply_to_message_id" => $this->msgid
                     ]);
                 }
+                break;
+            case '/warn':
+                return $this->__warn();
                 break;
         }
     }

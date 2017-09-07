@@ -6,6 +6,7 @@ use DB;
 use PDO;
 use Telegram as B;
 use Handler\Command\Command;
+use Handler\Command\CMDTrait;
 use App\PHPVirtual\PHPVirtual;
 use Handler\Security\PHPVirtualSecurity;
 
@@ -15,7 +16,7 @@ use Handler\Security\PHPVirtualSecurity;
  */
 class MainHandler
 {
-    use PHPVirtualSecurity, Command;
+    use PHPVirtualSecurity, Command, CMDTrait;
 
     /**
      * @var array
