@@ -147,7 +147,7 @@ trait Command
                     } else {
                         return B::sendMessage([
                             "chat_id" => $this->chatid,
-                            "text" => "Error : \n\n<pre>".htmlspecialchars(json_encode(json_decode($a), 128))."</pre>",
+                            "text" => "Error : \n\n<pre>".htmlspecialchars(json_encode(json_decode($a['content']), 128))."</pre>",
                             "parse_mode" => "HTML",
                             "reply_to_message_id" => $this->msgid
                         ]);    
