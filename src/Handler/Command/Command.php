@@ -125,7 +125,8 @@ trait Command
                 }
                 break;
             case '/warn':
-                return $this->__warn();
+                $param = empty($param) ? null : $param;
+                return $this->__warn($param);
                 break;
         }
     }
