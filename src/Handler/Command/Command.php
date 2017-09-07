@@ -140,13 +140,7 @@ trait Command
                                 "user_id" => $this->replyto['from']['id']
                             ]
                         );
-                        $b = B::restrictChatMember(
-                            [
-                                "chat_id" => $this->chatid,
-                                "user_id" => $this->replyto['from']['id']
-                            ]
-                        );
-                        if ($a['content'] == '{"ok":true,"result":true}' or $b['content'] == '{"ok":true,"result":true}') {
+                        if ($a['content'] == '{"ok":true,"result":true}') {
                             return B::sendMessage([
                                     "text" => '<a href="tg://user?id='.$this->userid.'">'.$this->actorcall.'</a> banned <a href="tg://user?id='.$this->replyto['from']['id'].'">'.$this->replyto['from']['first_name']."</a>!",
                                     "chat_id" => $this->chatid,
