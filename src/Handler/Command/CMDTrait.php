@@ -24,7 +24,7 @@ trait CMDTrait
         }
         if ($flag) {
             $uniq = $this->replyto['from']['id']."|".$this->chatid;
-            $st = DB::prepare("DELETE FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
+            $st = DB::prepare("SELECT `reasons` FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
             $exe = $st->execute([
                     ":uniq" => $uniq
                 ]);
@@ -32,7 +32,7 @@ trait CMDTrait
                 var_dump($st->errorInfo());
                 die(1);
             }
-            $st = DB::prepare("SELECT `reasons` FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
+            $st = DB::prepare("DELETE FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
             $exe = $st->execute([
                     ":uniq" => $uniq
                 ]);
