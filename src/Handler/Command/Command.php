@@ -112,7 +112,8 @@ trait Command
                 ]);
             break;
             case '/ban':
-                return $this->__ban();
+                $param = empty($param) ? null : $param;
+                return $this->__ban($param);
                 break;
             case '/welcome':
                 if ($this->__set_welcome($param)) {
