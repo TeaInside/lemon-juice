@@ -32,14 +32,6 @@ trait CMDTrait
                 var_dump($st->errorInfo());
                 die(1);
             }
-            $st = DB::prepare("DELETE FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
-            $exe = $st->execute([
-                    ":uniq" => $uniq
-                ]);
-            if (!$exe) {
-                var_dump($st->errorInfo());
-                die(1);
-            }
             $wr = "";
             if ($st = $st->fetch(PDO::FETCH_NUM)){
                 $wr.= "<b>Warns found</b>:\n";
@@ -48,7 +40,14 @@ trait CMDTrait
                     $wr.= ($i++).". ".($val['reason']===null ? "<code>Normal warn</code>" : "<code>".htmlspecialchars($val['reason'])."</code>");
                 }
             }
-            var_dump($st);
+            $st = DB::prepare("DELETE FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
+            $exe = $st->execute([
+                    ":uniq" => $uniq
+                ]);
+            if (!$exe) {
+                var_dump($st->errorInfo());
+                die(1);
+            }
             return B::sendMessage([
                     "chat_id" => $this->chatid,
                     "text" => "Done! <a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> has been forgiven.".$wr,
