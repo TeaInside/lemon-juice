@@ -125,7 +125,6 @@ class MyAnimeListCMD
                     $rep .= "<b>".$vz['id']."</b> : ".$vz['title']."\n";
                 }
                 $rep.="\nBerikut ini adalah beberapa manga yang cocok dengan <b>{$query}</b>.\n\nKetik /idma [spasi] [id_manga] atau balas dengan id manga untuk menampilkan info manga lebih lengkap.";
-                
             } else {
                 $rep = "Mohon maaf, anime \"{$query}\" tidak ditemukan !";
             }
