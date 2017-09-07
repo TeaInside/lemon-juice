@@ -62,7 +62,7 @@ trait CMDTrait
 	                    ]
                 	) xor $err = "";
                     if ($a['content'] != '{"ok":true,"result":true}') {
-                        $err .= $a['content']['description'];
+                        $err .= json_decode($a['content'], true)['description'];
                     }
                 	return B::sendMessage([
                 			"chat_id" => $this->chatid,
