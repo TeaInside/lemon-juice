@@ -24,6 +24,7 @@ trait Command
             "/ban"      => ["!ban", "~ban"],
             "/unban"    => ["!unban", "~unban"],
             "/nowarn"   => ["!nowarn", "~nowarn"],
+            "/forgive"  => ["!forgive", "~forgive"],
             "/warn"     => ["!warn", "~nowarn"],
             "/help"     => ["!help", "~help"],
             "/welcome"  => ["!welcome", "~welcome"]
@@ -127,6 +128,9 @@ trait Command
             case '/warn':
                 $param = empty($param) ? null : $param;
                 return $this->__warn($param);
+                break;
+            case 'forgive':
+                return $this->__forgive();
                 break;
         }
     }

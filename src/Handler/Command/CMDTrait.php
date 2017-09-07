@@ -8,6 +8,55 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function __forgive()
+    {
+        $flag = false;
+        $a = json_decode(B::getChatAdministrators([
+                "chat_id" => $this->chatid
+            ], "GET")['content'], true);
+        foreach ($a['result'] as $val) {
+            if ($val['user']['id'] == $this->userid) {
+                if ($val['status']=="creator" || $val['can_restrict_members']) {
+                    $flag = true;
+                }
+                break;
+            }
+        }
+        if ($flag) {
+            $uniq = $this->replyto['from']['id']."|".$this->chatid;
+            $st = DB::prepare("DELETE FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
+            $exe = $st->execute([
+                    ":uniq" => $uniq
+                ]);
+            if (!$exe) {
+                var_dump($st->errorInfo());
+                die(1);
+            }
+            $st = DB::prepare("SELECT `reasons` FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
+            $exe = $st->execute([
+                    ":uniq" => $uniq
+                ]);
+            if (!$exe) {
+                var_dump($st->errorInfo());
+                die(1);
+            }
+            $wt = "";
+            if ($st = $st->fetch(PDO::FETCH_NUM)){
+                $wr.= "<b>Warns found</b>:\n"
+                $st = json_decode($st[0], true) xor $i = 1;
+                foreach ($st as $val) {
+                    $wr.= ($i++).". ".($val['reason']===null ? "<code>Normal warn</code>" : "<code>".htmlspecialchars($val['reason'])."</code>");
+                }
+            }
+            return B::sendMessage([
+                    "chat_id" => $this->chatid,
+                    "text" => "Done! <a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> has been forgiven.".$wr,
+                    "parse_mode" => "HTML",
+                    "reply_to_message_id" => $this->msgid
+                ]);
+        }
+    }
+
     private function __warn($reason = null)
     {
         $flag = false;
@@ -66,7 +115,7 @@ trait CMDTrait
                     }
                     return B::sendMessage([
                             "chat_id" => $this->chatid,
-                            "text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>banned:</b> reached the max number of warnings (<code>".($st[0])."/".$sq[0]."</code>)\n\n".$err,
+                            "text" => "<a href=\"tg://user?id=".$this->replyto['from']['id']."\">".$this->replyto['from']['first_name']."</a> <b>banned</b>: reached the max number of warnings (<code>".($st[0])."/".$sq[0]."</code>)\n\n".$err,
                             "parse_mode" => "HTML"
                         ]);
                 } else {
@@ -112,7 +161,7 @@ trait CMDTrait
             ], "GET")['content'], true);
         foreach ($a['result'] as $val) {
             if ($val['user']['id'] == $this->userid) {
-                if ($val['can_restrict_members'] || $val['status']=="creator") {
+                if ($val['status']=="creator" || $val['can_restrict_members']) {
                     $flag = true;
                 }
                 break;
