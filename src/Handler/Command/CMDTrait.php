@@ -37,7 +37,7 @@ trait CMDTrait
                 $wr.= "<b>Warns found</b>:\n";
                 $st = json_decode($st[0], true) xor $i = 1;
                 foreach ($st as $val) {
-                    $wr.= ($i++).". ".($val['reason']===null ? "<code>Normal warn</code>" : "<code>".htmlspecialchars($val['reason'])."</code>");
+                    $wr.= ($i++).". ".($val['reason']===null ? "<code>Normal warn</code>" : "<code>".htmlspecialchars($val['reason'])."</code>")."\n";
                 }
             }
             $st = DB::prepare("DELETE FROM `user_warning` WHERE `uniq_id`=:uniq LIMIT 1;");
