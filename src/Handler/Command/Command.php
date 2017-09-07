@@ -32,7 +32,7 @@ trait Command
         $param = isset($cmd[1]) ? trim($cmd[1]) : "";
         $cmd = explode("@", $cmd[0], 2);
         $cmd = strtolower($cmd[0]);
-        $flag = false;
+        $flag = false xor $r = null;
         foreach ($__command_list as $key => $val) {
             if ($cmd == $key) {
                 $r = $this->__do_command($key, $param);
@@ -125,32 +125,41 @@ trait Command
                     }
                 }
                 if ($flag){
-                    
-                    $a = B::kickChatMember(
-                        [
-                            "chat_id" => $this->chatid,
-                            "user_id" => $this->replyto['from']['id']
-                        ]
-                    );
-                    $b = B::restrictChatMember(
-                        [
-                            "chat_id" => $this->chatid,
-                            "user_id" => $this->replyto['from']['id']
-                        ]
-                    );
-                    if ($a['content'] == '{"ok":true,"result":true}' or $b['content'] == '{"ok":true,"result":true}') {
+
+                    if (isset($this->replyto['from']['username']) && strtolower($this->replyto['from']['username']) === strtolower(BOT_USERNAME)) {
                         return B::sendMessage([
-                                "text" => '<a href="tg://user?id='.$this->userid.'">'.$this->actorcall.'</a> banned <a href="tg://user?id='.$this->replyto['from']['id'].'">'.$this->replyto['from']['first_name']."</a>!",
                                 "chat_id" => $this->chatid,
-                                "parse_mode" => "HTML"
+                                "text" => "<b>Error</b> : \n<pre>Bad Request: user is a bot</pre>",
+                                "parse_mode" => "HTML",
+                                "reply_to_message_id" => $this->msgid
                             ]);
                     } else {
-                        return B::sendMessage([
-                            "chat_id" => $this->chatid,
-                            "text" => "<b>Error</b> : \n<pre>".htmlspecialchars(json_decode($a['content'], true)['description'])."</pre>",
-                            "parse_mode" => "HTML",
-                            "reply_to_message_id" => $this->msgid
-                        ]);    
+                        $a = B::kickChatMember(
+                            [
+                                "chat_id" => $this->chatid,
+                                "user_id" => $this->replyto['from']['id']
+                            ]
+                        );
+                        $b = B::restrictChatMember(
+                            [
+                                "chat_id" => $this->chatid,
+                                "user_id" => $this->replyto['from']['id']
+                            ]
+                        );
+                        if ($a['content'] == '{"ok":true,"result":true}' or $b['content'] == '{"ok":true,"result":true}') {
+                            return B::sendMessage([
+                                    "text" => '<a href="tg://user?id='.$this->userid.'">'.$this->actorcall.'</a> banned <a href="tg://user?id='.$this->replyto['from']['id'].'">'.$this->replyto['from']['first_name']."</a>!",
+                                    "chat_id" => $this->chatid,
+                                    "parse_mode" => "HTML"
+                                ]);
+                        } else {
+                            return B::sendMessage([
+                                "chat_id" => $this->chatid,
+                                "text" => "<b>Error</b> : \n<pre>".htmlspecialchars(json_decode($a['content'], true)['description'])."</pre>",
+                                "parse_mode" => "HTML",
+                                "reply_to_message_id" => $this->msgid
+                            ]);    
+                        }
                     }
                 } else {
                     return B::sendMessage([

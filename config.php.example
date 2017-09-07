@@ -13,8 +13,9 @@ define("DBUSER", "");
 define("DBPASS", "");
 
 /**
- * Token.
+ * Bot & Token.
  */
+define("BOT_USERNAME", "BotUsername")
 define("TOKEN", "1234567890:qwertyuiopasdfghjklzxcvbnm");
 
 /**
