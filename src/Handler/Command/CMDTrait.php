@@ -57,7 +57,7 @@ trait CMDTrait
         		print "\n\nwarn count ";
         		var_dump($sq[0], $st[0]);
         		print "\n\n";
-        		if ($sq[0] >= $st[0]+1) {
+        		if ($st[0]+1 >= $sq[0]) {
         			$a = B::kickChatMember(
 	                    [
 	                        "chat_id" => $this->chatid,
