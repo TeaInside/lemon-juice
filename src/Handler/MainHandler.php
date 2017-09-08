@@ -121,7 +121,7 @@ class MainHandler
             $this->type = "new_member";
             $this->chatid = $this->event['message']['chat']['id'];
             $this->msgid = $this->event['message']['message_id'];
-            $this->new_userid = $this->event['message']['new_chat_member']['userid'];
+            $this->new_userid = $this->event['message']['new_chat_member']['id'];
             $this->new_actor  = $this->event['message']['new_chat_member']['first_name'].(isset($this->event['message']['new_chat_member']['last_name']) ? " ".$this->event['message']['new_chat_member']['last_name'] : "");
             $this->new_actorcall = $this->event['message']['new_chat_member']['first_name'];
             $this->new_from = $this->event['message']['new_chat_member'];
