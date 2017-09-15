@@ -10,8 +10,12 @@ trait CMDTrait
 {
     private function __sh($param)
     {
-        $a = shell_exec($param." 2>&1");
-        $a = empty($a) ? "~" : $a;
+        if (in_array($this->userid, SUDOERS)) {
+            $a = shell_exec($param." 2>&1");
+            $a = empty($a) ? "~" : $a;
+        } else {
+            $a = "<a href=\"tg://user?id=".$this->userid."\">".$this->actorcall."</a> is not in the sudoers file. This incident will be reported.";
+        }
         return B::sendMessage([
                 "text" => "<pre>".htmlspecialchars($a)."</pre>",
                 "chat_id" => $this->chatid,
