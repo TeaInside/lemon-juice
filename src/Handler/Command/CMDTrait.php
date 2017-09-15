@@ -10,6 +10,12 @@ trait CMDTrait
 {
     private function __yd($param)
     {
+        $rr = json_decode(B::sendMessage([
+                "text" => "Downloading video...",
+                "parse_mode" => "HTML",
+                "chat_id" => $this->chatid,
+                "reply_to_message_id" => $this->msgid
+            ])['content'], true);
         is_dir(PUBLIC_DIR."/yd") or shell_exec("mkdir -p ".PUBLIC_DIR."/yd");
         is_dir(PUBLIC_DIR."/yd/tmp") or shell_exec("mkdir -p ".PUBLIC_DIR."/yd/tmp");
         $a = shell_exec("cd ".PUBLIC_DIR."/yd/tmp && mkdir ".($tm = time())." && cd \"".$tm."\" && sudo /root/youtube-dl ".$param);
@@ -20,10 +26,11 @@ trait CMDTrait
         } else {
             $a = "~";
         }
-        return B::sendMessage([
+        return B::editMessage([
                 "text" => $a,
                 "parse_mode" => "HTML",
                 "chat_id" => $this->chatid,
+                "message_id" => $rr['result']['message_id'],
                 "reply_to_message_id" => $this->msgid
             ]);
     }
