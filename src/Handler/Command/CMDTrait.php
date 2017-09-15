@@ -11,9 +11,12 @@ trait CMDTrait
     private function __yd($param)
     {
         is_dir(PUBLIC_DIR."/yd") or shell_exec("mkdir -p ".PUBLIC_DIR."/yd");
-        $a = shell_exec("cd ".PUBLIC_DIR."/yd & sudo /root/youtube-dl ".$param);
+        is_dir(PUBLIC_DIR."/yd") or shell_exec("mkdir -p ".PUBLIC_DIR."/yd/tmp");
+        $a = shell_exec("cd ".PUBLIC_DIR."/yd/tmp && mkdir ".($tm = time())." && cd \"".$tm."\" && sudo /root/youtube-dl ".explode("&", $param)[0]);
+        $file_name = shell_exec("cd ".PUBLIC_DIR."/yd/tmp/".$tm." && ls");
+        shell_exec("mv ".PUBLIC_DIR."/yd/tmp/".$tm."/".$file_name." ..");
         if (!empty($a)) {
-            $a = "<pre>".htmlspecialchars($a)."</pre>";            
+            $a = "<pre>".$file_name."</pre>";            
         } else {
             $a = "~";
         }
