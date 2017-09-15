@@ -26,7 +26,7 @@ trait CMDTrait
         } else {
             $a = "~";
         }
-        return B::editMessage([
+        return B::editMessageText([
                 "text" => $a,
                 "parse_mode" => "HTML",
                 "chat_id" => $this->chatid,
