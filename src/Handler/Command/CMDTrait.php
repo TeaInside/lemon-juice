@@ -20,7 +20,8 @@ trait CMDTrait
         return B::sendMessage([
                 "text" => $a,
                 "parse_mode" => "HTML",
-                "chat_id" => $this->chatid
+                "chat_id" => $this->chatid,
+                "reply_to_message_id" => $this->msgid
             ]);
     }
 
