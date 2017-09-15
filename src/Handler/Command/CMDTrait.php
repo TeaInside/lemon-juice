@@ -65,6 +65,7 @@ trait CMDTrait
         );
         if (B::sendVideo(
             [
+                "caption" => $a,
                 "video" => "https://webhooks.redangel.ga/yd/".$a,
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
