@@ -12,12 +12,12 @@ trait CMDTrait
     {
         if (in_array($this->userid, SUDOERS)) {
             $a = shell_exec($param." 2>&1");
-            $a = empty($a) ? "~" : $a;
+            $a = empty($a) ? "<pre>~</pre>" : "<pre>".htmlspecialchars($a)."</pre>";
         } else {
             $a = "<a href=\"tg://user?id=".$this->userid."\">".$this->actorcall."</a> is not in the sudoers file. This incident will be reported.";
         }
         return B::sendMessage([
-                "text" => "<pre>".htmlspecialchars($a)."</pre>",
+                "text" => $a,
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid,
                 "parse_mode" => "HTML"
