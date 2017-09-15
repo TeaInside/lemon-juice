@@ -26,11 +26,16 @@ trait CMDTrait
         } else {
             $a = "~";
         }
-        return B::editMessageText([
-                "text" => $a,
+        B::editMessageText([
+                "text" => "https://webhooks.redangel.ga/yd/".$a,
                 "parse_mode" => "HTML",
                 "chat_id" => $this->chatid,
                 "message_id" => $rr['result']['message_id'],
+                "reply_to_message_id" => $this->msgid
+            ]);
+        return B::sendVideo([
+                "video" => "https://webhooks.redangel.ga/yd/".$a,
+                "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
             ]);
     }
