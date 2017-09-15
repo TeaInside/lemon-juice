@@ -8,6 +8,7 @@ use Telegram as B;
 use Handler\Command\Command;
 use Handler\Command\CMDTrait;
 use App\PHPVirtual\PHPVirtual;
+use Handler\Command\MyAnimeListCMD;
 use Handler\Security\PHPVirtualSecurity;
 
 /**
@@ -128,13 +129,33 @@ class MainHandler
         }
     }
 
+    private function filterReply()
+    {
+        if (isset($this->replyto)) {
+            if (isset($this->replyto['from']['username']) && strtolower($this->replyto['from']['username']) == strtolower(BOT_USERNAME)) {
+                switch ($this->replyto['text']) {
+                    case 'Anime apa yang ingin kamu cari?':
+                         $app = new MyAnimeListCMD($this);
+                         return $app->__anime($this->replyto['text']);
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            }
+        }
+    }
+
     /**
      * Run handler.
      */
     public function runHandler()
     {
         if ($this->type == "text") {
-            if ($out = $this->checkVirtualLang()) {
+            if ($this->filterReply()) {
+                
+            } elseif ($out = $this->checkVirtualLang()) {
                 B::sendMessage(
                     [
                         "text" => $out,
