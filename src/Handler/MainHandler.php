@@ -141,15 +141,15 @@ class MainHandler
                         break;
                     case 'Hasil pencarian anime :':
                         $app = new MyAnimeListCMD($this);
-                        return $app->__idan($param);
+                        return $app->__idan($this->lowertext);
                         break;
                     case 'Manga apa yang ingin kamu cari?':
                         $app = new MyAnimeListCMD($this);
-                        return $app->__manga($param);
+                        return $app->__manga($this->lowertext);
                         break;
                     case 'Hasil pencarian manga :':
                         $app = new MyAnimeListCMD($this);
-                        return $app->__idma($param);
+                        return $app->__idma($this->lowertext);
                         break;
                     default:
                         # code...
