@@ -12,7 +12,7 @@ trait CMDTrait
     {
         if (empty($param) || !filter_var($param, FILTER_VALIDATE_URL)) {
             return B::sendMessage([
-                    "text" => "Empty link.",
+                    "text" => "Invalid url.",
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                 ]);
