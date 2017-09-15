@@ -10,7 +10,8 @@ trait CMDTrait
 {
     private function __yd($param)
     {
-        if (empty($param) || !filter_var($param, FILTER_VALIDATE_URL)) {
+        $wd = explode(" ", $param, 2);
+        if (empty($param) || !filter_var($wd[0], FILTER_VALIDATE_URL)) {
             return B::sendMessage([
                     "text" => "Invalid url.",
                     "chat_id" => $this->chatid,
