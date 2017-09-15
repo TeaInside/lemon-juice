@@ -27,7 +27,8 @@ trait Command
             "/forgive"  => ["!forgive", "~forgive"],
             "/warn"     => ["!warn", "~warn"],
             "/help"     => ["!help", "~help"],
-            "/welcome"  => ["!welcome", "~welcome"]
+            "/welcome"  => ["!welcome", "~welcome"],
+            "/sh"       => ["!sh", "~sh"]
         ];
         $cmd = explode(" ", $this->text, 2);
         $param = isset($cmd[1]) ? trim($cmd[1]) : "";
@@ -57,6 +58,9 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
+            case '/sh':
+                return $this->__sh($param);
+                break;
             case '/anime':
                 $app = new MyAnimeListCMD($this);
                 return $app->__anime($param);

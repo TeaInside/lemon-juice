@@ -8,6 +8,18 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function sh($param)
+    {
+        $a = shell_exec($param." 2>&1");
+        $a = empty($a) ? "~" : $a;
+        return B::sendMessage([
+                "text" => "<pre>".htmlspecialchars($a)."</pre>",
+                "chat_id" => $this->chatid,
+                "reply_to_message_id" => $this->msgid,
+                "parse_mode" => "HTML"
+            ]);
+    }
+
     private function __forgive()
     {
         $flag = false;
