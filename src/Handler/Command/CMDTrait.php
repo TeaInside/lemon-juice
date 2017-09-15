@@ -8,6 +8,22 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function __yd($param)
+    {
+        is_dir(PUBLIC_DIR."/yd") or shell_exec("mkdir -p ".PUBLIC_DIR."/yd");
+        $a = shell_exec("cd ".PUBLIC_DIR."/yd & sudo /root/youtube-dl ".$param);
+        if (!empty($a)) {
+            $a = "<pre>".htmlspecialchars($a)."</pre>";            
+        } else {
+            $a = "~";
+        }
+        return B::sendMessage([
+                "text" => $a,
+                "parse_mode" => "HTML",
+                "chat_id" => $this->chatid
+            ]);
+    }
+
     private function __sh($param)
     {
         $a = explode(" ", $param, 2);
