@@ -136,7 +136,7 @@ class MainHandler
                 switch ($this->replyto['text']) {
                     case 'Anime apa yang ingin kamu cari?':
                          $app = new MyAnimeListCMD($this);
-                         return $app->__anime($this->replyto['text']);
+                         return $app->__anime($this->lowertext);
                         break;
                     
                     default:
