@@ -11,7 +11,7 @@ trait CMDTrait
     private function __sh($param)
     {
         $a = explode(" ", $param, 2);
-        if (trim($a) == "sudo") {
+        if (trim($a[0]) == "sudo") {
             if (in_array($this->userid, SUDOERS)) {
                 $a = shell_exec($param." 2>&1");
                 $a = empty($a) ? "<pre>~</pre>" : "<pre>".htmlspecialchars($a)."</pre>";
