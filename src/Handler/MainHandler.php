@@ -133,12 +133,24 @@ class MainHandler
     {
         if (isset($this->replyto)) {
             if (isset($this->replyto['from']['username']) && strtolower($this->replyto['from']['username']) == strtolower(BOT_USERNAME)) {
-                switch ($this->replyto['text']) {
+                $wd = explode("\n", $this->replyto['text'], 2);
+                switch ($wd[0]) {
                     case 'Anime apa yang ingin kamu cari?':
-                         $app = new MyAnimeListCMD($this);
-                         return $app->__anime($this->lowertext);
+                        $app = new MyAnimeListCMD($this);
+                        return $app->__anime($this->lowertext);
                         break;
-                    
+                    case 'Hasil pencarian anime :':
+                        $app = new MyAnimeListCMD($this);
+                        return $app->__idan($param);
+                        break;
+                    case 'Manga apa yang ingin kamu cari?':
+                        $app = new MyAnimeListCMD($this);
+                        return $app->__manga($param);
+                        break;
+                    case 'Hasil pencarian manga :':
+                        $app = new MyAnimeListCMD($this);
+                        return $app->__idma($param);
+                        break;
                     default:
                         # code...
                         break;
