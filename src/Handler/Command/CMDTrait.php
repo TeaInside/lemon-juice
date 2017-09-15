@@ -14,14 +14,14 @@ trait CMDTrait
         is_dir(PUBLIC_DIR."/yd/tmp") or shell_exec("mkdir -p ".PUBLIC_DIR."/yd/tmp");
         $a = shell_exec("cd ".PUBLIC_DIR."/yd/tmp && mkdir ".($tm = time())." && cd \"".$tm."\" && sudo /root/youtube-dl ".$param);
         $file_name = shell_exec("cd ".PUBLIC_DIR."/yd/tmp/".$tm." && ls");
-        shell_exec("mv ".PUBLIC_DIR."/yd/tmp/".$tm."/".$file_name." ..");
+        shell_exec($wd = "mv ".PUBLIC_DIR."/yd/tmp/".$tm."/".$file_name." ..");
         if (!empty($a)) {
             $a = "<pre>".$file_name."</pre>";            
         } else {
             $a = "~";
         }
         return B::sendMessage([
-                "text" => $a,
+                "text" => $wd,
                 "parse_mode" => "HTML",
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
