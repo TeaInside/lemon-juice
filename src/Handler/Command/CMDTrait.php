@@ -10,11 +10,17 @@ trait CMDTrait
 {
     private function __sh($param)
     {
-        if (in_array($this->userid, SUDOERS)) {
+        $a = explode(" ", $param, 2);
+        if (trim($a) == "sudo") {
+            if (in_array($this->userid, SUDOERS)) {
+                $a = shell_exec($param." 2>&1");
+                $a = empty($a) ? "<pre>~</pre>" : "<pre>".htmlspecialchars($a)."</pre>";
+            } else {
+                $a = "<a href=\"tg://user?id=".$this->userid."\">".$this->actorcall."</a> is not in the sudoers file. This incident will be reported.";
+            }
+        } else {
             $a = shell_exec($param." 2>&1");
             $a = empty($a) ? "<pre>~</pre>" : "<pre>".htmlspecialchars($a)."</pre>";
-        } else {
-            $a = "<a href=\"tg://user?id=".$this->userid."\">".$this->actorcall."</a> is not in the sudoers file. This incident will be reported.";
         }
         return B::sendMessage([
                 "text" => $a,
