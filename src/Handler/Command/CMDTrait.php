@@ -10,6 +10,13 @@ trait CMDTrait
 {
     private function __yd($param)
     {
+        if (empty($param)) {
+            return B::sendMessage([
+                    "text" => "Empty link.",
+                    "chat_id" => $this->chatid,
+                    "reply_to_message_id" => $this->msgid
+                ]);
+        }
         $rr = json_decode(B::sendMessage([
                 "text" => "Downloading video...",
                 "parse_mode" => "HTML",
