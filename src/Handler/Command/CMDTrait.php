@@ -26,6 +26,7 @@ trait CMDTrait
         } else {
             $a = "~";
         }
+        
         B::editMessageText([
                 "text" => "https://webhooks.redangel.ga/yd/".$a,
                 "parse_mode" => "HTML",
