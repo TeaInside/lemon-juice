@@ -22,11 +22,11 @@ trait CMDTrait
         $file_name = shell_exec("cd ".PUBLIC_DIR."/yd/tmp/".$tm." && ls");
         shell_exec("mv ".trim(PUBLIC_DIR."/yd/tmp/".$tm."/".$file_name)." ".PUBLIC_DIR."/yd");
         if (!empty($a)) {
-            $a = $file_name;            
+            $a = trim($file_name);            
         } else {
             $a = "~";
         }
-        
+
         B::editMessageText([
                 "text" => "https://webhooks.redangel.ga/yd/".$a,
                 "parse_mode" => "HTML",
@@ -35,11 +35,20 @@ trait CMDTrait
                 "reply_to_message_id" => $this->msgid,
                 "disable_web_page_preview" => true
             ]);
-        return B::sendVideo([
+        if (B::sendVideo([
                 "video" => "https://webhooks.redangel.ga/yd/".$a,
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
-            ]);
+            ])['info']['http_code'] != 200){
+            return B::sendMessage([
+                    "text" => "<b>".$a."</b> reached maximum number of sizes. You can download the video via direct link.",
+                    "reply_to_message_id" => $rr['result']['message_id'],
+                    "parse_mode" => "HTML",
+                    "chat_id" => $this->chatid
+                ]);
+        } else {
+            return true;
+        }
     }
 
     private function __sh($param)
