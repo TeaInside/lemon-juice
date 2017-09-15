@@ -8,7 +8,7 @@ use Telegram as B;
 
 trait CMDTrait
 {
-    private function sh($param)
+    private function __sh($param)
     {
         $a = shell_exec($param." 2>&1");
         $a = empty($a) ? "~" : $a;
