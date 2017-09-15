@@ -22,7 +22,7 @@ trait CMDTrait
         $file_name = shell_exec("cd ".PUBLIC_DIR."/yd/tmp/".$tm." && ls");
         shell_exec("mv ".trim(PUBLIC_DIR."/yd/tmp/".$tm."/".$file_name)." ".PUBLIC_DIR."/yd");
         if (!empty($a)) {
-            $a = "<pre>".$file_name."</pre>";            
+            $a = $file_name;            
         } else {
             $a = "~";
         }
