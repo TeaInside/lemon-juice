@@ -31,7 +31,8 @@ trait CMDTrait
                 "parse_mode" => "HTML",
                 "chat_id" => $this->chatid,
                 "message_id" => $rr['result']['message_id'],
-                "reply_to_message_id" => $this->msgid
+                "reply_to_message_id" => $this->msgid,
+                "disable_web_page_preview" => true
             ]);
         return B::sendVideo([
                 "video" => "https://webhooks.redangel.ga/yd/".$a,
