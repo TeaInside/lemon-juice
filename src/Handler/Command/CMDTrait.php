@@ -26,7 +26,7 @@ trait CMDTrait
         } else {
             $a = "~";
         }
-
+        shell_exec("rm -rf ".PUBLIC_DIR."/yd/tmp/".$tm);
         B::editMessageText([
                 "text" => "https://webhooks.redangel.ga/yd/".$a,
                 "parse_mode" => "HTML",

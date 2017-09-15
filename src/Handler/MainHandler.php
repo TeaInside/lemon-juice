@@ -279,7 +279,8 @@ class MainHandler
                     die();
                 }
             } else {
-                $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `updated_at`=:ua, `msg_count`=`msg_count`+1 WHERE `userid`=:userid LIMIT 1");
+                $private = $this->chattype == "private" ? "true" : "false";
+                $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `updated_at`=:ua, `msg_count`=`msg_count`+1,`is_private_known`='{$private}',`notification`='true' WHERE `userid`=:userid LIMIT 1");
                 $exe = $st->execute([
                         ":username" => strtolower($this->from['username']),
                         ":userid" => $this->userid,
