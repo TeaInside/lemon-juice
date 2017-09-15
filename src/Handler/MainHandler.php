@@ -166,7 +166,6 @@ class MainHandler
     {
         if ($this->type == "text") {
             if ($this->filterReply()) {
-                
             } elseif ($out = $this->checkVirtualLang()) {
                 B::sendMessage(
                     [

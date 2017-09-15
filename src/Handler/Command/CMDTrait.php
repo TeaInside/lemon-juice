@@ -30,7 +30,7 @@ trait CMDTrait
         $file_name = shell_exec("cd ".PUBLIC_DIR."/yd/tmp/".$tm." && ls");
         shell_exec("mv ".trim(PUBLIC_DIR."/yd/tmp/".$tm."/".$file_name)." ".PUBLIC_DIR."/yd");
         if (!empty($a)) {
-            $a = trim($file_name);            
+            $a = trim($file_name);
         } else {
             $a = "~";
         }
@@ -47,7 +47,7 @@ trait CMDTrait
                 "video" => "https://webhooks.redangel.ga/yd/".$a,
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
-            ])['info']['http_code'] != 200){
+            ])['info']['http_code'] != 200) {
             return B::sendMessage([
                     "text" => "<b>".$a."</b> reached maximum number of sizes. You can download the video via direct link.",
                     "reply_to_message_id" => $rr['result']['message_id'],
@@ -106,7 +106,7 @@ trait CMDTrait
                 die(1);
             }
             $wr = "";
-            if ($st = $st->fetch(PDO::FETCH_NUM)){
+            if ($st = $st->fetch(PDO::FETCH_NUM)) {
                 $wr.= "\n<b>Warns found</b>:\n";
                 $st = json_decode($st[0], true) xor $i = 1;
                 foreach ($st as $val) {
