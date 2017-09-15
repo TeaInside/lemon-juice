@@ -47,20 +47,24 @@ class MyAnimeListCMD
                 $rep = "Mohon maaf, anime \"{$query}\" tidak ditemukan !";
                 $noforce = true;
             }
-            return B::sendMessage([
+            return B::sendMessage(
+                [
                 "chat_id" => $this->hd->chatid,
                 "text" => $rep,
                 "parse_mode" => "HTML",
                 "disable_web_page_preview" => true,
                 "reply_markup" => (isset($noforce) ? null : json_encode(["force_reply"=>true,"selective"=>true]))
-            ]);
+                ]
+            );
         } else {
-            return B::sendMessage([
+            return B::sendMessage(
+                [
                     "chat_id" => $this->hd->chatid,
                     "text" => "Anime apa yang ingin kamu cari?",
                     "reply_markup"=>(json_encode(["force_reply"=>true,"selective"=>true])),
                     "reply_to_message_id" => $this->hd->msgid
-                ]);
+                ]
+            );
         }
     }
 
@@ -88,24 +92,30 @@ class MyAnimeListCMD
             } else {
                 $rep = "Mohon maaf, anime dengan id \"{$id}\" tidak ditemukan !";
             }
-            isset($img) and B::sendPhoto([
+            isset($img) and B::sendPhoto(
+                [
                     "chat_id" => $this->hd->chatid,
                     "photo" => $img,
                     "reply_to_message_id" => $this->hd->msgid
-                ]);
-            return B::sendMessage([
+                ]
+            );
+            return B::sendMessage(
+                [
                     "chat_id" => $this->hd->chatid,
                     "text" => $rep,
                     "reply_to_message_id" => $this->hd->msgid,
                     "parse_mode" => "HTML"
-                ]);
+                ]
+            );
         } else {
-            return B::sendMessage([
+            return B::sendMessage(
+                [
                     "chat_id" => $this->hd->chatid,
                     "text" => "Sebutkan ID Anime yang ingin kamu cari !",
                     "reply_markup" => json_encode(["force_reply"=>true,"selective"=>true]),
                     "reply_to_message_id" => $this->hd->msgid
-                ]);
+                ]
+            );
         }
     }
 
@@ -128,19 +138,23 @@ class MyAnimeListCMD
             } else {
                 $rep = "Mohon maaf, anime \"{$query}\" tidak ditemukan !";
             }
-            return B::sendMessage([
+            return B::sendMessage(
+                [
                     "chat_id" => $this->hd->chatid,
                     "text" => $rep,
                     "parse_mode" => "HTML",
                     "disable_web_page_preview" => true,
                     "reply_markup" => (isset($noforce) ? null : json_encode(["force_reply"=>true,"selective"=>true]))
-                ]);
+                ]
+            );
         } else {
-            return B::sendMessage([
+            return B::sendMessage(
+                [
                     "text" => "Manga apa yang ingin kamu cari?",
                     "chat_id" => $this->hd->chatid,
                     "reply_markup" => json_encode(["force_reply"=>true,"selective"=>true])
-                ]);
+                ]
+            );
         }
     }
 
@@ -164,29 +178,37 @@ class MyAnimeListCMD
                     $ve = $fx($value);
                     !empty($ve) and $rep .= "<b>".ucwords($key)."</b> : ".($ve)."\n";
                 }
-                isset($img) and B::sendPhoto([
+                isset($img) and B::sendPhoto(
+                    [
                     "chat_id" => $this->hd->chatid,
                     "photo" => $img,
                     "reply_to_message_id" => $this->hd->msgid
-                ]);
-                return B::sendMessage([
+                    ]
+                );
+                return B::sendMessage(
+                    [
                     "chat_id" => $this->hd->chatid,
                     "text" => $rep,
                     "reply_to_message_id" => $this->hd->msgid,
                     "parse_mode" => "HTML"
-                ]);
+                    ]
+                );
             } else {
-                B::sendMessage([
+                B::sendMessage(
+                    [
                         "text" => "Mohon maaf, manga \"{$id}\" tidak ditemukan !",
                         "chat_id" => $this->hd->chatid
-                    ]);
+                    ]
+                );
             }
         } else {
-            B::sendMessage([
+            B::sendMessage(
+                [
                     "text" => "Sebutkan ID Manga yang ingin kamu cari !",
                     "chat_id" => $this->hd->chatid,
                     "reply_to_message_id" => $this->hd->msgid
-                ]);
+                ]
+            );
         }
     }
 }

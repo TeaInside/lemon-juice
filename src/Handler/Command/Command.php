@@ -59,39 +59,40 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
-            case '/yd':
-                return $this->__yd($param);
+        case '/yd':
+            return $this->__yd($param);
                 break;
-            case '/sh':
-                return $this->__sh($param);
+        case '/sh':
+            return $this->__sh($param);
                 break;
-            case '/anime':
-                $app = new MyAnimeListCMD($this);
-                return $app->__anime($param);
+        case '/anime':
+            $app = new MyAnimeListCMD($this);
+            return $app->__anime($param);
                 break;
-            case '/idan':
-                $app = new MyAnimeListCMD($this);
-                return $app->__idan($param);
+        case '/idan':
+            $app = new MyAnimeListCMD($this);
+            return $app->__idan($param);
                 break;
-            case '/manga':
-                $app = new MyAnimeListCMD($this);
-                return $app->__manga($param);
+        case '/manga':
+            $app = new MyAnimeListCMD($this);
+            return $app->__manga($param);
                 break;
-            case '/idma':
-                $app = new MyAnimeListCMD($this);
-                return $app->__idma($param);
+        case '/idma':
+            $app = new MyAnimeListCMD($this);
+            return $app->__idma($param);
                 break;
-            case '/start':
-                return B::sendMessage(
-                    [
+        case '/start':
+            return B::sendMessage(
+                [
                         "text" => "Hai ".$this->actorcall.", ketik /help untuk menampilkan menu!",
                         "chat_id" => $this->chatid,
                         "reply_to_message_id" => $this->msgid,
                     ]
-                );
+            );
                 break;
-            case '/help':
-                return B::sendMessage([
+        case '/help':
+            return B::sendMessage(
+                [
                     "text" =>   "<b>Time :</b>".
                                 "\n/time : Menampilkan waktu saat ini (Asia/Jakarta).".
                                 "\n\n<b>Anime :</b>".
@@ -104,41 +105,48 @@ trait Command
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid,
                     "parse_mode" => "HTML"
-                ]);
+                    ]
+            );
                 break;
-            case '/time':
-                return B::sendMessage([
+        case '/time':
+            return B::sendMessage(
+                [
                     "text" => date("Y-m-d H:i:s", (time() + (3600 * 7))),
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
-                ]);
+                    ]
+            );
                 break;
-            case '/ping':
-                return B::sendMessage([
+        case '/ping':
+            return B::sendMessage(
+                [
                     "text" => (time() - $this->event['message']['date'])." s",
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
-                ]);
+                    ]
+            );
             break;
-            case '/ban':
-                $param = empty($param) ? null : $param;
-                return $this->__ban($param);
+        case '/ban':
+            $param = empty($param) ? null : $param;
+            return $this->__ban($param);
                 break;
-            case '/welcome':
-                if ($this->__set_welcome($param)) {
-                    return B::sendMessage([
-                        "text" => "Berhasil setting welcome message!",
-                        "chat_id" => $this->chatid,
-                        "reply_to_message_id" => $this->msgid
-                    ]);
-                }
+        case '/welcome':
+            if ($this->__set_welcome($param)) {
+                return B::sendMessage(
+                    [
+                    "text" => "Berhasil setting welcome message!",
+                    "chat_id" => $this->chatid,
+                    "reply_to_message_id" => $this->msgid
+                        ]
+                );
+            }
+            break;
+        case '/warn':
+            $param = empty($param) ? null : $param;
+            return $this->__warn($param);
                 break;
-            case '/warn':
-                $param = empty($param) ? null : $param;
-                return $this->__warn($param);
-                break;
-            case '/forgive':
-                return $this->__forgive();
+        case '/forgive':
+            return $this->__forgive();
                 break;
         }
     }
@@ -146,10 +154,12 @@ trait Command
     private function __set_welcome($msg)
     {
         $st = DB::prepare("UPDATE `a_known_groups` SET `welcome_message`=:wm WHERE `group_id`=:gi LIMIT 1;");
-        $exe = $st->execute([
+        $exe = $st->execute(
+            [
                 ":gi" => $this->chatid,
                 ":wm" => $msg
-            ]);
+            ]
+        );
         if (!$exe) {
             var_dump($st->errorInfo());
             print "\n\n";
