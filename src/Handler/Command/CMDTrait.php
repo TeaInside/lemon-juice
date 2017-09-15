@@ -10,7 +10,7 @@ trait CMDTrait
 {
     private function __yd($param)
     {
-        if (empty($param)) {
+        if (empty($param) || !filter_var($param, FILTER_VALIDATE_URL)) {
             return B::sendMessage([
                     "text" => "Empty link.",
                     "chat_id" => $this->chatid,
