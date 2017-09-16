@@ -57,8 +57,7 @@ trait CMDTrait
                         "text" => "https://webhooks.redangel.ga/".$n,
                         "chat_id" => $this->chatid
                     ]);
-            }b
-            
+            }
         }
         return B::sendMessage([
                     "chat_id" => $this->chatid,
