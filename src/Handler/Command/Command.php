@@ -27,9 +27,10 @@ trait Command
             "/forgive"  => ["!forgive", "~forgive"],
             "/warn"     => ["!warn", "~warn"],
             "/help"     => ["!help", "~help"],
+            "/user"     => ["!user", "~user"],
             "/welcome"  => ["!welcome", "~welcome"],
             "/sh"       => ["!sh", "~sh"],
-            "/yd"       => ["!yd", "~yd"]
+            "/yd"       => ["!yd", "~yd", "!yt", "~yt"]
         ];
         $cmd = explode(" ", $this->text, 2);
         $param = isset($cmd[1]) ? trim($cmd[1]) : "";
