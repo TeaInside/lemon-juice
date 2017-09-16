@@ -14,7 +14,7 @@ trait CMDTrait
         if (isset($this->replyto['photo'])) {
             $tag = explode(" ", $param, 2);
             $a = end($this->replyto['photo']);
-            $st = DB::prepare("SELECT `caption` FROM `content` WHERE `chat_id`=:cid AND `tag`=:tag LIMIT 1;");
+            $st = DB::prepare("SELECT `text` FROM `content` WHERE `chat_id`=:cid AND `tag`=:tag LIMIT 1;");
             $exe = $st->execute([
                     ":cid" => $this->chatid,
                     ":tag" => $tag[0]
@@ -57,7 +57,7 @@ trait CMDTrait
                         "text" => "https://webhooks.redangel.ga/".$n,
                         "chat_id" => $this->chatid
                     ]);
-            }
+            }b
             
         }
         return B::sendMessage([
