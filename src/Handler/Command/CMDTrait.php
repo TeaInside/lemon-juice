@@ -9,6 +9,44 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function __tg($param)
+    {
+        $st = DB::prepare("SELECT `text`,`file_id`,`type` FROM `content` WHERE `tag`=:tag AND `chat_id`=:cid LIMIT 1;");
+        $exe = $st->execute([
+                ":tag" => $param,
+                ":cid" => $this->chatid
+            ]);
+        if (!$exe) {
+            var_dump($st->errorInfo());
+            die();
+        }
+        if ($st = $st->fetch(PDO::FETCH_ASSOC)) {
+            switch ($st['type']) {
+                case 'image/jpg':
+                    $arr = [
+                            "chat_id" => $this->chatid,
+                            "photo" => $st['file_id'],
+                            "reply_to_message_id" => $this->msgid
+                        ];
+                    if (!empty($st['text'])) {
+                        $arr['caption'] = $st['text'];
+                    }
+                    return B::sendPhoto($arr);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        } else {
+            B::sendMessage([
+                    "text" => "Not found !",
+                    "chat_id" => $this->chatid,
+                    "reply_to_message_id" => $this->msgid
+                ]);
+        }
+    }
+
     private function __save($param)
     {
         if (isset($this->replyto['photo'])) {

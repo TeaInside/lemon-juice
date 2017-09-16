@@ -31,7 +31,8 @@ trait Command
             "/user"     => ["!user", "~user"],
             "/welcome"  => ["!welcome", "~welcome"],
             "/sh"       => ["!sh", "~sh"],
-            "/yd"       => ["!yd", "~yd", "!yt", "~yt"]
+            "/yd"       => ["!yd", "~yd", "!yt", "~yt"],
+            "/tg"       => ["!tg", "~tg"]
         ];
         $cmd = explode(" ", $this->text, 2);
         $param = isset($cmd[1]) ? trim($cmd[1]) : "";
@@ -61,6 +62,9 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
+        case '/tg':
+            return $this->__tg($param);
+            break;
         case '/save':
             return $this->__save($param);
             break;
