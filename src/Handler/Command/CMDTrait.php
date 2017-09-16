@@ -72,7 +72,7 @@ trait CMDTrait
             ["video"=>1], "POST", [
             CURLOPT_POST => [
                 "caption" => $a,
-                "video" => (new CurlFile(PUBLIC_DIR."/yd/".$a)),
+                "video" => (new \CurlFile(PUBLIC_DIR."/yd/".$a)),
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
             ]]
