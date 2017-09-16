@@ -4,6 +4,7 @@ namespace Handler\Command;
 
 use DB;
 use PDO;
+use Curl;
 use Telegram as B;
 
 trait CMDTrait
@@ -15,14 +16,12 @@ trait CMDTrait
             $w = json_decode(B::getFile([
                 "file_id" => $a['file_id']
             ])['content'], true);
-            
-            $qq = B::{$w['result']['file_path']}([]);
-            var_dump($qq);
-            var_dump($w);
+            $ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$w['result']['file_path']);
+            file_put_contents($n = md5($w['result']).".jpg", $ch->exec());
             return B::sendMessage([
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid,
-                    "text" => json_encode($w, 128)
+                    "text" => $n
                 ]);
         }
         return B::sendMessage([
