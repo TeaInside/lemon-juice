@@ -191,7 +191,7 @@ trait CMDTrait
                 [
                     ":grid" => $this->chatid
                 ]
-            );
+            ); 
             if (!$exe) {
                 var_dump($sq->errorInfo());
                 die(1);
