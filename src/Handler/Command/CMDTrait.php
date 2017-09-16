@@ -10,7 +10,7 @@ trait CMDTrait
 {
     private function __user($param)
     {
-        DB::prepare("SELECT ")
+        
     }
 
     private function __yd($param)
