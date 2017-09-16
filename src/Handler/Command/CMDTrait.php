@@ -12,17 +12,53 @@ trait CMDTrait
     private function __save($param)
     {
         if (isset($this->replyto['photo'])) {
+            $tag = explode(" ", $param, 2);
             $a = end($this->replyto['photo']);
-            $w = json_decode(B::getFile([
-                "file_id" => $a['file_id']
-            ])['content'], true);
-            $ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$w['result']['file_path']);
-            file_put_contents($n = md5($w['result']['file_path']).".jpg", $ch->exec());
-            return B::sendMessage([
-                    "chat_id" => $this->chatid,
-                    "reply_to_message_id" => $this->msgid,
-                    "text" => $n
+            $st = DB::prepare("SELECT `caption` FROM `content` WHERE `chat_id`=:cid AND `tag`=:tag LIMIT 1;");
+            $exe = $st->execute([
+                    ":cid" => $this->chatid,
+                    ":tag" => $tag[0]
                 ]);
+            if (!$exe) {
+                var_dump($st->errorInfo());
+                die();
+            }
+            if ($st = $st->fetch(PDO::FETCH_NUM)) {
+                return B::sendMessage([
+                        "text" => "Duplicate content.",
+                        "chat_id" => $this->chatid,
+                        "reply_to_message_id" => $this->msgid
+                    ]);
+            } else {
+                $rr = json_decode(B::sendMessage([
+                        "chat_id" => $this->chatid,
+                        "reply_to_message_id" => $this->msgid,
+                        "text" => "Downloading image..."
+                    ])['content'], true);
+                $st = DB::prepare("INSERT INTO `content` (`id`,`chat_id`,`tag`,`text`,`file_id`,`type`,`created_at`) VALUES (null, :cid, :tag, :_text, :file_id, :type, :created_at);");
+                $exe = $st->execute([
+                        ":cid" => $this->chatid,
+                        ":tag" => $tag[0],
+                        ":_text" => $tag[1],
+                        ":type" => "image/jpg",
+                        ":created_at" => date("Y-m-d H:i:s")
+                    ]);
+                if (!$exe) {
+                    var_dump($st->errorInfo());
+                    die();
+                }
+                $w = json_decode(B::getFile([
+                    "file_id" => $a['file_id']
+                ])['content'], true);
+                $ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$w['result']['file_path']);
+                file_put_contents($n = md5($w['result']['file_path']).".jpg", $ch->exec());
+                return B::editMessageText([
+                        "message_id" => $rr['result']['message_id'],
+                        "text" => "https://webhooks.redangel.ga/".$n,
+                        "chat_id" => $this->chatid
+                    ]);
+            }
+            
         }
         return B::sendMessage([
                     "chat_id" => $this->chatid,
