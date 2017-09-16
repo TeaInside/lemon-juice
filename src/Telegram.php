@@ -12,6 +12,7 @@ final class Telegram
      */
     public static function __callStatic($method, $param)
     {
+        var_dump($method);
         if (isset($param[1]) and $param[1] == "GET") {
             $ch = curl_init("https://api.telegram.org/bot".TOKEN."/".$method.(isset($param[0]) ? "?".http_build_query($param[0]) : ""));
             $op = [
