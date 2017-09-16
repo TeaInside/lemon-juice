@@ -342,7 +342,7 @@ trait Command
         }
     }
 
-    private function _ban($args) 
+    private function _ban($args)
     {
         $args = trim($args);
         if ($this->chat_type != "private") {
