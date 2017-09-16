@@ -48,10 +48,14 @@ trait ContractParty
                 $this->textReply("<b>GAME OVER</b>.\nSelamat buat ".$a['smiter']['nama']." (@".$a['smiter']['username']."), kamu dapat 20 poin. Total {\$total_point}", null, null, array("parse_mode"=>"HTML"));
             } elseif ($a['status'] == "play") {
                 $this->textReply(
+<<<<<<< HEAD
                     $a['end_user']['name']." (@\\".$a['end_user']['username'].") keluar dari permainan.\n<b>Next</b> ".$a['next_user']['name']." (@".$a['next_user']['username'].")\n\n".strtoupper($a['word'])." <b>".strtoupper($a['rwd'])."</b>",
                     null,
                     null,
                     array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+=======
+                    $a['end_user']['name']." (@\\".$a['end_user']['username'].") keluar dari permainan.\n<b>Next</b> ".$a['next_user']['name']." (@".$a['next_user']['username'].")\n\n".strtoupper($a['word'])." <b>".strtoupper($a['rwd'])."</b>", null, null, array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+>>>>>>> 839408767998202ded85e46370449b4b86967412
                         array(
                                    "force_reply"=>true,
                                    "selective"=>true
@@ -63,10 +67,14 @@ trait ContractParty
             }
         } else {
             $this->textReply(
+<<<<<<< HEAD
                 "false...\n".json_encode($a, 128),
                 null,
                 $this->event['message']['message_id'],
                 array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+=======
+                "false...\n".json_encode($a, 128), null, $this->event['message']['message_id'], array("parse_mode"=>"HTML", "reply_markup"=>json_encode(
+>>>>>>> 839408767998202ded85e46370449b4b86967412
                     array(
                                    "force_reply"=>true,
                                    "selective"=>true

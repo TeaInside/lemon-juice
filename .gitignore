@@ -7,3 +7,20 @@
 /public/data/*
 config.php
 /vendor/
+<<<<<<< HEAD
+=======
+.dockerignore
+/data
+/logs
+/storage
+/public/assets
+/public/virtual
+/public/data
+/public/kangest
+/public/whatanime
+/public/LINE/data
+*.lock
+*.tmp
+nh.out
+text.txt
+>>>>>>> 839408767998202ded85e46370449b4b86967412

@@ -8,7 +8,11 @@ namespace App\MyAnimeList;
  * @since 0.0.1
  */
 
+<<<<<<< HEAD
 use Curl;
+=======
+use Sys\Curl;
+>>>>>>> 839408767998202ded85e46370449b4b86967412
 use App\MyAnimeList\MyAnimeListContract;
 use App\MyAnimeList\MyAnimeListException;
 

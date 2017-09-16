@@ -10,7 +10,11 @@ do {
     if (count($a) != 0) {
         # code...
     
+<<<<<<< HEAD
         $a = explode('</nav>', $a[1])[0];
+=======
+    $a = explode('</nav>', $a[1])[0];
+>>>>>>> 839408767998202ded85e46370449b4b86967412
         $a = explode('<nav', $a)[0];
         $a = explode("<li>", $a);
         $ct = count($a);

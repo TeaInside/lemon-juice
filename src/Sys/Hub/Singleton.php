@@ -1,6 +1,6 @@
 <?php
 
-namespace SysUtils\Hub;
+namespace Sys\Hub;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

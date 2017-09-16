@@ -46,13 +46,22 @@ trait Callback
             $this->callback_flag_data[$a['f']] = true;
             $text = $this->event['callback_query']['message']['text'];
             switch ($a['cmd']) {
+<<<<<<< HEAD
                 case 'rw':
+=======
+            case 'rw':
+>>>>>>> 839408767998202ded85e46370449b4b86967412
                     $text   = $this->event['callback_query']['message']['text'];
                     $user   = $user[0];
                     $this->remove_warning($a['c'], $user);
                     $aax = $this->tel->editMessageText($this->event['callback_query']['message']['chat']['id'], $this->event['callback_query']['message']['message_id'], $text, array("parse_mode"=>"HTML","reply_markup"=>null));
+<<<<<<< HEAD
                     break;
                 case 'cw':
+=======
+                break;
+            case 'cw':
+>>>>>>> 839408767998202ded85e46370449b4b86967412
                     $text   = $this->event['callback_query']['message']['text'];
                     $text   = explode("\n", $text);
                     $text   = trim($text[0])."\n\n".str_replace(array(0,1,2,3,4,5,6,7,8,9), array('<b>0</b>','<b>1</b>','<b>2</b>','<b>3</b>','<b>4</b>','<b>5</b>','<b>6</b>','<b>7</b>','<b>8</b>','<b>9</b>'), end($text));
@@ -60,9 +69,16 @@ trait Callback
                     $user = $user[0];
                     $this->cancel_warning($a['c'], $user);
                     $aax = $this->tel->editMessageText($this->event['callback_query']['message']['chat']['id'], $this->event['callback_query']['message']['message_id'], $this->event['callback_query']['message']['text'], array("parse_mode"=>"HTML","reply_markup"=>null));
+<<<<<<< HEAD
                     break;
                 default:
                     break;
+=======
+                break;
+            default:
+                    
+                break;
+>>>>>>> 839408767998202ded85e46370449b4b86967412
             }
         }
     }

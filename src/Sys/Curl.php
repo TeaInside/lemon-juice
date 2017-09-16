@@ -1,6 +1,6 @@
 <?php
 
-namespace SysUtils;
+namespace Sys;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

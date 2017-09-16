@@ -34,10 +34,14 @@ trait ExtendedAction
                 $out = "Rejected for security reason!";
             }
             $this->textReply(
+<<<<<<< HEAD
                 $out,
                 null,
                 $this->event['message']['message_id'],
                 array(
+=======
+                $out, null, $this->event['message']['message_id'], array(
+>>>>>>> 839408767998202ded85e46370449b4b86967412
                     "parse_mode" => "HTML"
                 )
             );
@@ -91,6 +95,7 @@ trait ExtendedAction
         $str = strtolower($str);
         $rt = true;
         switch ($type) {
+<<<<<<< HEAD
             case 'sh':
                 if ($this->actor_id != 243692601 and (strpos($str, "sudo ")!==false
                 or strpos($str, "rm ")!==false
@@ -102,17 +107,40 @@ trait ExtendedAction
                 break;
             case 'php':
                 if ($this->actor_id != 243692601 and (strpos($str, "shell_exec")!==false
+=======
+        case 'sh':
+            if ($this->actor_id != 243692601 and (strpos($str, "sudo ")!==false
+                or strpos($str, "rm ")!==false
+                or strpos($str, "apt ")!==false
+                or strpos($str, "pass")!==false)
+            ) {
+                $rt = false;
+            }
+            break;
+        case 'php':
+            if ($this->actor_id != 243692601 and (strpos($str, "shell_exec")!==false
+>>>>>>> 839408767998202ded85e46370449b4b86967412
                 or strpos($str, "exec")!==false
                 or strpos($str, "system")!==false
                 or strpos($str, "unlink")!==false
                 or strpos($str, "scandir")!==false
                 or strpos($str, "eval") !== false)
+<<<<<<< HEAD
                 ) {
                     $rt = false;
                 }
                 break;
             default:
                 break;
+=======
+            ) {
+                $rt = false;
+            }
+            break;
+        default:
+                    
+            break;
+>>>>>>> 839408767998202ded85e46370449b4b86967412
         }
         return $rt;
     }

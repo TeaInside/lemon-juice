@@ -7,8 +7,13 @@
             "email": "ammarfaizi2@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "ammarfaizi2/ai": "dev-master",
+        "ammarfaizi2/curl": "^0.0.1"
+    },
+    "minimum-stability": "dev",
     "autoload": {
+<<<<<<< HEAD
         "psr-0": {
             "App": "src/",
             "Handler": "src/",
@@ -20,3 +25,16 @@
     },
     "autoload-dev": {}
 }
+=======
+    	"psr-0": {
+            "Bot": "src/",
+            "App": "src/",
+            "Sys": "src/",
+            "Stacks": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    }
+}
+>>>>>>> 839408767998202ded85e46370449b4b86967412

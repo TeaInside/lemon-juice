@@ -319,7 +319,11 @@ class Session implements SessionContract
         $sln = strlen($chr);
         $vocal = ["a","i","u","e","o"];
         $vocal_flag = false;
+<<<<<<< HEAD
         for ($i=1; $i <= $sln; $i++) {
+=======
+        for ($i=1; $i <= $sln ; $i++) {
+>>>>>>> 839408767998202ded85e46370449b4b86967412
             $a = substr($chr, -($i), 1);
             if (in_array($a, $vocal)) {
                 if (!$vocal_flag) {
