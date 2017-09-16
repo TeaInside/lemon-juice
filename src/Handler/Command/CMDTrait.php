@@ -70,7 +70,7 @@ trait CMDTrait
         );
         if (B::sendVideo(
             ["video"=>1], "POST", [
-            CURLOPT_POST => [
+            CURLOPT_POSTFIELDS => [
                 "caption" => $a,
                 "video" => (new \CurlFile(PUBLIC_DIR."/yd/".$a)),
                 "chat_id" => $this->chatid,
