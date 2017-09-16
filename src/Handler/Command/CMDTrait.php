@@ -12,13 +12,16 @@ trait CMDTrait
     {
         if (isset($this->replyto['photo'])) {
             $a = end($this->replyto['photo']);
-            $w = B::getFile([
+            $w = json_decode(B::getFile([
                 "file_id" => $a['file_id']
-            ]);
+            ]), true);
+            
+            $qq = B::{$a['result']['file_path']}();
+            file_put_contents("aaa.jpg", $qq);
             return B::sendMessage([
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid,
-                    "text" => json_encode(json_decode($w['content'], true), 128)
+                    "text" => json_encode($a, true)
                 ]);
         }
         return B::sendMessage([
