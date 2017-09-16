@@ -94,7 +94,8 @@ trait CMDTrait
                 return B::editMessageText([
                         "message_id" => $rr['result']['message_id'],
                         "text" => "https://webhooks.redangel.ga/".$n,
-                        "chat_id" => $this->chatid
+                        "chat_id" => $this->chatid,
+                        "disable_web_page_preview" => true
                     ]);
             }
         }
