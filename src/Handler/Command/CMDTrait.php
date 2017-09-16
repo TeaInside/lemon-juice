@@ -8,6 +8,26 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function __save($param)
+    {
+        if (isset($this->replyto['photo'])) {
+            $a = end($this->replyto['photo']);
+            $w = B::getFile([
+                "file_id" => $a['file_id']
+            ]);
+            return B::sendMessage([
+                    "chat_id" => $this->chatid,
+                    "reply_to_message_id" => $this->msgid,
+                    "text" => json_encode(json_decode($w, true), 128)
+                ]);
+        }
+        return B::sendMessage([
+                    "chat_id" => $this->chatid,
+                    "reply_to_message_id" => $this->msgid,
+                    "text" => "nf"
+                ]);
+    }
+
     private function __user($param)
     {
         

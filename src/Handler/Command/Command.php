@@ -27,6 +27,7 @@ trait Command
             "/forgive"  => ["!forgive", "~forgive"],
             "/warn"     => ["!warn", "~warn"],
             "/help"     => ["!help", "~help"],
+            "/save"     => ["!save", "~save"],
             "/user"     => ["!user", "~user"],
             "/welcome"  => ["!welcome", "~welcome"],
             "/sh"       => ["!sh", "~sh"],
@@ -60,6 +61,9 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
+        case '/save':
+            return $this->__save($param);
+            break;
         case '/user':
             return $this->__user($param);
             break;
