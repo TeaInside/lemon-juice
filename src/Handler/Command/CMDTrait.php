@@ -18,7 +18,7 @@ trait CMDTrait
             return B::sendMessage([
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid,
-                    "text" => json_encode(json_decode($w, true), 128)
+                    "text" => json_encode(json_decode($w['content'], true), 128)
                 ]);
         }
         return B::sendMessage([
