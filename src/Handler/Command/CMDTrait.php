@@ -16,12 +16,12 @@ trait CMDTrait
                 "file_id" => $a['file_id']
             ])['content'], true);
             
-            $qq = B::{$w['result']['file_path']}();
+            $qq = B::{$w['result']['file_path']}([]);
             file_put_contents("aaa.jpg", $qq);
             return B::sendMessage([
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid,
-                    "text" => json_encode($a, true)
+                    "text" => json_encode($w, 128)
                 ]);
         }
         return B::sendMessage([
