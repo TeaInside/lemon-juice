@@ -17,7 +17,7 @@ trait CMDTrait
                 "file_id" => $a['file_id']
             ])['content'], true);
             $ch = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$w['result']['file_path']);
-            file_put_contents($n = md5($w['result']).".jpg", $ch->exec());
+            file_put_contents($n = md5($w['result']['file_path']).".jpg", $ch->exec());
             return B::sendMessage([
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid,
