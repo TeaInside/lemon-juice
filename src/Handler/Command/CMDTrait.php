@@ -16,7 +16,7 @@ trait CMDTrait
                 "file_id" => $a['file_id']
             ])['content'], true);
             
-            $qq = B::{$a['result']['file_path']}();
+            $qq = B::{$w['result']['file_path']}();
             file_put_contents("aaa.jpg", $qq);
             return B::sendMessage([
                     "chat_id" => $this->chatid,
