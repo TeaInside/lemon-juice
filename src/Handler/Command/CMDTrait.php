@@ -193,7 +193,7 @@ trait CMDTrait
                 ]
             );
             if (!$exe) {
-                var_dump($st->errorInfo());
+                var_dump($sq->errorInfo());
                 die(1);
             }
             $sq = $sq->fetch(PDO::FETCH_NUM);
