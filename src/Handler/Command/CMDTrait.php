@@ -39,6 +39,7 @@ trait CMDTrait
                 $exe = $st->execute([
                         ":cid" => $this->chatid,
                         ":tag" => $tag[0],
+                        ":file_id" => $a['file_id'],
                         ":_text" => $tag[1],
                         ":type" => "image/jpg",
                         ":created_at" => date("Y-m-d H:i:s")
