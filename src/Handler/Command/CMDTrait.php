@@ -169,7 +169,7 @@ trait CMDTrait
 
     private function __warn($reason = null)
     {
-        $flag = false;
+        $flag = false; 
         $a = json_decode(
             B::getChatAdministrators(
                 [
@@ -183,7 +183,7 @@ trait CMDTrait
                     $flag = true;
                 }
                 break;
-            }
+            } 
         }
         if ($flag) {
             $sq = DB::prepare("SELECT `max_warn` FROM `a_known_groups` WHERE `group_id`=:grid LIMIT 1;");
