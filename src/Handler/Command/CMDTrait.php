@@ -26,7 +26,7 @@ trait CMDTrait
                     $arr = [
                             "chat_id" => $this->chatid,
                             "photo" => $st['file_id'],
-                            "reply_to_message_id" => $this->msgid
+                            "reply_to_message_id" => (isset($this->replyto) ? $this->replyto['message_id'] : $this->msgid)
                         ];
                     if (!empty($st['text'])) {
                         $arr['caption'] = $st['text'];
