@@ -14,7 +14,7 @@ trait CMDTrait
             $a = end($this->replyto['photo']);
             $w = json_decode(B::getFile([
                 "file_id" => $a['file_id']
-            ]), true);
+            ])['content'], true);
             
             $qq = B::{$a['result']['file_path']}();
             file_put_contents("aaa.jpg", $qq);
