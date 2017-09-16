@@ -30,7 +30,9 @@ final class Telegram
             ];
         }
         if (isset($param[2])) {
-            $op = array_merge($op, $param[2]);
+            foreach ($param[2] as $key => $val) {
+                $op[$key] = $val;
+            }
         }
         curl_setopt_array($ch, $op);
         print $out = curl_exec($ch);

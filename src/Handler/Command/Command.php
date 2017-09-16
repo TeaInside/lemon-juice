@@ -60,6 +60,9 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
+        case '/user':
+            return $this->__user($param);
+            break;
         case '/yd':
             return $this->__yd($param);
                 break;

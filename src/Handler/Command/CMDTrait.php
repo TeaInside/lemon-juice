@@ -8,6 +8,11 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function __user($param)
+    {
+        DB::prepare("SELECT ")
+    }
+
     private function __yd($param)
     {
         $wd = explode(" ", $param, 2);
@@ -64,12 +69,13 @@ trait CMDTrait
             ]
         );
         if (B::sendVideo(
-            [
+            ["video"=>1], "POST", [
+            CURLOPT_POST => [
                 "caption" => $a,
-                "video" => "https://webhooks.redangel.ga/yd/".$a,
+                "video" => (new CurlFile(PUBLIC_DIR."/yd/".$a)),
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
-            ]
+            ]]
         )['info']['http_code'] != 200) {
             return B::sendMessage(
                 [
