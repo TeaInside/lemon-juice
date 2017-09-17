@@ -19,7 +19,7 @@ trait Command
             "/start"    => ["!start", "~start"],
             "/time"     => ["!time", "~time"],
             "/ping"     => ["!ping", "~ping"],
-            "/report"   => ["!report", "~report"],
+            "/report"   => ["!report", "~report", "@admin"],
             "/kick"     => ["!kick", "~kick"],
             "/ban"      => ["!ban", "~ban"],
             "/unban"    => ["!unban", "~unban"],

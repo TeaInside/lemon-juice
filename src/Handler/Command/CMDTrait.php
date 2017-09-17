@@ -14,14 +14,25 @@ trait CMDTrait
         $a = json_decode(B::getChatAdministrators([
             "chat_id" => $this->chatid
         ], "GET")['content'], true) xor $i = 0;
+        if (isset($this->chat['username'])) {
+            $group = "<a href=\"https://t.me/".$this->chat['username']."\">".htmlspecialchars($this->chattitle)."</a>";
+            $goto = "<b>•</b> <a href=\"https://t.me/".$this->chat['username']."/".$this->msgid."\">Go to the message</a>";
+        } else {
+            $group = "<b>".htmlspecialchars($this->chattitle)."</b>";
+            $goto = "";
+        }
+        if (!empty($param)) {
+            $note = "<b>• Note</b>: ".htmlspecialchars($param)."\n";
+        } else {
+            $note = "";
+        }
         foreach ($a['result'] as $val) {
-            if (strtolower($val['user']['username']) != strtolower(BOT_USERNAME)) {
-                $i++;
+            if (strtolower($val['user']['is_bot']) === false) {
                 B::sendMessage([
-                    "text" => "Laporan dari <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actorcall)."</a>",
+                    "text" => $note."<b>• Message reported by</b>: <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actor)."</a> (<code>".htmlspecialchars($this->userid)."</code>)\n<b>• Group</b>: ".$group."\n".$goto,
                     "chat_id" => $val['user']['id'],
                     "parse_mode" => "HTML"
-                ]);
+                ])['info']['http_code'] == 200 and ($i++);
             }
         }
         return B::sendMessage([
@@ -263,15 +274,12 @@ trait CMDTrait
                 "disable_web_page_preview" => true
             ]
         );
-        if (B::sendVideo(
-            ["video"=>1], "POST", [
-            CURLOPT_POSTFIELDS => [
+        if (B::sendVideo([
                 "caption" => $a,
-                "video" => (new \CurlFile(PUBLIC_DIR."/yd/".$a)),
+                "video" => "https://webhooks.redangel.ga/".$a,
                 "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
-            ]]
-        )['info']['http_code'] != 200) {
+            ])['info']['http_code'] != 200) {
             return B::sendMessage(
                 [
                     "text" => "<b>".$a."</b> reached maximum number of sizes. You can download the video via direct link.",
