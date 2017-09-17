@@ -62,7 +62,7 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
-        case 'report':
+        case '/report':
             return $this->__report($param);
             break;
         case '/tg':
