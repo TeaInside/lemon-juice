@@ -9,6 +9,81 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function __whatanime()
+    {
+        $args = trim($args);
+        if (isset($this->replyto['photo'])) {
+            $r = json_decode(B::sendMessage([
+                    "text" => "Downloading image...",
+                    "chat_id" => $this->chatid,
+                    ""
+                ], true));
+            $p = end($this->replyto['photo']);
+            $p = json_decode(B::getFile($p['file_id']), true);
+            $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
+            $st = new WhatAnime($st->exec());
+            B::editMessageText(
+                [
+                    "text" => "I've got your image.\n\nSearching...",
+                    "chat_id" => $this->msgid,
+                    "message_id" => $r['result']['message_id'],
+                ]
+            );
+            $st = json_decode($st->exec(), 128);
+            if (isset($st['docs'][0])) {
+                $a = $st['docs'][0];
+                $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
+                isset($a['title_english']) and $rep.="<b>Judul Inggris</b> : ".htmlspecialchars($a['title_english'])."\n";
+                isset($a['title_romaji']) and $rep.="<b>Judul Romanji</b> : ".htmlspecialchars($a['title_romaji'])."\n";
+                isset($a['episode']) and $rep.= "<b>Episode</b> : ".htmlspecialchars($a['episode'])."\n";
+                isset($a['season']) and $rep.= "<b>Season</b> : ".htmlspecialchars($a['season'])."\n";
+                isset($a['anime']) and $rep.= "<b>Anime</b> : ".htmlspecialchars($a['anime'])."\n";
+                isset($a['file']) and $rep.= "<b>File</b> : ".htmlspecialchars($a['file']);
+                B::editMessageText(
+                    [
+                    "text" => $rep,
+                    "parse_mode" => "HTML",
+                    "chat_id" => $this->room_id,
+                    "message_id" => $r['result']['message_id'],
+                    ]
+                );
+                $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
+                if (!($video_file = WhatAnime::check_video($video_url))) {
+                    $video_file = WhatAnime::download_video($video_url);
+                }
+                $fd = function ($time) {
+                    $time = (int)$time;
+                    $menit = 0;
+                    $detik = 0;
+                    while ($time>0) {
+                        if ($time>60) {
+                            $menit += 1;
+                            $time -= 60;
+                        } elseif ($time>1) {
+                            $detik += $time;
+                            $time = 0;
+                        }
+                    }
+                    $menit = (string) $menit;
+                    $detik = (string) $detik;
+                    return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
+                };
+                B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
+            } else {
+                B::editMessageText(
+                    [
+                    "text" => "Mohon maaf, anime yang mirip tidak ditemukan.",
+                    "parse_mode" => "HTML",
+                    "chat_id" => $this->room_id,
+                    "message_id" => $r['result']['message_id'],
+                    ]
+                );
+            }
+        } else {
+            B::sendMessage("Please reply an image with /whatanime!", $this->room_id, $this->msg_id);
+        }
+    }
+
     private function __tg($param)
     {
         $st = DB::prepare("SELECT `text`,`file_id`,`type` FROM `content` WHERE `tag`=:tag AND `chat_id`=:cid LIMIT 1;");
