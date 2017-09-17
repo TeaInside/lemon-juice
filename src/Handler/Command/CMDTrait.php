@@ -26,8 +26,9 @@ trait CMDTrait
         } else {
             $note = "";
         }
+        var_dump($a['result']);
         foreach ($a['result'] as $val) {
-            if (strtolower($val['user']['is_bot']) === false) {
+            if (strtolower($val['user']['is_bot']) == false) {
                 B::sendMessage([
                     "text" => $note."<b>• Message reported by</b>: <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actor)."</a> (<code>".htmlspecialchars($this->userid)."</code>)\n<b>• Group</b>: ".$group."\n".$goto,
                     "chat_id" => $val['user']['id'],
