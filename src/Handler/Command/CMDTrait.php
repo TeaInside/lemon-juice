@@ -22,7 +22,7 @@ trait CMDTrait
             $goto = "";
         }
         if (!empty($param)) {
-            $note = "<b>• Note</b>: ".htmlspecialchars($param)."\n";
+            $note = "\n<b>• Note</b>: ".htmlspecialchars($param);
         } else {
             $note = "";
         }
@@ -30,7 +30,7 @@ trait CMDTrait
         foreach ($a['result'] as $val) {
             if (strtolower($val['user']['is_bot']) == false) {
                 B::sendMessage([
-                    "text" => $note."<b>• Message reported by</b>: <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actor)."</a> (<code>".htmlspecialchars($this->userid)."</code>)\n<b>• Group</b>: ".$group."\n".$goto,
+                    "text" => "<b>• Message reported by</b>: <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actor)."</a> (<code>".htmlspecialchars($this->userid)."</code>)".($note)."\n<b>• Group</b>: ".$group."\n".$goto,
                     "chat_id" => $val['user']['id'],
                     "parse_mode" => "HTML"
                 ])['info']['http_code'] == 200 and ($i++);
