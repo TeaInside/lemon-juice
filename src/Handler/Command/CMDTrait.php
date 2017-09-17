@@ -9,6 +9,29 @@ use Telegram as B;
 
 trait CMDTrait
 {
+    private function __report($param)
+    {
+        $a = json_decode(B::getChatAdministrators([
+            "chat_id" => $this->chatid
+        ], "GET")['content'], true) xor $i = 0;
+        foreach ($a['result'] as $val) {
+            if (strtolower($val['user']['username']) === strtolower(BOT_USERNAME)) {
+                $i++;
+                B::sendMessage([
+                    "text" => "Laporan dari <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actorcall)."</a>",
+                    "chat_id" => $val['user']['id'],
+                    "parse_mode" => "HTML"
+                ]);
+            }
+        }
+        return B::sendMessage([
+            "chat_id" => $this->chatid,
+            "reply_to_message_id" => $this->msgid,
+            "text" => "<i>Reported to {$i} admin(s)</i>",
+            "parse_mode" => "HTML"
+        ]);
+    }
+
     private function __whatanime()
     {
         $args = trim($args);
