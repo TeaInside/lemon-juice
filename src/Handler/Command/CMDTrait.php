@@ -15,7 +15,7 @@ trait CMDTrait
             "chat_id" => $this->chatid
         ], "GET")['content'], true) xor $i = 0;
         foreach ($a['result'] as $val) {
-            if (strtolower($val['user']['username']) === strtolower(BOT_USERNAME)) {
+            if (strtolower($val['user']['username']) != strtolower(BOT_USERNAME)) {
                 $i++;
                 B::sendMessage([
                     "text" => "Laporan dari <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actorcall)."</a>",
