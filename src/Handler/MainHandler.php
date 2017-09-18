@@ -118,6 +118,7 @@ class MainHandler
             $this->lowertext = strtolower($this->text);
             $this->userid = $this->event['message']['from']['id'];
             !isset($this->from['username']) and $this->from['username'] = null;
+            !isset($this->replyto['text']) and $this->replyto['text'] = null;
         } elseif (isset($this->event['message']['new_chat_member'])) {
             $this->type = "new_member";
             $this->chatid = $this->event['message']['chat']['id'];
