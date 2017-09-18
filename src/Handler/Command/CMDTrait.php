@@ -42,7 +42,10 @@ trait CMDTrait
                     "parse_mode" => "HTML",
                     "disable_web_page_preview" => "true"
                 ]);
-                shell_exec("php -r 'require \"/home/web/bot/autoload.php\"; Telegram::sendMessage(json_decode(\"".$json."\",true));' &");
+                file_put_contents("aa.tmp", "<?php require '/home/web/bot/autoload.php';
+                        Telegram::sendMessage(json_decode('".$json."',trues));
+                    ");
+                shell_exec("php aa.tmp &");
             }
         }
         return B::sendMessage([
