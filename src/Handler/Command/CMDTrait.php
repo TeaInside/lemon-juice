@@ -32,7 +32,8 @@ trait CMDTrait
                 B::sendMessage([
                     "text" => "<b>• Message reported by</b>: <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actor)."</a> (<code>".htmlspecialchars($this->userid)."</code>)".($note)."\n<b>• Group</b>: ".$group."\n".$goto,
                     "chat_id" => $val['user']['id'],
-                    "parse_mode" => "HTML"
+                    "parse_mode" => "HTML",
+                    "disable_web_page_preview" => "true"
                 ])['info']['http_code'] == 200 and ($i++);
             }
         }
