@@ -111,7 +111,6 @@ trait CMDTrait
                     "caption" => "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id'],
                     "reply_to_message_id" => $this->replyto['message_id']
                 ]);
-                //B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
             } else {
                 B::editMessageText(
                     [
