@@ -50,7 +50,7 @@ class WhatAnimeCMD
         }
     }
 
-    public static function cache_control($cache)
+    public static function cache_control()
     {
         is_dir(PUBLIC_DIR."/whatanime/cache") or shell_exec("mkdir -p ".PUBLIC_DIR."/whatanime/cache");
         is_dir(PUBLIC_DIR."/whatanime") or shell_exec("mkdir -p ".PUBLIC_DIR."/whatanime");
