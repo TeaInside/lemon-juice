@@ -34,7 +34,7 @@ class WhatAnimeCMD
 
     public static function check_video($url)
     {
-        return file_exists(PUBLIC_DIR."/whatanime/video/".(sha1($url)).".mp4");
+        return file_exists(PUBLIC_DIR."/whatanime/video/".($vidname = sha1($url)).".mp4") ? $vidname : false;
     }
 
     public static function download_video($url)
