@@ -53,12 +53,19 @@ trait CMDTrait
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->replyto['message_id']
                 ])['content'], true);
-            $p = end($this->replyto['photo']);
-            $p = json_decode(B::getFile([
-                    "file_id" => $p['file_id']
-                ])['content'], true);
-            $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
-            $st = new WhatAnimeCMD($st->exec());
+            $qp = end($this->replyto['photo']);
+            WhatAnimeCMD::cache_control();
+            if ($st = WhatAnimeCMD::check_cache($qp['file_id'])) {
+                
+            } else {
+                $p = json_decode(B::getFile([
+                        "file_id" => $qp['file_id']
+                    ])['content'], true);
+                $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
+                $st = new WhatAnimeCMD($st->exec());
+                $st = json_decode($st->exec(), 128);
+                WhatAnimeCMD::make_cache(sha1($qp['file_id']), $st);
+            }
             B::editMessageText(
                 [
                     "text" => "I've got your image, searching...",
@@ -66,7 +73,6 @@ trait CMDTrait
                     "message_id" => $r['result']['message_id'],
                 ]
             );
-            $st = json_decode($st->exec(), 128);
             if (isset($st['docs'][0])) {
                 $a = $st['docs'][0];
                 $rep = "Anime yang mirip :\n\n<b>Judul</b> : ".$a['title']."\n";
