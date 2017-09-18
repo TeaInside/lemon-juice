@@ -6,6 +6,7 @@ use DB;
 use PDO;
 use Curl;
 use Telegram as B;
+use Handler\Command\WhatAnimeCMD;
 
 trait CMDTrait
 {
@@ -54,9 +55,11 @@ trait CMDTrait
                     "reply_to_message_id" => $this->msgid
                 ])['content'], true);
             $p = end($this->replyto['photo']);
-            $p = json_decode(B::getFile($p['file_id']), true);
+            $p = json_decode(B::getFile([
+                    "file_id" => $p['file_id']
+                ])['content'], true);
             $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);
-            $st = new WhatAnime($st->exec());
+            $st = new WhatAnimeCMD($st->exec());
             B::editMessageText(
                 [
                     "text" => "I've got your image.\n\nSearching...",
@@ -103,7 +106,7 @@ trait CMDTrait
                     $detik = (string) $detik;
                     return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
                 };
-                B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
+                //B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
             } else {
                 B::editMessageText(
                     [
