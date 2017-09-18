@@ -125,7 +125,8 @@ trait CMDTrait
             return B::sendMessage([
                 "text" => "Reply this message with an image!",
                 "chat_id" => $this->chatid,
-                "reply_to_message_id" => $this->msgid
+                "reply_to_message_id" => $this->msgid,
+                "reply_markup"=>(json_encode(["force_reply"=>true,"selective"=>true]))
             ]);
         }
     }
