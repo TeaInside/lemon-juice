@@ -66,6 +66,7 @@ trait CMDTrait
                 $st = json_decode($st->exec(), 128);
                 WhatAnimeCMD::make_cache(sha1($qp['file_id']), $st);
             }
+            
             B::editMessageText(
                 [
                     "text" => "I've got your image, searching...",
