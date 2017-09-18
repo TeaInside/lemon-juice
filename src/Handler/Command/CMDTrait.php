@@ -62,7 +62,7 @@ trait CMDTrait
             B::editMessageText(
                 [
                     "text" => "I've got your image.\n\nSearching...",
-                    "chat_id" => $this->msgid,
+                    "chat_id" => $this->chatid,
                     "message_id" => $r['result']['message_id'],
                 ]
             );
