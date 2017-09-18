@@ -51,8 +51,8 @@ trait CMDTrait
             $r = json_decode(B::sendMessage([
                     "text" => "Downloading image...",
                     "chat_id" => $this->chatid,
-                    ""
-                ], true));
+                    "reply_to_message_id" => $this->msgid
+                ])['content'], true);
             $p = end($this->replyto['photo']);
             $p = json_decode(B::getFile($p['file_id']), true);
             $st = new Curl("https://api.telegram.org/file/bot".TOKEN."/".$p['result']['file_path']);

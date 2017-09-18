@@ -147,9 +147,14 @@ trait Command
                 break;
         case '/welcome':
             if ($this->__set_welcome($param)) {
+                if (empty(trim($param))) {
+                    $a = "Berhasil menghapus welcome message.";
+                } else {
+                    $a = "Berhasil setting welcome message!";
+                }
                 return B::sendMessage(
                     [
-                    "text" => "Berhasil setting welcome message!",
+                    "text" => $a,
                     "chat_id" => $this->chatid,
                     "reply_to_message_id" => $this->msgid
                         ]
