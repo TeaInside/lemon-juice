@@ -309,7 +309,7 @@ class MainHandler
                     }
                 }
             }
-            $st = DB::prepare("SELECT COUNT(`userid`) FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
+            $st = DB::prepare("SELECT COUNT(`userid`),`is_private_known` FROM `a_known_users` WHERE `userid`=:userid LIMIT 1;");
             $st->execute(
                 [
                     ":userid" => $this->userid
@@ -332,7 +332,11 @@ class MainHandler
                     die();
                 }
             } else {
-                $private = $this->chattype == "private" ? "true" : "false";
+                if ($st[1] == "false") {
+                    $private = $this->chattype == "private" ? "true" : "false";
+                } else {
+                    $private = "true";
+                }
                 $st = DB::prepare("UPDATE `a_known_users` SET `username`=:username, `name`=:name, `updated_at`=:ua, `msg_count`=`msg_count`+1,`is_private_known`='{$private}',`notification`='true' WHERE `userid`=:userid LIMIT 1");
                 $exe = $st->execute(
                     [
