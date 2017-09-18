@@ -28,23 +28,12 @@ trait CMDTrait
         }
         foreach ($a['result'] as $val) {
             if (strtolower($val['user']['is_bot']) == false) {
-                /*B::sendMessage([
+                B::sendMessage([
                     "text" => "<b>• Message reported by</b>: <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actor)."</a> (<code>".htmlspecialchars($this->userid)."</code>)".($note)."\n<b>• Group</b>: ".$group."\n".$goto,
                     "chat_id" => $val['user']['id'],
                     "parse_mode" => "HTML",
                     "disable_web_page_preview" => "true"
-                ])['info']['http_code'] == 200 and ($i++);*/
-                $i++;
-                $json = json_encode([
-                    "text" => "<b>• Message reported by</b>: <a href=\"tg://user?id=".$this->userid."\">".htmlspecialchars($this->actor)."</a> (<code>".htmlspecialchars($this->userid)."</code>)".($note)."\n<b>• Group</b>: ".$group."\n".$goto,
-                    "chat_id" => $val['user']['id'],
-                    "parse_mode" => "HTML",
-                    "disable_web_page_preview" => "true"
-                ]);
-                file_put_contents("aa.tmp", "<?php require '/home/web/bot/autoload.php';
-                        Telegram::sendMessage(json_decode('".$json."',true));
-                    ");
-                shell_exec("nohup php aa.tmp >> /dev/null &");
+                ])['info']['http_code'] == 200 and ($i++);
             }
         }
         return B::sendMessage([
