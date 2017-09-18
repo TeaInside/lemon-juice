@@ -81,7 +81,7 @@ trait CMDTrait
                     [
                     "text" => $rep,
                     "parse_mode" => "HTML",
-                    "chat_id" => $this->chat_id,
+                    "chat_id" => $this->chatid,
                     "message_id" => $r['result']['message_id'],
                     ]
                 );
