@@ -47,12 +47,11 @@ trait CMDTrait
 
     private function __whatanime()
     {
-        $args = trim($args);
         if (isset($this->replyto['photo'])) {
             $r = json_decode(B::sendMessage([
                     "text" => "Downloading image...",
                     "chat_id" => $this->chatid,
-                    "reply_to_message_id" => $this->msgid
+                    "reply_to_message_id" => $this->replyto['message_id']
                 ])['content'], true);
             $p = end($this->replyto['photo']);
             $p = json_decode(B::getFile([
@@ -106,6 +105,12 @@ trait CMDTrait
                     $detik = (string) $detik;
                     return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
                 };
+                B::sendVideo([
+                    "video" => "https://webhooks.redangel.ga/whatanime/video/".$video_file,
+                    "chat_id" => $this->chatid,
+                    "caption" => "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id'],
+                    "reply_to_message_id" => $this->replyto['message_id']
+                ]);
                 //B::sendVideo(WHATANIME_URL."/video/".$video_file, $this->room_id, "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id']);
             } else {
                 B::editMessageText(

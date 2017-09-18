@@ -32,14 +32,28 @@ class WhatAnimeCMD
         return json_encode(json_decode($ch->exec(), true), 128);
     }
 
-    public static function check_video()
+    public static function check_video($url)
     {
-
+        return file_exists(PUBLIC_DIR."/whatanime/video/".(sha1($url)).".mp4");
     }
 
-    public static function download_video()
+    public static function download_video($url)
     {
-        
+        $ch = new Curl($url);
+        $ch->set_opt(
+            [
+                CURLOPT_REFERER    => "https://whatanime.ga/",
+                CURLOPT_HTTPHEADER => [
+                    "X-Requested-With: XMLHttpRequest",
+                    "Content-Type: application/x-www-form-urlencoded; charset=UTF-8"
+                ]
+            ]
+        );
+        is_dir(PUBLIC_DIR."/whatanime/video/") or shell_exec("mkdir -p ".PUBLIC_DIR."/whatanime/video/");
+        $handle = fopen(PUBLIC_DIR."/whatanime/video/".($vidname = sha1($url)).".mp4", "w");
+        fwrite($handle, $ch->exec());
+        fclose($handle);
+        return $vidname;
     }
 }
 
