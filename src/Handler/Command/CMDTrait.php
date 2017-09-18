@@ -61,7 +61,7 @@ trait CMDTrait
             $st = new WhatAnimeCMD($st->exec());
             B::editMessageText(
                 [
-                    "text" => "I've got your image.\n\nSearching...",
+                    "text" => "I've got your image, searching...",
                     "chat_id" => $this->chatid,
                     "message_id" => $r['result']['message_id'],
                 ]
@@ -105,14 +105,14 @@ trait CMDTrait
                     $detik = (string) $detik;
                     return (strlen($menit)==1 ? "0{$menit}" : "{$menit}").":".(strlen($detik)==1 ? "0{$detik}" : "{$detik}");
                 };
-                B::sendVideo([
+                return B::sendVideo([
                     "video" => "https://webhooks.redangel.ga/whatanime/video/".$video_file,
                     "chat_id" => $this->chatid,
                     "caption" => "Berikut ini adalah cuplikan singkat dari anime yang mirip.\n\nDurasi : ".$fd($a['start'])." - ".$fd($a['end']), $r['result']['message_id'],
                     "reply_to_message_id" => $this->replyto['message_id']
                 ]);
             } else {
-                B::editMessageText(
+                return B::editMessageText(
                     [
                     "text" => "Mohon maaf, anime yang mirip tidak ditemukan.",
                     "parse_mode" => "HTML",
@@ -122,7 +122,11 @@ trait CMDTrait
                 );
             }
         } else {
-            B::sendMessage("Please reply an image with /whatanime!", $this->room_id, $this->msg_id);
+            return B::sendMessage([
+                "text" => "Reply this message with an image!",
+                "chat_id" => $this->msgid,
+                "reply_to_message_id" => $this->msgid
+            ]);
         }
     }
 
