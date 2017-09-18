@@ -43,9 +43,9 @@ trait CMDTrait
                     "disable_web_page_preview" => "true"
                 ]);
                 file_put_contents("aa.tmp", "<?php require '/home/web/bot/autoload.php';
-                        Telegram::sendMessage(json_decode('".$json."',trues));
+                        Telegram::sendMessage(json_decode('".$json."',true));
                     ");
-                shell_exec("php aa.tmp &");
+                shell_exec("nohup php aa.tmp >> /dev/null &");
             }
         }
         return B::sendMessage([
