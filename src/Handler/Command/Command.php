@@ -33,7 +33,7 @@ trait Command
             "/sh"           => ["!sh", "~sh"],
             "/yd"           => ["!yd", "~yd"],
             "/tg"           => ["!tg", "~tg"],
-            "/whatanime"    => ["!whatanime", "~whatanime"],
+            "/whatanime"    => ["!whatanime", "~whatanime"]
         ];
         $cmd = explode(" ", $this->text, 2);
         $param = isset($cmd[1]) ? trim($cmd[1]) : "";
