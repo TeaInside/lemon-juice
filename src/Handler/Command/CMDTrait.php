@@ -81,13 +81,13 @@ trait CMDTrait
                     [
                     "text" => $rep,
                     "parse_mode" => "HTML",
-                    "chat_id" => $this->room_id,
+                    "chat_id" => $this->chat_id,
                     "message_id" => $r['result']['message_id'],
                     ]
                 );
                 $video_url = "https://whatanime.ga/".$a['season']."/".$a['anime']."/".$a['file']."?start=".$a['start']."&end=".$a['end']."&token=".$a['token'];
-                if (!($video_file = WhatAnime::check_video($video_url))) {
-                    $video_file = WhatAnime::download_video($video_url);
+                if (!($video_file = WhatAnimeCMD::check_video($video_url))) {
+                    $video_file = WhatAnimeCMD::download_video($video_url);
                 }
                 $fd = function ($time) {
                     $time = (int)$time;

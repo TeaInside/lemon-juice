@@ -31,5 +31,15 @@ class WhatAnimeCMD
         );
         return json_encode(json_decode($ch->exec(), true), 128);
     }
+
+    public static function check_video()
+    {
+
+    }
+
+    public static function download_video()
+    {
+        
+    }
 }
 
