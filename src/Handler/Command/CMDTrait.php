@@ -26,7 +26,6 @@ trait CMDTrait
         } else {
             $note = "";
         }
-        var_dump($a['result']);
         foreach ($a['result'] as $val) {
             if (strtolower($val['user']['is_bot']) == false) {
                 /*B::sendMessage([
