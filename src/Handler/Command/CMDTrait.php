@@ -124,7 +124,7 @@ trait CMDTrait
         } else {
             return B::sendMessage([
                 "text" => "Reply this message with an image!",
-                "chat_id" => $this->msgid,
+                "chat_id" => $this->chatid,
                 "reply_to_message_id" => $this->msgid
             ]);
         }
