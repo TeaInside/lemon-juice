@@ -63,6 +63,9 @@ trait Command
     private function __do_command($command, $param = null)
     {
         switch ($command) {
+        case '/whatanime':
+            return $this->__whatanime();
+            break;
         case '/report':
             return $this->__report($param);
             break;
